@@ -1,7 +1,7 @@
 ### What does QuickApps cost? If it is free, how do you make a profit?
 QuickApps CMS is free and doesn't cost a penny (it is distributed under the [Open Software License 3.0](http://www.opensource.org/licenses/osl-3.0.php)). We make profit just by using this application in our private projects.
 
-###Which PHP version does QuickApps work with?
+### Which PHP version does QuickApps work with?
 To run it on your server, you need:
 
 * PHP ver. 5.2.8 or higher
@@ -23,4 +23,4 @@ We accept any contributions useful for the project such as:
 [Right here!](https://github.com/QuickAppsCMS/QACMS-Wysiwyg/)
 
 ### How do I create my own theme ?
-The easier way is to use [QuickApps CLI](QuickApps-CLI)
+The easier way is to use [QuickApps CLI](developers/quickapps-cli.rst)
