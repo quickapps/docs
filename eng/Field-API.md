@@ -35,7 +35,7 @@ The files & folders structure of fields is the same [structure used by modules](
 * **name (string):** Name of your Field
 * **description (string):** Description about your Field.
 * **max_instances (mixed):** Optional parameter. Indicates how many fields can be attached to Entities, unset or false values indicates no limits. Set to a positive integer value to indicate the max number of instances. Set to zero (0) to indicate that field can not be attached to entities.
-* **entity_types (array):** (since v1.1) List of entity types that can hold instances of this field. If empty or not specified, the field can have instances in any entity type.
+* **entity_types (array):** List of entity types that can hold instances of this field. If empty or not specified, the field can have instances in any entity type.
 
 
 ## Understanding Entity-Field relations

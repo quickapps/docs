@@ -1,5 +1,3 @@
-Since QuickApps CMS **v1.1**.
-
 To **theme individual content types** in different ways,
 you need to create a file `theme_node_[type].ctp` in your theme's `Elements` folder,
 where [type] is the machine readable name of the content type.
