@@ -1,28 +1,39 @@
-The Field API allows custom data fields to be attached to Models and takes care of storing, loading, editing, and rendering field data. Any Model type (Node, User, etc.) can use the Field API to make itself "fieldable" and thus allow fields to be attached to it.
+The Field API allows custom data fields to be attached to Models and takes care of storing,
+loading, editing, and rendering field data.
+Any Model type (Node, User, etc.) can use the Field API to make itself "fieldable" and thus allow 
+fields to be attached to it.
 
-The Field API defines two primary data structures, Field and Instance. A **Field** defines a particular type of data that can be attached to Models. A **Field Instance** is a Field attached to a single Model.
+The Field API defines two primary data structures, Field and Instance. A **Field** defines a
+particular type of data that can be attached to Models. A **Field Instance** is a Field attached to 
+a single Model.
 
-Internally, fields behave (functionally) like modules (cake's plugin), and they are responsible of manage the storing proccess of specific data. As before, they behave -functionally- like modules, this means they may have hooks and all what a regular module has.
+Internally, fields behave -functionally- like modules (cake's plugin), and they are responsible of 
+manage the storing proccess of specific data. As before, they behave -functionally- like modules,
+this means they may have hooks and all what a regular module has.
 
-Fields belongs always to modules, modules are allowed to define an unlimeted number of fields by placing them on
-the `Fields` folder. e.g.: The core module `Taxonomy` has it own field `TaxonomyTerms` in `QuickApps/Plugins/Taxonomy/Fields/TaxonomyTerms`. Most of the Fields included in the core of QuickApps belongs to the `Fields` module (QuickApps/Plugins/Field/Fields/).
+Fields belongs always to modules, modules are allowed to define an unlimeted number
+of fields by placing them on
+the `Fields` folder. e.g.: 
+The core module `Taxonomy` has it own field `TaxonomyTerms` in `QuickApps/Plugins/Taxonomy/Fields/TaxonomyTerms`.
+Most of the Fields included in the core of QuickApps belongs to the `Fields` module (QuickApps/Plugins/Field/Fields/).
 
 ***
 
-Field are supposed to store information. **Field data** is usually stored in DB tables, QuickApps CMS provides a basic storage table called `field_data`, though, each field is able to define its own storing system (usually extra tables in DB).
-Also, each field's data-element (row in the table) must have an unique ID in that storing system, and such data is associated to an unique Model record.
+Field are supposed to store information. **Field data** is usually stored in DB tables, QuickApps CMS
+provides a basic storage table called `field_data`, though, each field is able to define its own 
+storing system (usually extra tables in DB).
+Also, each field's data-element (row in the table) must have an unique ID in that storing system,
+and such data is associated to an unique Model record.
 
 ## Creating Fields
-As before, Fields belongs always to modules and modules may define an unlimited number of Fields in the `Fields` folder.
-For example, Taxonomy module has a Field named `TaxonomyTerms` located in `QuickApps/Plugin/Taxonomy/Fields/TaxonomyTerms`.
-
 Because Fields behave -functionally- as modules, their names must be prefixed by the name of their parent module in order to avoid name collisions between other modules in the system. As modules, Field names must be always in CamelCase, e.g.:
 
 - `image_album`: invalid, no CamelCase name
 - `ImageAlbum`: valid, `Album` field belongs to `Image` module
 - `MyModuleNameImageAlbum`: valid, `ImageAlbum` field belongs to `MyModuleName` module
 
-The files & folders structure of fields is the same [structure used by modules](Modules-Structure). **The only difference** is on the YAML file.
+The files/folders structure of Fields is the same [structure used by modules](/modules/structure.md).
+**The only difference** is on the YAML file:
 
 ##### YAML file structure
     name: Human readable name
@@ -32,10 +43,13 @@ The files & folders structure of fields is the same [structure used by modules](
         - Node
         - User
 
-* **name (string):** Name of your Field
+* **name (string):** Readable name of your Field.
 * **description (string):** Description about your Field.
-* **max_instances (mixed):** Optional parameter. Indicates how many fields can be attached to Entities, unset or false values indicates no limits. Set to a positive integer value to indicate the max number of instances. Set to zero (0) to indicate that field can not be attached to entities.
-* **entity_types (array):** List of entity types that can hold instances of this field. If empty or not specified, the field can have instances in any entity type.
+* **max_instances (mixed):** _Optional_ parameter. Indicates how many instances of this field that Entities may have.
+    * unset or `false` value: Indicates unlimited.
+    * Positive integer value: Indicates the max number of instances.
+    * Zero (0): Indicates that field can not be attached to any Entity.
+* **entity_types (array):** _Optional_ list of entity types that may hold instances of this field. If empty or not specified, the field can have instances in any entity type.
 
 
 ## Understanding Entity-Field relations
@@ -56,14 +70,14 @@ e.g.: when editing a User, his/her `last name` field must have only one value, e
 ## Field POST structure:
 Each field MUST always POST its information following the structure below:
 
-    data[FieldData][{field_name}][{field_instance_id}][data]
-    data[FieldData][{field_name}][{field_instance_id}][id]
+    data[FieldData][<field_name>][<field_instance_id>][data]
+    data[FieldData][<field_name>][<field_instance_id>][id]
 
 
-* **field_module:** (string) name of the field handler in CamelCase: i.e.: 'FieldTextarea', 'FieldMyField', `ParentModuleFieldName`, etc.
-* **field_instance_id:** (int) ID of the field instance attached to the current Model. (field instances are stored in `fields` table).
+* **<field_module>:** (string) name of the field handler in CamelCase: i.e.: 'FieldTextarea', 'FieldMyField', `ParentModuleFieldName`, etc.
+* **<field_instance_id>:** (int) ID of the field instance attached to the current Model. (field instances are stored in `fields` table).
 * **[data]:** (mixed) Field data. It can be simple information such as plain text or even complex arrays of mixed data.
-* **[id]:** (int) Storage ID. Unique ID for the data in the storage system implemented by the field. **null** ID means that there is no data stored yet for this Model record and this field instance.
+* **[id]:** (int) Storage ID. Unique ID for the data in the storage system implemented by the Field. **null** ID means that there is no data stored yet for this Model record and this Field instance.
 
 #### EXAMPLE
 
@@ -74,7 +88,7 @@ Each field MUST always POST its information following the structure below:
     <input name="data[FieldData][FieldName][3][id]" value="154" type="hidden" />
 
 ***
-    
+
     // debug($this->data) should looks:
 
     array(
@@ -178,12 +192,12 @@ This hooks callbacks are fired when field instances are being attached to entiti
 
 
 ## Making an Entity Fieldable
-Simply by attaching the fieldable behavior to any model will make it fieldable.
-    
+Simply by attaching the `Fieldable Behavior` to any model will make it fieldable.
+
     public $actsAs = array('Field.Fieldable', ...);
 
 ## Attaching Fields to Entities
-After you have attached the Fieldable behavior to your model, you can start attaching Fields to it by invoking the `attachFieldInstance` of your model:
+After you have attached the Fieldable Behavior to your model, you can start attaching Fields to it by invoking the `attachFieldInstance` of your model:
 
     // In your model
     $this->attachFieldInstance($data);
@@ -195,11 +209,13 @@ After you have attached the Fieldable behavior to your model, you can start atta
 
 - `label`: Field input label. e.g.: 'Article Body' for a textarea.
 - `name`: Field unique name. underscored and alphanumeric characters only. e.g.: 'field_article_body'.
-- `field_module`: Name of the module that handle this instance. e.g.: 'FiledText'.
+- `field_module`: Name of the field-module\* that handle this instance. e.g.: 'FiledText'.
+
+\* field-module: Remember that, internally, Fields behave as modules.
 
 
 ## Making Field's Data Searchable
-Indexing Field's content allow nodes to be searched by any of the words in any of its fields.
+Indexing Field's content allow nodes to be located by any of the words in any of its fields.
 If you want your field's information to be searchable by QuickApps CMS's search engine you must use the `indexField`
 method as show below:
 
@@ -217,7 +233,7 @@ method as show below:
 
 The above will append an index of words to the Entity that Field belongs to.
 So Entity can be located using any of the words (or phrase) passed by the field. e.g.:
-In the example above, the node will be listed when searching the phrase `string to index` (_http://domain.com/s/string to index_)
+In the example above, the node will be listed when searching the phrase `string to index` (_http://domain.com/search/string to index_)
 
 You can pass full HTML or any kind of formatted string, and QuickApps CMS will automatically
 extract all the valid words to be fetched with rest of Entity's words.

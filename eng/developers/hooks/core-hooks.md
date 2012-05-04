@@ -1,13 +1,19 @@
-#Model Hooks
-###Comment Module
+Model Hooks
+===========
+
+### Comment Module
 * comment_before_validate()
 * comment_before_save()
 
-###Field Module
+### Field Module
 * field_info()
 
-#View Hooks
-###CORE
+***
+
+View Hooks
+==========
+
+### CORE
 * stylesheets_alter()
 * javascripts_alter()
 * layout_title_alter()
@@ -76,14 +82,18 @@
 * html_nested_list_alter()
 * html_load_config_alter()
 
-###Block Module
+### Block Module
 * block_form_params()
 
-###Node Module
+### Node Module
 * before_render_node_comments()
 * after_render_node_comments()
 
-#ControllerHooks
-###Node Module
+***
+
+Controller Hooks
+===============
+
+### Node Module
 * node_search_scope_alter()
 * node_search_keys_alter()

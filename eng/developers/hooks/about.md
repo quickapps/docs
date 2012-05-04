@@ -1,6 +1,6 @@
 Allow modules, themes or fields to interact with the QACMS core. A hook is a PHP method that is named **underscored**, e.g.: do_something(), foo_bar().
 
-As cakePHP is a MVC framework, hooks method are separated in three groups:
+As CakePHP is a MVC framework, hooks method are separated in three groups:
 
 * Model Hooks
 * View Hooks
@@ -8,32 +8,33 @@ As cakePHP is a MVC framework, hooks method are separated in three groups:
 
 Hook methods can be invoked by using the `hook` method located in each HookCollection class:
 
- * HookCollectionBehavior::hook()
-   * AppModel::hook() shorcut for use in Model classes.
- * HookCollectionHelper::hook()
-   * AppHelper::hook() shorcut for use in Helper classes.
- * HookCollectionComponent::hook()
-   * AppController::hook() shorcut for use in Controller actions.
+* HookCollectionBehavior::hook()
+    * AppModel::hook() shorcut for use in Model classes.
+* HookCollectionHelper::hook()
+    * AppHelper::hook() shorcut for use in Helper classes.
+* HookCollectionComponent::hook()
+    * AppController::hook() shorcut for use in Controller actions.
 
 Hook methods may accept only **one parameter**, e.g.:
 
- * `my_hook_method($param_1, $params_2);` Invalid, second parameter will be always unset.
- * `my_hook_method($param_1);` Correct.
- * `my_hook_method(&$param_1);` Correct, reference parameter for alter purposes.
- * `my_hook_method();` Correct, no parameter expected.
+* `public function my_hook_method($param_1, $params_2);` Invalid, second parameter will be always unset.
+* `public function my_hook_method($param_1);` Correct.
+* `public function my_hook_method(&$param_1);` Correct, reference parameter for alter purposes.
+* `public function my_hook_method();` Correct, no parameter expected.
 
 ## hook($hook, &$data, $options);
+
 ### $hook
-Name of the hook to call.
+**Underscored** name of the hook to call. e.g.: `foo_bar`, `hook_name`
 
 ### $data
-Data for the triggered callback. **Must be a reference**, some examples:
+Data for the triggered hook. **Must be a reference**, some examples:
 
-* ->hook('my_hook_name', array('data_for_hook')); **Invalid** will produce fatal error
-* ->hook('my_hook_name', $data = array('data_for_hook')); **Valid**
+* hook('foo_bar', array('data_for_hook')); **Invalid** will produce fatal error.
+* hook('foo_bar', $data = array('data_for_hook')); **Valid**
 
 ### $option
-Array of options
+Array of options.
 
 - `breakOn` Set to the value or values you want the callback propagation to stop on.
    Can either be a scalar value, or an array of values to break on.
