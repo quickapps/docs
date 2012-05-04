@@ -12,15 +12,15 @@ To run it on your server, you need:
 ### Is it possible to launch QuickApps on PHP ver. < 5.2.8 somehow?
 No it isn't. QuickApps has specific PHP-features which is available only on PHP v. 5.2.8 or higher. Moreover it uses CakePHP v2 as framework, which works only on PHP v. 5.2.8 or higher.
 
-### What about contributions?
+### What about contributions ?
 We accept any contributions useful for the project such as:
 
-* [Translating QuickApps](https://github.com/QuickAppsCMS/QuickApps-CMS-Languages) to other languages (right now QA has an English and Spanish language pack only)
+* [Translating QuickApps](designers/translating-quickapps-cms.md) to other languages
 * [Bug-fixes](https://github.com/QuickAppsCMS/QuickApps-CMS/issues?sort=updated&direction=desc&state=closed) and improvements
-* [Programming](https://github.com/QuickAppsCMS/QuickApps-CMS/wiki/Developers) free modules or themes
+* [Programming](developers/index.md) free modules or themes
 
-### Where is the WYSIWYG ?!
-[Right here!](https://github.com/QuickAppsCMS/QACMS-Wysiwyg/)
+### Where is the WYSIWYG edit ?
+[Right here!](https://github.com/QuickAppsCMS/QACMS-Wysiwyg/) as and external module.
 
 ### How do I create my own theme ?
-The easier way is to use [QuickApps CLI](developers/quickapps-cli.rst)
+The easier way is to use [QuickApps CLI](developers/quickapps-cli.md).
