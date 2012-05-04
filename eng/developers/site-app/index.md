@@ -18,7 +18,7 @@ The `SiteApp` folder behaves similar to the [app](http://book.cakephp.org/2.0/en
     * ....
 
 # Permission Problems
-A common issue when using this configuration occurs when users accessing a custom controller under the SiteApp 
+One common issue when using this configuration occurs when users accessing a custom controller under the SiteApp 
 directory cannot see the page, and a `access denied` or `404 not found` error screen is show instead.
 
     class CustomControllerNameController extends AppController {
@@ -26,7 +26,7 @@ directory cannot see the page, and a `access denied` or `404 not found` error sc
             //
         }
     }
-    
+
 The above will produce the mentioned issue when accessing the url `http://www.domain.com/custom_controller_name/my_action`.
 
 #### Mother of god, Why ? why ?!

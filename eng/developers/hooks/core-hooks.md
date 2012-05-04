@@ -97,3 +97,10 @@ Controller Hooks
 ### Node Module
 * node_search_scope_alter()
 * node_search_keys_alter()
+
+### User Module
+* before_login()
+* after_login()
+* login_failed()
+* before_logout()
+* after_logout
