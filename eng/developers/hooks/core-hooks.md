@@ -14,6 +14,9 @@ View Hooks
 ==========
 
 ### CORE
+
+*Layour related hooks*
+
 * stylesheets_alter()
 * javascripts_alter()
 * layout_title_alter()
@@ -28,6 +31,9 @@ View Hooks
 * block_alter()
 * after_render_block()
 * special_tags_alter()
+
+*Form element related hooks*
+
 * form_file_alter()
 * form_create_alter()
 * form_end_alter()
@@ -56,6 +62,9 @@ View Hooks
 * form_meridian_alter()
 * form_date_time_alter()
 * form_set_entity_alter()
+
+*HTML related hooks*
+
 * html_table_alter()
 * html_meta_alter()
 * html_doc_type_alter()
@@ -85,14 +94,17 @@ View Hooks
 ### Block Module
 * block_form_params()
 
-### Node Module
-* before_render_node_comments()
-* after_render_node_comments()
-
 ***
 
 Controller Hooks
 ===============
+
+### CORE
+stylesheets_alter()
+javascripts_alter()
+blocks_alter()
+authenticate_alter()
+authorize_alter()
 
 ### Node Module
 * node_search_scope_alter()
