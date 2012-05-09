@@ -21,6 +21,7 @@ A hooktag handler method should accept one to three arguments:
 * **$content** (second argument): the enclosed content (if the hooktag is used in its enclosing form)
 * **$code** (third argument): the hooktag name (only when it matches the callback name)
 
+
 Example
 -------
 

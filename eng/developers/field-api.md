@@ -17,6 +17,7 @@ this means they may have hooks and all what a regular module has.
 Fields belongs always to modules, modules are allowed to define an unlimeted number
 of fields by placing them on
 the `Fields` folder. e.g.: 
+
 The core module `Taxonomy` has it own field `TaxonomyTerms` in `QuickApps/Plugins/Taxonomy/Fields/TaxonomyTerms`.
 Most of the Fields included in the core of QuickApps belongs to the `Fields` module (QuickApps/Plugins/Field/Fields/).
 
@@ -32,7 +33,9 @@ and such data is associated to an unique Model record.
 Creating Fields
 ===============
 
-Because Fields behave -functionally- as modules, their names must be prefixed by the name of their parent module in order to avoid name collisions between other modules in the system. As modules, Field names must be always in CamelCase, e.g.:
+Because Fields behave -functionally- as modules, their names must be prefixed by the name of their parent
+module in order to avoid name collisions between other modules in the system.
+As modules, Field names must be always in CamelCase, e.g.:
 
 - `image_album`: invalid, no CamelCase name
 - `ImageAlbum`: valid, `Album` field belongs to `Image` module
@@ -40,6 +43,7 @@ Because Fields behave -functionally- as modules, their names must be prefixed by
 
 The files/folders structure of Fields is the same [structure used by modules](/modules/structure.md).
 **The only difference** is on the YAML file:
+
 
 YAML file structure
 -------------------
@@ -63,17 +67,20 @@ YAML file structure
 Understanding Entity-Field relations
 ====================================
 
+
 Entity -> hasMany -> Field Instances:
 -------------------------------------
 
 Entities (models) may have multiple instances of the same field.
 e.g.: User model may define extra fields: `last name` and `age`, both represented by a textbox, means that each field (`last name` & `age`) is an instance of the same Field handler `FieldText`.
 
+
 Field Instance -> hasMany -> Field Data:
 ----------------------------------------
 
 Obviously each instance may have multiple data records in its storage system, **BUT** each of this data records (Field Data) belongs to diferent Entity records.
 e.g.: the instance `last name` for User entity may have many records of data **but each** `last name` actually belong to diferent users.
+
 
 Entity -> Field Instance -> hasOne -> Field Data:
 -------------------------------------------------
@@ -97,8 +104,8 @@ Each field MUST always POST its information following the structure below:
 * **[data]:** (mixed) Field data. It can be simple information such as plain text or even complex arrays of mixed data.
 * **[id]:** (int) Storage ID. Unique ID for the data in the storage system implemented by the Field. **null** ID means that there is no data stored yet for this Model record and this Field instance.
 
-EXAMPLE
--------
+
+#### EXAMPLE
 
     <input name="data[FieldData][FieldName][2][data]" value="This info has an ID=153 and belongs to the instance ID=2 of `FieldName`" type="text" />
     <input name="data[FieldData][FieldName][2][id]" value="153" type="hidden" />
@@ -106,9 +113,8 @@ EXAMPLE
     <input name="data[FieldData][FieldName][3][data]" value="This is other instance (3) of `FieldName`" type="text" />
     <input name="data[FieldData][FieldName][3][id]" value="154" type="hidden" />
 
-***
 
-    // debug($this->data) should looks:
+debug($this->data) should looks:
 
     array(
         ... // other entity's native fields (table columns)
@@ -128,11 +134,14 @@ EXAMPLE
         )
     )
 
+
 Capturing POST and saving data
 ==============================
 
 Capturing field's data and saving process are performed by using Model hooks callbacks (Behaviors Hooks).
-In this process there are two diferent callbacks types, `Entity callbacks`, related to Model entities (User, Node, etc). And `Instance callbacks`, related to Field (at/de)tachment process.
+In this process there are two diferent callbacks types, `Entity callbacks`, related to Model entities (User, Node, etc).
+And `Instance callbacks`, related to Field (at/de)tachment process.
+
 
 Entity callbacks
 ----------------
@@ -174,6 +183,7 @@ This hooks callbacks are fired before/after each `fieldable` entity's callbacks.
     - **description**: here is where fields should remove from their storage system all the data related to deleted entity record
     - **return**: void
 
+
 **$info:** Possible keys and values
 
     $info = array(
@@ -186,6 +196,7 @@ This hooks callbacks are fired before/after each `fieldable` entity's callbacks.
         [settings] => ...
     );
 
+
  * (Model) **entity**: Instance of Model that Field is attached to.
  * (array) **query**: SQL query (only on `before_find`)
  * (array) **field**: Field instance information
@@ -194,7 +205,6 @@ This hooks callbacks are fired before/after each `fieldable` entity's callbacks.
  * (boolean) **result**: Entity row of array results (only on `after_find`)
  * (array) **settings**: Entity fieldable-settings array
 
-***
 
 IMPORTANT
 ---------
@@ -202,7 +212,6 @@ IMPORTANT
 Field data **MUST** always be **saved after Entity** record has been saved, that is on `after_save` callback.
 e.g: When updating/creating a new User, all field's data must be saved after the User native data has been updated/created
 
-***
 
 Instance callbacks
 ------------------
@@ -231,7 +240,8 @@ Simply by attaching the `Fieldable Behavior` to any model will make it fieldable
 Attaching Fields to Entities
 ----------------------------
 
-After you have attached the Fieldable Behavior to your model, you can start attaching Fields to it by invoking the `attachFieldInstance` of your model:
+After you have attached the Fieldable Behavior to your model, you can start attaching Fields to it by
+invoking the `attachFieldInstance` of your model:
 
     // In your model
     $this->attachFieldInstance($data);
@@ -239,13 +249,15 @@ After you have attached the Fieldable Behavior to your model, you can start atta
     // From controller
     $this->ModelName->attachFieldInstance($data);
 
+
 **$data**
 
 - `label`: Field input label. e.g.: 'Article Body' for a textarea.
 - `name`: Field unique name. underscored and alphanumeric characters only. e.g.: 'field_article_body'.
 - `field_module`: Name of the field-module\* that handle this instance. e.g.: 'FiledText'.
 
-\* field-module: Remember that, internally, Fields behave as modules.
+
+\* _field-module: Remember that, internally, Fields behave as modules._
 
 
 Making Field's Data Searchable
@@ -267,7 +279,8 @@ method as show below:
 
 The above will append an index of words to the Entity that Field belongs to.
 So Entity can be located using any of the words (or phrase) passed by the field. e.g.:
-In the example above, the node will be listed when searching the phrase `string to index` (_http://domain.com/search/string to index_)
+In the example above, the node will be listed when searching the phrase `string to index`
+(_http://domain.com/search/string to index_)
 
 You can pass full HTML or any kind of formatted string, and QuickApps CMS will automatically
 extract all the valid words to be fetched with rest of Entity's words.

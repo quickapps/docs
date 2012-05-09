@@ -6,6 +6,7 @@ Module have two names:
 * **machine name**: Name of your module folder (used internally by QuickApps CMS), must always be in CamelCase format, e.g.: `ModuleName`. 
 * **human name**: Human redable name, e.g.: `My Module Name`
 
+
 Forbidden Names
 ---------------
 
@@ -15,6 +16,7 @@ Modules cannot be named as:
 * Three chars length names. e.g.: `One`, `Two`, `Eng`, etc.
 * Prefixed by the `Theme` word. e.g.: `ThemeMaker`, `ThemesManager`, etc
 * Containing any non-alphanumeric chars. e.g.: `Invalid?Name`, `No(Alphanumeric¿%`
+
 
 Folders & Files
 ===============
@@ -105,6 +107,7 @@ Whould be nice to write a brief description about what this method do, or even b
 
 By using **Permissions.yaml** you can overwrite names and create descriptions for both controllers and methods.
 
+
 YAML structure
 --------------
 
@@ -124,6 +127,7 @@ YAML structure
         ....
 
 If you set `hidden:true` the leaf (controller or method) will not display on the tree.
+
 
 Creating permissions presets
 ----------------------------

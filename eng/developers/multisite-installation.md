@@ -1,7 +1,10 @@
 Multisite Installation
 ======================
 
-There may be some situations where you wish to place QuickApps CMS's directories on different places on the filesystem. This may be due to a shared host restriction, or maybe you just want a few of your web sites to share the same QuickApps CMS libraries. This section describes how to spread your QuickApps CMS directories across a filesystem.
+There may be some situations where you wish to place QuickApps CMS's directories on different places
+on the filesystem. This may be due to a shared host restriction, or maybe you just want a few of your
+web sites to share the same QuickApps CMS libraries.
+This section describes how to spread your QuickApps CMS directories across a filesystem.
 
 First, realize that there are two main parts to a QACMS application:
 
@@ -23,6 +26,7 @@ There is only one constants that you'll need to edit:
 
 * `QA_PATH`, should be set to the full path of your QuickApps CMS libraries folder.
 
+
 EXAMPLE
 -------
 
@@ -30,6 +34,7 @@ Imagine that you wanted to set up QACMS to work as follows:
 
 * QACMS libraries will be placed in: `/usr/lib/qa_core`
 * Web site directory will be: `/var/www/mysite/`
+
 
 1.- You must modify your `webroot/index.php` file:
 

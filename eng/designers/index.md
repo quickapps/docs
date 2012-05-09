@@ -1,15 +1,12 @@
-Themes Structure
-================
+Theme Name
+==========
 
-Theme name
-----------
-
-Theme names must always be in CamelCase format. Also there are two type of themes, `Backend` and `Frontend` which are managed independently by QuickApps.
+Theme names must always be in CamelCase format.
+Also there are two type of themes, `Backend` and `Frontend` which are managed independently by QuickApps.
 
 
-
-Folders & Files
----------------
+Theme Folders & Files
+===============
 
     |- app/
     :    |- ThemeMyThemeName/
@@ -43,15 +40,12 @@ Folders & Files
 _`app/ThemeMyThemeName`, this is your theme associated module, this behave like a regular module and its structure is same [structure used by modules](../developers/modules/structure.md)._
 
 
-***
-
 #### IMPORTANT
-All **themes modules** MUST prefix its name by `Theme` word, In the example above: `ThemeMyThemeName` is the associated module to theme `MyThemeName`
+All **theme modules** MUST prefix its name by `Theme` word, In the example above: `ThemeMyThemeName` is the associated module to theme `MyThemeName`
 
-***
 
 MyThemeName.yaml
-----------------
+================
 
     info:
         admin: true
@@ -80,6 +74,7 @@ MyThemeName.yaml
     layout: default
     login_layout: login
 
+
 ##### Explanation
 
 * **admin (optional)** Set to `true` if it is a backend theme, or false (or unset) for frontend theme.
@@ -102,11 +97,14 @@ MyThemeName.yaml
 * **layout (required)** Default .ctp file to use as layout. This must be located in `View/Layouts` folder of your theme.
 * **login_layout (optional)** Valid only for backend themes (admin: true). Layout to use for the login screen, if not set `login.ctp` will be used by default.
 
-***
 
-### Elements
-QuickApps incorporates a number of `default elements` responsible for various rendering tasks, such as Menu, Blocks, etc.
-Themes may overwrite this elements and modify the way they are rendered. To overwrite any of this elements simply create the element under `View/Elements` folder of your theme.
+Elements
+--------
+
+QuickApps incorporates a number of `default elements` responsible for various rendering tasks,
+such as Menu, Blocks, etc.
+Themes may overwrite this elements and modify the way they are rendered.
+To overwrite any of this elements simply create the element under `View/Elements` folder of your theme.
 
 * **theme_block.ctp:** Block rendering
 * **theme_breadcrumb.ctp:** Breadcrumbs rendering
@@ -133,15 +131,23 @@ With the toggle display options, we can select the elements we wish to display o
 * Site slogan
 * Shortcut icon
 
-#### Logo Image Settings
-Allows to use a custom image as logo by specifying its URL. Empty value means use QuickApps logo as default.
+Logo Image Settings
+-------------------
 
-#### Shortcut Icon Settings
-The shortcut icon is the favicon displayed in the address bar of our browser next to the web address. By default, this is a small version of QuickApps logo. This option allows you to use a cutom favicon by specifying its URL.
+Allows to use a custom image as logo by specifying its URL.
+Empty value means use QuickApps logo as default.
 
-***
 
-### How do I show/hide those elements ?
+Shortcut Icon Settings
+----------------------
+
+The shortcut icon is the favicon displayed in the address bar of our browser next to the web address.
+By default, this is a small version of QuickApps logo. This option allows you to use a cutom favicon
+by specifying its URL.
+
+
+How do I show/hide those elements ?
+-----------------------------------
 
 In your theme layout .ctp file use:
 
@@ -163,7 +169,6 @@ Where OPTION may be one of:
     <?php endif; ?>
 
 
-	
 Setting Up The Header
 =====================
 
@@ -191,8 +196,10 @@ The code below will render out all blocks assigned to the region 'my-theme-regio
     <?php echo $this->Layout->blocks('my-theme-region'); ?>
     
 
-Now, for example you would like to show certain area/region of your theme only if there are blocks availables to show on it.
-This allows you for example hide the left column of your layout if there are no blocks to show on it and use all the available width for the rest of your content.
+Now, for example you would like to show certain area/region of your theme only if there are blocks
+availables to show on it.
+This allows you for example hide the left column of your layout if there are no blocks to show on
+it and use all the available width for the rest of your content.
      
     <?php if (!$this->Layout->emptyRegion('my-theme-region')): ?>
         <div class="left-column">
@@ -216,7 +223,10 @@ Configurable Style
 
 **New in version 1.1**
 
-If you want your theme to include some configurable CSS choices, you can define which styles can be tweaked through the theme's configuration panel by adding some special comment-tags on your css files.
+If you want your theme to include some configurable CSS choices, you can define which styles
+can be tweaked through the theme's configuration panel by adding some special comment-tags on
+your css files.
+
 
 Requirements
 ------------
@@ -330,14 +340,16 @@ To add extra fields to your theme settings form, you have to create the followin
 
     ROOT/Themes/Themed/MyThemeName/app/MyThemeName/View/Elements/settings.ctp
 
-Themes are registed in the system as Modules. And every module is allowed to store in database their own settings parameters.
-(All modules information is stored in the `modules` table). Module's settings parametters are stored in the `settings` column of the `modules` table.
+Themes are registed in the system as Modules. And every module is allowed to store in database
+their own settings parameters.
+(All modules information is stored in the `modules` table).
+Module's settings parametters are stored in the `settings` column of the `modules` table.
 
-      // ROOT/Themes/Themed/MyThemeName/app/MyThemeName/View/Elements/settings.ctp
-      echo $this->Form->input('Module.settings.my_theme_color');
-      echo $this->Form->input('Module.settings.theme_width');
+    // ROOT/Themes/Themed/MyThemeName/app/MyThemeName/View/Elements/settings.ctp
+    echo $this->Form->input('Module.settings.my_theme_color');
+    echo $this->Form->input('Module.settings.theme_width');
 
 Now you can read this settings values in any view:
 
-     Configure::read('Theme.settings.my_theme_color');
-     Configure::read('Theme.settings.theme_width');
+    Configure::read('Theme.settings.my_theme_color');
+    Configure::read('Theme.settings.theme_width');

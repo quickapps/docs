@@ -20,6 +20,7 @@ The `SiteApp` folder behaves similar to the [app](http://book.cakephp.org/2.0/en
     * webroot/
     * ....
 
+
 Permission Problems
 -------------------
 

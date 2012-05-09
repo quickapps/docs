@@ -1,7 +1,8 @@
 Hooks
 =====
 
-Allow modules, themes or fields to interact with the QACMS core. A hook is a PHP method that is named **underscored**, e.g.: do_something(), foo_bar().
+Allow modules, themes or fields to interact with the QACMS core.
+A hook is a PHP method that is named **underscored**, e.g.: do_something(), foo_bar().
 
 As CakePHP is a MVC framework, hooks method are separated in three groups:
 
@@ -18,6 +19,8 @@ Hook methods can be invoked by using the `hook` method located in each HookColle
 * HookCollectionComponent::hook()
     * AppController::hook() shorcut for use in Controller actions.
 
+***
+	
 Hook methods may accept only **one parameter**, e.g.:
 
 * `public function my_hook_method($param_1, $params_2);` Invalid, second parameter will be always unset.
@@ -29,10 +32,12 @@ Hook methods may accept only **one parameter**, e.g.:
 hook($hook, &$data, $options);
 ==============================
 
+
 $hook
 -----
 
 **underscored** name of the hook to call. e.g.: `foo_bar`, `hook_name`
+
 
 $data
 -----
@@ -41,6 +46,7 @@ Data for the triggered hook. **Must be a reference**, some examples:
 
 * hook('foo_bar', array('data_for_hook')); **Invalid** will produce fatal error.
 * hook('foo_bar', $data = array('data_for_hook')); **Valid**
+
 
 $option
 -------
@@ -58,6 +64,7 @@ Array of options.
 - `collectReturn` Set to true to collect the return of each object into an array.
    This array of return values will be returned from the hook() call. Defaults to `false`.
 
+   
 return
 ------
 
@@ -65,6 +72,7 @@ Either the last result or all results if collectReturn is on. Or **null** in cas
 
 
 ***
+
 
 Core Hooks
 ==========
