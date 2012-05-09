@@ -1,9 +1,13 @@
+Hooktags
+========
+
 A `Hooktag` is a QuickApps-specific code that lets you do nifty things with very little effort. Hooktags can for example print current language code/name/nativeName or call especifics modules/themes functions. For example, block module has the 'block' hooktag which will print out the indicated block by id:
 
     [block id=1 /] 
 
-***
-## Creating Hooktags
+
+Creating Hooktags
+=================
 
 Hooktags are Helpers methods, they may be located in each Module or Theme `HooktagsHelper` class. For example, you may have a module named`HotModule`, and its Hooktag Helper class is:
 
@@ -17,7 +21,9 @@ A hooktag handler method should accept one to three arguments:
 * **$content** (second argument): the enclosed content (if the hooktag is used in its enclosing form)
 * **$code** (third argument): the hooktag name (only when it matches the callback name)
 
-### Example
+Example
+-------
+
 Lets create a hooktag for displaying content-boxes.
 
 Our hooktag:

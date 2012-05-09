@@ -1,8 +1,12 @@
+Packaging
+=========
+
 The next step after you have created your theme or module is to create a installable .zip package that can be installed through the installation form panel.
 
-***
 
-###Custom ZIP packages
+Custom ZIP packages
+-------------------
+
 Simply compress your theme/module folder as zip. Your module/theme folder should be on the root of your ZIP.
 
 e.g.: If you have created a theme named `HotTheme` then your ZIP should looks as follows:
@@ -14,14 +18,15 @@ e.g.: If you have created a theme named `HotTheme` then your ZIP should looks as
             HotTheme.yaml
             thumbnail.png
 
-***
 
-###GitHub ZIP packages
+GitHub ZIP packages
+-------------------
+
 If you want to share your module/theme code, you can easly create a quickapps-compliant `GitHub Repository`.
 
 By doing this, GitHub will automatically generate valid ZIP packages that can be installed on QuickApps CMS using the corresponding form.
 
-####STEP 1
+#### STEP 1
 Name your GitHub Repo following this pattern:
 
     QACMS-{YourThemeOrModuleName}
@@ -29,7 +34,7 @@ Name your GitHub Repo following this pattern:
 e.g.: If you have created a module named `MyModule`, the name of your GitHub Repo should be: `QACMS-MyModule`
 
 
-####STEP 2
+#### STEP 2
 Your GitHub Repo represent your module/theme folder. This means that your Repo root must contain the files and folders of your module/theme.
 
 e.g.: If you have created a module named `MyModule`, your GitHub Repository should looks:

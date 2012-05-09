@@ -1,3 +1,6 @@
+Versioning Policy
+=================
+
 This document describes how version numbering reflects the type of changes in a new QuickApps CMS release.
 
 The version numbering is a usual one: X.Y.Z, where X is major, Y is minor and Z is bugfix release number. If Z is zero, it is omitted from the version string. So, for example, 1.1.2 and 1.2 are valid version numbers but 1.2.0 is not.

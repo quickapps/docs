@@ -1,3 +1,6 @@
+Field API
+=========
+
 The Field API allows custom data fields to be attached to Models and takes care of storing,
 loading, editing, and rendering field data.
 Any Model type (Node, User, etc.) can use the Field API to make itself "fieldable" and thus allow 
@@ -25,7 +28,10 @@ storing system (usually extra tables in DB).
 Also, each field's data-element (row in the table) must have an unique ID in that storing system,
 and such data is associated to an unique Model record.
 
-## Creating Fields
+
+Creating Fields
+===============
+
 Because Fields behave -functionally- as modules, their names must be prefixed by the name of their parent module in order to avoid name collisions between other modules in the system. As modules, Field names must be always in CamelCase, e.g.:
 
 - `image_album`: invalid, no CamelCase name
@@ -35,7 +41,9 @@ Because Fields behave -functionally- as modules, their names must be prefixed by
 The files/folders structure of Fields is the same [structure used by modules](/modules/structure.md).
 **The only difference** is on the YAML file:
 
-##### YAML file structure
+YAML file structure
+-------------------
+
     name: Human readable name
     description: Brief description about your Field
     max_instances: false
@@ -52,22 +60,32 @@ The files/folders structure of Fields is the same [structure used by modules](/m
 * **entity_types (array):** _Optional_ list of entity types that may hold instances of this field. If empty or not specified, the field can have instances in any entity type.
 
 
-## Understanding Entity-Field relations
+Understanding Entity-Field relations
+====================================
 
-###### Entity -> hasMany -> Field Instances:
+Entity -> hasMany -> Field Instances:
+-------------------------------------
+
 Entities (models) may have multiple instances of the same field.
 e.g.: User model may define extra fields: `last name` and `age`, both represented by a textbox, means that each field (`last name` & `age`) is an instance of the same Field handler `FieldText`.
 
-###### Field Instance -> hasMany -> Field Data:
+Field Instance -> hasMany -> Field Data:
+----------------------------------------
+
 Obviously each instance may have multiple data records in its storage system, **BUT** each of this data records (Field Data) belongs to diferent Entity records.
 e.g.: the instance `last name` for User entity may have many records of data **but each** `last name` actually belong to diferent users.
 
-###### Entity -> Field Instance -> hasOne -> Field Data:
+Entity -> Field Instance -> hasOne -> Field Data:
+-------------------------------------------------
+
 When retrieving Entity records, all its extra fields are captured (instances data).
 Therefore each of this instances has ONLY ONE related data to each Entity record.
 e.g.: when editing a User, his/her `last name` field must have only one value, even though the field instance has many data records in its storage system. (explanation above).
 
-## Field POST structure:
+
+Field POST structure
+====================
+
 Each field MUST always POST its information following the structure below:
 
     data[FieldData][<field_name>][<field_instance_id>][data]
@@ -79,7 +97,8 @@ Each field MUST always POST its information following the structure below:
 * **[data]:** (mixed) Field data. It can be simple information such as plain text or even complex arrays of mixed data.
 * **[id]:** (int) Storage ID. Unique ID for the data in the storage system implemented by the Field. **null** ID means that there is no data stored yet for this Model record and this Field instance.
 
-#### EXAMPLE
+EXAMPLE
+-------
 
     <input name="data[FieldData][FieldName][2][data]" value="This info has an ID=153 and belongs to the instance ID=2 of `FieldName`" type="text" />
     <input name="data[FieldData][FieldName][2][id]" value="153" type="hidden" />
@@ -109,11 +128,15 @@ Each field MUST always POST its information following the structure below:
         )
     )
 
-## Capturing POST and saving data
+Capturing POST and saving data
+==============================
+
 Capturing field's data and saving process are performed by using Model hooks callbacks (Behaviors Hooks).
 In this process there are two diferent callbacks types, `Entity callbacks`, related to Model entities (User, Node, etc). And `Instance callbacks`, related to Field (at/de)tachment process.
 
-#### Entity callbacks
+Entity callbacks
+----------------
+
 This hooks callbacks are fired before/after each `fieldable` entity's callbacks.
 
 - `[field_name]_before_find($info)` [optional]
@@ -171,13 +194,19 @@ This hooks callbacks are fired before/after each `fieldable` entity's callbacks.
  * (boolean) **result**: Entity row of array results (only on `after_find`)
  * (array) **settings**: Entity fieldable-settings array
 
-#### IMPORTANT
+***
+
+IMPORTANT
+---------
+
 Field data **MUST** always be **saved after Entity** record has been saved, that is on `after_save` callback.
 e.g: When updating/creating a new User, all field's data must be saved after the User native data has been updated/created
 
 ***
 
-#### Instance callbacks
+Instance callbacks
+------------------
+
 This hooks callbacks are fired when field instances are being attached to entities, or when field is being detached, deleted, etc.
 
 - [field_name]_before_delete_instance(&$FieldModel) [required/optional]: (at least one of (before/after) must be defined).
@@ -191,12 +220,17 @@ This hooks callbacks are fired when field instances are being attached to entiti
 - [field_name]_after_set_view_modes(&$field_record) [optional]: after `view modes` were modified within an entity.
 
 
-## Making an Entity Fieldable
+Making an Entity Fieldable
+==========================
+
 Simply by attaching the `Fieldable Behavior` to any model will make it fieldable.
 
     public $actsAs = array('Field.Fieldable', ...);
 
-## Attaching Fields to Entities
+
+Attaching Fields to Entities
+----------------------------
+
 After you have attached the Fieldable Behavior to your model, you can start attaching Fields to it by invoking the `attachFieldInstance` of your model:
 
     // In your model
@@ -214,11 +248,12 @@ After you have attached the Fieldable Behavior to your model, you can start atta
 \* field-module: Remember that, internally, Fields behave as modules.
 
 
-## Making Field's Data Searchable
+Making Field's Data Searchable
+==============================
+
 Indexing Field's content allow nodes to be located by any of the words in any of its fields.
 If you want your field's information to be searchable by QuickApps CMS's search engine you must use the `indexField`
 method as show below:
-
 
     public function field_name_after_save(&$info) {
         // Saving logic
@@ -229,7 +264,6 @@ method as show below:
         
         ...
     }
-
 
 The above will append an index of words to the Entity that Field belongs to.
 So Entity can be located using any of the words (or phrase) passed by the field. e.g.:

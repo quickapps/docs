@@ -1,3 +1,6 @@
+Site App
+========
+
 Sites are allowed to implement custom MVC logic under the `SiteApp` directory.
 This allows you to use (in certain way) QuickApps CMS as an extension of your CakePHP project.
 The `SiteApp` folder behaves similar to the [app](http://book.cakephp.org/2.0/en/getting-started/cakephp-folder-structure.html#the-app-folder) folder included by default on each CakePHP project.
@@ -17,7 +20,9 @@ The `SiteApp` folder behaves similar to the [app](http://book.cakephp.org/2.0/en
     * webroot/
     * ....
 
-# Permission Problems
+Permission Problems
+-------------------
+
 One common issue when using this configuration occurs when users accessing a custom controller under the SiteApp 
 directory cannot see the page, and a `access denied` or `404 not found` error screen is show instead.
 
