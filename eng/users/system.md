@@ -1,9 +1,22 @@
-## About
-The QuickApps module is integral to the site, and provides basic but extensible functionality for use by other modules and themes. Some integral elements of QuickApps are contained in and managed by the QuickApps module, including caching, enabling and disabling modules and themes and configuring fundamental site settings. 
+About
+=====
 
-## Uses
-### Hooktags
-A Hooktag is a QuickApps-specific code that lets you do nifty things with very little effort. hookTag can for example print current language code/name/nativeName or call especifics modules/themes functions. For example, block module has the 'block' hook wich will print out the indicated block by id:
+The QuickApps module is integral to the site, and provides basic but extensible functionality
+for use by other modules and themes. Some integral elements of QuickApps are contained in and
+managed by the QuickApps module, including caching, enabling and disabling modules and themes
+and configuring fundamental site settings. 
+
+
+Uses
+====
+
+
+Hooktags
+--------
+
+A Hooktag is a QuickApps-specific code that lets you do nifty things with very little effort.
+hookTag can for example print current language code/name/nativeName or call especifics modules/themes functions.
+For example, block module has the 'block' hook wich will print out the indicated block by id:
 
     [block id=1/]
     
@@ -56,11 +69,24 @@ Some useful built-in Hooktags are:
     Returns php result of date(FORMAT). (http://www.php.net/manual/function.date.php)
 
 
-### Managing modules
-The QuickApps module allows users with the appropriate permissions to enable and disable modules on the Modules administration page. QuickApps CMS comes with a number of core modules, and each module provides a discrete set of features and may be enabled or disabled depending on the needs of the site.
+Managing modules
+----------------
 
-### Managing themes
-The QuickApps module allows users with the appropriate permissions to enable and disable themes on the Appearance administration page. Themes determine the design and presentation of your site. QuickApps CMS comes packaged with one core theme (Default).
+The QuickApps module allows users with the appropriate permissions to enable and disable modules on the Modules
+administration page. QuickApps CMS comes with a number of core modules, and each module provides a discrete
+set of features and may be enabled or disabled depending on the needs of the site.
 
-### Configuring basic site settings
-The QuickApps module also handles basic configuration options for your site, including Date and time settings, Site name and other information. 
+
+Managing themes
+---------------
+
+The QuickApps module allows users with the appropriate permissions to enable and disable themes on the
+Appearance administration page. Themes determine the design and presentation of your site.
+QuickApps CMS comes packaged with one core theme (Default).
+
+
+Configuring basic site settings
+-------------------------------
+
+The QuickApps module also handles basic configuration options for your site,
+including Date and time settings, Site name and other information. 
