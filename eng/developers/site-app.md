@@ -24,7 +24,7 @@ Permission Problems
 -------------------
 
 One common issue when using this configuration occurs when users accessing a custom controller under the SiteApp 
-directory cannot see the page, and a `access denied` or `404 not found` error screen is show instead.
+directory cannot see the page, and an `access denied` or `404 not found` error screen is rendered instead.
 
     class CustomControllerNameController extends AppController {
         public function my_action() {
