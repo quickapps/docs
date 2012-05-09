@@ -1,3 +1,5 @@
+**New in version 1.1**
+
 If you want your theme to include some configurable CSS choices, you can define which styles can be tweaked through the theme's configuration panel by adding some special comment-tags on your css files.
 
 ## Requirements
@@ -11,7 +13,7 @@ If you want your theme to include some configurable CSS choices, you can define 
 All you have to do is add properly formatted CSS comments into your stylesheets.
 Comment-tag's structure is the same used by Hooktags:
 
-        [tag_name param1=value1 param2='other value 2' ...] TAG_CONTENT [/tag_name]
+    [tag_name param1=value1 param2='other value 2' ...] TAG_CONTENT [/tag_name]
 
 The comment-tag should be surrounding the css value to tweak. e.g.:
 

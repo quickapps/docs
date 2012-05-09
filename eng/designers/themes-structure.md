@@ -33,7 +33,7 @@ Theme names must always be in CamelCase format. Also there are two type of theme
     |- MyThemeName.yaml
     |- thumbnail.png
 
-_`app/ThemeMyThemeName`, this is your theme associated module, this behave like a regular module and its structure is same [structure used by modules](https://github.com/QuickAppsCMS/QuickApps-CMS/wiki/Modules-Structure)._
+_`app/ThemeMyThemeName`, this is your theme associated module, this behave like a regular module and its structure is same [structure used by modules](../developers/modules/structure.md)._
 
 ####IMPORTANT
 All **themes modules** MUST prefix its name by `Theme` word, In the example above: `ThemeMyThemeName` is the associated module to theme `MyThemeName`

@@ -1,6 +1,8 @@
 Model Hooks
 ===========
 
+The following hooks can be invoked from any **model** using the `hook()` method.
+
 ### Comment Module
 * comment_before_validate()
 * comment_before_save()
@@ -12,6 +14,10 @@ Model Hooks
 
 View Hooks
 ==========
+
+The following hooks can be invoked from any **helper** using the `hook()` method.
+If you need to invoke a hook from the view layer you can access to the `hook()` method from any Helper instance, e.g.: `$this->Layout->hook()`
+
 
 ### CORE
 
@@ -99,12 +105,15 @@ View Hooks
 Controller Hooks
 ===============
 
+The following hooks can be invoked from any **controller** using the `hook()` method.
+
+
 ### CORE
-stylesheets_alter()
-javascripts_alter()
-blocks_alter()
-authenticate_alter()
-authorize_alter()
+* stylesheets_alter()
+* javascripts_alter()
+* blocks_alter()
+* authenticate_alter()
+* authorize_alter()
 
 ### Node Module
 * node_search_scope_alter()

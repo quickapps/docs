@@ -1,3 +1,10 @@
+### Module names
+
+Module have two names:
+
+* **machine name**: Name of your module folder (used internally by QuickApps CMS), must always be in CamelCase format, e.g.: `ModuleName`. 
+* **human name**: Human redable name, e.g.: `My Module Name`
+
 ### Folders & Files
     |- MyHotModule/
         |- Config/
@@ -20,7 +27,8 @@
         |- Permissions.yaml
 
 ***
-**InstallComponent.php**
+
+### InstallComponent.php
 
 Each module may define custom logic to be executed before/after module has been installed/uninstalled, or before/after module has been enabled/disabled. All this is performed by using callbacks methods in your InstallComponent:
 
@@ -37,7 +45,9 @@ Each module may define custom logic to be executed before/after module has been 
     afterDisable($Installer);    // Called after each successful disable operation.
 
 ***
-**MyHotModule.yaml**
+
+### MyHotModule.yaml
+
 Contains information about your module, such as name, description, etc.
 
     name: MyHotModule
@@ -49,7 +59,7 @@ Contains information about your module, such as name, description, etc.
         SoftModule (1.x)
         ColdModule (1.0)
 
-#### Explanation
+**Explanation**
 
 * **name (required)** human readble name of your module. For example, "Hot Module"
 * **description (required)** a brief description about your module
@@ -62,4 +72,9 @@ Contains information about your module, such as name, description, etc.
     * MyHotModule requires SoftModule 1.x (any branch of 1.0), but also module ColdModule 1.0 (exactly 1.0) is required to be installed. You can also specify complex depencencies such as: `ModuleBeta (>=7.x-4.5-beta5, 3.x)` 
 
 ***
-For more information about [Permissions.yaml](https://github.com/QuickAppsCMS/QuickApps-CMS/wiki/Permissions.yaml)
+
+For more information about:
+
+* [Permissions.yaml](permissions-yaml.md)
+* [Hooks](../hooks/index.md)
+* [Hooktags](../hooktags/index.md)

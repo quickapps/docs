@@ -25,7 +25,7 @@ Hook methods may accept only **one parameter**, e.g.:
 ## hook($hook, &$data, $options);
 
 ### $hook
-**Underscored** name of the hook to call. e.g.: `foo_bar`, `hook_name`
+**underscored** name of the hook to call. e.g.: `foo_bar`, `hook_name`
 
 ### $data
 Data for the triggered hook. **Must be a reference**, some examples:
