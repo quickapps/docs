@@ -1,7 +1,12 @@
 About
 =====
 
-The Field module allows custom data fields to be defined for entity types (entities include content items, comments, user accounts or any Model in general). The Field module takes care of storing, loading, editing, and rendering field data. Most users will not interact with the Field module directly, but will instead use the _Field GUI_. Module developers can use the _Field API_ to make new entity types "fieldable" and thus allow fields to be attached to them.
+The Field module allows custom data fields to be defined for entity types
+(entities include content items, comments, user accounts or any Model in general).
+The Field module takes care of storing, loading, editing, and rendering field data.
+Most users will not interact with the Field module directly, but will instead use a _Field GUI_.
+Module developers can use the _[Field API](../developers/field-api.md)_ to make new entity types "fieldable" and thus allow fields to
+be attached to them.
 
 
 Uses
