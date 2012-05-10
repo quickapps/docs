@@ -19,8 +19,8 @@ Translating interface text
 Translations of text in the QuickApps interface may be provided by:
 
 * Translating within your site, using the Locale module's integrated translation interface.
-    * **Fuzzy Entries**
-        Each time QuickApps CMS fails when it tries to translate a text of your site, the text is marked as **fuzzy**.
+    * **Fuzzy Entries**:
+        Since version 1.1, each time QuickApps CMS fails when it tries to translate a text of your site, the text is marked as **fuzzy**.
         Fuzzy entries are suggested translatable entries. You can export and import the list of entries as .pot packages. 
 
 * Importing files from a set of existing translations, known as a translation package files in the Gettext Portable Object (.po) format.
