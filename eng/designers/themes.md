@@ -62,7 +62,9 @@ Below the basic folders/files structure used by themes.
 #### IMPORTANT
 
 `app/ThemeMyThemeName`, this is your _theme associated module_, it behave like a regular module and its
-structure is same [structure used by modules](../developers/modules/structure.md).
+structure is same [structure used by modules](../developers/modules/structure.md). It's the responsible for
+several task related to your theme such as installation/uninstallation or hooktags-handler. 
+
 All **theme associated modules** MUST prefix its name by `Theme` word in order to avoid name collisions between
 other modules in the system. In the example above `ThemeMyThemeName` is the associated module to theme `MyThemeName`
 
@@ -404,3 +406,12 @@ For example, now you may want to adjust the layout width based on the width intr
     <div id="main-content" style="width:<?php echo Configure::read('Theme.settings.theme_width'); ?> px;">
 		<!-- Content here -->
 	</div>
+
+
+Hooktags
+========
+
+You may need to include some especifics hooktags handled by your theme, but where should you place those
+hooktag-handlers methods ?
+
+Well, all this logics are managed by your [theme associated module](#important).
