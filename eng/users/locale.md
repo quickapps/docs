@@ -32,6 +32,6 @@ may be modified, or new .po files may be created, using a desktop Gettext editor
 Configuring a multilingual site
 -------------------------------
 
-Language negotiation allows your site to automatically change language based on the domain or path used for
-each request. Users may (optionally) select their preferred language on their
-My account page, and your site can be configured to honor a web browser's preferred language settings.
+Language negotiation allows your site to automatically change language based on path used for
+each request. Users may (optionally) select their preferred language on their _My account page_,
+and your site can be configured to honor a web browser's preferred language settings.
