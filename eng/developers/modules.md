@@ -18,8 +18,8 @@ Modules cannot be named as:
 * Containing any non-alphanumeric chars. e.g.: `Invalid?Name`, `No(Alphanumeric¿%`
 
 
-Folders & Files
-===============
+Structure
+=========
 
 Basic structure of modules:
 
