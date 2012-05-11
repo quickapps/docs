@@ -8,10 +8,10 @@ This manual assumes that you have a general understanding of PHP and a basic und
 Getting started
 ---------------
 
+* [What is QuickApps CMS](quickapps-cms-overview/what-is-quickapps-cms.md)
 * [Users's Guide](users/index.md)
 * [Developers](developers/index.md)
 * [Designers](designers/index.md)
-* [FAQ](faq.md)
 
 
 Contributing

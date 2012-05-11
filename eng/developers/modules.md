@@ -151,5 +151,5 @@ Some times overwriting controller's name and method names is not enough. Some ti
 For more information about:
 ===========================
 
-* [Hooks](../hooks/index.md)
-* [Hooktags](../hooktags/index.md)				
+* [Hooks](hooks.md)
+* [Hooktags](hooktags.md)				

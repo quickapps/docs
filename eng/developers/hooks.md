@@ -1,14 +1,13 @@
 Hooks
 =====
 
-Allow modules, themes or fields to interact with the QACMS core.
-A hook is a PHP method that is named **underscored**, e.g.: do_something(), foo_bar().
+A hook is a PHP method that is named **underscored** which allow modules, themes or fields to interact with the QACMS core.
 
 As CakePHP is a MVC framework, hooks method are separated in three groups:
 
-* Model Hooks
-* View Hooks
-* Controller Hooks
+* Model Hooks: Packaged as [Behaviors](http://book.cakephp.org/2.0/en/models/behaviors.html)
+* View Hooks: Packaged as [Helpers](http://book.cakephp.org/2.0/en/views/helpers.html)
+* Controller Hooks: Packaged as [Components](http://book.cakephp.org/2.0/en/controllers/components.html)
 
 Hook methods can be invoked by using the `hook` method located in each HookCollection class:
 
@@ -69,9 +68,6 @@ return
 ------
 
 Either the last result or all results if collectReturn is on. Or **null** in case of no response.
-
-
-***
 
 
 Core Hooks

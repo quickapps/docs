@@ -14,12 +14,12 @@ Internally, fields behave -functionally- like modules (cake's plugin), and they 
 manage the storing proccess of specific data. As before, they behave -functionally- like modules,
 this means they may have hooks and all what a regular module has.
 
-Fields belongs always to modules, modules are allowed to define an unlimeted number
-of fields by placing them on
-the `Fields` folder. e.g.: 
+Fields belongs always to modules, and modules are allowed to define an unlimeted number of fields by
+placing them on the `Fields` folder. For example, the core module `Taxonomy` owns the field `TaxonomyTerms`
+in `QuickApps/Plugins/Taxonomy/Fields/TaxonomyTerms`.
 
-The core module `Taxonomy` has it own field `TaxonomyTerms` in `QuickApps/Plugins/Taxonomy/Fields/TaxonomyTerms`.
-Most of the Fields included in the core of QuickApps belongs to the `Fields` module (QuickApps/Plugins/Field/Fields/).
+Most of the Fields included in the core of QuickApps belongs to the `Fields` module and you can find them in
+`QuickApps/Plugins/Field/Fields/`.
 
 ***
 
@@ -28,6 +28,9 @@ provides a basic storage table called `field_data`, though, each field is able t
 storing system (usually extra tables in DB).
 Also, each field's data-element (row in the table) must have an unique ID in that storing system,
 and such data is associated to an unique Model record.
+
+For example, the core field `FieldText` uses the `field_data` table to store all the information users write
+on its instances. Each piece of information has a unique ID on the `field_data` table.
 
 
 Creating Fields
@@ -41,7 +44,7 @@ As modules, Field names must be always in CamelCase, e.g.:
 - `ImageAlbum`: valid, `Album` field belongs to `Image` module
 - `MyModuleNameImageAlbum`: valid, `ImageAlbum` field belongs to `MyModuleName` module
 
-The files/folders structure of Fields is the same [structure used by modules](/modules/structure.md).
+The files/folders structure of Fields is the same [structure used by modules](modules.md#structure).
 **The only difference** is on the YAML file:
 
 
@@ -71,15 +74,18 @@ Understanding Entity-Field relations
 Entity -> hasMany -> Field Instances:
 -------------------------------------
 
-Entities (models) may have multiple instances of the same field.
-e.g.: User model may define extra fields: `last name` and `age`, both represented by a textbox, means that each field (`last name` & `age`) is an instance of the same Field handler `FieldText`.
+Entities (models) may have multiple instances of the same field handler.
+e.g.: User model may define two fields, `last name` and `age`, both represented by a textbox, means that each
+field (last name and age) is an instance of the same Field handler `FieldText`.
 
 
 Field Instance -> hasMany -> Field Data:
 ----------------------------------------
 
-Obviously each instance may have multiple data records in its storage system, **BUT** each of this data records (Field Data) belongs to diferent Entity records.
-e.g.: the instance `last name` for User entity may have many records of data **but each** `last name` actually belong to diferent users.
+Obviously each instance may have multiple data records in its storage system, **BUT** each of this data
+records (Field Data) belongs to diferent Entity records.
+e.g.: the instance `last name` for User entity may have many records of data **but each** `last name` actually
+belong to diferent users.
 
 
 Entity -> Field Instance -> hasOne -> Field Data:
@@ -101,7 +107,7 @@ Each field MUST always POST its information following the structure below:
 
 * **<field_module>:** (string) name of the field handler in CamelCase: i.e.: 'FieldTextarea', 'FieldMyField', `ParentModuleFieldName`, etc.
 * **<field_instance_id>:** (int) ID of the field instance attached to the current Model. (field instances are stored in `fields` table).
-* **[data]:** (mixed) Field data. It can be simple information such as plain text or even complex arrays of mixed data.
+* **[data]:** (mixed) Field data to store. It can be simple information such as plain text or even complex arrays of mixed data.
 * **[id]:** (int) Storage ID. Unique ID for the data in the storage system implemented by the Field. **null** ID means that there is no data stored yet for this Model record and this Field instance.
 
 
@@ -132,7 +138,7 @@ debug($this->data) should looks:
             ),
             ... // other field instances attached to entity
         )
-    )
+    );
 
 
 Capturing POST and saving data
@@ -253,11 +259,8 @@ invoking the `attachFieldInstance` of your model:
 **$data**
 
 - `label`: Field input label. e.g.: 'Article Body' for a textarea.
-- `name`: Field unique name. underscored and alphanumeric characters only. e.g.: 'field_article_body'.
-- `field_module`: Name of the field-module\* that handle this instance. e.g.: 'FiledText'.
-
-
-\* _field-module: Remember that, internally, Fields behave as modules._
+- `name`: Field unique name. **underscored and alphanumeric** characters only. e.g.: 'field_article_body'.
+- `field_module`: Name of the field handler that handle this instance. e.g.: 'FiledText'.
 
 
 Making Field's Data Searchable

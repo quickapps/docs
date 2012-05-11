@@ -9,3 +9,4 @@
 * [QuickApps](system.md)
 * [Taxonomy](taxonomy.md)
 * [User](user.md)
+* [FAQ](faq.md)
