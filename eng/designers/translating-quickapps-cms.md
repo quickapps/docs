@@ -11,10 +11,12 @@ Translating QuickApps CMS
 * Pull your work.
 
 
+You can translate your .po file using a common text editor, or a gettext editor such as [PoEdit](http://www.poedit.net/)
+
 Example
 -------
 
-If you want to translte QuickApps CMS to `Albanian` you must create the folowwing file:
+If you want to translte QuickApps CMS to `Albanian` you must create and translate the folowwing file:
 
     |- Locale/
       |- alb/
