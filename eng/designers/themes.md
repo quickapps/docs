@@ -13,6 +13,7 @@ by QuickApps.
 This document describes some of the basics of theme creation and structure, but we highly recommend you to
 use [QuickApps CLI](../developers/quickapps-cli.md) to easly create and build new themes.
 
+Recommended reading: http://book.cakephp.org/2.0/en/views.html
 
 Theme Names
 ===========
@@ -44,6 +45,7 @@ Below the basic folders/files structure used by themes.
 	    :    :    |- View/
 	    :    :    :    |- Helper/
 	    :    :    :    :    |- MyThemeNameHookHelper.php
+	    :    :    :    :    |- MyThemeNameHooktagsHelper.php
 	    |- Elements/
 	    :    |- theme_menu.ctp
 	    :    |- theme_block.ctp
@@ -92,7 +94,7 @@ This .yaml file must be named same as your theme machine name. For example, if y
     
     javascripts:
         file: [some_file.js, shadowbox/shadowbox.js]
-        embed: ['alert("embed code");']
+        inine: ['alert("this is an inline js code");']
 
     regions:
         help: Help messages
@@ -107,25 +109,47 @@ This .yaml file must be named same as your theme machine name. For example, if y
 
 ##### Explanation
 
-* **admin (optional)** Set to `true` if it is a backend theme, or false (or unset) for frontend theme.
-* **name (required)** Human readable name of your theme, example 'Soft Lights'
-* **description (optional)** a brief description about your theme, example: 'Inspired by my dorm lights'
-* **version (optional)** you can give your theme whatever version string makes sense, e.g.: 1.0, 1.0, etc.
-* **core (required)** version of QuickApps CMS, example: 1.x means any branch of QuickApps CMS v1.0
-* **author (optional)** theme's author information
-* **dependencies (optional)** required modules used by your theme. (see [modules dependencies](.))
-* **stylesheets (optional)** css files to load always this theme is used, each css collection must be grouped by media types.
-    Example:
+* **admin (optional)**: Set to `true` if it is a backend theme, or false (or unset) for frontend theme.
+* **name (required)**: Human readable name of your theme, example 'Soft Lights'
+* **description (optional)**: a brief description about your theme, example: 'Inspired by my dorm lights'
+* **version (optional)**: you can give your theme whatever version string makes sense, e.g.: 1.0, 1.0, etc.
+* **core (required)**: version of QuickApps CMS, example: 1.x means any branch of QuickApps CMS v1.0
+* **author (optional)**: theme's author information
+* **dependencies (optional)**: required modules used by your theme.
+* **stylesheets (optional)**: css files to load always this theme is used, each css collection must be
+							  grouped by media types.
+
+    ###### Example:
 
     `all: [reset.css, styles.css]` will always produce the HTML below:
 
         <link rel="stylesheet" type="text/css" href="/theme/MyThemeName/css/reset.css" media="all" />
         <link rel="stylesheet" type="text/css" href="/theme/MyThemeName/css/styles.css" media="all" />
 
-* **javascripts (optional)** js files/code to include always in your layout head.
-* **regions (required)** Theme authors can define and implement any number of `regions` for content to be rendered into. Backend themes (admin: true) **must** always define both `help` and `toolbar` regions.
-* **layout (required)** Default .ctp file to use as layout. This must be located in `View/Layouts` folder of your theme.
-* **login_layout (optional)** Valid only for backend themes (admin: true). Layout to use for the login screen, if not set `login.ctp` will be used by default.
+* **javascripts (optional)**: js files/code to include always in your layout head.
+						      There are two groups available, `file` and `inline`.
+
+	###### Example:
+
+	`file: [some_file.js, shadowbox/shadowbox.js]` will produce the HTML below (in your layout header):
+
+    <script type="text/javascript" src="/theme/MyThemeName/js/some_file.js"></script>
+    <script type="text/javascript" src="/theme/MyThemeName/js/shadowbox/shadowbox.js"></script>
+
+	`inline: ['alert("this is an inline js code");']` will produce the HTML below (in your layout header):
+
+    <script type="text/javascript">
+    //<![CDATA[
+		// ... Other js code
+
+        alert("this is an inline js code");
+    //]]>
+    </script>
+
+* **regions (required)**: Theme authors can define and implement any number of `regions` for content to be
+						  rendered into. Backend themes (admin: true) **must** always define both `help` and `toolbar` regions.
+* **layout (required)**: Default .ctp file to use as layout. This must be located in `View/Layouts` folder of your theme.
+* **login_layout (optional)**: Valid only for backend themes (admin: true). Layout to use for the login screen, if not set `login.ctp` will be used by default.
 
 
 Rendering Elements
@@ -133,7 +157,7 @@ Rendering Elements
 
 QuickApps incorporates a number of `default elements` responsible for various rendering tasks,
 such as Menu, Blocks, etc.
-Themes may overwrite this elements and modify the way they are rendered.
+Themes may overwrite these elements and modify the way they are rendered.
 To overwrite any of this elements simply create the element under `View/Elements` folder of your theme.
 
 * **theme_block.ctp:** Block rendering
@@ -160,7 +184,7 @@ With the toggle display options, user can select the elements he wish to display
 * Site slogan
 * Shortcut icon
 
-Themes are the responsibilities of recognize the values for these parameters and act according to them.
+How these are used depends on your theme. For example, some themes may always ignore site's slogan.
 
 
 Logo Image Settings
@@ -181,11 +205,11 @@ by specifying its URL.
 How do I show/hide those elements ?
 -----------------------------------
 
-In your theme layout .ctp file use:
+In your theme layout use:
 
     Configure::read('Theme.settings.OPTION');
 
-	
+
 Where `OPTION` may be one of:
 
 * site_logo (bool): Display site logo?
@@ -197,9 +221,10 @@ Where `OPTION` may be one of:
 
 
 #### Example
-    <!-- Show logo image if has been enabled -->
+
+    <!-- Show logo image if enabled -->
     <?php if (Configure::read('Theme.settings.site_logo')): ?>
-        <img src="<?php echo Configure::read('Theme.settings.site_logo_url'); ?>" />
+        <?php echo $this->Html->image(Configure::read('Theme.settings.site_logo_url'), array('class' => 'site-logo')); ?>
     <?php endif; ?>
 
 
@@ -224,20 +249,16 @@ For more information about [Layout Helper go here](the-layout-helper.md).
         </head>
 
 
-Showing Blocks
-==============
+Displaying Blocks
+=================
 
 The code below will render out all blocks assigned to the region `my-theme-region` of your theme:
 
-
     <?php echo $this->Layout->blocks('my-theme-region'); ?>
     
-
 Now, for example you would like to show certain area/region of your theme only if there are blocks
-availables to show on it.
-This allows you for example hide the left column of your layout if there are no blocks to show on
-it and use all the available width for the rest of your content.
-
+availables to show on it, this allows you for example hide the left column of your layout if there
+are no blocks to show on it and use all the available width for the rest of your content.
 
     <?php if (!$this->Layout->emptyRegion('my-theme-region')): ?>
         <div class="left-column">
@@ -271,14 +292,14 @@ Requirements
 
         $this->Layout->stylesheets();
 
-* Your theme's css files must be located in the `css` folder of the theme.
+* Your theme's css files must be located in the `/webroot/css` folder of the theme.
 
 
-Comment tags
+Comment Tags
 ------------
 
 All you have to do is add properly formatted CSS comments into your stylesheets.
-Comment-tag's structure is the same used by Hooktags:
+Comment-tag's syntax is very similar to Hooktags syntax:
 
     [tag_name param1=value1 param2='other value 2' ...] TAG_CONTENT [/tag_name]
 
@@ -288,6 +309,8 @@ The comment-tag should be surrounding the css value to tweak. e.g.:
         color:[color] #ffffff [/color];
     }
 
+The above will allow users to change the text color for the DOM element `div.class-selector`.
+Also, default text color is white `#ffffff`.
 
 ##### Available tags
 
@@ -301,10 +324,7 @@ The comment-tag should be surrounding the css value to tweak. e.g.:
 
 * `title`: Name of the selector to display in the customization form.
 * `id`: Selector `alias`.
-* `group`: Name of the group that selector belongs to. All selectors under the same group will be grouped in the same fieldset.
-
-
-***
+* `group`: Name of the group that selector belongs to. All selectors under the same group will be grouped under the same fieldset.
 
 
 Basically, there are two types of selectors:
@@ -312,9 +332,16 @@ Basically, there are two types of selectors:
 - Color Selectors
 - Font Selectors
 
+
+***
+
+
 The `miscellaneous` tag (an empty style comment) will allow your theme to incorporate any kind of css you want:
 
     /*[miscellaneous]*//*[/miscellaneous]*/
+
+
+***	
 
 
 ##### Example
@@ -330,14 +357,14 @@ The `miscellaneous` tag (an empty style comment) will allow your theme to incorp
 Aliasing values
 ---------------
 
-If you need to use the same value (color, font, size, etc) in two or more places of your css file.
+If you need to use the same value (color, font, size, etc) in two or more places of your css sheet.
 
     body {
-        background: /*[color title='Header top' id='body-bg']*/#282727/*[/color]*/;
+        background: /*[color title='Header top' id='body-bg']*/ #282727 /*[/color]*/;
     }
 
     div.footer {
-        background: /*[body-bg]*/#28ffff/*[/body-bg]*/;
+        background: /*[body-bg]*/ #28ffff /*[/body-bg]*/;
     }
 
 
@@ -377,6 +404,7 @@ For example, allow to users change theme's width.
 
 To add extra fields to your theme settings form, you have to create the following file:
 
+
     /MyThemeName/
         app/
             MyThemeName/
@@ -384,9 +412,11 @@ To add extra fields to your theme settings form, you have to create the followin
                     Elements/
                         settings.ctp
 
+
 Themes are registed in the system as Modules. And every module is allowed to store in database
 their own settings parameters. (All modules information is stored in the `modules` table).
 Module's settings parametters are stored in the `settings` column of the `modules` table.
+
 
 ### Example
 
@@ -396,12 +426,14 @@ Module's settings parametters are stored in the `settings` column of the `module
     echo $this->Form->input('Module.settings.theme_width');
 
 The code above will create two text boxes where user may introduce values.
-Now you can read this settings values in any view or layout of your theme:
+Now you can read these values in any view or layout of your theme:
+
 
     Configure::read('Theme.settings.my_theme_color');
     Configure::read('Theme.settings.theme_width');
-	
-For example, now you may want to adjust the layout width based on the width introduced by the user.
+
+
+Now for example, now you may want to adjust layout width based on the width introduced by the user.
 
     <div id="main-content" style="width:<?php echo Configure::read('Theme.settings.theme_width'); ?> px;">
 		<!-- Content here -->
@@ -411,7 +443,18 @@ For example, now you may want to adjust the layout width based on the width intr
 Hooktags
 ========
 
-You may need to include some especifics hooktags handled by your theme, but where should you place those
-hooktag-handlers methods ?
+[Hooktags](../developers/hooktags.md) handlers are special PHP functions which produce (commonly) a HTML result.
+Themes may define especifics [hooktags](../developers/hooktags.md) which are handled by its associated module. 
 
-Well, all this logics are managed by your [theme associated module](#important).
+All theme's hooktags-handler methods should be placed on your **theme associated module**.
+As before, associated module behaves exactly as regular [module](../developers/modules.md), this means that
+all hooktags handlers should be placed in the `Hooktags` Helper class, from [the tree above](#structure) `MyThemeNameHooktagsHelper.php`:
+
+
+    |- MyThemeName
+	    |- app/
+	    :    |- ThemeMyThemeName/
+	    :    :    |- View/
+	    :    :    :    |- Helper/
+	    :    :    :    :    |- MyThemeNameHooktagsHelper.php
+
