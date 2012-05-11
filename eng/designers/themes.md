@@ -15,6 +15,7 @@ use [QuickApps CLI](../developers/quickapps-cli.md) to easly create and build ne
 
 Recommended reading: http://book.cakephp.org/2.0/en/views.html
 
+
 Theme Names
 ===========
 
@@ -137,7 +138,8 @@ This .yaml file must be named same as your theme machine name. For example, if y
     <script type="text/javascript" src="/theme/MyThemeName/js/shadowbox/shadowbox.js"></script>
 
 	`inline: ['alert("this is an inline js code");']` will produce the HTML below (in your layout header):
-
+	
+	```
     <script type="text/javascript">
     //<![CDATA[
 		// ... Other js code
@@ -145,6 +147,7 @@ This .yaml file must be named same as your theme machine name. For example, if y
         alert("this is an inline js code");
     //]]>
     </script>
+	```
 
 * **regions (required)**: Theme authors can define and implement any number of `regions` for content to be
 						  rendered into. Backend themes (admin: true) **must** always define both `help` and `toolbar` regions.
@@ -458,3 +461,5 @@ all hooktags handlers should be placed in the `Hooktags` Helper class, from [the
 	    :    :    :    |- Helper/
 	    :    :    :    :    |- MyThemeNameHooktagsHelper.php
 
+
+For a more complete example [visit this link](../developers/hooktags.md#example).

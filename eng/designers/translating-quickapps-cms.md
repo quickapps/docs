@@ -13,6 +13,7 @@ Translating QuickApps CMS
 
 You can translate your .po file using a common text editor, or a gettext editor such as [PoEdit](http://www.poedit.net/)
 
+
 Example
 -------
 
