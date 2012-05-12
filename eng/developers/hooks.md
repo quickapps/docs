@@ -92,7 +92,7 @@ The following hooks can be invoked from any **model** using the `hook()` method.
 View Hooks
 ----------
 
-The following hooks can be invoked from any **helper** using the `hook()` method.
+The following hooks can be invoked from any **helper** using the `hook()` method.  
 If you need to invoke a hook from the view layer you can access to the `hook()` method from any Helper instance, e.g.: `$this->Layout->hook()`
 
 

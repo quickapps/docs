@@ -3,7 +3,7 @@ Module names
 
 Module have two names:
 
-* **machine name**: Name of your module folder (used internally by QuickApps CMS), must always be in CamelCase format, e.g.: `ModuleName`. 
+* **machine name**: Used internally by QuickApps CMS, must always be in CamelCase format, e.g.: `ModuleName`. 
 * **human name**: Human redable name, e.g.: `My Module Name`
 
 
@@ -47,7 +47,8 @@ Basic structure of modules:
 InstallComponent.php
 ====================
 
-Each module may define custom logic to be executed before/after module has been installed/uninstalled, or before/after module has been enabled/disabled. All this is performed by using callbacks methods in your InstallComponent:
+Each module may define custom logic to be executed before/after module has been installed/uninstalled, or before/after module has been enabled/disabled.
+All this is performed by using callbacks methods in your InstallComponent:
 
     beforeInstall($Installer);   // Return a non-true result halt the install operation.
     afterInstall($Installer);    // Called after each successful install operation.
@@ -93,9 +94,11 @@ Explanation
 Permissions.yaml
 ================
 
-By default QuickApps CMS generate permissions tree (/admin/user/permissions/) by parsing each Module's controller folder, each leaf of this tree is named as the name of the module, controller or method that represent.
+By default QuickApps CMS generate permissions tree (/admin/user/permissions/) by parsing each Module's controller folder, each leaf of this 
+tree is named as the name of the module, controller or method that represent.
 
-For example, if you have a module named `HotModule`, which has a controller class named `HotController` which has two methods on it named `do_hot_stuff` & `do_cold_stuff`. The following tree will be created by default:
+For example, if you have a module named `HotModule`, which has a controller class named `HotController` which has two methods on it named `do_hot_stuff` & `do_cold_stuff`.
+The following tree will be created by default:
 
 * HotModule
     * Hot
@@ -132,7 +135,9 @@ If you set `hidden:true` the leaf (controller or method) will not display on the
 Creating permissions presets
 ----------------------------
 
-Some times overwriting controller's name and method names is not enough. Some times the permissions tree may become difficult to understand when your module has to many controllers, or to many methods on its controllers. To solve this QuickApps allows you to create permissions presets. A preset is a collection of methods from one or many controllers.
+Some times overwriting controller's name and method names is not enough. Some times the permissions tree may become difficult to understand when 
+your module has to many controllers, or to many methods on its controllers.  
+To solve this QuickApps allows you to create permissions presets. A preset is a collection of methods from one or many controllers.
 
     Preset:
         administer_blocks:

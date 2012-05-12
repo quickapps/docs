@@ -1,50 +1,42 @@
 Field API
 =========
 
-The Field API allows custom data fields to be attached to Models and takes care of storing,
-loading, editing, and rendering field data.
-Any Model type (Node, User, etc.) can use the Field API to make itself "fieldable" and thus allow 
-fields to be attached to it.
+The Field API allows custom data fields to be attached to Models and takes care of storing, loading, editing, and rendering field data.  
+Any Model type (Node, User, etc.) can use the Field API to make itself "fieldable" and thus allow fields to be attached to it.
 
-The Field API defines two primary data structures, Field and Instance. A **Field** defines a
-particular type of data that can be attached to Models. A **Field Instance** is a Field attached to 
-a single Model.
+The Field API defines two primary data structures, Field and Instance. A **Field** defines a particular type of data that can be attached to
+Models. A **Field Instance** is a Field attached to a single Model.
 
-Internally, fields behave -functionally- like modules (cake's plugin), and they are responsible of 
-manage the storing proccess of specific data. As before, they behave -functionally- like modules,
-this means they may have hooks and all what a regular module has.
+Internally, fields behave -functionally- like modules (cake's plugin), and they are responsible of manage the storing proccess of specific data. 
+As before, they behave -functionally- like modules, this means they may have hooks and all what a regular module has.
 
-Fields belongs always to modules, and modules are allowed to define an unlimeted number of fields by
-placing them on the `Fields` folder. For example, the core module `Taxonomy` owns the field `TaxonomyTerms`
-in `QuickApps/Plugins/Taxonomy/Fields/TaxonomyTerms`.
+Fields belongs always to modules, and modules are allowed to define an unlimeted number of fields by placing them on the `Fields` folder.  
+For example, the core module `Taxonomy` owns the field `TaxonomyTerms` in `QuickApps/Plugins/Taxonomy/Fields/TaxonomyTerms`.
 
-Most of the Fields included in the core of QuickApps belongs to the `Fields` module and you can find them in
-`QuickApps/Plugins/Field/Fields/`.
+Most of the Fields included in the core of QuickApps belongs to the `Fields` module and you can find them in `QuickApps/Plugins/Field/Fields/`.
 
 ***
 
-Field are supposed to store information. **Field data** is usually stored in DB tables, QuickApps CMS
-provides a basic storage table called `field_data`, though, each field is able to define its own 
-storing system (usually extra tables in DB).
-Also, each field's data-element (row in the table) must have an unique ID in that storing system,
-and such data is associated to an unique Model record.
+Field are supposed to store information. **Field data** is usually stored in DB tables, QuickApps CMS provides a basic storage table called `field_data`,
+though, each field is able to define its own storing system (usually extra tables in DB).  
+Also, each field's data-element (row in the table) must have an unique ID in that storing system, and such data is associated to an unique Model record.
 
-For example, the core field `FieldText` uses the `field_data` table to store all the information users write
-on its instances. Each piece of information has a unique ID on the `field_data` table.
+For example, the core field `FieldText` uses the `field_data` table to store all the information users write on its instances. Each piece of
+information has a unique ID on the `field_data` table.
 
 
 Creating Fields
 ===============
 
-Because Fields behave -functionally- as modules, their names must be prefixed by the name of their parent
-module in order to avoid name collisions between other modules in the system.
+Because Fields behave -functionally- as modules, their names must be prefixed by the name of their parent module in order to avoid name collisions
+between other modules in the system.  
 As modules, Field names must be always in CamelCase, e.g.:
 
 - `image_album`: invalid, no CamelCase name
 - `ImageAlbum`: valid, `Album` field belongs to `Image` module
 - `MyModuleNameImageAlbum`: valid, `ImageAlbum` field belongs to `MyModuleName` module
 
-The files/folders structure of Fields is the same [structure used by modules](modules.md#structure).
+The files/folders structure of Fields is the same [structure used by modules](modules.md#structure).  
 **The only difference** is on the YAML file:
 
 
@@ -74,26 +66,26 @@ Understanding Entity-Field relations
 Entity -> hasMany -> Field Instances:
 -------------------------------------
 
-Entities (models) may have multiple instances of the same field handler.
-e.g.: User model may define two fields, `last name` and `age`, both represented by a textbox, means that each
-field (last name and age) is an instance of the same Field handler `FieldText`.
+Entities (models) may have multiple instances of the same field handler.  
+e.g.: User model may define two fields, `last name` and `age`, both represented by a textbox, means that each field (last name and age) is an instance
+of the same Field handler `FieldText`.
 
 
 Field Instance -> hasMany -> Field Data:
 ----------------------------------------
 
-Obviously each instance may have multiple data records in its storage system, **BUT** each of this data
-records (Field Data) belongs to diferent Entity records.
-e.g.: the instance `last name` for User entity may have many records of data **but each** `last name` actually
-belong to diferent users.
+Obviously each instance may have multiple data records in its storage system, **BUT** each of this data records (Field Data) belongs to
+diferent Entity records.  
+e.g.: the instance `last name` for User entity may have many records of data **but each** `last name` actually belong to diferent users.
 
 
 Entity -> Field Instance -> hasOne -> Field Data:
 -------------------------------------------------
 
-When retrieving Entity records, all its extra fields are captured (instances data).
-Therefore each of this instances has ONLY ONE related data to each Entity record.
-e.g.: when editing a User, his/her `last name` field must have only one value, even though the field instance has many data records in its storage system. (explanation above).
+When retrieving Entity records, all its extra fields are captured (instances data).  
+Therefore each of this instances has ONLY ONE related data to each Entity record.  
+e.g.: when editing a User, his/her `last name` field must have only one value, even though the field instance has many data records in its
+storage system. (explanation above).
 
 
 Field POST structure
@@ -144,8 +136,8 @@ debug($this->data) should looks:
 Capturing POST and saving data
 ==============================
 
-Capturing field's data and saving process are performed by using Model hooks callbacks (Behaviors Hooks).
-In this process there are two diferent callbacks types, `Entity callbacks`, related to Model entities (User, Node, etc).
+Capturing field's data and saving process are performed by using Model hooks callbacks (Behaviors Hooks).  
+In this process there are two diferent callbacks types, `Entity callbacks`, related to Model entities (User, Node, etc).  
 And `Instance callbacks`, related to Field (at/de)tachment process.
 
 
@@ -215,7 +207,7 @@ This hooks callbacks are fired before/after each `fieldable` entity's callbacks.
 IMPORTANT
 ---------
 
-Field data **MUST** always be **saved after Entity** record has been saved, that is on `after_save` callback.
+Field data **MUST** always be **saved after Entity** record has been saved, that is on `after_save` callback.  
 e.g: When updating/creating a new User, all field's data must be saved after the User native data has been updated/created
 
 
@@ -246,8 +238,7 @@ Simply by attaching the `Fieldable Behavior` to any model will make it fieldable
 Attaching Fields to Entities
 ----------------------------
 
-After you have attached the Fieldable Behavior to your model, you can start attaching Fields to it by
-invoking the `attachFieldInstance` of your model:
+After you have attached the Fieldable Behavior to your model, you can start attaching Fields to it by invoking the `attachFieldInstance` of your model:
 
     // In your model
     $this->attachFieldInstance($data);
@@ -280,11 +271,10 @@ method as show below:
         ...
     }
 
-The above will append an index of words to the Entity that Field belongs to.
-So Entity can be located using any of the words (or phrase) passed by the field. e.g.:
-In the example above, the node will be listed when searching the phrase `string to index`
-(_http://domain.com/search/string to index_)
+The above will append an index of words to the Entity that Field belongs to.  
+So Entity can be located using any of the words (or phrase) passed by the field.  
+e.g.: In the example above, the node will be listed when searching the phrase `string to index` (_http://domain.com/search/string to index_)
 
-You can pass full HTML or any kind of formatted string, and QuickApps CMS will automatically
-extract all the valid words to be fetched with rest of Entity's words.
+You can pass full HTML or any kind of formatted string, and QuickApps CMS will automatically extract all the valid words to be
+fetched with rest of Entity's words.  
 You can invoke the `indexField` on both callbacks `before_save` or `after_save`.

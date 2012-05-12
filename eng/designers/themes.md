@@ -1,17 +1,16 @@
 Themes
 ======
 
-A theme is a unified set of design elements and color schemes that you can apply to your Web pages to
-give them a professional look. Using a theme is a quick and easy way to make sure your Web pages are
-visually consistent and appealing.
+A theme is a unified set of design elements and color schemes that you can apply to your Web pages to give them a professional look.
+Using a theme is a quick and easy way to make sure your Web pages are visually consistent and appealing.
 
-QuickApps CMS includes by default a [Frontend](http://en.wikipedia.org/wiki/Front_and_back_ends) theme
-named `Default` and a [Backend](http://en.wikipedia.org/wiki/Front_and_back_ends) theme named `Admin`.
+QuickApps CMS includes by default a [Frontend](http://en.wikipedia.org/wiki/Front_and_back_ends) theme named `Default` and a 
+[Backend](http://en.wikipedia.org/wiki/Front_and_back_ends) theme named `Admin`.  
 As you may notice, there are two type of themes, `Backend` and `Frontend`, which are managed independently
 by QuickApps.
 
-This document describes some of the basics of theme creation and structure, but we highly recommend you to
-use [QuickApps CLI](../developers/quickapps-cli.md) to easly create and build new themes.
+This document describes some of the basics of theme creation and structure, but we highly recommend you to use [QuickApps CLI](../developers/quickapps-cli.md)
+to easly create and build new themes.
 
 Recommended reading: http://book.cakephp.org/2.0/en/views.html
 
@@ -64,21 +63,19 @@ Below the basic folders/files structure used by themes.
 
 #### IMPORTANT
 
-`app/ThemeMyThemeName`, this is your _theme associated module_, it behave like a regular module and its
-structure is same [structure used by modules](../developers/modules.md#structure). It's the responsible for
-several task related to your theme such as installation/uninstallation or hooktags-handler. 
+`app/ThemeMyThemeName`, this is your _theme associated module_, it behave like a regular module and its structure is same [structure used by modules](../developers/modules.md#structure).
+It's the responsible for several task related to your theme such as installation/uninstallation or hooktags-handler. 
 
-All **theme associated modules** MUST prefix its name by `Theme` word in order to avoid name collisions between
-other modules in the system. In the example above `ThemeMyThemeName` is the associated module to theme `MyThemeName`
+All **theme associated modules** MUST prefix its name by `Theme` word in order to avoid name collisions between other modules in the system.
+In the example above `ThemeMyThemeName` is the associated module to theme `MyThemeName`.
 
 
 MyThemeName.yaml
 ================
 
-Themes -same as modules- *must* define a configuration .yml file containing all the information about it, such
-as Theme name, available regions, author, etc.
-This .yaml file must be named same as your theme machine name. For example, if your theme machine name is `BlueSky` then 
-`BlueSky.yaml` should be defined.
+Themes -same as modules- *must* define a configuration .yml file containing all the information about it, such as Theme name, available
+regions, author, etc. This .yaml file must be named same as your theme machine name.  
+For example, if your theme machine name is `BlueSky` then `BlueSky.yaml` should be defined.
 
     info:
         admin: true
@@ -149,18 +146,20 @@ This .yaml file must be named same as your theme machine name. For example, if y
     </script>
 	```
 
-* **regions (required)**: Theme authors can define and implement any number of `regions` for content to be
-						  rendered into. Backend themes (admin: true) **must** always define both `help` and `toolbar` regions.
-* **layout (required)**: Default .ctp file to use as layout. This must be located in `View/Layouts` folder of your theme.
-* **login_layout (optional)**: Valid only for backend themes (admin: true). Layout to use for the login screen, if not set `login.ctp` will be used by default.
+*	**regions (required)**:
+		Theme authors can define and implement any number of `regions` for content to be
+		rendered into. Backend themes (admin: true) **must** always define both `help` and `toolbar` regions.
+*	**layout (required)**:
+		Default .ctp file to use as layout. This must be located in `View/Layouts` folder of your theme.
+*	**login_layout (optional)**:
+		Valid only for backend themes (admin: true). Layout to use for the login screen, if not set `login.ctp` will be used by default.
 
 
 Rendering Elements
 ==================
 
-QuickApps incorporates a number of `default elements` responsible for various rendering tasks,
-such as Menu, Blocks, etc.
-Themes may overwrite these elements and modify the way they are rendered.
+QuickApps incorporates a number of `default elements` responsible for various rendering tasks, such as Menu, Blocks, etc.  
+Themes may overwrite these elements and modify the way they are rendered.  
 To overwrite any of this elements simply create the element under `View/Elements` folder of your theme.
 
 * **theme_block.ctp:** Block rendering
@@ -200,9 +199,8 @@ Empty value means use QuickApps logo as default.
 Shortcut Icon Settings
 ----------------------
 
-The shortcut icon is the favicon displayed in the address bar of our browser next to the web address.
-By default, this is a small version of QuickApps logo. This option allows you to use a cutom favicon
-by specifying its URL.
+The shortcut icon is the favicon displayed in the address bar of our browser next to the web address.  
+By default, this is a small version of QuickApps logo. This option allows you to use a cutom favicon by specifying its URL.
 
 
 How do I show/hide those elements ?
@@ -259,9 +257,8 @@ The code below will render out all blocks assigned to the region `my-theme-regio
 
     <?php echo $this->Layout->blocks('my-theme-region'); ?>
     
-Now, for example you would like to show certain area/region of your theme only if there are blocks
-availables to show on it, this allows you for example hide the left column of your layout if there
-are no blocks to show on it and use all the available width for the rest of your content.
+Now, for example you would like to show certain area/region of your theme only if there are blocks availables to show on it, this allows you
+for example hide the left column of your layout if there are no blocks to show on it and use all the available width for the rest of your content.
 
     <?php if (!$this->Layout->emptyRegion('my-theme-region')): ?>
         <div class="left-column">
@@ -283,9 +280,8 @@ Configurable Style
 
 **New in version 1.1**
 
-If you want your theme to include some configurable CSS choices, you can define which styles
-can be tweaked through the theme's configuration panel by adding some special comment-tags on
-your css files.
+If you want your theme to include some configurable CSS choices, you can define which styles can be tweaked through the theme's configuration
+panel by adding some special comment-tags on your css files.
 
 
 Requirements
@@ -301,7 +297,7 @@ Requirements
 Comment Tags
 ------------
 
-All you have to do is add properly formatted CSS comments into your stylesheets.
+All you have to do is add properly formatted CSS comments into your stylesheets.  
 Comment-tag's syntax is very similar to Hooktags syntax:
 
     [tag_name param1=value1 param2='other value 2' ...] TAG_CONTENT [/tag_name]
@@ -312,8 +308,7 @@ The comment-tag should be surrounding the css value to tweak. e.g.:
         color:[color] #ffffff [/color];
     }
 
-The above will allow users to change the text color for the DOM element `div.class-selector`.
-Also, default text color is white `#ffffff`.
+The above will allow users to change the text color for the DOM element `div.class-selector`. Also, default text color is white `#ffffff`.
 
 ##### Available tags
 
@@ -371,15 +366,14 @@ If you need to use the same value (color, font, size, etc) in two or more places
     }
 
 
-Above, the selected color value for body's background will be used for div.footer's background as well.
+Above, the selected color value for body's background will be used for div.footer's background as well.  
 The `#28ffff` value in `div.footer` will be used by default if no value is available for the `body-bg` tag.
 
 
 Theming Nodes by Content Type
 =============================
 
-To **theme individual content types** in different ways,
-you need to create a file `theme_node_[type].ctp` in your theme's `Elements` folder,
+To **theme individual content types** in different ways, you need to create a file `theme_node_[type].ctp` in your theme's `Elements` folder,
 where [type] is the machine readable name of the content type.
 
 ### Some examples:
@@ -402,7 +396,7 @@ where [type] is the machine readable name of the content type.
 Advanced Themes
 ===============
 
-By using your theme's associated Module you can add extra features to your themes.
+By using your theme's associated Module you can add extra features to your themes.  
 For example, allow to users change theme's width.
 
 To add extra fields to your theme settings form, you have to create the following file:
@@ -416,8 +410,8 @@ To add extra fields to your theme settings form, you have to create the followin
                         settings.ctp
 
 
-Themes are registed in the system as Modules. And every module is allowed to store in database
-their own settings parameters. (All modules information is stored in the `modules` table).
+Themes are registed in the system as Modules. And every module is allowed to store in database their own settings parameters
+(All modules information is stored in the `modules` table).  
 Module's settings parametters are stored in the `settings` column of the `modules` table.
 
 
@@ -428,7 +422,7 @@ Module's settings parametters are stored in the `settings` column of the `module
     echo $this->Form->input('Module.settings.my_theme_color');
     echo $this->Form->input('Module.settings.theme_width');
 
-The code above will create two text boxes where user may introduce values.
+The code above will create two text boxes where user may introduce values.  
 Now you can read these values in any view or layout of your theme:
 
 
@@ -446,12 +440,12 @@ Now for example, now you may want to adjust layout width based on the width intr
 Hooktags
 ========
 
-[Hooktags](../developers/hooktags.md) handlers are special PHP functions which produce (commonly) a HTML result.
+[Hooktags](../developers/hooktags.md) handlers are special PHP functions which produce (commonly) a HTML result.  
 Themes may define especifics [hooktags](../developers/hooktags.md) which are handled by its associated module. 
 
-All theme's hooktags-handler methods should be placed on your **theme associated module**.
-As before, associated module behaves exactly as regular [module](../developers/modules.md), this means that
-all hooktags handlers should be placed in the `Hooktags` Helper class, from [the tree above](#structure) `MyThemeNameHooktagsHelper.php`:
+All theme's hooktags-handler methods should be placed on your **theme associated module**.  
+As before, associated module behaves exactly as regular [module](../developers/modules.md), this means that all hooktags handlers should be
+placed in the `Hooktags` Helper class, from [the tree above](#structure) `MyThemeNameHooktagsHelper.php`:
 
 
     |- MyThemeName

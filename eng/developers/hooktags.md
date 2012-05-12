@@ -1,7 +1,9 @@
 Hooktags
 ========
 
-A `Hooktag` is a QuickApps-specific code that lets you do nifty things with very little effort. Hooktags can for example print current language code/name/nativeName or call especifics modules/themes functions. For example, block module has the 'block' hooktag which will print out the indicated block by id:
+A `Hooktag` is a QuickApps-specific code that lets you do nifty things with very little effort.  
+Hooktags can for example print current language code/name/nativeName or call especifics modules/themes functions.  
+For example, block module has the 'block' hooktag which will print out the indicated block by id:
 
     [block id=1 /] 
 
@@ -9,7 +11,8 @@ A `Hooktag` is a QuickApps-specific code that lets you do nifty things with very
 Creating Hooktags
 =================
 
-Hooktags are Helpers methods, they may be located in each Module or Theme `HooktagsHelper` class. For example, you may have a module named`HotModule`, and its Hooktag Helper class is:
+Hooktags are Helpers methods, they may be located in each Module or Theme `HooktagsHelper` class.  
+For example, you may have a module named`HotModule`, and its Hooktag Helper class is:
 
     ROOT/Modules/HotModule/View/Helper/HotModuleHooktagsHelper.php:
     class HotModuleHooktagsHelper extends AppHelper {
