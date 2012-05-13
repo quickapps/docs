@@ -7,7 +7,7 @@ Module have two names:
 * **human name**: Human redable name, e.g.: `My Module Name`
 
 
-Forbidden Names
+Banned Names
 ---------------
 
 Modules cannot be named as:
