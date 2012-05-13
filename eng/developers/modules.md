@@ -153,12 +153,6 @@ To solve this QuickApps allows you to create permissions presets. A preset is a 
                 Manage.admin_delete
 
 
-For more information about:
-===========================
-
-* [Hooks](hooks.md)
-
-
 
 The Un/Installation Process
 ===========================
@@ -192,8 +186,6 @@ During Uninstallation
 
 #### Tasks performed automatically by QuickApps CMS
 
-The following tasks are automatically performed by QuickApps CMS during an uninstallation process:
-
 * Remove all related [ACOs and AROs](http://book.cakephp.org/2.0/en/core-libraries/components/access-control-lists.html#understanding-how-acl-works)
 * Remove all menus created by the module during installation.
 * Remove all Content Types defined by the module during installation.
@@ -211,3 +203,11 @@ The best place to perform all this is on `afterUninstall` or `beforeUninstall` [
 * Remove all defined variables from the `variables` table.
 
 In general, your module should remove anything that is not automatically removed by QuickApps CMS.
+
+
+
+For more information about:
+===========================
+
+* [Hooks](hooks.md)
+* [Hooktags](hooktags.md)
