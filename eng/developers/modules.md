@@ -168,7 +168,7 @@ that modules should consider during these process.
 During Installation
 -------------------
 
-#### Tasks performed automatically by QuickApps CMS
+#### Tasks automatically performed by QuickApps CMS
 
 * Checks module folder/files consistency.
 * Checks version compatibilities.
@@ -188,7 +188,7 @@ During Installation
 During Uninstallation
 ---------------------
 
-#### Tasks performed automatically by QuickApps CMS
+#### Tasks automatically performed by QuickApps CMS
 
 * Remove all related [ACOs and AROs](http://book.cakephp.org/2.0/en/core-libraries/components/access-control-lists.html#understanding-how-acl-works)
 * Remove all menus created by the module during installation.
@@ -198,7 +198,7 @@ During Uninstallation
 * Regenerate related caches.
 
 
-### Tasks that should be performed automatically each module
+### Tasks to consider by module
 
 The following task should be performed by the module during the uninstallations process.  
 The best place to perform all this is on `afterUninstall` or `beforeUninstall` [callbacks](#installcomponentphp).
