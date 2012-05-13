@@ -44,11 +44,11 @@ Basic structure of modules:
         |- Permissions.yaml
 
 
-InstallComponent.php
-====================
+Install Component
+=================
 
 Each module may define custom logic to be executed before/after module has been installed/uninstalled, or before/after module has been enabled/disabled.
-All this is performed by using callbacks methods in your InstallComponent:
+All this is performed by using callbacks methods in the `Install Component`:
 
     beforeInstall($Installer);   // Return a non-true result halt the install operation.
     afterInstall($Installer);    // Called after each successful install operation.
@@ -63,10 +63,13 @@ All this is performed by using callbacks methods in your InstallComponent:
     afterDisable($Installer);    // Called after each successful disable operation.
 
 
-MyHotModule.yaml
-================
+Configuration YAML
+==================
 
-Contains information about your module, such as name, description, etc.
+Each module has a .yaml file which contains information about it such as name, description, etc.  
+The name of this file must be the machine name of the module.
+
+Example, for a module named as `MyHotModule` the `MyHotModule.yaml` should be created, and its content may look as follow:
 
     name: MyHotModule
     description: Yeah, a hot module!
@@ -76,6 +79,7 @@ Contains information about your module, such as name, description, etc.
     dependencies:
         SoftModule (1.x)
         ColdModule (1.0)
+
 
 Explanation
 -----------
@@ -91,10 +95,10 @@ Explanation
     * MyHotModule requires SoftModule 1.x (any branch of 1.0), but also module ColdModule 1.0 (exactly 1.0) is required to be installed. You can also specify complex depencencies such as: `ModuleBeta (>=7.x-4.5-beta5, 3.x)` 
 
 
-Permissions.yaml
-================
+Permissions
+===========
 
-By default QuickApps CMS generate permissions tree (/admin/user/permissions/) by parsing each Module's controller folder, each leaf of this 
+By default QuickApps CMS generate permissions tree (/admin/user/permissions/) by parsing each Module's controller folder. Each leaf of this 
 tree is named as the name of the module, controller or method that represent.
 
 For example, if you have a module named `HotModule`, which has a controller class named `HotController` which has two methods on it named `do_hot_stuff` & `do_cold_stuff`.
@@ -105,10 +109,10 @@ The following tree will be created by default:
         * do_hot_stuff
         * do_cold_stuff
 
-Well, this structure does not say much... What does `do_hot_stuff` actually do ?.
+Well, this structure does not say much. What does `do_hot_stuff` actually do ?  
 Whould be nice to write a brief description about what this method do, or even better, change its name for a more descriptive one.
 
-By using **Permissions.yaml** you can overwrite names and create descriptions for both controllers and methods.
+By using the **Permissions.yaml** file you can overwrite names and create descriptions for both controllers and methods.
 
 
 YAML structure
@@ -157,7 +161,7 @@ To solve this QuickApps allows you to create permissions presets. A preset is a 
 The Un/Installation Process
 ===========================
 
-The following, describes some of tasks performed automatically by QuickApps CMS during the un/instalaltion process, as well as some tasks
+The following, describes some of the tasks automatically performed by QuickApps CMS during the un/instalaltion process, as well as some tasks
 that modules should consider during these process.
 
 
