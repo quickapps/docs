@@ -157,4 +157,57 @@ For more information about:
 ===========================
 
 * [Hooks](hooks.md)
-* [Hooktags](hooktags.md)				
+
+
+
+The Un/Installation Process
+===========================
+
+The following, describes some of tasks performed automatically by QuickApps CMS during the un/instalaltion process, as well as some tasks
+that modules should consider during these process.
+
+
+During Installation
+-------------------
+
+#### Tasks performed automatically by QuickApps CMS
+
+* Checks module folder/files consistency.
+* Checks version compatibilities.
+* Checks dependencies.
+* Generate module ACO tree.
+* Register module on `modules` table.
+* Regenerate related caches.
+
+### Common tasks which modules may do
+
+* Create new tables on Database.
+* Add new blocks.
+* Add new menus.
+* Add links to an existing menu.
+* Add new variables to the ´variables´ table
+
+During Uninstallation
+---------------------
+
+#### Tasks performed automatically by QuickApps CMS
+
+The following tasks are automatically performed by QuickApps CMS during an uninstallation process:
+
+* Remove all related [ACOs and AROs](http://book.cakephp.org/2.0/en/core-libraries/components/access-control-lists.html#understanding-how-acl-works)
+* Remove all menus created by the module during installation.
+* Remove all Content Types defined by the module during installation.
+* Remove all Blocks defined by the module during installation.
+* Unregister module from the `modules` table.
+* Regenerate related caches.
+
+
+### Tasks that should be performed automatically each module
+
+The following task should be performed by the module during the uninstallations process.  
+The best place to perform all this is on `afterUninstall` or `beforeUninstall` [callbacks](#installcomponentphp).
+
+* Remove all related Database tables.
+* Remove all defined variables from the `variables` table.
+
+In general, your module should remove anything that is not automatically removed by QuickApps CMS.
