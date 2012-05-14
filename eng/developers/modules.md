@@ -3,7 +3,9 @@ Module names
 
 Module have two names:
 
-* **machine name**: Used internally by QuickApps CMS, must always be in CamelCase format, e.g.: `ModuleName`. 
+* **machine name**: Used internally by QuickApps CMS, must always be in CamelCase format, e.g.: `ModuleName`.  
+	Basically, it's the name of the folder of the module. For example, the machine name of the core module `QuickApps` is actually `System`,
+	and its folder can be found in _QuickApps/Plugin/**System**_
 * **human name**: Human redable name, e.g.: `My Module Name`
 
 
