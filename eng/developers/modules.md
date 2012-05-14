@@ -6,7 +6,7 @@ Module have two names:
 * **machine name**: Used internally by QuickApps CMS, must always be in CamelCase format, e.g.: `ModuleName`.  
 	Basically, it's the name of the folder of the module. For example, the machine name of the core module `QuickApps` is actually `System`,
 	and its folder can be found in _QuickApps/Plugin/**System**_
-* **human name**: Human redable name, e.g.: `My Module Name`
+* **human name**: Human readable name, e.g.: `My Module Name`
 
 
 Banned Names
@@ -86,11 +86,11 @@ Example, for a module named as `MyHotModule` the `MyHotModule.yaml` should be cr
 Explanation
 -----------
 
-* **name (required)** human readble name of your module. For example, "Hot Module"
+* **name (required)** human readable name of your module. For example, "Hot Module"
 * **description (required)** a brief description about your module
 * **category (required)** used to group modules together as fieldsets on the module administration display.
 * **version (required)** version of your module. e.g.: 1.0, 1.3.1.
-* **core (required)** indicates the minimun QuickApps version required to install your module, for example: 
+* **core (required)** indicates the minimum QuickApps version required to install your module, for example: 
     * 1.x means any branch of version 1.0, 
     * 1.0 means that your module can only be installed on QuickApps v1.0 
 * **dependencies (optional)** indicates that your module depends on other modules to be installed, if any of the listed modules is not installed then your module can not be installed. In the example above:
@@ -100,8 +100,8 @@ Explanation
 Permissions
 ===========
 
-By default QuickApps CMS generate permissions tree (/admin/user/permissions/) by parsing each Module's controller folder. Each leaf of this 
-tree is named as the name of the module, controller or method that represent.
+By default QuickApps CMS generates a permissions tree (/admin/user/permissions/) by parsing each Module's controller folder. Each leaf of this 
+tree is named as the name of the module, controller or method that it represents.
 
 For example, if you have a module named `HotModule`, which has a controller class named `HotController` which has two methods on it named `do_hot_stuff` & `do_cold_stuff`.
 The following tree will be created by default:
@@ -112,7 +112,7 @@ The following tree will be created by default:
         * do_cold_stuff
 
 Well, this structure does not say much. What does `do_hot_stuff` actually do ?  
-Whould be nice to write a brief description about what this method do, or even better, change its name for a more descriptive one.
+Whould be nice to write a brief description about what this method does, or even better, change its name for a more descriptive one.
 
 By using the **Permissions.yaml** file you can overwrite names and create descriptions for both controllers and methods.
 
@@ -135,15 +135,15 @@ YAML structure
             hidden:true
         ....
 
-If you set `hidden:true` the leaf (controller or method) will not display on the tree.
+If you set `hidden:true` the leaf (controller or method) will not be displayed in the tree.
 
 
 Creating permissions presets
 ----------------------------
 
-Some times overwriting controller's name and method names is not enough. Some times the permissions tree may become difficult to understand when 
-your module has to many controllers, or to many methods on its controllers.  
-To solve this QuickApps allows you to create permissions presets. A preset is a collection of methods from one or many controllers.
+Sometimes overwriting the controllers name and method names is not enough. Sometimes the permissions tree may become difficult to understand when 
+your module has too many controllers, or too many methods on its controllers.  
+To solve this, QuickApps allows you to create permissions presets. A preset is a collection of methods from one or many controllers.
 
     Preset:
         administer_blocks:
@@ -163,8 +163,8 @@ To solve this QuickApps allows you to create permissions presets. A preset is a 
 The Un/Installation Process
 ===========================
 
-The following, describes some of the tasks automatically performed by QuickApps CMS during the un/instalaltion process, as well as some tasks
-that modules should consider during these process.
+The following describes some of the tasks automatically performed by QuickApps CMS during the un/installation process, as well as some tasks
+that modules should consider during these processes.
 
 
 During Installation
@@ -202,8 +202,8 @@ During Uninstallation
 
 ### Tasks to consider by module
 
-The following task should be performed by the module during the uninstallations process.  
-The best place to perform all this is on `afterUninstall` or `beforeUninstall` [callbacks](#installcomponentphp).
+The following tasks should be performed by the module during the uninstallation process.  
+The best place to perform these tasks is on `afterUninstall` or `beforeUninstall` [callbacks](#installcomponentphp).
 
 * Remove all related Database tables.
 * Remove all defined variables from the `variables` table.
