@@ -70,8 +70,8 @@ All **theme associated modules** MUST prefix its name by `Theme` word in order t
 In the example above `ThemeMyThemeName` is the associated module to theme `MyThemeName`.
 
 
-MyThemeName.yaml
-================
+Configuration YAML
+==================
 
 Themes -same as modules- *must* define a configuration .yml file containing all the information about it, such as Theme name, available
 regions, author, etc. This .yaml file must be named same as your theme machine name.  
@@ -107,15 +107,14 @@ For example, if your theme machine name is `BlueSky` then `BlueSky.yaml` should 
 
 ##### Explanation
 
-* **admin (optional)**: Set to `true` if it is a backend theme, or false (or unset) for frontend theme.
-* **name (required)**: Human readable name of your theme, example 'Soft Lights'
+* **admin (optional)**: set to `true` if it is a backend theme, or false (or unset) for frontend theme.
+* **name (required)**: human readable name of your theme, example 'Soft Lights'
 * **description (optional)**: a brief description about your theme, example: 'Inspired by my dorm lights'
 * **version (optional)**: you can give your theme whatever version string makes sense, e.g.: 1.0, 1.0, etc.
 * **core (required)**: version of QuickApps CMS, example: 1.x means any branch of QuickApps CMS v1.0
 * **author (optional)**: theme's author information
 * **dependencies (optional)**: required modules used by your theme.
-* **stylesheets (optional)**: css files to load always this theme is used, each css collection must be
-							  grouped by media types.
+* **stylesheets (optional)**: css files to load always this theme is used, each css collection must be grouped by media types.
 
     ###### Example:
 
@@ -124,15 +123,16 @@ For example, if your theme machine name is `BlueSky` then `BlueSky.yaml` should 
         <link rel="stylesheet" type="text/css" href="/theme/MyThemeName/css/reset.css" media="all" />
         <link rel="stylesheet" type="text/css" href="/theme/MyThemeName/css/styles.css" media="all" />
 
-* **javascripts (optional)**: js files/code to include always in your layout head.
-						      There are two groups available, `file` and `inline`.
+* **javascripts (optional)**: js files/code to include always in your layout head. There are two groups available, `file` and `inline`.
 
 	###### Example:
 
 	`file: [some_file.js, shadowbox/shadowbox.js]` will produce the HTML below (in your layout header):
 
+	```
     <script type="text/javascript" src="/theme/MyThemeName/js/some_file.js"></script>
     <script type="text/javascript" src="/theme/MyThemeName/js/shadowbox/shadowbox.js"></script>
+	```
 
 	`inline: ['alert("this is an inline js code");']` will produce the HTML below (in your layout header):
 	
@@ -146,13 +146,9 @@ For example, if your theme machine name is `BlueSky` then `BlueSky.yaml` should 
     </script>
 	```
 
-*	**regions (required)**:
-		Theme authors can define and implement any number of `regions` for content to be
-		rendered into. Backend themes (admin: true) **must** always define both `help` and `toolbar` regions.
-*	**layout (required)**:
-		Default .ctp file to use as layout. This must be located in `View/Layouts` folder of your theme.
-*	**login_layout (optional)**:
-		Valid only for backend themes (admin: true). Layout to use for the login screen, if not set `login.ctp` will be used by default.
+* **regions (required)**: theme authors can define and implement any number of `regions` for content to be rendered into. Backend themes (admin: true) **must** always define both `help` and `toolbar` regions.
+* **layout (required)**: default .ctp file to use as layout. This must be located in `View/Layouts` folder of your theme.
+* **login_layout (optional)**: valid only for backend themes (admin: true). Layout to use for the login screen, if not set `login.ctp` will be used by default.
 
 
 Rendering Elements
@@ -160,7 +156,7 @@ Rendering Elements
 
 QuickApps incorporates a number of `default elements` responsible for various rendering tasks, such as Menu, Blocks, etc.  
 Themes may overwrite these elements and modify the way they are rendered.  
-To overwrite any of this elements simply create the element under `View/Elements` folder of your theme.
+To overwrite any of this elements simply create adn replicate the element under the `View/Elements` folder of the theme.
 
 * **theme_block.ctp:** Block rendering
 * **theme_breadcrumb.ctp:** Breadcrumbs rendering
@@ -393,11 +389,11 @@ where [type] is the machine readable name of the content type.
 * **node_page.ctp**: Layout for `Basic Page` node type only.
 
 
-Advanced Themes
-===============
+Advanced Theme Settings
+=======================
 
 By using your theme's associated Module you can add extra features to your themes.  
-For example, allow to users change theme's width.
+For example, allow users to change theme's width.
 
 To add extra fields to your theme settings form, you have to create the following file:
 
@@ -410,8 +406,8 @@ To add extra fields to your theme settings form, you have to create the followin
                         settings.ctp
 
 
-Themes are registed in the system as Modules. And every module is allowed to store in database their own settings parameters
-(All modules information is stored in the `modules` table).  
+Themes are registed in the system as Modules. And every module is allowed to store in database their own settings parameters (All modules
+information is stored in the `modules` table).  
 Module's settings parametters are stored in the `settings` column of the `modules` table.
 
 
@@ -425,10 +421,8 @@ Module's settings parametters are stored in the `settings` column of the `module
 The code above will create two text boxes where user may introduce values.  
 Now you can read these values in any view or layout of your theme:
 
-
     Configure::read('Theme.settings.my_theme_color');
     Configure::read('Theme.settings.theme_width');
-
 
 Now for example, now you may want to adjust layout width based on the width introduced by the user.
 
