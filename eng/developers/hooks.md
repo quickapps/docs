@@ -195,8 +195,8 @@ The following hooks can be invoked from any **controller** using the `hook()` me
 * authorize_alter()
 
 ### Node Module
-* node_search_scope_alter()
-* node_search_keys_alter()
+* node_search_criteria_alter()
+* node_search_post_alter()
 
 ### User Module
 * before_login()
