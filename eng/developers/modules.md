@@ -52,18 +52,41 @@ Install Component
 Each module may define custom logic to be executed before/after module has been installed/uninstalled, or before/after module has been enabled/disabled.
 All this is performed by using callbacks methods in the `Install Component`:
 
-    beforeInstall($Installer);   // Return a non-true result halt the install operation.
-    afterInstall($Installer);    // Called after each successful install operation.
+    beforeInstall();   // Return a non-true result halt the install operation.
+    afterInstall();    // Called after each successful install operation.
 
-    beforeUninstall($Installer); // Return a non-true result halt the uninstall operation.
-    afterUninstall($Installer);  // Called after each successful uninstall operation.
+    beforeUninstall(); // Return a non-true result halt the uninstall operation.
+    afterUninstall();  // Called after each successful uninstall operation.
 
-    beforeEnable($Installer);    // Return a non-true result halt the enable operation.
-    afterEnable($Installer);     // Called after each successful enable operation.
+    beforeEnable();    // Return a non-true result halt the enable operation.
+    afterEnable();     // Called after each successful enable operation.
 
-    beforeDisable($Installer);   // Return a non-true result halt the disable operation.
-    afterDisable($Installer);    // Called after each successful disable operation.
+    beforeDisable();   // Return a non-true result halt the disable operation.
+    afterDisable();    // Called after each successful disable operation.
 
+
+You can access the utility class instance **Installer** Component from any part of your **Install** Component by using `$this->Installer`.  
+The Installer Component provides a set of useful methods such as SQL query, etc. 
+
+
+##### For example
+
+    public function afterInstall() {
+        // Some other logic here ...
+
+		$this->Installer->sql("
+            CREATE TABLE IF NOT EXISTS `#__table_name` 
+            (`id` int(11) NOT NULL AUTO_INCREMENT) 
+            ENGINE=MyISAM 
+            DEFAULT 
+            CHARSET=utf8 
+            COLLATE=utf8_unicode_ci 
+            AUTO_INCREMENT=1;
+        ");
+	}
+
+The code below will register a new table schema in DB after module is successfully installed.  
+(The `#__` word is automatically replaced by DB prefix. Check the API for more information)
 
 Configuration YAML
 ==================
