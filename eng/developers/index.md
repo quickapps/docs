@@ -4,6 +4,7 @@
 * [QuickApps CLI](quickapps-cli.md)
 * [Hooks](hooks.md)
 * [Hooktags](hooktags.md)
+* [Blocks](blocks.md)
 * [Packaging](packaging.md)
 * [SiteApp](site-app.md)
 * [Multi-site Installation](multisite-installation.md)
