@@ -250,51 +250,52 @@ Instance callbacks
 
 This hooks callbacks are fired when Field instances are being attached to entities, or when Field are being detached, deleted, etc.
 
-- [field_name]_before_delete_instance(&$Entity) [required/optional]
+- `[field_name]_before_delete_instance(&$Entity)` [required/optional \**]
 	- **when**: before field instance is deleted
 	- **description**: put any logic that need to be executed before an instance is deleted. e.g.: remove temporaly files/folders
 	- **return**: return a non-true value to halt the operation
 
-- [field_name]_after_delete_instance(&$Entity) [required/optional]
+- `[field_name]_after_delete_instance(&$Entity)` [required/optional \**]
 	- **when**: after field has been deleted
 	- **description**: put any logic that need to be executed after an instance is deleted. e.g.: remove temporaly files/folders
 	- **return**: void
 
-- [field_name]_before_validate_instance(&$Entity) [optional]
+- `[field_name]_before_validate_instance(&$Entity)` [optional]
 	- **when**: before validate the field instance
 	- **description**: here fields may validate if the entered instance settings are valid
 	- **return**: return a non-true value to halt the operation
 
-- [field_name]_before_save_instance(&$Entity) [optional]
+- `[field_name]_before_save_instance(&$Entity)` [optional]
 	- **when**: before field is attached to entity
 	- **description**: any logic to be executed before a field instance is created. e.g: create temporaly files/folders
 	- **return**: return a non-true value to halt the operation
 
-- [field_name]_after_save_instance(&$Entity) [optional]
+- `[field_name]_after_save_instance(&$Entity)` [optional]
 	- **when**: after field has been attached to entity
 	- **description**: any logic to be executed after a field instance is created. e.g: create temporaly files/folders
 	- **return**: void
 
-- [field_name]_before_move_instance(&$moveParameters) [optional]
+- `[field_name]_before_move_instance(&$moveParameters)` [optional]
 	- **when**: before field instance is moved (reordered) within an entity
 	- **description**: any logic to be executed, field may alter the moving parameters
 	- **return**: void
 
-- [field_name]_after_move_instance(&$move_parametters) [optional]
+- `[field_name]_after_move_instance(&$move_parametters)` [optional]
 	- **when**: after field instance was moved (reordered) within an entity
 	- **description**: any logic to be executed, alter the moving parameters will have not effect here
 	- **return**: void
 
-- [field_name]_before_set_view_modes($FieldInstance) [optional]
+- `[field_name]_before_set_view_modes($FieldInstance)` [optional]
 	- **when**: before `view modes` are modified within an entity
 	- **description**: any logic to be executed
 	- **return**: void
 
-- [field_name]_after_set_view_modes(&$FieldInstance) [optional]
+- `[field_name]_after_set_view_modes(&$FieldInstance)` [optional]
 	- **when**: after `view modes` were modified within an entity
 	- **description**: any logic to be executed
 	- **return**: void
 
+\** At least one of this methods should be defined. Fields must always remove their Field Data when a instance is deleted.
 
 Making an Entity fieldable
 ==========================
