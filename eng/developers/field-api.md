@@ -7,8 +7,8 @@ Any Model type (Node, User, etc.) can use the Field API to make itself "fieldabl
 The Field API defines two primary data structures, Field and Instance. A **Field** defines a particular type of data that can be attached to
 Models. A **Field Instance** is a Field attached to a single Model.
 
-Internally, fields behave -functionally- like modules (cake's plugin), and they are responsible of manage the storing proccess of specific data. 
-As before, they behave -functionally- like modules, means they may have hooks and all what a regular module has.
+Internally, Fields behave -functionally- like modules (cake's plugin), and they are responsible of manage the storing proccess of specific data. 
+As before, they behave -functionally- like modules, means they may have hooks and all what a regular module has.  
 
 Fields belongs always to modules, and modules are allowed to define an unlimeted number of fields by placing them on the `Fields` folder.  
 For example, the core module `Taxonomy` owns the field `TaxonomyTerms` in `QuickApps/Plugins/Taxonomy/Fields/TaxonomyTerms`.
@@ -17,23 +17,40 @@ Most of the Fields included in the core of QuickApps belongs to the `Field` modu
 
 ***
 
-Field are supposed to store information. **Field data** is usually stored in DB tables, QuickApps CMS provides a basic storage table called `field_data`,
-though, each field is able to define its own storing system (usually extra tables in DB).  
-Also, each field's data-element (row in the table) must have an unique ID in that storing system, and such data is associated to an unique Model record.
+Field are supposed to store information. **Field info** is usually stored in DB tables, QuickApps CMS provides a basic storage table named 
+`field_data`, though, each field is able to define its own storing system (commonly extra tables in DB).  
+Also, each field's info-element (record in the storage system) must have an unique ID in that storage system, and such data is associated to
+an unique Model record.
 
-For example, the core field `FieldText` uses the `field_data` table to store all the information users write on its instances. Each piece of
+An example. The core field `FieldText` uses the `field_data` table to store all the information users write on its instances. Each piece of
 information has a unique ID on the `field_data` table.
+
+Anyway, is important you to understand that Fields may implement any kind of storage system, this means using DB tables is not required. For
+example, some Field may have decided to implement a storage system using a file-cache based system using CakePHP's Cache system.
+
+***
+
+**Basically**, and in common words, Fields allows you to dynamically "expand" your table columns. For example, if you need to store User's phone,
+what you do is simply attach a Field to User entity to hold this information, and in this way there is need to alter User's schema.
+
+
+####### Glossary
+
+-	Entity: Model, commonly a table in your database. e.g.: an `users` table
+-	Field: A particular module responsible of manage the storing proccess of specific data.
+-	Field instance: Field attached to a single Entity.
+-	Storage system: Where fields stores all the info of its instances.
+-	Field's info: A paricular piece of data which belongs to a unique entity record.
 
 
 Understanding Entity-Field relations
 ====================================
 
-
 Entity -> hasMany -> Field Instances:
 -------------------------------------
 
-Entities (models) may have multiple instances of the same field handler.  
-e.g.: User model may define two fields, `last name` and `age`, both represented by a textbox, means that each field (last name and age) is an instance
+Entities may have multiple instances of the same Field.  
+e.g.: The User entity may define two additional fields, `last name` and `age`, both represented by a textbox, means that each field (last name and age) is an instance
 of the same Field handler `FieldText`.
 
 
@@ -45,7 +62,7 @@ diferent Entity records.
 e.g.: the instance `last name` for User entity may have many records of data **but each** `last name` actually belong to diferent users.
 
 
-Entity -> Field Instance -> hasOne -> Field Data:
+Entity's Field Instance -> hasOne -> Field Data:
 -------------------------------------------------
 
 When retrieving Entity records, all its extra fields are captured (instances data).  
