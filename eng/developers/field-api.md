@@ -96,6 +96,11 @@ array $instance:
             -	type (string): The type of the display formatter, or 'hidden' for no display.
             -	settings (array): A sub-array of key/value pairs of display options specific to the formatter.
             -	ordering (int): The weight of the field relative to the other entity components displayed in this view mode.
+        -	some_view_mode (array): A sub-array of key/value pairs describing the display options to be used when the field is being displayed in the
+			'some_view_mode' view mode:
+		    -	...
+        -	other_mode:
+            -	...
 
 
 Creating fields
