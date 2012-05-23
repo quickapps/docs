@@ -252,12 +252,12 @@ This hooks callbacks are fired when Field instances are being attached to entiti
 
 - `[field_name]_before_delete_instance(&$Entity)` [required/optional \**]
 	- **when**: before field instance is deleted
-	- **description**: put any logic that need to be executed before an instance is deleted. e.g.: remove temporaly files/folders
+	- **description**: here is where Fields may remove from their storage system all the data related to the instance being removed.
 	- **return**: return a non-true value to halt the operation
 
 - `[field_name]_after_delete_instance(&$Entity)` [required/optional \**]
 	- **when**: after field has been deleted
-	- **description**: put any logic that need to be executed after an instance is deleted. e.g.: remove temporaly files/folders
+	- **description**: here is where Fields may remove from their storage system all the data related to the instance being removed.
 	- **return**: void
 
 - `[field_name]_before_validate_instance(&$Entity)` [optional]
