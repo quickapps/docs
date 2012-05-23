@@ -280,7 +280,7 @@ This hooks callbacks are fired when Field instances are being attached to entiti
 	- **description**: any logic to be executed, field may alter the moving parameters
 	- **return**: void
 
-- `[field_name]_after_move_instance(&$move_parametters)` [optional]
+- `[field_name]_after_move_instance($moveParameters)` [optional]
 	- **when**: after field instance was moved (reordered) within an entity
 	- **description**: any logic to be executed, alter the moving parameters will have not effect here
 	- **return**: void
@@ -290,7 +290,7 @@ This hooks callbacks are fired when Field instances are being attached to entiti
 	- **description**: any logic to be executed
 	- **return**: void
 
-- `[field_name]_after_set_view_modes(&$FieldInstance)` [optional]
+- `[field_name]_after_set_view_modes($FieldInstance)` [optional]
 	- **when**: after `view modes` were modified within an entity
 	- **description**: any logic to be executed
 	- **return**: void
