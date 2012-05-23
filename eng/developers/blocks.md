@@ -183,13 +183,13 @@ An this element may looks as follow:
 
 ###### Since 1.1
 
-Since 1.1 you MUST simply create a View element containing all the form inputs, now there is **no hook callback**, the name of this element
+Since 1.1 you may simply create a View element containing all the form inputs, in this way there is **no need to define a hook callback**, the name of this element
 must formatted as follow:
 
 > delta + "_block_settings"
 
-In our example, the following view element MUST be created instead the hook method:
+In our example, if the following view element exists it will be used instead of the hook callback:
 
 > /User/View/Elements/whos_online_block_settings.ctp
 
-And its content is exactly the same as before.
+And its content should be exactly the same as before.
