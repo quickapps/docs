@@ -120,7 +120,8 @@ be placed in the View/Elements directory of each Field.
 Field Data POST structure
 =========================
 
-Each field MUST always POST its information following the structure below:
+Field MUST always POST Entity's data following the structure below, after post information is sent several hook callbacks are automatically
+fired by QuickApps in order to process this data:
 
     data[FieldData][<field_name>][<field_instance_id>][data]
     data[FieldData][<field_name>][<field_instance_id>][id]
@@ -165,15 +166,19 @@ debug($this->data) should looks:
 Capturing POST and saving data
 ==============================
 
-Capturing field's data and saving process are performed by using Model hooks callbacks (Behaviors Hooks).  
-In this process there are two diferent callbacks types, `Entity callbacks`, related to Model entities (User, Node, etc).  
-And `Instance callbacks`, related to Field (at/de)tachment process.
+After POST is sent several hooks are fired to indicate to each Field they must process Entity's data.  
+Capturing Field Data and saving process are performed by using Model hooks callbacks (Behaviors Hooks).  
+Also you must know that Fields may recibe two receive callbacks types:
+
+- `Entity callbacks`: related to Entities. e.g.: before/after an Entity is saved.
+- `Instance callbacks`: related to Field (at/de)tachment process.
 
 
 Entity callbacks
 ----------------
 
-This hooks callbacks are fired before/after each `fieldable` entity's callbacks.
+This hooks callbacks are fired before/after each `fieldable` Entity's callbacks.  
+Consult CakePHP book for more information about "Model callbacks".
 
 - `[field_name]_before_find($info)` [optional]
     - **when**: after entity find query
@@ -243,17 +248,52 @@ e.g: When updating/creating a new User, all field's data must be saved after the
 Instance callbacks
 ------------------
 
-This hooks callbacks are fired when field instances are being attached to entities, or when field is being detached, deleted, etc.
+This hooks callbacks are fired when Field instances are being attached to entities, or when Field are being detached, deleted, etc.
 
-- [field_name]_before_delete_instance(&$FieldModel) [required/optional]: (at least one of (before/after) must be defined).
-- [field_name]_after_delete_instance(&$FieldModel) [required/optional]: (at least one of (before/after) must be defined).
-- [field_name]_before_validate_instance(&$FieldModel) [optional]: before validate the field instance being saved (attached to entity).
-- [field_name]_before_save_instance(&$FieldModel) [optional]: before field is attached to entity.
-- [field_name]_after_save_instance(&$FieldModel) [optional]: after field has been attached to entity.
-- [field_name]_before_move_instance(&$move_parametters) [optional]: before field instance is moved (reordered) within an entity.
-- [field_name]_after_move_instance(&$move_parametters) [optional]: after field instance was moved (reordered) within an entity.
-- [field_name]_before_set_view_modes(&$field_record) [optional]: before `view modes` are modified within an entity.
-- [field_name]_after_set_view_modes(&$field_record) [optional]: after `view modes` were modified within an entity.
+- [field_name]_before_delete_instance(&$Entity) [required/optional]
+	- **when**: before field instance is deleted
+	- **description**: put any logic that need to be executed before an instance is deleted. e.g.: remove temporaly files/folders
+	- **return**: return a non-true value to halt the operation
+
+- [field_name]_after_delete_instance(&$Entity) [required/optional]
+	- **when**: after field has been deleted
+	- **description**: put any logic that need to be executed after an instance is deleted. e.g.: remove temporaly files/folders
+	- **return**: void
+
+- [field_name]_before_validate_instance(&$Entity) [optional]
+	- **when**: before validate the field instance
+	- **description**: here fields may validate if the entered instance settings are valid
+	- **return**: return a non-true value to halt the operation
+
+- [field_name]_before_save_instance(&$Entity) [optional]
+	- **when**: before field is attached to entity
+	- **description**: any logic to be executed before a field instance is created. e.g: create temporaly files/folders
+	- **return**: return a non-true value to halt the operation
+
+- [field_name]_after_save_instance(&$Entity) [optional]
+	- **when**: after field has been attached to entity
+	- **description**: any logic to be executed after a field instance is created. e.g: create temporaly files/folders
+	- **return**: void
+
+- [field_name]_before_move_instance(&$moveParameters) [optional]
+	- **when**: before field instance is moved (reordered) within an entity
+	- **description**: any logic to be executed, field may alter the moving parameters
+	- **return**: void
+
+- [field_name]_after_move_instance(&$move_parametters) [optional]
+	- **when**: after field instance was moved (reordered) within an entity
+	- **description**: any logic to be executed, alter the moving parameters will have not effect here
+	- **return**: void
+
+- [field_name]_before_set_view_modes($FieldInstance) [optional]
+	- **when**: before `view modes` are modified within an entity
+	- **description**: any logic to be executed
+	- **return**: void
+
+- [field_name]_after_set_view_modes(&$FieldInstance) [optional]
+	- **when**: after `view modes` were modified within an entity
+	- **description**: any logic to be executed
+	- **return**: void
 
 
 Making an Entity fieldable
