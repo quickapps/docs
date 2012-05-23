@@ -50,25 +50,25 @@ Entity -> hasMany -> Field Instances:
 -------------------------------------
 
 Entities may have multiple instances of the same Field.  
-e.g.: The User entity may define two additional fields, `last name` and `age`, both represented by a textbox, means that each field (last name and age) is an instance
-of the same Field handler `FieldText`.
+e.g.: The User entity may define two additional fields, `last name` and `age`, both represented by a textbox, means that each field
+(last name and age) is an instance of the same Field: `FieldText`.
 
 
 Field Instance -> hasMany -> Field Data:
 ----------------------------------------
 
-Obviously each instance may have multiple data records in its storage system, **BUT** each of this data records (Field Data) belongs to
-diferent Entity records.  
-e.g.: the instance `last name` for User entity may have many records of data **but each** `last name` actually belong to diferent users.
+Obviously each instance may have multiple records of data in its storage system, **BUT** is important to understand that each of this
+data records (Field Data) belongs to diferent Entity records.  
+e.g.: The `last name` instance in the example above may have many records of data **but each** `last name` actually belong to diferent users.
 
 
 Entity's Field Instance -> hasOne -> Field Data:
 -------------------------------------------------
 
-When retrieving Entity records, all its extra fields are captured (instances data).  
-Therefore each of this instances has ONLY ONE related data to each Entity record.  
-e.g.: when editing a User, his/her `last name` field must have only one value, even though the field instance has many data records in its
-storage system. (explanation above).
+When retrieving Entity records, the infromation of all its Field instances are captuted.
+Therefore each of this instances has ONLY ONE piece data Glossary to each Entity record.  
+e.g.: When editing a User, his/her `last name` field must have only one value, even though the Field instance has many data records in its
+storage system.
 
 
 Creating Fields
@@ -83,11 +83,11 @@ As modules, Field names must be always in CamelCase, e.g.:
 - `MyModuleNameImageAlbum`: valid, `ImageAlbum` field belongs to `MyModuleName` module
 
 The files/folders structure of Fields is the same [structure used by modules](modules.md#structure).  
-**The only difference** is on the YAML file:
 
-
-YAML file structure
+Configuration YAML
 -------------------
+
+Same as in modules, Fields must define a configuration:
 
     name: Human readable name
     description: Brief description about your Field
@@ -103,6 +103,18 @@ YAML file structure
     * Positive integer value: Indicates the max number of instances.
     * Zero (0): Indicates that field can not be attached to any Entity.
 * **entity_types (array):** _Optional_ list of entity types that may hold instances of this field. If empty or not specified, the field can have instances in any entity type.
+
+
+Required View Elements
+-----------------------
+
+Fields must define certain view elements reponsable of several task such as render edit form, render field data, etc. All those elements must
+be placed in the View/Elements directory of each Field.
+
+- view.ctp: responsible of render the field data.
+- edit.ctp: responsible of render form inputs required when editing an Entity.
+- formatter.ctp: form inputs for display modes.
+- settings.ctp: form inputs for Field instance settings.
 
 
 Field POST structure
