@@ -12,8 +12,8 @@ administration screen. From this screen, it is possible to control whether each 
 control the visibility of blocks on each page.
 
 
-The Blocks Table
-----------------
+The "blocks" table
+------------------
 
 Internally, a block is simply a record in the `blocks` table, each time a Custom Blocks is created in the administer blocks area a new records is
 added to this table. Modules may create Widget Blocks during the installation process as well by adding new records to this table.  
@@ -101,7 +101,7 @@ Also, if the returning value is a **string instead of array** it will be used as
 
 
 
-Creating Blocks During Module Installation
+Creating blocks during module installation
 ------------------------------------------
 
 A common action performed by modules is the creation of new blocks during the installation process. For example, an User module may
@@ -145,7 +145,7 @@ Returning to our User module example, this module's [Install Component](modules.
 We recommend you to read the API for more information about `createBlock()`
 
 
-Adding Custom Options To Widget Blocks
+Adding custom options to Widget Blocks
 --------------------------------------
 
 Now you may want to add a span of special options related to your block, this options may affect the way block content is rendered or
@@ -153,7 +153,7 @@ change its behavior. All these extra-options's information must be stored in the
 
 In our User module and its "WHo's online" block example we had added the `show_limit` option. This option should be accessible by administrator so they can
 change the amount of user, for example, from 10 to 5.  
-QuickApps uses the following hook callback to ask for block's extra from fields, this hook method should return a HTML string containing
+QuickApps uses the following hook callback to ask for block's extra form fields, this hook method should return a HTML string containing
 all the form input elements that can be tweaked by administrators:
 
 > module + "_" + delta + "_settings"

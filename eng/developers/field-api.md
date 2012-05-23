@@ -71,7 +71,7 @@ e.g.: When editing a User, his/her `last name` field must have only one value, e
 storage system.
 
 
-Creating Fields
+Creating fields
 ===============
 
 Because Fields behave -functionally- as modules, their names must be prefixed by the name of their parent module in order to avoid name collisions
@@ -105,7 +105,7 @@ Same as in modules, Fields must define a configuration:
 * **entity_types (array):** _Optional_ list of entity types that may hold instances of this field. If empty or not specified, the field can have instances in any entity type.
 
 
-Required View Elements
+Required view elements
 -----------------------
 
 Fields must define certain view elements reponsable of several task such as render edit form, render field data, etc. All those elements must
@@ -117,8 +117,8 @@ be placed in the View/Elements directory of each Field.
 - settings.ctp: form inputs for Field instance settings.
 
 
-Field POST structure
-====================
+Field Data POST structure
+=========================
 
 Each field MUST always POST its information following the structure below:
 
@@ -256,7 +256,7 @@ This hooks callbacks are fired when field instances are being attached to entiti
 - [field_name]_after_set_view_modes(&$field_record) [optional]: after `view modes` were modified within an entity.
 
 
-Making an Entity Fieldable
+Making an Entity fieldable
 ==========================
 
 Simply by attaching the `Fieldable Behavior` to any model will make it fieldable.
@@ -283,7 +283,7 @@ After you have attached the Fieldable Behavior to your model, you can start atta
 - `field_module`: Name of the field handler that handle this instance. e.g.: 'FiledText'.
 
 
-Making Field's Data Searchable
+Making Field's data searchable
 ==============================
 
 Indexing Field's content allow nodes to be located by any of the words in any of its fields.
