@@ -17,7 +17,7 @@ Most of the Fields included in the core of QuickApps belongs to the `Field` modu
 
 ***
 
-Field are supposed to store information. **Field info** is usually stored in DB tables, QuickApps CMS provides a basic storage table named 
+Field are supposed to store information. **Field data** is usually stored in DB tables, QuickApps CMS provides a basic storage table named 
 `field_data`, though, each field is able to define its own storing system (commonly extra tables in DB).  
 Also, each field's info-element (record in the storage system) must have an unique ID in that storage system, and such data is associated to
 an unique Model record.
@@ -34,13 +34,13 @@ example, some Field may have decided to implement a storage system using a file-
 what you do is simply attach a Field to User entity to hold this information, and in this way there is need to alter User's schema.
 
 
-####### Glossary
+###### Glossary
 
 -	Entity: Model, commonly a table in your database. e.g.: an `users` table
 -	Field: A particular module responsible of manage the storing proccess of specific data.
 -	Field instance: Field attached to a single Entity.
 -	Storage system: Where fields stores all the info of its instances.
--	Field's info: A paricular piece of data which belongs to a unique entity record.
+-	Field data: A paricular piece of data which belongs to a unique entity record and managed by a Field.
 
 
 Understanding Entity-Field relations
