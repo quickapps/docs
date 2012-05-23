@@ -71,6 +71,33 @@ e.g.: When editing a User, his/her `last name` field must have only one value, e
 storage system.
 
 
+Field instances
+===============
+
+Field instance definitions are represented as an array of key/value pairs.
+
+array $instance:
+
+-	id (int): The primary identifier of the field instance. It is assigned automatically by QuickApps.
+-	name (string): The name of the field attached to entity. Must be unique and under_scored. e.g.: user_name
+-	label (string): A human-readable label for the field.
+-	description (string): A human-readable description for the field. For example, the description will be the help text each instance.
+-	required (int): TRUE if a value for this field is required, FALSE otherwise.
+-	ordering (int): The weight of the widget relative to the other elements in entity edit forms.
+-	settings (array): An array of key/value pairs of field-type-specific instance settings. Each field type module defines and documents its
+	own instance settings.
+    -	display (array): A sub-array of key/value pairs identifying the way field values should be displayed in each of the entity type's view
+		modes, plus the 'default' mode. For each view mode, QuickApps lets site administrators define whether they want to use a dedicated set
+		of display options or the 'default' options to reduce the number of displays to maintain as they add new fields. 
+        -	default (array): A sub-array of key/value pairs describing the display options to be used when the field is being displayed in view
+			modes that are not configured to use dedicated display options:
+            -	label (string): Position of the label. 'inline', 'above' and 'hidden' are the values recognized by the default 'field' theme
+						implementation.
+            -	type (string): The type of the display formatter, or 'hidden' for no display.
+            -	settings (array): A sub-array of key/value pairs of display options specific to the formatter.
+            -	ordering (int): The weight of the field relative to the other entity components displayed in this view mode.
+
+
 Creating fields
 ===============
 
