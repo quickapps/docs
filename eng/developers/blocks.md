@@ -86,7 +86,7 @@ The returning value of this method may be an associative array with two keys:
 
 ###### Since 1.1
 
-If the the module has created the view element `[delta]_block` it will be automatically used as block body, in this case there is **no need to define a hook**
+If the module has created the view element `[delta]_block` it will be automatically used as block body, in this case there is **no need to define a hook**
 method. For the Categories example, if the following file exists it will be used as the body of the block and there is no need to define the
 "taxonomy_vocabularies" hook method:
 
@@ -175,7 +175,7 @@ In the code above we are simply rendering an element which contains all the form
 > /User/View/Elements/settings_for_whos_online.ctp
 
 
-An this element may looks as follow:
+And this element may looks as follow:
 
     // User/View/Elements/settings_for_whos_online.ctp
     echo $this->Form->input('Block.settings.show_limit');
