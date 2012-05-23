@@ -3,9 +3,11 @@ Hooktags
 
 A `Hooktag` is a QuickApps-specific code that lets you do nifty things with very little effort.  
 Hooktags can for example print current language code/name/nativeName or call especifics modules/themes functions.  
-For example, block module has the 'block' hooktag which will print out the indicated block by id:
+For example, the Block module has the 'block' hooktag which will print out the indicated block by id:
 
     [block id=1 /] 
+
+Wherever you write (node content for example) the code above, and if hooktags are allowed, it will be replaced by the HTML block code.
 
 
 Creating Hooktags
@@ -58,6 +60,6 @@ Now you are able to use it in any Node's contents, or wherever hooktags are allo
 
 > [content_box color=green]Lorem ipsum dolor[/content_box]
 
-The above will print out the following HTML code:
+Wherever you place the code above it will replaced by the following HTML code:
 
     <div class="dialog-green">Lorem ipsum dolor</div>
