@@ -103,8 +103,8 @@ array $instance:
             -	...
 
 
-Creating fields
-===============
+Field Names
+===========
 
 Because Fields behave -functionally- as modules, their names must be prefixed by the name of their parent module in order to avoid name collisions
 between other modules in the system.  
@@ -114,12 +114,17 @@ As modules, Field names must be always in CamelCase, e.g.:
 - `ImageAlbum`: valid, `Album` field belongs to `Image` module
 - `MyModuleNameImageAlbum`: valid, `ImageAlbum` field belongs to `MyModuleName` module
 
+
+Fields Structure
+================
+
 The files/folders structure of Fields is the same [structure used by modules](modules.md#structure).  
+
 
 Configuration YAML
 -------------------
 
-Same as in modules, Fields must define a configuration:
+Same as in modules, Fields must define a configuration file:
 
     name: Human readable name
     description: Brief description about your Field
