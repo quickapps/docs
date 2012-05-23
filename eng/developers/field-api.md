@@ -8,12 +8,12 @@ The Field API defines two primary data structures, Field and Instance. A **Field
 Models. A **Field Instance** is a Field attached to a single Model.
 
 Internally, fields behave -functionally- like modules (cake's plugin), and they are responsible of manage the storing proccess of specific data. 
-As before, they behave -functionally- like modules, this means they may have hooks and all what a regular module has.
+As before, they behave -functionally- like modules, means they may have hooks and all what a regular module has.
 
 Fields belongs always to modules, and modules are allowed to define an unlimeted number of fields by placing them on the `Fields` folder.  
 For example, the core module `Taxonomy` owns the field `TaxonomyTerms` in `QuickApps/Plugins/Taxonomy/Fields/TaxonomyTerms`.
 
-Most of the Fields included in the core of QuickApps belongs to the `Fields` module and you can find them in `QuickApps/Plugins/Field/Fields/`.
+Most of the Fields included in the core of QuickApps belongs to the `Field` module and you can find them in `QuickApps/Plugins/Field/Fields/`.
 
 ***
 
@@ -23,6 +23,35 @@ Also, each field's data-element (row in the table) must have an unique ID in tha
 
 For example, the core field `FieldText` uses the `field_data` table to store all the information users write on its instances. Each piece of
 information has a unique ID on the `field_data` table.
+
+
+Understanding Entity-Field relations
+====================================
+
+
+Entity -> hasMany -> Field Instances:
+-------------------------------------
+
+Entities (models) may have multiple instances of the same field handler.  
+e.g.: User model may define two fields, `last name` and `age`, both represented by a textbox, means that each field (last name and age) is an instance
+of the same Field handler `FieldText`.
+
+
+Field Instance -> hasMany -> Field Data:
+----------------------------------------
+
+Obviously each instance may have multiple data records in its storage system, **BUT** each of this data records (Field Data) belongs to
+diferent Entity records.  
+e.g.: the instance `last name` for User entity may have many records of data **but each** `last name` actually belong to diferent users.
+
+
+Entity -> Field Instance -> hasOne -> Field Data:
+-------------------------------------------------
+
+When retrieving Entity records, all its extra fields are captured (instances data).  
+Therefore each of this instances has ONLY ONE related data to each Entity record.  
+e.g.: when editing a User, his/her `last name` field must have only one value, even though the field instance has many data records in its
+storage system. (explanation above).
 
 
 Creating Fields
@@ -59,35 +88,6 @@ YAML file structure
 * **entity_types (array):** _Optional_ list of entity types that may hold instances of this field. If empty or not specified, the field can have instances in any entity type.
 
 
-Understanding Entity-Field relations
-====================================
-
-
-Entity -> hasMany -> Field Instances:
--------------------------------------
-
-Entities (models) may have multiple instances of the same field handler.  
-e.g.: User model may define two fields, `last name` and `age`, both represented by a textbox, means that each field (last name and age) is an instance
-of the same Field handler `FieldText`.
-
-
-Field Instance -> hasMany -> Field Data:
-----------------------------------------
-
-Obviously each instance may have multiple data records in its storage system, **BUT** each of this data records (Field Data) belongs to
-diferent Entity records.  
-e.g.: the instance `last name` for User entity may have many records of data **but each** `last name` actually belong to diferent users.
-
-
-Entity -> Field Instance -> hasOne -> Field Data:
--------------------------------------------------
-
-When retrieving Entity records, all its extra fields are captured (instances data).  
-Therefore each of this instances has ONLY ONE related data to each Entity record.  
-e.g.: when editing a User, his/her `last name` field must have only one value, even though the field instance has many data records in its
-storage system. (explanation above).
-
-
 Field POST structure
 ====================
 
@@ -97,8 +97,8 @@ Each field MUST always POST its information following the structure below:
     data[FieldData][<field_name>][<field_instance_id>][id]
 
 
-* **<field_module>:** (string) name of the field handler in CamelCase: i.e.: 'FieldTextarea', 'FieldMyField', `ParentModuleFieldName`, etc.
-* **<field_instance_id>:** (int) ID of the field instance attached to the current Model. (field instances are stored in `fields` table).
+* **\<field_module\>:** (string) name of the field handler in CamelCase: i.e.: 'FieldTextarea', 'FieldMyField', `ParentModuleFieldName`, etc.
+* **\<field_instance_id\>:** (int) ID of the field instance attached to the current Model. (field instances are stored in `fields` table).
 * **[data]:** (mixed) Field data to store. It can be simple information such as plain text or even complex arrays of mixed data.
 * **[id]:** (int) Storage ID. Unique ID for the data in the storage system implemented by the Field. **null** ID means that there is no data stored yet for this Model record and this Field instance.
 
