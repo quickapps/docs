@@ -372,16 +372,25 @@ Theming Nodes by Content Type
 To **theme individual content types** in different ways, you need to create a file `theme_node_[type].ctp` in your theme's `Elements` folder,
 where [type] is the machine readable name of the content type.
 
-### Some examples:
+### Some examples
 
 * **theme_node_article.ctp**: Theme only `Article` type nodes.
 * **theme_node_page.ctp**: Theme only `Basic Page` type nodes.
 
 ***
 
-To use **different layout for individual content types**,
-you need to create a file `node_[type].ctp` in your theme's `Layouts` folder,
-where [type] is the machine readable name of the content type.
+To *theme individual content type per view mode**, you need to create a file `theme_node_[type]_[view_mode].ctp` in your theme's `Elements`
+folder, where [view_mode] is any valid view mode, e.g. rss, full, print, etc.
+
+### Some examples
+
+* **theme_node_article_rss.ctp**: Theme only `Article` type nodes when view mode is RSS.
+* **theme_node_page_full.ctp**: Theme only `Basic Page` type nodes when view mode is FULL.
+
+***
+
+To use **different layout for individual content types**, you need to create a file `node_[type].ctp` in your theme's `Layouts` folder, where
+[type] is the machine readable name of the content type.
 
 ### Some examples:
 
