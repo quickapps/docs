@@ -7,8 +7,8 @@ Any Model type (Node, User, etc.) can use the Field API to make itself "fieldabl
 The Field API defines two primary data structures, Field and Instance. A **Field** defines a particular type of data that can be attached to
 Models. A **Field Instance** is a Field attached to a single Model.
 
-Internally, Fields behave -functionally- like modules (cake's plugin), and they are responsible of manage the storing proccess of specific data. 
-As before, they behave -functionally- like modules, means they may have hooks and all what a regular module has.  
+Internally, Fields behave -functionally- like modules (cake's plugin), and they are responsible of manage the storing proccess of specific data.
+They may have hooks and all what a regular module has.
 
 Fields belongs always to modules, and modules are allowed to define an unlimeted number of fields by placing them on the `Fields` folder.  
 For example, the core module `Taxonomy` owns the field `TaxonomyTerms` in `QuickApps/Plugins/Taxonomy/Fields/TaxonomyTerms`.
@@ -30,7 +30,7 @@ example, some Field may have decided to implement a storage system using a file-
 
 ***
 
-**Basically**, and in common words, Fields allows you to dynamically "expand" your table columns. For example, if you need to store User's phone,
+**Basically**, and in simple words, Fields allows you to dynamically "expand" your table columns. For example, if you need to store User's phone,
 what you do is simply attach a Field to User entity to hold this information, and in this way there is need to alter User's schema.
 
 
@@ -102,6 +102,9 @@ array $instance:
         -	other_mode:
             -	...
 
+			
+As you may notice, an instance is basically an entry of the `fields` table.
+
 
 Field Names
 ===========
@@ -124,7 +127,7 @@ The files/folders structure of Fields is the same [structure used by modules](mo
 Configuration YAML
 -------------------
 
-Same as in modules, Fields must define a configuration file:
+Same as modules, Fields must define a configuration file describing certain information about it self:
 
     name: Human readable name
     description: Brief description about your Field
@@ -139,26 +142,26 @@ Same as in modules, Fields must define a configuration file:
     * unset or `false` value: Indicates unlimited.
     * Positive integer value: Indicates the max number of instances.
     * Zero (0): Indicates that field can not be attached to any Entity.
-* **entity_types (array):** _Optional_ list of entity types that may hold instances of this field. If empty or not specified, the field can have instances in any entity type.
+* **entity_types (array):** _Optional_ list of entity types that may hold instances of this field. If empty or not specified, the fieldcan have instances in any entity type.
 
 
-Required view elements
+View elements
 -----------------------
 
 Fields must define certain view elements reponsable of several task such as render edit form, render field data, etc. All those elements must
-be placed in the View/Elements directory of each Field.
+be placed in the View/Elements directory of each Field. Some of this element are optional.
 
-- view.ctp: responsible of render the field data.
-- edit.ctp: responsible of render form inputs required when editing an Entity.
-- formatter.ctp: form inputs for display modes.
-- settings.ctp: form inputs for Field instance settings.
+-	view.ctp [required]: responsible of render the field data. Each time a field instance is being rendered this element is invoked.
+-	edit.ctp [required]: responsible of render form inputs required when editing an Entity.
+-	formatter.ctp [optional]: form inputs for display modes. Ued when editing Field display settings.
+-	settings.ctp [optional]: form inputs for Field instance settings. Used when editing Field common settings.
 
 
 Field Data POST structure
 =========================
 
-Field MUST always POST Entity's data following the structure below, after post information is sent several hook callbacks are automatically
-fired by QuickApps in order to process this data:
+On edit mode, the edit.ctp element is used to render Field inputs. Field Data must always follow the structure below, after
+post information is sent several hook callbacks are automatically fired by QuickApps in order to process this data:
 
     data[FieldData][<field_name>][<field_instance_id>][data]
     data[FieldData][<field_name>][<field_instance_id>][id]
@@ -170,7 +173,9 @@ fired by QuickApps in order to process this data:
 * **[id]:** (int) Storage ID. Unique ID for the data in the storage system implemented by the Field. **null** ID means that there is no data stored yet for this Model record and this Field instance.
 
 
-#### EXAMPLE
+#### Example
+
+Lets suppose whe have created a Fiield named `FieldName`, then its edit.ctp may look as follow:
 
     <input name="data[FieldData][FieldName][2][data]" value="This info has an ID=153 and belongs to the instance ID=2 of `FieldName`" type="text" />
     <input name="data[FieldData][FieldName][2][id]" value="153" type="hidden" />
@@ -179,7 +184,7 @@ fired by QuickApps in order to process this data:
     <input name="data[FieldData][FieldName][3][id]" value="154" type="hidden" />
 
 
-debug($this->data) should looks:
+In the controller side, debug($this->data) should looks:
 
     array(
         ... // other entity's native fields (table columns)
