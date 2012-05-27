@@ -360,14 +360,14 @@ We expect to find the value for the `first_name` Field somewhere in the $john ar
 This mean that FieldText should fetch this information in the $john array somehow and somewhere. As you may guess, all this is achieved
 by using hooks, Model Hooks. The hook method (or [Entity callback](#entity-callbacks)) responsible of this is:
 
-    [field_name]_after_save(&$info)
+    [field_name]_after_find(&$info)
 
 Which must receive the $info parameter as a **reference**, so it can alter and fetch the information. The structure of the $info variables is:
 
 
     $info = array(
         [entity] => ...,	// User entity (model instance)
-        [field] => ...,		// Field instance
+        [field] => ...,		// Field instance (from `fields` table)
         [result] => ...,	// Entity record, John's record. Result of Model::find()
         [settings] => ...	// Fieldable behavior settings for the User entity
     );
@@ -387,7 +387,7 @@ Where the `field` key is the [Field Instance array](#field-instances) where Fiel
 
         /*****/
 
-        // Search Field Data based on $entity_id and $instance_id. e.g.:
+        // Search Field Data based on $entity_id and $instance_id adn fetch to "FieldData" key of the instance-array. e.g.:
         $info['field']['FieldData'] = array(
             'id' => 2,				// Storage ID
             'data' => 'John'	// The data
