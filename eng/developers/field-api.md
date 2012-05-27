@@ -76,7 +76,7 @@ Field instances
 
 Field instance definitions are represented as an array of key/value pairs.
 
-array $instance:
+array $field:
 
 -	id (int): The primary identifier of the field instance. It is assigned automatically by QuickApps.
 -	name (string): The name of the field attached to entity. Must be unique and under_scored. e.g.: user_name
@@ -92,7 +92,7 @@ array $instance:
         -	default (array): A sub-array of key/value pairs describing the display options to be used when the field is being displayed in view
 			modes that are not configured to use dedicated display options:
             -	label (string): Position of the label. 'inline', 'above' and 'hidden' are the values recognized by the default 'field' theme
-						implementation.
+				implementation.
             -	type (string): The type of the display formatter, or 'hidden' for no display.
             -	settings (array): A sub-array of key/value pairs of display options specific to the formatter.
             -	ordering (int): The weight of the field relative to the other entity components displayed in this view mode.
@@ -101,9 +101,13 @@ array $instance:
 		    -	...
         -	other_mode:
             -	...
+-	FieldData (array): Array containing field data related to Entity record. e.g.: The `first_name` of an especific User.
+    -	id (int): Storage ID
+    -	data: (mixed): The data. e.g.: The string "John" for User's `first_name`
 
-			
-As you may notice, an instance is basically an entry of the `fields` table.
+
+As you may notice, an instance is basically an entry of the `fields` table.  
+It also contains the special key `FieldData`, here is where Fields should fetch the storage data for an especific Entity record. 
 
 
 Field Names
@@ -136,25 +140,27 @@ Same as modules, Fields must define a configuration file describing certain info
         - Node
         - User
 
-* **name (string):** Readable name of your Field.
-* **description (string):** Description about your Field.
-* **max_instances (mixed):** _Optional_ parameter. Indicates how many instances of this field that Entities may have.
-    * unset or `false` value: Indicates unlimited.
-    * Positive integer value: Indicates the max number of instances.
-    * Zero (0): Indicates that field can not be attached to any Entity.
-* **entity_types (array):** _Optional_ list of entity types that may hold instances of this field. If empty or not specified, the fieldcan have instances in any entity type.
+
+*	**name (string):** Readable name of your Field.
+*	**description (string):** Description about your Field.
+*	**max_instances (mixed):** _Optional_ parameter. Indicates how many instances of this field that Entities may have.
+    -	unset or `false` value: Indicates unlimited.
+    -	Positive integer value: Indicates the max number of instances.
+    -	Zero (0): Indicates that field can not be attached to any Entity.
+*	**entity_types (array):** _Optional_ list of entity types that may hold instances of this field. If empty or not specified, the fieldcan
+	have instances in any entity type.
 
 
 View elements
------------------------
+-------------
 
-Fields must define certain view elements reponsable of several task such as render edit form, render field data, etc. All those elements must
+Fields may define certain view elements reponsable of several task such as render edit form, render field data, etc. All those elements must
 be placed in the View/Elements directory of each Field. Some of this element are optional.
 
--	view.ctp [required]: responsible of render the field data. Each time a field instance is being rendered this element is invoked.
+-	view.ctp [required]: responsible of render the field data. Each time a field instance is being rendered as part of an Entity this element is invoked.
 -	edit.ctp [required]: responsible of render form inputs required when editing an Entity.
--	formatter.ctp [optional]: form inputs for display modes. Ued when editing Field display settings.
--	settings.ctp [optional]: form inputs for Field instance settings. Used when editing Field common settings.
+-	formatter.ctp [optional]: form inputs for display modes. Used when editing Field display settings.
+-	settings.ctp [optional]: form inputs for Field instance settings. Used when editing Field instance settings.
 
 
 Field Data POST structure
@@ -167,10 +173,11 @@ post information is sent several hook callbacks are automatically fired by Quick
     data[FieldData][<field_name>][<field_instance_id>][id]
 
 
-* **\<field_module\>:** (string) name of the field handler in CamelCase: i.e.: 'FieldTextarea', 'FieldMyField', `ParentModuleFieldName`, etc.
-* **\<field_instance_id\>:** (int) ID of the field instance attached to the current Model. (field instances are stored in `fields` table).
-* **[data]:** (mixed) Field data to store. It can be simple information such as plain text or even complex arrays of mixed data.
-* **[id]:** (int) Storage ID. Unique ID for the data in the storage system implemented by the Field. **null** ID means that there is no data stored yet for this Model record and this Field instance.
+*	**\<field_module\>:** (string) name of the field handler in CamelCase: i.e.: 'FieldTextarea', 'FieldMyField', `ParentModuleFieldName`, etc.
+*	**\<field_instance_id\>:** (int) ID of the field instance attached to the current Model. (field instances are stored in `fields` table).
+*	**[data]:** (mixed) Field data to store. It can be simple information such as plain text or even complex arrays of mixed data.
+*	**[id]:** (int) Storage ID. Unique ID for the data in the storage system implemented by the Field. **null** ID means that there is no
+	data stored yet for this Model record and this Field instance.
 
 
 #### Example
@@ -273,10 +280,10 @@ Consult CakePHP book for more information about "Model callbacks".
 
  * (Model) **entity**: Instance of Model that Field is attached to.
  * (array) **query**: SQL query (only on `before_find`)
- * (array) **field**: Field instance information
+ * (array) **field**: Field instance information (record from the `fields` table)
  * (integer) **field_id**: Field instance ID (only on `before_validate`, `after_save`, `before_delete`, `after_delete`)
  * (boolean) **created**: TRUE if entity record has been created. FALSE if it was updated. (only on `after_save`)
- * (boolean) **result**: Entity row of array results (only on `after_find`)
+ * (boolean) **result**: Entity row from array results (only on `after_find`)
  * (array) **settings**: Entity fieldable-settings array
 
 
@@ -338,6 +345,55 @@ This hooks callbacks are fired when Field instances are being attached to entiti
 	- **return**: void
 
 \** At least one of this methods should be defined. Fields must always remove their Field Data when a instance is deleted.
+
+
+Fetching Field data to Entity records
+=====================================
+
+Lets suppose we have added the `first_name` Field to the User Entity, and this will be managed by the FieldText Field.
+Now FieldText should take care of fetching the `first_name` for each User on Model::find() operation.  
+For example, if we do something like this at Controller level:
+
+    $john = $this->User->findById(1);
+
+We expect to find the value for the `first_name` Field somewhere in the $john array.  
+This mean that FieldText should fetch this information in the $john array somehow and somewhere. As you may guess, all this is achieved
+by using hooks, Model Hooks. The hook method (or [Entity callback](#entity-callbacks)) responsible of this is:
+
+    [field_name]_after_save(&$info)
+
+Which must receive the $info parameter as a **reference**, so it can alter and fetch the information. The structure of the $info variables is:
+
+
+    $info = array(
+        [entity] => ...,	// User entity (model instance)
+        [field] => ...,		// Field instance
+        [result] => ...,	// Entity record, John's record. Result of Model::find()
+        [settings] => ...	// Fieldable behavior settings for the User entity
+    );
+
+
+Where the `field` key is the [Field Instance array](#field-instances) where FieldText must fetch Field Data. For example:
+
+    public function field_text_after_save(&$info) {
+        // ID for the given entity record
+        $entity_id = $info['result'][$info['entity']->alias][$info['entity']->primaryKey];
+
+        // Or since v1.1 you can simply use:
+        $entity_id = $info['entity_id'];
+
+        // Instance ID
+        $instance_id = $info['field']['id'];
+
+        /*****/
+
+        // Search Field Data based on $entity_id and $instance_id. e.g.:
+        $info['field']['FieldData'] = array(
+            'id' => 2,				// Storage ID
+            'data' => 'John'	// The data
+        )
+    }
+
 
 Making an Entity fieldable
 ==========================
