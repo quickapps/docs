@@ -63,9 +63,19 @@ Some useful built-in Hooktags are:
     It accepts both: numeric time stamp or english formatted date 
     (Year-month-day Hours:Mins:Secs) as second parameter.
 ***
-    [date=FORMAT] 
+    [date=FORMAT]
     
     Returns php result of date(FORMAT). (http://www.php.net/manual/function.date.php)
+***
+    [rand={values,by,comma}]
+
+    Returns a radom value from the specified group. e.g.: [rand=one,two,three]  
+	If only two NUMERIC values are given as group, then PHP function rand(num1, num2) is returned. e.g.: [rand=3,10]
+***
+    [Layout.PATH]
+
+    Get any value from `Layout` variable. e.g.: [Layout.display] gets current display mode.  
+	If path does not exists then '' (empty) is rendered instead the hooktag code.
 
 
 Managing modules

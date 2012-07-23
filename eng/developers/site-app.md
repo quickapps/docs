@@ -38,7 +38,8 @@ The above will produce the mentioned issue when accessing the url `http://www.do
 #### Mother of god, Why ? why ?!
 
 Your controller class is extending QACMS's `AppController` class which by default checks access permissions on every request.  
-Also, as your controller is not a module or any valid script recognizable by QACMS you are not allowd to set permissions to it in the _Permissions section_ of the backoffice (/admin/user/permissions).
+Also, as your controller is not a module or any valid script recognizable by QACMS you are not allowed to set permissions to it in the
+_Permissions section_ of the backoffice (/admin/user/permissions).
 
 #### Solution
 
@@ -57,7 +58,7 @@ There are two soultions,
         }
     }
 
-2-	Do not extend QACMS's `AppController`, extend `Controller` instead. By doing this your controller will be isolated from QACMS and will work completely independent.
+2-	Do not extend QACMS's `AppController`, extend `Controller` instead. By doing this your controller will be isolated from QACMS and willwork completely independent.
 	If your controller does not use any of the QACMS features then this is your solution. Use solution number one otherwise.
 
     class CustomControllerNameController extends Controller {
