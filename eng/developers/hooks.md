@@ -98,7 +98,7 @@ If you need to invoke a hook from the view layer you can access to the `hook()` 
 
 ### CORE
 
-*Layour related hooks*
+*Layout related hooks*
 
 * stylesheets_alter()
 * javascripts_alter()
@@ -114,8 +114,9 @@ If you need to invoke a hook from the view layer you can access to the `hook()` 
 * block_alter()
 * after_render_block()
 * special_tags_alter()
+* breadcrumb_alter()
 
-*Form element related hooks*
+*Form elements related hooks*
 
 * form_file_alter()
 * form_create_alter()
