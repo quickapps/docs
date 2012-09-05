@@ -32,16 +32,17 @@ EXAMPLE
 Imagine that you wanted to set up QACMS to work as follows:
 
 * QACMS libraries will be placed in: `/usr/lib/qa_core`
-* Web site directory will be: `/var/www/mysite/`
+* Peter's website directory will be: `/var/www/peter_site/`
+* John's website directory will be: `/var/www/john_site/`
 
 
-1.- You must modify your `webroot/index.php` file:
+1.- You must modify `/var/www/peter_site/webroot/index.php` & `/var/www/john_site/webroot/index.php` files:
 
     define('QA_PATH', '/usr/lib/qa_core');
 
-2.- Your `/var/www/mysite/` directory should looks as follows:
+2.- Both `/var/www/peter_site/` and `/var/www/john_site/ directories should looks as follows:
 
-* /var/www/mysite/
+* /var/www/\<peter_site|john_site\>/
     * Config/
     * Hooks/
     * Locale/
@@ -53,4 +54,6 @@ Imagine that you wanted to set up QACMS to work as follows:
     * .htaccess
     * README.mdown
 
-And that is all!
+And that is all!.  
+Peter and John are using only one copy of QuickApps CMS's core to run their websites. This has several adventages such as
+reduced disk space ocupancy or easy updating of QuickApps CMS's core, etc.
