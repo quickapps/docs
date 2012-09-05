@@ -5,6 +5,7 @@
 * [Hooks](hooks.md)
 * [Hooktags](hooktags.md)
 * [Blocks](blocks.md)
+* [Display Modes](display-modes.md)
 * [jQueryUI](jquery-ui.md)
 * [Search Engine](search-egine.md)
 * [Packaging](packaging.md)
