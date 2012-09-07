@@ -103,13 +103,77 @@ NOTE: Loading multiple presets at once is *not allowed*
 You can both define new presets or overwrite existing ones. To do this should use the `definePreset` method as follow:
 
     // Passing libraries as an array list
-	$this->jQuery->definePreset('preset_name', array('ui.core', 'ui.widget'));
+	$this->jQueryUI->definePreset('preset_name', array('ui.core', 'ui.widget'));
 
 	// You can pass libraries as an array list or as arguments:
-	$this->jQuery->definePreset('preset_name', 'ui.core', 'ui.widget');
+	$this->jQueryUI->definePreset('preset_name', 'ui.core', 'ui.widget');
 
 The first argument, `preset_name`, is the underscored name of your preset that you will use to attach it when using it:
 
-    $this->jQuery->attach('preset_name');
+    $this->jQueryUI->attach('preset_name');
 	
+
 ### Attaching UI themes
+
+Similar as libraries, you can attach themes to your applications. It works in a similar: it loads in the css stack all the CSS styles for the specified
+jQueryUI theme.
+
+jQuery themes can be placed in your site webroot directory, or module's webroot directory. For instance, the System module owns the
+´ui-lightness´ jQueryUI theme, and it can be found at `QuickApps/Plugin/System/webroot/css/ui/ui-lightness`.  
+Any module is allowed to hold jQuery themes, to do this you must simply place them in `webroot/css/ui` directory of your module.
+
+Example, lets suppose you have created a module named `MyModule`, and you want it to hold the ´ui-darkness´ jQueryUI theme.  
+Then the following directory must be added to your module's webroot:
+
+    /MyModule/webroot/css/ui/ui-darkness/
+
+In a similar way, you can add jQueryUI themes to your site's webroot by placing them in the corresponding directory. In the previous
+example, you may place the `ui-darkness` theme at:
+
+    ROOT/webroot/css/ui/ui-darkness
+
+
+#### Attaching themes owned by modules
+
+For attaching a jQueryUI theme owned by some module you must simply do as follow:
+
+    $this->jQueryUI->theme('ModuleName.ui_theme_name');
+
+As you may see, you should use a Dot-Syntax to specify the theme to load from the specified module. In the example above, it will try
+to load the `ui_theme_name` owned by the `ModuleName` module. And theme's files, should be stored in:
+
+    /ModuleName/webroot/css/ui/ui_theme_name/
+
+This allows modules to implement same named UI themes (Two or more modules may own the `ui_theme_name` UI theme).
+
+
+#### Attaching themes owned by site's webroot
+
+To attach a UI theme that is placed at site's webroot, you must simply do as follow:
+
+    $this->jQueryUI->theme('ui_theme_name');
+
+The example above will load the `ui_theme_name` UI theme, **BUT** this time theme's files must be stored in:
+
+    /ROOT/webroot/css/ui/
+
+#### Theme auto-detect
+
+    $this->jQueryUI->theme();
+
+When invoking the `theme()` method with no parameters (as above), it will try to:
+
+1. Use global parameter `jQueryUI.default_theme`.
+2. Use `System.ui-lightness` otherwise.
+
+
+#### Default theme
+
+You can define the global parameter `jQueryUI.default_theme` in your site's bootstrap.php to indicate the default theme to use.
+
+    Configure::write('jQueryUI.default_theme', 'flick');
+
+In the example above. The `flick` theme will be used by default if no arguments is passed:
+
+    // will load `jQueryUI.default_theme`, as it was defined as default before
+    $this->jQueryUI->theme();
