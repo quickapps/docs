@@ -171,6 +171,7 @@ When invoking the `theme()` method with no parameters (as above), it will try to
 
 You can define the global parameter `jQueryUI.default_theme` in your site's bootstrap.php to indicate the default theme to use.
 
+    // ROOT/Config/bootstrap.php
     Configure::write('jQueryUI.default_theme', 'flick');
 
 In the example above. The `flick` theme will be used by default if no arguments is passed:
