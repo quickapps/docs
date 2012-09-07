@@ -34,14 +34,14 @@ This means that attaching an effect or theme after the stack has been rendered i
 		<?php $this->jQueryUI->attach('effects.blind'); ?>
 	</body>
 
-The example above **will not work** because the effect is being attached after the javascript strick has been rendered in layout's header.
+The example above **will not work** because the effect is being attached after the javascript stack has been rendered in layout's header.
 
 ---
 
 	
 ### Attaching individual libraries
 
-For attaching a jQueryUI libraries you must simply do as follow:
+For attaching a jQueryUI library you must simply do as follow:
 
     $this->jQueryUI->attach('effects.blind');
 	
@@ -51,7 +51,7 @@ You can load multiple libraries at once by passing them as arguments:
 	
 ---
 
-To load all the libraries at once you can use the both the special word `all`, or simply use the attach() method with no arguments:
+To load all the libraries at once you can use both the special word `all` or simply use the attach() method with no arguments:
 
     $this->jQueryUI->attach('all');
 	// or
@@ -67,7 +67,7 @@ The required ui.core file is automatically included, as is effects.core if you i
 ### Attaching presets
 
 The jQueryUI class includes by default some useful UI presets. A preset is basically a collection of individual libraries that can be
-attach at the same time. Included presets are:
+attached at the same time. Included presets are:
 
 *Interactions*:
 
@@ -100,7 +100,7 @@ NOTE: Loading multiple presets at once is *not allowed*
 
 ### Defining presets
 
-You can both create new presets or overwrite existing ones. To do this should use the `definePreset` method as follow:
+You can both define new presets or overwrite existing ones. To do this should use the `definePreset` method as follow:
 
     // Passing libraries as an array list
 	$this->jQuery->definePreset('preset_name', array('ui.core', 'ui.widget'));
@@ -108,7 +108,7 @@ You can both create new presets or overwrite existing ones. To do this should us
 	// You can pass libraries as an array list or as arguments:
 	$this->jQuery->definePreset('preset_name', 'ui.core', 'ui.widget');
 
-The first argument, `preset_name`, is the underscore name of your preset that you will use to attach it when using it:
+The first argument, `preset_name`, is the underscored name of your preset that you will use to attach it when using it:
 
     $this->jQuery->attach('preset_name');
 	
