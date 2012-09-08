@@ -54,7 +54,7 @@ As you may see, Display Modes information is represented as follow:
 
 ---
 
-You may also need get information for a specific Display Mode only in a given group, in that case you should use a Dot-Syntax:
+You may also need get information for a specific Display Mode only of a given group, in that case you should use a Dot-Syntax:
 
     QuickApps::displayModes('Node.default');
     // output:
