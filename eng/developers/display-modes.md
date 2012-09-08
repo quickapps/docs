@@ -19,9 +19,11 @@ Each field in QuickApps CMS provides one or more ways of collecting data from us
 
 Each Entity may define it own set of display modes, by default QuickApps CMS v1.1 includes the following display modes:
 
-Entity		Display Modes
-Node		Default, Full, List, RSS, Print
-User		Default, User Profile
+| Entity | Display Modes                   |
+|:-------|:--------------------------------|
+|Node    |Default, Full, List, RSS, Print  |
+|User    |Default, User Profile            |
+
 
 For example, when a Node (content item) is being rendered as part of a search result (List) the `List` display mode is activated.
 
