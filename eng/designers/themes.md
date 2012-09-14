@@ -256,11 +256,14 @@ The code below will render out all blocks assigned to the region `my-theme-regio
 Now, for example you would like to show certain area/region of your theme only if there are blocks availables to show on it, this allows you
 for example hide the left column of your layout if there are no blocks to show on it and use all the available width for the rest of your content.
 
-    <?php if (!$this->Block->regionIsEmpty('my-theme-region')): ?>
+    <?php if ($this->Block->regionCount('my-theme-region')): ?>
         <div class="left-column">
             <?php echo $this->Block->region('my-theme-region'); ?>
         </div>
     <?php endif; ?>
+
+
+Note: The `regionCount()` method returns the number of blocks assigned to the specified region.
 
 
 Rendering The Main Content
