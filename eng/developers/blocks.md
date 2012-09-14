@@ -2,9 +2,9 @@ Blocks
 ======
 
 Blocks are the boxes of content visible in various area of your Themes.  
-There are two type of blocks in the system:
+QuickApps CMS defines two type of blocks:
 
-- Widget Blocks: Those generated on-the-fly (or created) by various modules
+- Widget Blocks: Those generated on-the-fly (or created) by various modules/themes
 - Custom Blocks: Those created in the administer blocks area (/admin/block/manage)
 
 Block may appear on a page depending on both the theme and on administrative block settings. Block settings are controlled from the block
@@ -37,9 +37,11 @@ This table holds the following attributes:
 Widget Blocks
 -------------
 
-The rendering process of both Custom Blocks and Menu Blocks are internally managed by QuickApps CMS. But Widget Blocks rendering must be
-handled by the module from which the block originates. This is achieved using _View Hooks_, each time a Widget Block is being
-rendered QuickApps ask for its content using a hook callback which must be aswered by the module which registered the block.  
+The rendering process of both Custom Blocks and Menu Blocks are internally managed by QuickApps CMS.
+
+But Widget Blocks rendering must be handled by the module from which the block originates. This is achieved using _View Hooks_, each
+time a Widget Block is being rendered QuickApps ask for its content using a hook callback which must be aswered by the module which
+registered the block.  
 The name of this hook is formatted as follow:
 
 > module + "_" + delta
@@ -64,6 +66,7 @@ But as you know, hook names must always be **under_scored**:
 
 And this hook method may look as follow:
 
+    // Plugin/Taxonomy/View/Helper/TaxonomyHookHelper.php
     class TaxonomyHookHelper extends Apphelper {
         public function taxonomy_vocabularies($block_info) {
 			return array(
@@ -81,10 +84,7 @@ The returning value of this method may be an associative array with two keys:
 - body: Block's content body.
 
 
-***
-
-
-###### Since 1.1
+###### Since v1.1
 
 If the module has created the view element `[delta]_block` it will be automatically used as block body, in this case there is **no need to define a hook**
 method. For the Categories example, if the following file exists it will be used as the body of the block and there is no need to define the
@@ -123,6 +123,7 @@ You can manually create a new block by addind a new record in the `blocks` table
 
 As you see, we have optionally added the `show_limit` parameter to the block's settings array. This can be used later by the block to
 limit the amount of users to display in the list of logged in users.
+
 
 ###### Since 1.1
 

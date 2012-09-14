@@ -6,7 +6,7 @@ Translating QuickApps CMS
 * Identify your language code from the list below.
 * Create a new folder `/Locale/xxx/LC_MESSAGES/`, where xxx is a three letters language code.
 * Make a copy of the Portable Object **Template** `default.pot` to the folder above.
-* Rename your `default.pot` copy to `default.po`.
+* Rename your `default.pot` to `default.po`.
 * Translate your `default.po`.
 * Pull your work.
 
@@ -17,7 +17,7 @@ You can translate your .po file using a common text editor, or a gettext editor 
 Example
 -------
 
-If you want to translte QuickApps CMS to `Albanian` you must create and translate the folowwing file:
+If you want to translte QuickApps CMS to `Albanian` you must create and translate the folowing file:
 
     |- Locale/
       |- alb/

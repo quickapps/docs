@@ -10,7 +10,7 @@ Custom ZIP packages
 
 Simply compress your theme/module folder as zip. Your module/theme folder should be on the root of your ZIP.
 
-e.g.: If you have created a theme named `HotTheme` then your ZIP should looks as follows:
+e.g. If you have created a theme named `HotTheme` then your ZIP should looks as follows:
 
     HotTheme.zip/
         HotTheme/
@@ -37,10 +37,10 @@ e.g.: If you have created a module named `MyModule`, the name of your GitHub Rep
 
 #### STEP 2
 
-Your GitHub Repo represent your module/theme folder.  
-This means that your Repo root must contain the files and folders of your module/theme.
+Your GitHub Repo represent your module/theme root folder.  
+This means your Repo root must contain the files and folders of your module/theme.
 
-e.g.: If you have created a module named `MyModule`, your GitHub Repository should looks:
+e.g. If you have created a module named `MyModule`, your GitHub Repository should looks:
 
     // https://github.com/your_account_name/QACMS-MyModule
 
@@ -54,4 +54,5 @@ e.g.: If you have created a module named `MyModule`, your GitHub Repository shou
 
 
 And that is all!.  
-Now you are able to download your module/theme repo as ZIP by using GitHub's zipball functionality.
+Now you are able to download your module/theme repo as ZIP by using GitHub's zipball functionality. Or even easier, you can simply
+copy the download URL and use to install directly in the module installation section of your site ("Install From URL").

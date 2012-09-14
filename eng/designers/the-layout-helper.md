@@ -5,4 +5,4 @@ Although this document may be related more to developers than designers, it's hi
 
 We recommend you to read the official API for more information about this Helper class:
 
-* **1.1**: http://api.quickappscms.org/1.1/class-LayoutHelper.html
+* **1.1**: http://api.quickappscms.org/1.1
