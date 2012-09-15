@@ -191,7 +191,6 @@ The following hooks can be invoked from any **controller** using the `hook()` me
 ### CORE
 * stylesheets_alter()
 * javascripts_alter()
-* blocks_alter()
 * authenticate_alter()
 * authorize_alter()
 
