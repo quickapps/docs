@@ -3,7 +3,7 @@
 * [Modules](modules.md)
 * [Blocks](blocks.md)
 * [Display Modes](display-modes.md)
-* [Search Engine](search-egine.md)
+* [Search Engine](search-engine.md)
 * [Field CCK API](field-api.md)
 * [jQueryUI](jquery-ui.md)
 * [Hooktags](hooktags.md)

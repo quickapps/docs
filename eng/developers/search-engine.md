@@ -1,8 +1,11 @@
 Search Engine
 =============
 
-http://www.your-domain.com/search/{seach-query}  
-The search engine system lets users search for specific nodes on your site for particular words.
+The search engine system lets users search for specific nodes on your site for particular words, a search request looks as below:  
+
+    http://www.your-domain.com/search/[seach-query]
+
+Where [search-query] may contain one or more of the following keywords.
 
 
 Keywords
@@ -58,14 +61,14 @@ Show nodes in: English or French or Spanish
 	language:eng,fre,spa
 	
 Show nodes in any language
-	
+
     language:*
 
 ---
 
 ### type
 Show nodes of the specified type only. Multiple IDs must be separated by comma. 
-	
+
 ##### USAGE
 Show nodes of type `artcile` or `page` only
 	
