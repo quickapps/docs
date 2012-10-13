@@ -114,3 +114,123 @@ You can speicfy both user's ID or user's Email. Multiple authors must be saparat
 
 ##### USAGE
 	author:1,user@email.com,26
+
+
+***
+
+
+
+CCK Fields Search API
+=====================
+
+Since in v1.1 QuickApps CMS allows you to perform `find` conditions on any Fieldable Entity's CCK Field.  
+For instance, lets suppose we have an User Fieldable Entity with three CCK Fields:
+
+- User's Birthdate: field_user_birthdate
+- User's Phone: field_user_phone
+- User's Country: field_user_coutry
+
+Note: field_user_birthdate, field_user_phone & field_user_coutry are the machine-names of each CCK Field.
+
+Now for example, we would like to search all users where phone matches `948 xxx xxx`. In your controller:
+
+    public $uses = array('User.User');
+    ...
+    $this->User->find('all',
+		array(
+			'conditions' => array(
+				'User.:field_user_phone LIKE' => '948 ___ ___'
+			)
+		)
+	);
+
+Dot syntax is optional, the code below will produce the same result:
+
+    $this->User->find('all',
+		array(
+			'conditions' => array(
+				':field_user_phone LIKE' => '948 ___ ___'
+			)
+		)
+	);
+
+As you see you must simply prefix field's machine-name with the `:` symbol to tell QuickApps that this fields is a CCK Field.
+
+
+## Tips & Tricks
+
+Internally QuickApps CMS organizes all entity's searchable data grouping them by CCK Field Handler.  
+For instance, in our User example above. User has three CCK Fields `phone` & `country` that are handled
+by the same Field Handler `FieldText`, and `birthdate` handled by `FieldDate`. Means `phone` and `country` holds
+the same type of information which is handler by `FieldText`.  
+Now, for the User example QuicKApps CMS will organize all CCK sercheable-data for each User as follow:
+
+
+-	FieldText:
+	-	field_user_phone: 948 123 321
+	-	field_user_coutry: Utopian
+-	FieldDate:
+	-	field_user_birthdate: 1350095433
+-	...
+
+
+(The information above represent the searchable data for a particular user.)
+
+
+##### Search by Field-Hanlder
+
+	$this->User->find('all',
+		array(
+			'conditions' => array(
+				'User.:FieldText LIKE' => '%something%'
+			)
+		)
+	);
+
+The above will search over any instance of FieldText. In the User example, it will search the `something` word 
+over `field_user_phone` and `field_user_coutry`
+
+
+##### Search on any Field-Handler
+
+	$this->User->find('all',
+		array(
+			'conditions' => array(
+				'User.: LIKE' => '%on any cck%'
+			)
+		)
+	);
+
+	OR
+
+	$this->User->find('all',
+		array(
+			'conditions' => array(
+				': LIKE' => '%on any cck%'
+			)
+		)
+	);
+
+The above will look for `on any cck` phrase on any CCK field of the user (field_user_phone, field_user_coutry, field_user_birthdate)
+
+
+##### Complex Finds
+
+Similar as in [CakePHP](http://book.cakephp.org/2.0/en/models/retrieving-your-data.html#complex-find-conditions), some complex find conditions are
+supported. e.g.:
+
+	$this->User->find('all',
+		array(
+			'conditions' => array(
+				'AND' => array(
+					'OR' => array(
+						array('User.:field_user_phone LIKE' => '948%'),
+						array('User.:field_user_phone' => '123%')
+					),
+					array('User.:field_user_coutry' => 'Utopain')
+				)
+			)
+		)
+	);
+
+Search all user that own phone numbers begining with `948` (e.g 948 600 500) or `123` (e.g. 123 555 444), and they live in Utopain country.
