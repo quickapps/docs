@@ -171,8 +171,8 @@ and one _global_ record which contains the information of every CCK Field plus E
 
 ##### Search on any Field
 
-If you need to search some word on every CCK Field, you can use the special field `::` to indicate that you are refering to the whole
-search-index-formation of the entity and not to an especifict CCK Field.
+If you need to search some words that may be on any CCK Field, you can use the special field `::` to indicate that you are refering to the whole
+search-index-information of the entity and not to an especifict CCK Field.
 
 	$this->User->find('all',
 		array(
