@@ -120,8 +120,8 @@ You can speicfy both user's ID or user's Email. Multiple authors must be saparat
 
 
 
-CCK Fields & Search API
-=======================
+CCK Search API
+==============
 
 Since v1.1, QuickApps CMS allows you to perform conditionals `find()` using any CCK Field as part of your conditions. This awesome
 behavior, allows you to use CCK Fields like a regular table-column.  
@@ -146,7 +146,7 @@ Now, lets supose we have attached three new CCK Fields to this entity.
 - User's Country: `field_user_coutry`
 
 
-Note: `field_user_age`, `field_user_phone` and `field_user_coutry` are the machine names of the CCK Fields. You can find this information
+Note: `field_user_age`, `field_user_phone` and `field_user_coutry` are the machine names of CCK Fields. You can find this information
 in the `fields` table.
 
 
