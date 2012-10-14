@@ -130,7 +130,7 @@ For instance, lets suppose we have an User Fieldable Entity with three CCK Field
 - User's Phone: field_user_phone
 - User's Country: field_user_coutry
 
-Note: field_user_birthdate, field_user_phone & field_user_coutry are the machine-names of each CCK Field.
+_Note: field_user_birthdate, field_user_phone & field_user_coutry are the machine-names of each CCK Field._
 
 Now for example, we would like to search all users where phone matches `948 xxx xxx`. In your controller:
 
@@ -139,95 +139,67 @@ Now for example, we would like to search all users where phone matches `948 xxx 
     $this->User->find('all',
 		array(
 			'conditions' => array(
-				'User.:field_user_phone LIKE' => '948 ___ ___'
+				'User.field_user_phone LIKE' => '948 ___ ___'
 			)
 		)
 	);
 
-Dot syntax is optional, the code below will produce the same result:
+***
+
+QuickApps CMS automagically detects if the specified fields is a CCK Field or not. 
+Anyway, if for some reason entity has a concrete field (those in entity's db-table) named same as the mahcine-name of any of its attached CCK fields
+then you can simply prefix CCK field's machine-name with the `:` symbol to tell QuickApps that you are refering to the CCK field. e.g.:
+
 
     $this->User->find('all',
 		array(
 			'conditions' => array(
-				':field_user_phone LIKE' => '948 ___ ___'
+				'User.:name LIKE' => '%John%'
 			)
 		)
 	);
 
-As you see you must simply prefix field's machine-name with the `:` symbol to tell QuickApps that this fields is a CCK Field.
-
+If the User's db-table has a `name` column, it will be ignored.
+	
+***
 
 ## Tips & Tricks
 
-Internally QuickApps CMS organizes all entity's searchable data grouping them by CCK Field Handler.  
-For instance, in our User example above. User has three CCK Fields `phone` & `country` that are handled
-by the same Field Handler `FieldText`, and `birthdate` handled by `FieldDate`. Means `phone` and `country` holds
-the same type of information which is handler by `FieldText`.  
-Now, for the User example QuicKApps CMS will organize all CCK sercheable-data for each User as follow:
+Internally QuickApps stores searcheable information for each CCK Field independently,
+and one _global_ record which contains the information of every CCK Field plus Entity's concrete fields.
 
 
--	FieldText:
-	-	field_user_phone: 948 123 321
-	-	field_user_coutry: Utopian
--	FieldDate:
-	-	field_user_birthdate: 1350095433
--	...
+##### Search on any Field
 
-
-(The information above represent the searchable data for a particular user.)
-
-
-##### Search by Field-Hanlder
+If you need to search some word on every CCK Field, you can use the special field `::` to indicate that you are refering to the whole
+search-index-formation of the entity and not to an especifict CCK Field.
 
 	$this->User->find('all',
 		array(
 			'conditions' => array(
-				'User.:FieldText LIKE' => '%something%'
+				'User.:: LIKE' => '%some words%'
 			)
 		)
 	);
 
-The above will search over any instance of FieldText. In the User example, it will search the `something` word 
-over `field_user_phone` and `field_user_coutry`
-
-
-##### Search on any Field-Handler
-
-	$this->User->find('all',
-		array(
-			'conditions' => array(
-				'User.: LIKE' => '%on any cck%'
-			)
-		)
-	);
-
-	OR
-
-	$this->User->find('all',
-		array(
-			'conditions' => array(
-				': LIKE' => '%on any cck%'
-			)
-		)
-	);
-
-The above will look for `on any cck` phrase on any CCK field of the user (field_user_phone, field_user_coutry, field_user_birthdate)
+In the User example. The code above will look the `some words` phrase on any CCK field of the user
+(field_user_phone, field_user_coutry, field_user_birthdate) plus User's concrete fields.
 
 
 ##### Complex Finds
 
-Similar as in [CakePHP](http://book.cakephp.org/2.0/en/models/retrieving-your-data.html#complex-find-conditions), some complex find conditions are
-supported. e.g.:
+Similar as in [CakePHP](http://book.cakephp.org/2.0/en/models/retrieving-your-data.html#complex-find-conditions), complex find conditions are
+fully supported. e.g.:
 
 	$this->User->find('all',
 		array(
 			'conditions' => array(
 				'AND' => array(
 					'OR' => array(
-						array('User.:field_user_phone LIKE' => '948%'),
-						array('User.:field_user_phone' => '123%')
+						array('User.field_user_phone LIKE' => '948%'),
+						array('User.field_user_phone' => '123%')
 					),
-					array('User.:field_user_coutry' => 'Utopain')
+					array('User.field_user_coutry' => 'Utopain')
 				)
 			)
 		)
