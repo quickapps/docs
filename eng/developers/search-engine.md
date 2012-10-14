@@ -165,7 +165,7 @@ If the User's db-table has a `name` column, it will be ignored.
 
 ## Tips & Tricks
 
-Internally QuickApps stores searcheable information for each CCK Field independently,
+Internally QuickApps stores searcheable information for each CCK Field separately,
 and one _global_ record which contains the information of every CCK Field plus Entity's concrete fields.
 
 

@@ -40,9 +40,9 @@ Imagine that you wanted to set up QACMS to work as follows:
 
     define('QA_PATH', '/usr/lib/qa_core');
 
-2.- Both `/var/www/peter_site/` and `/var/www/john_site/ directories should looks as follows:
+2.- Both `/var/www/peter_site/` and `/var/www/john_site/` directories should looks as follows:
 
-* /var/www/\<peter_site|john_site\>/
+* /var/www/peter_site | john_site/
     * Config/
     * Hooks/
     * Locale/

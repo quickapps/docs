@@ -24,7 +24,6 @@ Hook methods may accept only **one parameter**, e.g.:
 
 * `public function my_hook_method($param_1, $params_2);` Invalid, second parameter will be always unset.
 * `public function my_hook_method($param_1);` Correct.
-* `public function my_hook_method(&$param_1);` Correct, reference parameter for alter purposes.
 * `public function my_hook_method();` Correct, no parameter expected.
 
 
