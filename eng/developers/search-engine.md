@@ -120,21 +120,51 @@ You can speicfy both user's ID or user's Email. Multiple authors must be saparat
 
 
 
-CCK Fields Search API
-=====================
+CCK Fields & Search API
+=======================
 
-Since in v1.1 QuickApps CMS allows you to perform `find` conditions on any Fieldable Entity's CCK Field.  
-For instance, lets suppose we have an User Fieldable Entity with three CCK Fields:
+Since v1.1, QuickApps CMS allows you to perform conditionals `find()` using any CCK Field as part of your conditions. This awesome
+behavior, allows you to use CCK Fields like a regular table-column.  
+For instance, lets suppose we have an User entity:
 
-- User's Birthdate: field_user_birthdate
-- User's Phone: field_user_phone
-- User's Country: field_user_coutry
 
-_Note: field_user_birthdate, field_user_phone & field_user_coutry are the machine-names of each CCK Field._
+User's db-table instance may looks as below in certain moment:
 
-Now for example, we would like to search all users where phone matches `948 xxx xxx`. In your controller:
 
-    public $uses = array('User.User');
+| id | name         | last_name       | email                 |
+|:---|:-------------|:----------------|:----------------------|
+|1   |  John        | Locke           | j.locke@example.com   |
+|2   |  Kate        | Austen          | k.austen@example.com  |
+|20  |  Sayid       | Jarrah          | s.jarrah@example.com  |
+
+
+
+Now, lets supose we have attached three new CCK Fields to this entity.
+
+- User's Age: `field_user_age`
+- User's Phone: `field_user_phone`
+- User's Country: `field_user_coutry`
+
+
+Note: `field_user_age`, `field_user_phone` and `field_user_coutry` are the machine names of the CCK Fields. You can find this information
+in the `fields` table.
+
+
+The new CCK Search API allows you to perform find conditions using any of this three attached fields,
+internally your User's db-table now looks as follow (supposing that user have entered some data in these new fields):
+
+
+| id | name         | last_name       | email                 | field_user_age | field_user_phone | field_user_coutry |
+|:---|:-------------|:----------------|:----------------------|:---------------|:-----------------|:------------------|
+| 1  |  John        | Locke           | j.locke@example.com   | 50             | 123 362 458      | Utopia            |
+| 2  |  Kate        | Austen          | k.austen@example.com  | 30             | 948 158 368      | The Island        |
+| 20 |  Sayid       | Jarrah          | s.jarrah@example.com  | 40             | 948 136 745      | Utopia            |
+
+
+And now for example, you are totally able to search all users where phone matches `948 xxx xxx`.  
+In your some of your controllers controller:
+
+    public $uses = array('User');
     ...
     $this->User->find('all',
 		array(
@@ -143,6 +173,39 @@ Now for example, we would like to search all users where phone matches `948 xxx 
 			)
 		)
 	);
+
+
+Outputs:
+
+
+| id | name         | last_name       | email                 | field_user_age | field_user_phone | field_user_coutry |
+|:---|:-------------|:----------------|:----------------------|:---------------|:-----------------|:------------------|
+| 2  |  Kate        | Austen          | k.austen@example.com  | 30             | **948** 158 368  | The Island        |
+| 20 |  Sayid       | Jarrah          | s.jarrah@example.com  | 40             | **948** 136 745  | Utopia            |
+	
+
+***
+
+You can even perfom logical conditions such as `> >= < <= <>`, for example all users with `age > 30`:
+
+    public $uses = array('User');
+    ...
+    $this->User->find('all',
+		array(
+			'conditions' => array(
+				'User.field_user_age >' => 30
+			)
+		)
+	);
+
+
+Outputs:
+
+| id | name         | last_name       | email                 | field_user_age | field_user_phone | field_user_coutry |
+|:---|:-------------|:----------------|:----------------------|:---------------|:-----------------|:------------------|
+| 1  |  John        | Locke           | j.locke@example.com   | **50**         | 123 362 458      | Utopia            |
+| 20 |  Sayid       | Jarrah          | s.jarrah@example.com  | **40**         | 948 136 745      | Utopia            |
+
 
 ***
 
@@ -182,14 +245,20 @@ search-index-information of the entity and not to an especifict CCK Field.
 		)
 	);
 
-In the User example. The code above will look the `some words` phrase on any CCK field of the user
-(field_user_phone, field_user_coutry, field_user_birthdate) plus User's concrete fields.
+In the User example. The code above will look the `some words` phrase on any CCK field attached to User entity
+(field_user_phone, field_user_coutry, field_user_age), plus User's concrete fields.
 
 
 ##### Complex Finds
 
 Similar as in [CakePHP](http://book.cakephp.org/2.0/en/models/retrieving-your-data.html#complex-find-conditions), complex find conditions are
-fully supported. e.g.:
+fully supported. 
+
+
+##### For example
+
+Search all user that own phone numbers begining with `948` (e.g 948 600 500) or
+`123` (e.g. 123 555 444), and they live in `Utopia` country:
 
 	$this->User->find('all',
 		array(
@@ -205,4 +274,9 @@ fully supported. e.g.:
 		)
 	);
 
-Search all user that own phone numbers begining with `948` (e.g 948 600 500) or `123` (e.g. 123 555 444), and they live in Utopain country.
+Outputs:
+
+| id | name         | last_name       | email                 | field_user_age | field_user_phone | field_user_coutry |
+|:---|:-------------|:----------------|:----------------------|:---------------|:-----------------|:------------------|
+| 1  |  John        | Locke           | j.locke@example.com   | 50             | **123** 362 458  | **Utopia**        |
+
