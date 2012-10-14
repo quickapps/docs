@@ -3,6 +3,7 @@ QuickApps CMS Official Documentation
 
 [![QuickApps CMS](https://raw.github.com/QuickAppsCMS/QuickApps-CMS-Docs/1.x/img/logo.png)](http://www.quickappscms.org)
 
+
 Welcome to the official QuickApps CMS documentation.  
 This manual assumes that you have a general understanding of PHP and a basic understanding of object-oriented programming (OOP) and CakePHP
 framework.
