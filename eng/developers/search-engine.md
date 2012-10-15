@@ -124,7 +124,7 @@ CCK Search API
 ==============
 
 Since v1.1, QuickApps CMS allows you to perform conditionals `find()` using any CCK Field as part of your conditions. This awesome
-behavior, allows you to use CCK Fields like a regular table-column.  
+behavior allows you to use CCK Fields like a regular table-column.  
 For instance, lets suppose we have an User entity:
 
 
@@ -268,7 +268,7 @@ Search all user that own phone numbers begining with `948` (e.g 948 600 500) or
 						array('User.field_user_phone LIKE' => '948%'),
 						array('User.field_user_phone' => '123%')
 					),
-					array('User.field_user_coutry' => 'Utopain')
+					array('User.field_user_country' => 'Utopia')
 				)
 			)
 		)
