@@ -127,6 +127,7 @@ If you need to invoke a hook from the view layer you can access to the `hook()` 
 * form_label_alter()
 * form_inputs_alter()
 * form_input_alter()
+* form_help_block_alter()
 * form_checkbox_alter()
 * form_radio_alter()
 * form_textarea_alter()

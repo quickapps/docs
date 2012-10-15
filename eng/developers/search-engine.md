@@ -161,6 +161,10 @@ internally your User's db-table now looks as follow (supposing that user have en
 | 20 |  Sayid       | Jarrah          | s.jarrah@example.com  | 40             | 948 136 745      | Utopia            |
 
 
+Note: the original user's schema keeps unaltered. Attaching CCK Fields to your entities doesn't alter you table eschemas, the
+example above is a just virtualization of how your schema would looks at programing level.
+
+
 And now for example, you are totally able to search all users where phone matches `948 xxx xxx`.  
 In your some of your controllers controller:
 
