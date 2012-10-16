@@ -166,7 +166,7 @@ example above is a just virtualization of how your schema would looks at program
 
 
 And now for example, you are totally able to search all users where phone matches `948 xxx xxx`.  
-In your some of your controllers controller:
+In some of your controllers:
 
     public $uses = array('User');
     ...
@@ -270,7 +270,7 @@ Search all user that own phone numbers begining with `948` (e.g 948 600 500) or
 				'AND' => array(
 					'OR' => array(
 						array('User.field_user_phone LIKE' => '948%'),
-						array('User.field_user_phone' => '123%')
+						array('User.field_user_phone LIKE' => '123%')
 					),
 					array('User.field_user_country' => 'Utopia')
 				)
