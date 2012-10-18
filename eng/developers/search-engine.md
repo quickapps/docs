@@ -21,7 +21,7 @@ Limit the amount of results returned by the search query.
 
 ### order
 Order results by the specified field and the given direction (multiple orders must by separated by `|`).  
-**Syntax:** {Model}.{field},{direction}|...  
+**Syntax:** {Model}.{field},{direction}|{Model}.{field2},{direction}|... 
 
 ##### USAGE
 	Node.field,asc|Node.field2,desc
@@ -45,7 +45,7 @@ Filter results by vocabularies ID separed by comma.
 ---
 
 ### promote
-Set to 1 to display promoted nodes only. Zero (0) will display all unpromoted ones.  
+Set to 1 to display promoted nodes only. Zero (0) will display all unpromoted ones. 
 
 ##### USAGE
 	promote:1
@@ -59,7 +59,7 @@ Show nodes matching the given language codes separed by comma. The wildcard `*` 
 Show nodes in: English or French or Spanish
 
 	language:eng,fre,spa
-	
+
 Show nodes in any language
 
     language:*
@@ -70,8 +70,8 @@ Show nodes in any language
 Show nodes of the specified type only. Multiple IDs must be separated by comma. 
 
 ##### USAGE
-Show nodes of type `artcile` or `page` only
-	
+Show nodes of type `article` or `page` only:
+
     type:article,page
 
 ---
@@ -102,13 +102,13 @@ Show nodes created between 2008 and today:
 ---
 
 ### modified
-Same as `created`.
+Same as `created` but for modification date.
 
 ---
 
 ### author
 Show nodes created by the specified author(s).  
-You can speicfy both user's ID or user's Email. Multiple authors must be saparated by comma.  
+You can speicfy both **user's ID** or **user's e-mail**. Multiple authors must be saparated by comma.  
 
 ---
 
