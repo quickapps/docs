@@ -225,6 +225,8 @@ To solve this, QuickApps allows you to create permissions presets. A preset is a
                 Manage.admin_edit
                 Manage.admin_add
                 Manage.admin_delete
+				...
+				Controller.method
 
 
 

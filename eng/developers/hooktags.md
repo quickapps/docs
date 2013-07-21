@@ -14,7 +14,7 @@ Creating Hooktags
 =================
 
 Hooktags are Helpers methods, they may be located in each Module or Theme `HooktagsHelper` class.  
-For example, you may have a module named`HotModule`, and its Hooktag Helper class is:
+For example, you may have a module named `HotModule`, and its Hooktag Helper class is:
 
     ROOT/Modules/HotModule/View/Helper/HotModuleHooktagsHelper.php:
     class HotModuleHooktagsHelper extends AppHelper {
@@ -27,10 +27,23 @@ A hooktag handler method should accept one to three arguments:
 * **$code** (third argument): the hooktag name (only when it matches the callback name)
 
 
-Example
--------
+Attributes
+==========
 
-Lets create a hooktag for displaying content-boxes.
+The **$atts** array may include any arbitrary attributes that are specified by the user.  
+Attribute names are always converted to lowercase before they are passed into the handler function.
+Values are untouched. [some_hooktag  Foo="bAr"] produces $atts = array('foo' => 'bAr').
+
+**TIP: Don't use camelCase or UPPER-CASE for your $atts attribute names**
+
+
+---
+
+
+Example: Creating a Hooktag
+---------------------------
+
+Lets create a hooktag for displaying HTML content-boxes.
 
 Our hooktag:
 
@@ -39,7 +52,18 @@ Our hooktag:
  * Will accept a `color` parameter for specify the color of the box to render.
  * Will be handled by the module `HotModule`.
 
+
+---
+Basically our hooktag must convert the code below:
+
 > [content_box color=green]Lorem ipsum dolor[/content_box]
+
+To its HTML representation:
+
+    <div class="box-green">
+        Lorem ipsum dolor
+    </div>
+---
 
 Now we must create a hooktag handler method named `content_box`, and it should receive at least two arguments ($attr, $content).
 
