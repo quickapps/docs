@@ -13,10 +13,9 @@ Note: If you are a Wordpress user you will find that `hooktags` are Wordpress's 
 Defining Hooktags
 =================
 
-Hooktags are actually [Event Listener classes](events.md), they may be located in each Plugin or
-Theme `Event` directory and use the `Hooktag.php` suffix. 
-For example, in our `Blog` plugin example we could place a "Hooktag listener" class within Blog's
-"Event" directory as follow:
+Hooktags are actually [Event Listener classes](events.md), they may be located in each Plugin's or
+Theme's `Event` directory. For example, in our `Blog` plugin example we could place a "Hooktag listener"
+class within Blog's "Event" directory as follow:
 
     - Blog/
      |-- src/
@@ -122,8 +121,9 @@ To its HTML representation:
 As first step we must create a hooktag listener class, which would listen for `content_box`:
 
     // Blog/src/Event/BoxesHooktag.php
-    namespace Hooktag;
+    namespace Blog\Event;
     use Cake\Event\EventListener;
+    
     class BoxesHooktag implements EventListener {
         public function implementedEvents() {
             return [

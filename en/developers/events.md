@@ -41,8 +41,8 @@ Registering Listeners
 =====================
 
 Plugins are allowed to define their own event listener classes, by default QuickAppsCMS's
-will automatically load all events listeners classes suffixed with `Hook.php` within plugin's
-"Event" directory. That is, if you want your "Blog" plugin's listener classes to be automatically
+will automatically load all events listeners classes within plugin's "Event" directory.
+That is, if you want your "Blog" plugin's listener classes to be automatically
 loaded you must place these classes as follow:
 
     - Blog/
@@ -54,6 +54,8 @@ loaded you must place these classes as follow:
 
 All three classes (Listener1Hook, Listener2Hook and Listener3Hook) will be automatically loaded
 and registered on the `EventManager`.
+
+In order to keep the things dry, we add the `Hook` suffix to each class name.
 
 
 Dispatching Events
