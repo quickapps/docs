@@ -1,8 +1,6 @@
 Events
 ======
 
-## About
-
 The Events System is most important piece of QuickAppsCMS's architecture, this system allows
 plugins to communicate with each other, respond to certain events fired during execution
 of the script, etc. So for example, "User" plugin may trigger an event
@@ -13,7 +11,8 @@ NOTE: As QuickAppsCMS's events system is built on top of CakePHP's events system
 you to read their [documentation](http://book.cakephp.org/3.0/en/core-libraries/events.html).
 
 
-## Architecture
+Architecture
+============
 
 QuickAppsCMS's events system is composed of three primary elements:
 
@@ -24,19 +23,22 @@ QuickAppsCMS's events system is composed of three primary elements:
 Semantic: An Event Listener class, may listen to many Events. But a Event Handler can only
 responds to a single Event.
 
-All `Event Listener` classes must implement the `\Cake\Event\EventListener` interface
-and provide the `implementedEvents()` method. This method must return an associative array
-with all Event names that the class will handle. For example:
+All `Event Listener` classes must implement the `\Cake\Event\EventListener` interface and
+provide the `implementedEvents()` method. This method must return an associative array with
+all Event names that the class will handle. For example:
 
-	public function implementedEvents() {
-    	return [
-			'User.beforeLogin' => 'userBeforeLogin',
-			'User.afterLogin' => 'userAfterLogin',
-		];
-	}
+    public function implementedEvents() {
+        return [
+            'User.beforeLogin' => 'userBeforeLogin',
+            'User.afterLogin' => 'userAfterLogin',
+        ];
+    }
+
 Where `userBeforeLogin` and `userAfterLogin` are methods defined in the Event Listener class.
 
-## Registering Listeners
+
+Registering Listeners
+=====================
 
 Plugins are allowed to define their own event listener classes, by default QuickAppsCMS's
 will automatically load all events listeners classes suffixed with `Hook.php` within plugin's
@@ -53,23 +55,24 @@ loaded you must place these classes as follow:
 All three classes (Listener1Hook, Listener2Hook and Listener3Hook) will be automatically loaded
 and registered on the `EventManager`.
 
-## Dispatching Events
+
+Dispatching Events
+==================
 
 Once your listeners classes were automatically loaded and registered, you can now start triggering
 events and see how your listeners respond.
 
 You can trigger events within any class you wish just by using `QuickApps\Core\HooKTrait`, this trait
-will a few handy methods for triggering events. By default, this trait is automatically attached to
+will add a few handy methods for triggering events. By default, this trait is automatically attached to
 `QuickApps\Controller\Controller`, `QuickApps\View\View` & `QuickApps\View\Helper` classes. This means
 you can use this trait's methods in any controller of your plugin, in any template or within any helper.
 Of course you must extend these classes in order to inherit this methods. For example, in our "Blog" plugin
-example, we could have a `ArticlesController.php` that may looks as follow:
+example, we could have an `ArticlesController.php` that may looks as follow:
 
     namespace Blog\Controller;
     use QuickApps\Controller\Controller;
 
     class ArticlesController extends Controller {
-
     }
 
 The `QuickApps\Core\HooKTrait` trait provides the methods: `hook()`, `didHook()` and `alter()`
@@ -77,7 +80,7 @@ which are described below.
 
 ---
 
-### hook($eventName);
+### hook($eventName [, $arg0, ..., $argN, ...]);
 
 Trigger the given event name.
 You can pass an unlimited number of arguments to your event handler method.
@@ -101,7 +104,7 @@ If no context is given "$this" will be used by default.
 
 ---
 
-### didHook($eventName);
+### didHook([$eventName]);
 
 Retrieve the number of times an event was fired, or the complete list of events that
 were fired.
@@ -135,10 +138,10 @@ If no context is given "$this" will be used by default.
 ## "Hello World!" Example:
 
     // Event Listener Class
+    namespace Blog\Event;
+    use Cake\Event\EventListener;
 
-    namespace Event;
-
-    class MyEventListener extends EventListener {
+    class MyEventListener implements EventListener {
         public function implementedEvents() {
 		       return [
 		           'Alter.Hello' => 'alterWorld',
@@ -167,7 +170,8 @@ If no context is given "$this" will be used by default.
     echo $this->hook('Hello', 'hellooo'); // out: "hellooo world!"
 
 
-## Recommended Reading
+Recommended Reading
+===================
 
 As QuickAppsCMS's hook system is built on top of CakePHP's events system we highly recommend you
 to take a look at this part of CakePHP's book:

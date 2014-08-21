@@ -2,33 +2,59 @@ Hooktags
 ========
 
 A `Hooktag` is a QuickApps-specific code that lets you do nifty things with very little effort.  
-Hooktags can for example print current language code/name/nativeName or call especifics modules/themes functions.  
-For example, the Block module has the 'block' hooktag which will print out the indicated block by id:
+Hooktags can for example print current language code/name or call especifics plugin/themes functions.
+For instance, the following hooktag (in any content) would show current language's code:
 
-    [block id=1 /] 
+    [locale code /]
 
-Wherever you write (node content for example) the code above, and if hooktags are allowed, it will be replaced by the HTML block code.
+Note: If you are a Wordpress user you will find that `hooktags` are Wordpress's `shorcodes` equivalent.
 
 
-Creating Hooktags
+Defining Hooktags
 =================
 
-Hooktags are Helpers methods, they may be located in each Module or Theme `HooktagsHelper` class.  
-For example, you may have a module named `HotModule`, and its Hooktag Helper class is:
+Hooktags are actually [Event Listener classes](events.md), they may be located in each Plugin or
+Theme `Event` directory and use the `Hooktag.php` suffix. 
+For example, in our `Blog` plugin example we could place a "Hooktag listener" class within Blog's
+"Event" directory as follow:
 
-    ROOT/Modules/HotModule/View/Helper/HotModuleHooktagsHelper.php:
-    class HotModuleHooktagsHelper extends AppHelper {
+    - Blog/
+     |-- src/
+        |-- Event/
+           |-- ArticlesHooktag.php
+           |-- CommentsHooktag.php
+
+Similar as Event Listener classes, they must define which `hooktags` this class will handle using the
+`implementedEvents()` method. The only main difference between the event system and hooktag system,
+is that **Even names must be prefixed with the `Hooktag.` word", for example:
+
+    namespace MyPlugin\Event;
+    ...
+    public function implementedEvents() {
+        return [
+            'Hooktag.redBox' => 'redBox',
+            'Hooktag.blueBox' => 'blueBox',
+        ];
     }
 
-A hooktag handler method should accept one to three arguments: 
+Where `redBox` and `blueBox` are methods defined within the Event Listener class, these methods
+must except four arguments:
 
-* **$atts** (first argument): an associative array of attributes
-* **$content** (second argument): the enclosed content (if the hooktag is used in its enclosing form)
-* **$code** (third argument): the hooktag name (only when it matches the callback name)
+- **$event** (first argument): The event object that was triggered
+- **$atts** (second argument): an associative array of attributes
+- **$content** (third argument): the enclosed content (if the hooktag is used in its enclosing form)
+- **$code** (fourth argument): the hooktag name (only when it matches the callback name)
 
+For example:
 
-Attributes
-==========
+    public function redBox(\Cake\Event\Event $event, $atts, $content, $code) {
+        // logic here, and return HTML
+    }
+
+These methods are responsible of converting a hooktag (that looks as `[locale code /]`) into their HTML
+equivalent.
+
+### Attributes
 
 The **$atts** array may include any arbitrary attributes that are specified by the user.  
 Attribute names are always converted to lowercase before they are passed into the handler function.
@@ -37,53 +63,91 @@ Values are untouched. [some_hooktag  Foo="bAr"] produces $atts = array('foo' => 
 **TIP: Don't use camelCase or UPPER-CASE for your $atts attribute names**
 
 
+Parsing Hooktags
+================
+
+Once you have defined your hooktag classes is time to start converting a hooktag into HTML. To do this,
+you can use the `QuickApps\Core\HooktagTrait` trait in any class, by defaults is trait is attached to
+`QuickApps\View\View` which means **you can use hooktag functionalities in any template**. HooktagTrait
+simply adds two methods; `hooktags()` and `stripHooktags()`.
+
+Basically, `hooktags()` receives a string as only arguments and look for hooktags in the given
+text, for example, in any template you could:
+
+    echo $this->hooktags("Current language's code is: [language code /]");
+
+Depending on the current language you are navigating you will get:
+
+    Current language's code is: en-us
+
+The second method, `stripHooktags()`, simply removes all hooktags from the given text:
+
+    echo $this->stripHooktags("Current language's code is: [language code /]");
+
+Now you will get:
+
+     Current language's code is:
+
+***
+
+Important: As we mention before, Events names are prefixed with `Hooktag.` word, which means that
+`[language ...]` will trigger the `Hooktag.language` event.
+
+
 ---
 
 
-Example: Creating a Hooktag
----------------------------
+Example, Creating a Hooktag
+===========================
 
-Lets create a hooktag for displaying HTML content-boxes.
+Lets create a hooktag for displaying HTML content-boxes. We want our hooktag to be as follow:
 
-Our hooktag:
-
- * Name will be `content_box`.
- * Will use the `enclosed` form ([tag] ... [/tag]), for holding the box's content.
- * Will accept a `color` parameter for specify the color of the box to render.
- * Will be handled by the module `HotModule`.
+- Its name will be `content_box`.
+- Will use the `enclosed` form ([tag] ... [/tag]), for holding the box's content.
+- Will accept a `color` parameter for specify the color of the box to render.
+- Will be handled by the `Blog` plugin.
 
 
----
 Basically our hooktag must convert the code below:
 
 > [content_box color=green]Lorem ipsum dolor[/content_box]
 
 To its HTML representation:
 
-    <div class="box-green">
+    <div style="background-color:green;">
         Lorem ipsum dolor
     </div>
----
 
-Now we must create a hooktag handler method named `content_box`, and it should receive at least two arguments ($attr, $content).
 
-    // ROOT/Modules/HotModule/View/Helper/HotModuleHooktagsHelper.php:
-    class HotModuleHooktagsHelper extends AppHelper {
-        public function content_box($atts, $content=null, $code="") {
-            $return = '<div class="dialog-' . $atts['color'] . '>';
-            $return .= $content;
-            $return .= '</div>';
+As first step we must create a hooktag listener class, which would listen for `content_box`:
 
-            return $return;
+    // Blog/src/Event/BoxesHooktag.php
+    namespace Hooktag;
+    use Cake\Event\EventListener;
+    class BoxesHooktag implements EventListener {
+        public function implementedEvents() {
+            return [
+                'Hooktag.content_box' => 'contentBox',
+            ];
         }
     }
 
-**Usage:**
-Now you are able to use it in any Node's contents, or wherever hooktags are allowed.
+Now we must define the event handler method which should receive hooktag's information
+and convert it into HTML:
 
+        public function contentBox(Event $event, $atts, $content = null, $code = '') {
+            $return = '<div style="background-color:' . $atts['color'] . ';"';
+            $return .= $content;
+            $return .= '</div>';
+            return $return;
+        }
+
+**Usage:**
+
+Now you should be able to use the `content_box` in any Node's contents, or wherever hooktags are allowed.
 
 > [content_box color=green]Lorem ipsum dolor[/content_box]
 
 Wherever you place the code above it will replaced by the following HTML code:
 
-    <div class="dialog-green">Lorem ipsum dolor</div>
+    <div style="background-color:green;">Lorem ipsum dolor</div>
