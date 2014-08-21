@@ -6,4 +6,4 @@ This manual assumes that you have a general understanding of PHP and a basic und
 
 ## Contributing
 
-To contribute simply fork the repository at https://github.com/QuickAppsCMS/QuickApps-CMS-Docs
+To contribute simply fork the repository at https://github.com/QuickAppsCMS/docs
