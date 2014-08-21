@@ -166,13 +166,6 @@ for searches, while `extra` is intended to store sets of complex information.
 
 ***
 
-## Using this behavior
-
-Just like any other behavior, in your Table constructor attach this behavior
-as usual:
-
-    $this->attachBehavior('Field.Fieldable');
-
 ## Enable/Disable Field Attachment
 
 If for some reason you don't need custom fields to be fetched under the `_field`
