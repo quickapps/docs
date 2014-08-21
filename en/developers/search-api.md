@@ -130,7 +130,7 @@ below are equivalent:
 ### Creating Operators
 
 An `Operator` is a search-criteria command which allows you to perform very
-specific filter conditions over your queries. An operator*has two parts**,
+specific filter conditions over your queries. An operator **has two parts**,
 a `name` and its `arguments`, both parts must be separated using the `:`
 symbol e.g.:
 
@@ -138,7 +138,7 @@ symbol e.g.:
     // operator arguments are: ">2014-03-01"
     date:>2014-03-01
 
-NOTE: Operators names are treated as*lowercase_and_underscored**, so
+NOTE: Operators names are treated as **lowercase_and_underscored**, so
 `AuthorName`, `AUTHOR_NAME` or `AuThoR_naMe` are all treated as: `author_name`.
 
 You can define custom operators for your table by using the
@@ -181,7 +181,7 @@ When an operator is detected in the given search criteria but no operator
 callable was defined using `addSearchOperator()`, then
 `SearchableBehavior.operator<OperatorName>` will be fired, so other plugins
 may respond to any undefined operator. For example, given the search criteria
-below, lets suppose `date` operator*was not defined** early:
+below, lets suppose `date` operator **was not defined** early:
 
     "this phrase" author:JohnLocke date:[2013-06-06..2014-06-06]
 

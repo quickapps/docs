@@ -185,12 +185,14 @@ archived using Hook callbacks.
 Similar to Hooks and Hooktags, Field-Handlers must define a series of hook event.
 This hook events has been organized in two groups or "event subspaces":
 
--    `Field.<FieldHandler>.Entity`: For handling Entity's related events such
-     as `entity save`, `entity delete`, etc.
--    `Field.<FieldHandler>.Instance`: Related to Field Instances events, such as
-     "instance being detached from table", "new instance attached to table", etc.
+- `Field.<FieldHandler>.Entity`: For handling Entity's related events such
+   as `entity save`, `entity delete`, etc.
+- `Field.<FieldHandler>.Instance`: Related to Field Instances events, such as
+   "instance being detached from table", "new instance attached to table", etc.
 
 Below, a list of available hook events:
+
+### Entity events:
 
 - `Field.<FieldHandler>.Entity.display`: When an entity is being rendered
 - `Field.<FieldHandler>.Entity.edit`: When an entity is being rendered in `edit` mode. (backend usually)
@@ -201,6 +203,8 @@ Below, a list of available hook events:
 - `Field.<FieldHandler>.Entity.afterSave`: After entity was saved
 - `Field.<FieldHandler>.Entity.beforeDelete`: Before entity is deleted
 - `Field.<FieldHandler>.Entity.afterDelete`: After entity was deleted
+
+### Instance events:
 
 - `Field.<FieldHandler>.Instance.info`: When QuickAppsCMS asks for information about each registered Field
 - `Field.<FieldHandler>.Instance.settingsForm`: Additional settings for this field. Should define the way the values will be stored in the database.
