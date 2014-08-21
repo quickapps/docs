@@ -213,3 +213,47 @@ Below, a list of available hook events:
 - `Field.<FieldHandler>.Instance.afterAttach`: After field is attached to Tables
 - `Field.<FieldHandler>.Instance.beforeDetach`: Before field is detached from Tables
 - `Field.<FieldHandler>.Instance.afterDetach`: After field is detached from Tables
+
+
+Field API UI
+============
+
+Now you know how Field API works you might need an easy way to attach, and
+manage fields for your tables. Field plugin provides an UI (user-interface)
+for handling all this tasks, Field API UI is packaged as a trait piece of code:
+`Field\Utility\FieldUIControllerTrait`, you must simply attach this trait to
+an empty controller and you are ready to go.
+
+With this trait, Field plugin provides an user friendly UI for manage entity's
+custom fields. It provides a field-manager user interface (UI) by attaching a
+series of actions over a `clean` controller.
+
+## Usage:
+
+Beside adding `use FieldUIControllerTrait;` to your controller you MUST also
+indicate the name of the Table being managed. Example:
+
+    namespace MyPlugin\Controller;
+    use MyPlugin\Controller\MyPluginAppController;
+    uses Field\Utility\FieldUIControllerTrait;
+
+    class MyCleanController extends MyPluginAppController {
+        use FieldUIControllerTrait;
+        protected $_manageTable = 'user_photos';
+    }
+
+In the example above, `MyCleanController` will be used to manage all fields
+attached to `user_photos` table. You can now access your controller as usual a
+you will see Field API UI in action.
+
+**IMPORTANT:** In order to avoid trait collision you should always `extend`
+Field UI using this trait over a `clean` controller. This is, a empty controller
+class with no methods defined. For instance, create a new controller class
+`MyPlugin\Controller\MyTableFieldManagerController` and use this trait to handle
+custom fields for "MyTable" database table.
+
+### Requirements
+
+- This trait should only be used over a clean controller.
+- You must define `$_manageTable` property in your controller.
+- Your Controller must be a backend-controller (under `Controller\Admin` namespace).

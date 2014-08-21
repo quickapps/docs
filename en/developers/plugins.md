@@ -1,15 +1,16 @@
 What are Modules ?
 ==================
 
-QuickAppsCMS is designed to be modular. Instead of always having every possible tool or
-feature in every site's code, you can just have those you're actually going to use.
-QuickAppsCMS's core —what you get when you install it— is like a very basic box of Lego™:
-a platform and some basic bricks (plugins) to get you started. You can do a lot with just
-those basics, but usually you'll want more.
+QuickAppsCMS is designed to be modular. Instead of always having every possible
+tool or feature in every site's code, you can just have those you're actually
+going to use. QuickAppsCMS's core —what you get when you install it— is like a
+very basic box of Lego™: a platform and some basic bricks (plugins) to get you
+started. You can do a lot with just those basics, but usually you'll want more.
 
-That's where contributed plugins come in. Contributed plugins are packages of code that extend
-or enhance QuickAppsCMS's core to add additional (or alternate) functionality and features.
-These plugins have been "contributed" back to the QuickAppsCMS community by their authors.
+That's where contributed plugins come in. Contributed plugins are packages of
+code that extend or enhance QuickAppsCMS's core to add additional (or alternate)
+functionality and features. These plugins have been "contributed" back to the
+QuickAppsCMS community by their authors.
 
 
 Structure
@@ -28,161 +29,155 @@ Basic structure of plugins:
         |- webroot/
         :- composer.json
 
-Plugin's structure is the same defined by CakePHP, the only main difference is that plugins
-MUST define a `composer.json` file.
+Plugin's structure is the same defined by CakePHP, the only main difference is
+that plugins MUST define a `composer.json` file, this file contains information
+about the plugin itself which is used by QuickAppsCMS.
 
 
 The "composer.json" file
 ========================
 
-Each module has a .yaml file which contains information about it, such as name, description, etc.  
-The name of this file must be the machine name of the module.
-
-Example, for a module named as `MyHotModule` the `MyHotModule.yaml` should be created, and its content may look as follow:
-
-    name: MyHotModule
-    description: Yeah, a hot module!
-    category: Hot Stuff
-    version: 1.0
-    core: 1.x
-    dependencies:
-        SoftModule (1.x)
-        ColdModule (1.0)
+Each plugin has a "composer.json" file which contains information about itself,
+such as name, description, version, etc. The schema of this file is the same
+[required by composer](https://getcomposer.org/doc/04-schema.md), but with some
+additional requirements specifically for QuickAppsCMS. These special requirements
+are described below:
 
 
-Explanation
------------
+- key `name` must be present. A follow the pattern `author-name/package-name`
+- key `version` must be present.
+- key `type` must be present and be "quickapps-plugin" (even if it's a theme).
+- key `name` must be present.
+- key `description` must be present.
+- key `extra.regions` must be present if it's a theme (its name ends with `-theme`,
+  e.g. `quickapps/blue-sky-theme`)
 
-* **name (required)** human readable name of your module. For example, "Hot Module"
-* **description (required)** a brief description about your module
-* **category (required)** used to group modules together as fieldsets on the module administration display.
-* **version (required)** version of your module. e.g.: 1.0, 1.3.1.
-* **core (required)** indicates the minimum QuickApps version required to install your module, for example: 
-    * 1.x means any branch of version 1.0, 
-    * 1.0 means that your module can only be installed on QuickApps v1.0 
-* **dependencies (optional)** indicates that your module depends on other modules to be installed, if any of the listed modules is not installed then your module can not be installed. In the example above:
-    * MyHotModule requires SoftModule 1.x (any branch of 1.0), but also module ColdModule 1.0 (exactly 1.0) is required to be installed. You can also specify complex depencencies such as: `ModuleBeta (>=7.x-4.5-beta5, 3.x)` 
+**NOTES:**
 
-
-Permissions
-===========
-
-By default QuickApps CMS generates a permissions tree (/admin/user/permissions/) by parsing each Module's controller folder. Each leaf of this 
-tree is named as the name of the module, controller or method that it represents.
-
-For example, if you have a module named `HotModule`, which has a controller class named `HotController` which has two methods on it named `do_hot_stuff` & `do_cold_stuff`.
-The following tree will be created by default:
-
-* HotModule
-    * Hot
-        * do_hot_stuff
-        * do_cold_stuff
-
-Well, this structure does not say much. What does `do_hot_stuff` actually do ?  
-Whould be nice to write a brief description about what this method does, or even better, change its name for a more descriptive one.
-
-By using the **Permissions.yaml** file you can overwrite names and create descriptions for both controllers and methods.
+- Plugins may behave as themes if their name ends with `-theme`
+- Plugin's names are inflected from the `name` key, they are camelized, for
+  example for `author-name/super-name`, plugin name is `SuperName`.
 
 
-YAML structure
---------------
+## Dependencies
 
-    Controller:
-        MyControllerName:
-            name: "New name for `MyControllerName`"
-            description: "Brief description for `MyControllerName`"
-            actions:
-                my_controller_method_1:
-                    name: "new name for `my_controller_method_1`"
-                    description: "Brief description for `my_controller_method_1`"
-                    hidden: false
-                my_controller_method_2:
-                    ......
-        OtherController:
-            hidden:true
-        ....
+You can indicate your plugin depends on another plugin, to do this you must use
+the `require` key in your "composer.json". QuickAppsCMS's dependencies resolver
+system works pretty [similar to composer's](https://getcomposer.org/doc/01-basic-usage.md#package-versions).
+For example you may indicate your plugin requires certain version of QuickAppsCMS:
 
-If you set `hidden:true` the leaf (controller or method) will not be displayed in the tree.
+    {
+        "require": {
+            "quickapps/cms": ">1.0"
+        }
+    }
 
-
-Creating permissions presets
-----------------------------
-
-Sometimes overwriting the controllers name and method names is not enough. Sometimes the permissions tree may become difficult to understand when 
-your module has too many controllers, or too many methods on its controllers.  
-To solve this, QuickApps allows you to create permissions presets. A preset is a collection of methods from one or many controllers.
-
-    Preset:
-        administer_blocks:
-            name: "Administer blocks"
-            description: "Grant full access to administer blocks"
-            acos:
-                Block.admin_index
-                Manage.admin_index
-                Manage.admin_move
-                Manage.admin_clone
-                Manage.admin_edit
-                Manage.admin_add
-                Manage.admin_delete
-				...
-				Controller.method
+Which means: This plugin can only be installed on QuickAppsCMS v1.0 or higher.
 
 
 
-The Un/Installation Process
-===========================
+The (Un)Installation Process
+============================
 
-The following describes some of the tasks automatically performed by QuickApps CMS during the un/installation process, as well as some tasks
-that modules should consider during these processes.
+The following describes some of the tasks automatically performed by QuickAppsCMS
+during the (un)installation process, as well as some tasks that plugins should
+consider during these processes. In both cases a series of events are
+automatically triggered which plugins may responds to in order to change the
+(un)installation process.
 
 
 During Installation
 -------------------
 
-#### Tasks automatically performed by QuickApps CMS
+### Tasks automatically performed by QuickAppsCMS
 
-* Checks module folder/files consistency.
-* Checks version compatibilities.
-* Checks dependencies.
-* Generate module ACO tree.
-* Register module on `modules` table.
-* Regenerate related caches.
+- Checks plugin folder/files consistency.
+- Checks version compatibilities.
+- Checks dependencies.
+- Generate plugins ACO tree.
+- Register plugin on `plugins` table.
+- Regenerate related caches.
 
-### Common tasks which modules may do
+### Common tasks which plugins may do
 
-* Create new tables on Database.
-* Add new blocks.
-* Add new menus.
-* Add links to an existing menu.
-* Add new variables to the ´variables´ table
+- Create new tables on Database.
+- Add new blocks.
+- Add new menus.
+- Add links to an existing menu.
+- Add new options to the `options` table
+
+### Events triggered
+
+- `<PluginName>.beforeInstall`: Before plugins is registered on DB and before
+   plugin's directory is moved to "/plugins"
+- `<PluginName>.afterInstall`: After plugins was registered in DB and after
+   plugin's directory was moved to "/plugins"
+
+Where `<PluginName>` is the inflected name of your plugin, for example, if in your
+"composer.json" your package name is `author-name/super-plugin-name` then plugin's
+inflected name is `SuperPluginName`.
+
 
 During Uninstallation
 ---------------------
 
-#### Tasks automatically performed by QuickApps CMS
+### Tasks automatically performed by QuickAppsCMS
 
-* Remove all related [ACOs and AROs](http://book.cakephp.org/2.0/en/core-libraries/components/access-control-lists.html#understanding-how-acl-works)
-* Remove all menus created by the module during installation.
-* Remove all Content Types defined by the module during installation.
-* Remove all Blocks defined by the module during installation.
-* Unregister module from the `modules` table.
-* Regenerate related caches.
+- Remove all related [ACOs and AROs](http://book.cakephp.org/2.0/en/core-libraries/components/access-control-lists.html#understanding-how-acl-works)
+- Remove all menus created by the plugin during installation.
+- Remove all Blocks defined by the plugin during installation.
+- Unregister plugin from the `plugins` table.
+- Regenerate related caches.
 
 
-### Tasks to consider by module
+### Tasks to consider by plugin
 
-The following tasks should be performed by the module during the uninstallation process.  
-The best place to perform these tasks is on `afterUninstall` or `beforeUninstall` [callbacks](#installcomponentphp).
+The following tasks should be performed by the plugins during the uninstallation
+process. The best place to perform these tasks is on `afterUninstall` or
+`beforeUninstall` callbacks.
 
-* Remove all related Database tables.
-* Remove all defined variables from the `variables` table.
+- Remove all related Database tables.
+- Remove all defined options from the `options` table.
 
-In general, your module should remove anything that is not automatically removed by QuickApps CMS.
+In general, your plugin should remove anything that is not automatically removed
+by QuickAppsCMS.
 
+### Events triggered
+
+- `<PluginName>.beforeUninstall`: Before plugins is removed from DB and before
+   plugin's directory is deleted from "/plugins".
+- `<PluginName>.afterUninstall`: After plugins was removed from DB and after
+   plugin's directory was deleted from "/plugins"
+
+Where `<PluginName>` is the inflected name of your plugin, for example, if in your
+"composer.json" your package name is `author-name/super-plugin-name` then plugin's
+inflected name is `SuperPluginName`.
+
+
+The (En)Disabling Process
+=========================
+
+Plugins can be installed and uninstalled from your system, but also they can also
+be enabled or disabled. Disabled plugins have not interaction with the system,
+which means all their Event Listeners classes will not respond to any event.
+
+Plugins can be disabled only if they are not required by any other plugins, that
+is, for instance, if plugin `A` needs some functionalities provided by plugin `B`
+then you are not able to disable plugin `B` as plugin `A` would stop working properly.
+
+When plugins are enabled or disabled the following events are triggered:
+
+- `<PluginName>.beforeEnable`
+- `<PluginName>.afterEnable`
+- `<PluginName>.beforeDisable`
+- `<PluginName>.afterDisable`
+
+The names of these events should be descriptive enough to let you know what they
+do.
 
 
 For more information about:
 ===========================
 
-* [Hooks](hooks.md)
+* [Events](events.md)
 * [Hooktags](hooktags.md)
