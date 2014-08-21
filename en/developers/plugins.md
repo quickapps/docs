@@ -1,140 +1,39 @@
 What are Modules ?
 ==================
 
-QuickApps CMS is designed to be modular. Instead of always having every possible tool or feature in every site's code, you can just have those you're actually going to use.
+QuickAppsCMS is designed to be modular. Instead of always having every possible tool or
+feature in every site's code, you can just have those you're actually going to use.
+QuickAppsCMS's core —what you get when you install it— is like a very basic box of Lego™:
+a platform and some basic bricks (plugins) to get you started. You can do a lot with just
+those basics, but usually you'll want more.
 
-QACMS core —what you get when you install it— is like a very basic box of Lego™: a platform and some basic bricks (modules) to get you started. You can do a lot with just those basics, but usually you'll want more.
-
-That's where contributed modules come in. Contributed modules are packages of code that extend or enhance QuickApps CMS core to add additional (or alternate) functionality and features. These modules have been "contributed" back to the QuickApps CMS community by their authors.
-
+That's where contributed plugins come in. Contributed plugins are packages of code that extend
+or enhance QuickAppsCMS's core to add additional (or alternate) functionality and features.
+These plugins have been "contributed" back to the QuickAppsCMS community by their authors.
 
 
 Structure
 =========
 
-Basic structure of modules:
+Basic structure of plugins:
 
-    |- MyHotModule/
-        |- Config/
+    |- Blog/
+        |- config/
         :    |- bootstrap.php
         :    |- routes.php
-        |- Controller/
-        :    |- Component/
-        :    :    |- InstallComponent.php
-        :    :    |- MyHotModuleHookComponent.php
-        |- Lib/
-        |- Locale/
-        |- Model/
-        :    |- Behavior/
-        :    :   |- MyHotModuleHookBehavior.php
-        |- View/
-        :    |- Helper/
-        :    :   |- MyHotModuleHookHelper.php
+        |- src/
+        :   |- Controller/
+        :   |- Model/
+        :   |- Template/
         |- webroot/
-        |- MyHotModule.yaml
-        |- Permissions.yaml
+        :- composer.json
+
+Plugin's structure is the same defined by CakePHP, the only main difference is that plugins
+MUST define a `composer.json` file.
 
 
-
-Module names
-============
-
-Module have two names:
-
-* **machine name**: Used internally by QuickApps CMS, must always be in CamelCase format, e.g.: `ModuleName`.  
-	Basically, it's the name of the folder of the module. For example, the machine name of the core module `QuickApps` is actually `System`,
-	and its folder can be found in _QuickApps/Plugin/**System**_
-* **human name**: Human readable name, e.g.: `My Module Name`
-
-
-Banned Names
----------------
-
-Modules cannot be named as:
-
-* `Default`
-* Three chars length names. e.g.: `One`, `Two`, `Eng`, etc.
-* Prefixed by the `Theme` word. e.g.: `ThemeMaker`, `ThemesManager`, etc
-* Containing any non-alphanumeric chars. e.g.: `Invalid?Name`, `No(Alphanumeric¿%`
-
-
-
-InstallComponent.php
-====================
-
-Each module may define custom logic to be executed before/after module has been installed/uninstalled, or before/after module has been enabled/disabled.
-All this is performed by using callbacks methods in the `InstallComponent` class. This file behave like a `setup.exe` on a Windows application. An  empty InstallComponent.php would look as follow:
-
-
-	class InstallComponent extends Component {
-		// Return a non-true result halt the install operation.
-		public function beforeInstall() {
-			return true;
-		}
-
-		// Called after each successful install operation.
-		public function afterInstall() {
-		}
-
-		// Return a non-true result halt the uninstall operation.
-		public function beforeUninstall() {
-			return true;
-		}
-
-		// Called after each successful uninstall operation.
-		public function afterUninstall() {
-		}
-
-		// Return a non-true result halt the enable operation.
-		public function beforeEnable() {
-			return true;
-		}
-
-		// Called after each successful enable operation.
-		public function afterEnable() {
-		}
-
-		// Return a non-true result halt the disable operation.
-		public function beforeDisable() {
-			return true;
-		}
-
-		// Called after each successful disable operation.
-		public function afterDisable() {
-		}
-	}
-
-
-You can access the utility class instance **Installer** Component from any part of your **InstallComponent** by using `$this->Installer`.  
-The Installer Component provides a set of useful methods such as SQL query, etc.
-
-
-##### For example
-
-	class InstallComponent extends Component {
-		...
-		public function afterInstall() {
-			// Some other logic here ...
-
-			$this->Installer->sql("
-				CREATE TABLE IF NOT EXISTS `#__table_name` 
-				(`id` int(11) NOT NULL AUTO_INCREMENT) 
-				ENGINE=MyISAM 
-				DEFAULT 
-				CHARSET=utf8 
-				COLLATE=utf8_unicode_ci 
-				AUTO_INCREMENT=1;
-			");
-		}
-		...
-	}
-
-The code above will register a new table schema in DB after module is successfully installed.  
-(The `#__` word is automatically replaced by DB prefix. Check the API for more information)
-
-
-Configuration YAML
-==================
+The "composer.json" file
+========================
 
 Each module has a .yaml file which contains information about it, such as name, description, etc.  
 The name of this file must be the machine name of the module.
