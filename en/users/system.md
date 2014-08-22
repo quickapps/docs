@@ -1,9 +1,11 @@
 About
 =====
 
-The QuickApps module is integral to the site, and provides basic but extensible functionality for use by other modules and themes. Some
-integral elements of QuickApps are contained in and managed by the QuickApps module, including caching, enabling and disabling modules
-and themes and configuring fundamental site settings. 
+The System plugin is integral to the site, and provides basic but extensible
+functionality for use by other plugins and themes. Some integral elements of
+QuickApps are contained in and managed by the System plugin, including caching,
+enabling and disabling plugins and themes and configuring fundamental site
+settings.
 
 
 Uses
@@ -13,87 +15,79 @@ Uses
 Hooktags
 --------
 
-A Hooktag is a QuickApps-specific code that lets you do nifty things with very little effort. hookTag can for example print current language
-code/name/nativeName or call especifics modules/themes functions. For example, block module has the 'block' hook wich will print out the
-indicated block by id:
+A Hooktag is a QuickApps-specific code that lets you do nifty things with very
+little effort. Hooktags can for example print current language code (i.e. "en")
+or call especifics plugins/themes functions. Plugins and themes are able to define
+their own hooktags. The System plugin provides a series of buil-in hooktags as
+described below:
 
-    [block id=1/]
-    
-    This will render out the block with identifier equal to 1 
+> [locale OPTION/]
 
-You are able to define your own custom Hooktags functions in: APP/View/Helper/CustomHooktagssHelper.php  
-Also modules and themes are able to define their own Hooktags
+Possible values of OPTION are: code, name, native or direction.
 
-***
+- code: Returns language's ISO 639-2 code (en, es, fr, etc)
+- name: Returns language's english name (English, Spanish, German, French, etc)
+- direction: Returns direction that text is presented. lft (Left To Right) or
+  rtl (Right to Left)
 
-Some useful built-in Hooktags are: 
+> [locale /]
 
-    [language.OPTION]
-    
-    Possible values of OPTION are: code, name, native or direction.
-    code: Returns language's ISO 639-3 code (eng, spa, fre, etc)
-    name: Returns language's english name (English, Spanish, German, French, etc)
-    native: Returns language's native name (English, Español, Deutsch, Fraçais, etc)
-    direction: Returns direction that text is presented. lft (Left To Right) or rtl (Right to Left)
-***
-    [language]
-    
-    Shortcut for [language.code] wich return current language code (eng, spa, etc). 
-***    
-    [t=domain@@text to translate by domain]
-    
-    Search for translation in specified domain, e.g: [t=system@@Help] will try to find translation for `Help` in 
-    `system` module's translation table.
+Shortcut for [language code] which return current language code (en, es, fr, etc).
 
-***
-    [t=text to translate using default domain]
-    
-    Search for translation in (in the following order, if one fails then try the next method):
-    - active runing module domain. 
-    - default domain ([t=default@@...]). 
-    - translatable entries table. (see `Locale` module)
-***
-    [url=/relative_url/image.jpg] or [url]relative url/image.jpg[/url]
-    
-    Return well formatted url. URL can be an relative url (/article/my-post.html) or external (http://www.domain.com/my-url).
-***
-    [date=FORMAT@@TIME_STAMP_OR_ENGLISH_DATE]
-    
-    Returns php result of date(FORMAT, TIME_STAMP_OR_ENGLISH_DATE). (http://www.php.net/manual/function.date.php)
-    It accepts both: numeric time stamp or english formatted date 
-    (Year-month-day Hours:Mins:Secs) as second parameter.
-***
-    [date=FORMAT]
-    
-    Returns php result of date(FORMAT). (http://www.php.net/manual/function.date.php)
-***
-    [rand={values,by,comma}]
+> [t domain=DOMAIN]text to translate by domain[/t]
 
-    Returns a radom value from the specified group. e.g.: [rand=one,two,three]  
-	If only two NUMERIC values are given as group, then PHP function rand(num1, num2) is returned. e.g.: [rand=3,10]
-***
-    [Layout.PATH]
+Search for translation in specified domain, e.g: [t domain=System]Help[/t] will
+try to find translation for Help in System plugin translation table.
 
-    Get any value from `Layout` variable. e.g.: [Layout.display] gets current display mode.  
-	If path does not exists then '' (empty) is rendered instead the hooktag code.
+> [t]text to translate using default domain[/t]
+
+Search for translation in default translation domain.
+
+> [url]/some_path/image.jpg[/url]
+
+Return well formatted url. URL can be an relative url
+(/type-of-content/my-post.html) or external (http://www.example.com/my-url).
+
+> [date format=FORMAT]TIME_STAMP_OR_ENGLISH_DATE[/date]
+
+Returns php result of date(FORMAT, TIME_STAMP_OR_ENGLISH_DATE).
+[More info about date()](http://www.php.net/manual/function.date.php). 
+It accepts both: numeric time stamp or English formatted date (Year-month-day
+Hours:Mins:Secs) as second parameter.
+
+> [date format=FORMAT /]
+
+Returns php result of date(FORMAT).
+[More info about date()](http://www.php.net/manual/function.date.php).
+
+> [random]values,by,comma[/random]
+
+Returns a random value from the specified group. e.g. [random]one,two,three[/random].
+If only two numeric values are given as group, then PHP function
+[rand(min, max)](http://www.php.net/manual/function.rand.php) is returned. e.g.
+[random]3,10[/random]
 
 
-Managing modules
+Managing plugins
 ----------------
 
-The QuickApps module allows users with the appropriate permissions to enable and disable modules on the Modules administration page.
-QuickApps CMS comes with a number of core modules, and each module provides a discrete set of features and may be enabled or disabled
-depending on the needs of the site.
+The System plugin allows users with the appropriate permissions to enable and
+disable plugins on the Plugins administration page. QuickAppsCMS comes with a
+number of core plugins, and each plugin provides a discrete set of features and
+may be enabled or disabled depending on the needs of the site.
 
 
 Managing themes
 ---------------
 
-The QuickApps module allows users with the appropriate permissions to enable and disable themes on the Appearance administration page.
-Themes determine the design and presentation of your site. QuickApps CMS comes packaged with one core theme (Default).
+The System plugin allows users with the appropriate permissions to enable and
+disable themes on the Appearance administration page. Themes determine the design
+and presentation of your site. QuickAppsCMS comes packaged with two core themes
+(FrontendTheme and BackendTheme).
 
 
 Configuring basic site settings
 -------------------------------
 
-The QuickApps module also handles basic configuration options for your site, including Date and time settings, Site name and other information. 
+The System plugin also handles basic configuration options for your site,
+including Date and time settings, Site name and other information.
