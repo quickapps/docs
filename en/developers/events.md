@@ -190,7 +190,7 @@ If no context is given "$this" will be used by default.
 
 ***
 
-    // Wherever you are able to use event() & alter()
+    // Wherever you are able to use hook() and alter()
 
     $hello = 'Hello';
     $this->alter('Hello', $hello);

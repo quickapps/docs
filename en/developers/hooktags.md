@@ -1,21 +1,24 @@
 Hooktags
 ========
 
-A `Hooktag` is a QuickApps-specific code that lets you do nifty things with very little effort.  
-Hooktags can for example print current language code/name or call especifics plugin/themes functions.
-For instance, the following hooktag (in any content) would show current language's code:
+A `Hooktag` is a QuickApps-specific code that lets you do nifty things with very
+little effort. Hooktags can for example print current language code/name or call
+specifics plugin/themes functions. For instance, the following hooktag (in any
+content) would show current language's code:
 
     [locale code /]
 
-Note: If you are a Wordpress user you will find that `hooktags` are Wordpress's `shorcodes` equivalent.
+Note: If you are a Wordpress user you will find that `hooktags` are Wordpress's
+`shorcodes` equivalent.
 
 
 Defining Hooktags
 =================
 
-Hooktags are actually [Event Listener classes](events.md), they may be located in each Plugin's or
-Theme's `Event` directory. For example, in our `Blog` plugin example we could place a "Hooktag listener"
-class within Blog's "Event" directory as follow:
+Hooktags are actually [Event Listener classes](events.md), they may be located
+in each Plugin's or Theme's `Event` directory. For example, in our `Blog` plugin
+example we could place a "Hooktag listener" class within Blog's "Event" directory
+as follow:
 
     - Blog/
      |-- src/
@@ -23,9 +26,10 @@ class within Blog's "Event" directory as follow:
            |-- ArticlesHooktag.php
            |-- CommentsHooktag.php
 
-Similar as Event Listener classes, they must define which `hooktags` this class will handle using the
-`implementedEvents()` method. The only main difference between the event system and hooktag system,
-is that **Even names must be prefixed with the `Hooktag.` word", for example:
+Similar as Event Listener classes, they must define which `hooktags` this class
+will handle using the `implementedEvents()` method. The only main difference
+between the event system and hooktag system, is that **Even names must be prefixed
+with the `Hooktag.` word**, for example:
 
     namespace MyPlugin\Event;
     ...
@@ -36,13 +40,15 @@ is that **Even names must be prefixed with the `Hooktag.` word", for example:
         ];
     }
 
-Where `redBox` and `blueBox` are methods defined within the Event Listener class, these methods
-must except four arguments:
+Where `redBox` and `blueBox` are methods defined within the Event Listener class,
+these methods must expect four arguments:
 
-- **$event** (first argument): The event object that was triggered
+- **$event** (first argument): the event object that was triggered
 - **$atts** (second argument): an associative array of attributes
-- **$content** (third argument): the enclosed content (if the hooktag is used in its enclosing form)
-- **$code** (fourth argument): the hooktag name (only when it matches the callback name)
+- **$content** (third argument): the enclosed content (if the hooktag is used in
+    its enclosing form)
+- **$code** (fourth argument): the hooktag name (only when it matches the
+    callback name)
 
 For example:
 
@@ -50,14 +56,15 @@ For example:
         // logic here, and return HTML
     }
 
-These methods are responsible of converting a hooktag (that looks as `[locale code /]`) into their HTML
-equivalent.
+These methods are responsible of converting a hooktag (that looks as
+`[locale code /]`) into their HTML equivalent.
 
 ### Attributes
 
-The **$atts** array may include any arbitrary attributes that are specified by the user.  
-Attribute names are always converted to lowercase before they are passed into the handler function.
-Values are untouched. [some_hooktag  Foo="bAr"] produces $atts = array('foo' => 'bAr').
+The **$atts** array may include any arbitrary attributes that are specified by the
+user. Attribute names are always converted to lowercase before they are passed
+into the handler function. Values are untouched. [some_hooktag  Foo="bAr"]
+produces $atts = array('foo' => 'bAr').
 
 **TIP: Don't use camelCase or UPPER-CASE for your $atts attribute names**
 
@@ -65,13 +72,14 @@ Values are untouched. [some_hooktag  Foo="bAr"] produces $atts = array('foo' => 
 Parsing Hooktags
 ================
 
-Once you have defined your hooktag classes is time to start converting a hooktag into HTML. To do this,
-you can use the `QuickApps\Core\HooktagTrait` trait in any class, by defaults is trait is attached to
-`QuickApps\View\View` which means **you can use hooktag functionalities in any template**. HooktagTrait
-simply adds two methods; `hooktags()` and `stripHooktags()`.
+Once you have defined your hooktag classes is time to start converting a hooktag
+into HTML. To do this, you can use the `QuickApps\Core\HooktagTrait` trait in any
+class, by defaults is trait is attached to `QuickApps\View\View` which means
+**you can use hooktag functionalities in any template**. HooktagTrait simply adds
+two methods; `hooktags()` and `stripHooktags()`.
 
-Basically, `hooktags()` receives a string as only arguments and look for hooktags in the given
-text, for example, in any template you could:
+Basically, `hooktags()` receives a string as only arguments and look for hooktags
+in the given text, for example, in any template you could:
 
     echo $this->hooktags("Current language's code is: [language code /]");
 
@@ -79,7 +87,8 @@ Depending on the current language you are navigating you will get:
 
     Current language's code is: en-us
 
-The second method, `stripHooktags()`, simply removes all hooktags from the given text:
+The second method, `stripHooktags()`, simply removes all hooktags from the given
+text:
 
     echo $this->stripHooktags("Current language's code is: [language code /]");
 
@@ -87,19 +96,15 @@ Now you will get:
 
      Current language's code is:
 
-***
-
-Important: As we mention before, Events names are prefixed with `Hooktag.` word, which means that
-`[language ...]` will trigger the `Hooktag.language` event.
-
-
----
+**Important:** As we mention before, Events names are prefixed with `Hooktag.`
+word, which means that `[language ...]` will trigger the `Hooktag.language` event.
 
 
 Example, Creating a Hooktag
 ===========================
 
-Lets create a hooktag for displaying HTML content-boxes. We want our hooktag to be as follow:
+Lets create a hooktag for displaying HTML content-boxes. We want our hooktag to
+be as follow:
 
 - Its name will be `content_box`.
 - Will use the `enclosed` form ([tag] ... [/tag]), for holding the box's content.
@@ -118,7 +123,8 @@ To its HTML representation:
     </div>
 
 
-As first step we must create a hooktag listener class, which would listen for `content_box`:
+As first step we must create a hooktag listener class, which would listen for
+`content_box`:
 
     // Blog/src/Event/BoxesHooktag.php
     namespace Blog\Event;
@@ -132,19 +138,20 @@ As first step we must create a hooktag listener class, which would listen for `c
         }
     }
 
-Now we must define the event handler method which should receive hooktag's information
-and convert it into HTML:
+Now we must define the event handler method which should receive hooktag's
+information and convert it into HTML:
 
-        public function contentBox(Event $event, $atts, $content = null, $code = '') {
-            $return = '<div style="background-color:' . $atts['color'] . ';"';
-            $return .= $content;
-            $return .= '</div>';
-            return $return;
-        }
+    public function contentBox(Event $event, $atts, $content = null, $code = '') {
+        $return = '<div style="background-color:' . $atts['color'] . ';"';
+        $return .= $content;
+        $return .= '</div>';
+        return $return;
+    }
 
 **Usage:**
 
-Now you should be able to use the `content_box` in any Node's contents, or wherever hooktags are allowed.
+Now you should be able to use the `content_box` hooktag in any Node's contents,
+or wherever hooktags are allowed.
 
 > [content_box color=green]Lorem ipsum dolor[/content_box]
 

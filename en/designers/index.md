@@ -1,3 +1,2 @@
 - [Themes](themes.md)
-- [Block](blocks.md)
-- [Regions](regions.md)
+- [Regions](themes.md#regions)
