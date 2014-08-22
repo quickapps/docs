@@ -66,14 +66,15 @@ the `require` key in your "composer.json". QuickAppsCMS's dependencies resolver
 system works pretty [similar to composer's](https://getcomposer.org/doc/01-basic-usage.md#package-versions).
 For example you may indicate your plugin requires certain version of QuickAppsCMS:
 
-    {
-        "require": {
-            "quickapps/cms": ">1.0"
-        }
+```json
+{
+    "require": {
+        "quickapps/cms": ">1.0"
     }
+}
+```
 
 Which means: This plugin can only be installed on QuickAppsCMS v1.0 or higher.
-
 
 
 The (Un)Installation Process

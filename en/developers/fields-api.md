@@ -1,11 +1,11 @@
 Field API
 =========
 
-Allows additional fields to be attached to Tables. Any Table (Nodes, Users, etc.)
-can use Field API to make itself `field-able` and thus allow fields to be
-attached to it.
+The Fields API Allows additional fields to be attached to Tables. Any Table
+(Nodes, Users, etc.) can use Field API to make itself `field-able` and thus
+allow fields to be attached to it.
 
-The Field API defines two primary data structures, FieldInstance and FieldValue:
+The Field API defines two primary data structures, `FieldInstance` and `FieldValue`:
 
 - FieldInstance: is a Field attached to a single Table. (Schema equivalent: column)
 - FieldValue: is the stored data for a particular [FieldInstance, Entity]
@@ -21,36 +21,41 @@ Making a Table "fieldable"
 
 Simply by attaching the `FieldableBehavior` to any table will make it fieldable.
 
-    $this->addBehavior('Field.Fieldable');
+```php
+$this->addBehavior('Field.Fieldable');
+```
 
 This behavior modifies each query of your table in order to merge custom-fields
 records into each entity under the `_fields` property.
 
 ## Entity Example:
 
-    // $user = $this->Users->get(1);
-    // User's properties might look as follows:
-    [id] => 1,
-    [password] => e10adc3949ba59abbe56e057f20f883e,
+```php
+$user = $this->Users->get(1);
+
+// $user's properties might look as follows:
+[id] => 1,
+[password] => e10adc3949ba59abbe56e057f20f883e,
+...
+[_fields] => [
+    [0] => [
+        [name] => user-age,
+        [label] => User Age,
+        [value] => 22,
+        [extra] => null,
+        [metadata] => [ ... ]
+    ],
+    [1] => [
+        [name] => user-phone,
+        [label] => User Phone,
+        [value] => null, // no data stored
+        [extra] => null, // no data stored
+        [metadata] => [ ... ]
+    ],
     ...
-    [_fields] => [
-        [0] => [
-            [name] => user-age,
-            [label] => User Age,
-            [value] => 22,
-            [extra] => null,
-            [metadata] => [ ... ]
-        ],
-        [1] => [
-            [name] => user-phone,
-            [label] => User Phone,
-            [value] => null, // no data stored
-            [extra] => null, // no data stored
-            [metadata] => [ ... ]
-        ],
-        ...
-        [n] => [ ... ]
-    )
+    [n] => [ ... ]
+)
+```
 
 In the example above, User entity has a custom field named `user-age` and its
 current value is 22. In the other hand, it also has a `user-phone` field but
@@ -97,30 +102,34 @@ Once you have your Entity (e.g. User Entity), you would probably need to get
 its attached fields and do fancy thing with them. Following with our User
 entity example:
 
-    // In your controller
-    $user = $this->Users->get($id);
-    echo $user->_fields[0]->label . ': ' . $user->_fields[0]->value;
-    // out: User Age: 22
+```php
+// In your controller
+$user = $this->Users->get($id);
+echo $user->_fields[0]->label . ': ' . $user->_fields[0]->value;
+// out: User Age: 22
 
-    echo "This field is attached to '" . $user->_fields[0]->metadata->table_alias . "' table";
-    // out: This field is attached to 'users' table;
+echo "This field is attached to '" . $user->_fields[0]->metadata->table_alias . "' table";
+// out: This field is attached to 'users' table;
+```
 
-
-Searching over custom fields
+Searching Over Custom Fields
 ============================
 
 Fieldable Behavior allows you to perform WHERE clauses using any of the fields
 attached to your table. Every attached field has a "machine-name"
-(a.k.a. field slug), you should use this "machine-name" prefixed with
-`:`, for example:
+(a.k.a. field slug), you should use this "machine-name" prefixed with `:`,
+for example:
 
-    TableRegistry::get('Users')
-        ->find()
-        ->where(['Users.:first-name LIKE' => 'John%'])
-        ->all();
+```php
+TableRegistry::get('Users')
+    ->find()
+    ->where(['Users.:first-name LIKE' => 'John%'])
+    ->all();
+```
 
 `Users` table has a custom field attached (first-name), and we are looking for
 all the users whose `first-name` starts with `John`.
+
 
 Value vs Extra
 ==============
@@ -139,15 +148,17 @@ In our `AlbumField` example, we could store an array list of file names and titl
 for a given entity under the `extra` property. And we could save photo's titles as
 space-separated values under `value` property:
 
-    // extra:
-    [photos] => [
-        ['title' => 'OMG!', 'file' => 'omg.jpg'],
-        ['title' => 'Look at this, lol', 'file' => 'cats-fighting.gif'],
-        ['title' => 'Fuuuu', 'file' => 'fuuuu-meme.png'],
-    ]
+```php
+// extra:
+[photos] => [
+    ['title' => 'OMG!', 'file' => 'omg.jpg'],
+    ['title' => 'Look at this, lol', 'file' => 'cats-fighting.gif'],
+    ['title' => 'Fuuuu', 'file' => 'fuuuu-meme.png'],
+]
 
-    // value:
-    OMG! Look at this lol Fuuuu
+// value:
+OMG! Look at this lol Fuuuu
+```    
 
 In our example when rendering an entity with `AlbumField` attached to it,
 `AlbumField` should use `extra` information to create a representation of
@@ -158,7 +169,7 @@ when using `Searching over custom fields` feature described above.
 
 - FieldableBehavior automatically serializes & unserializes the `extra`
   property for you, so you should always treat `extra` as an array.
-- `Search over fields` feature described above uses the `value` property
+- `Search over custom fields` feature described above uses the `value` property
    when looking for matches. So in this way your entities can be found when
    using Field's machine-name in WHERE clauses.
 - Using `extra` is not mandatory, for instance your Field Handler could use
@@ -178,21 +189,22 @@ If for some reason you don't need custom fields to be fetched under the `_field`
 of your entities you should use the unbindFieldable(). Or bindFieldable() to
 enable it again.
 
-    // there wont be a "_field" key on your User entity
-    $this->User->unbindFieldable();
-    $this->Users->get($id);
-
+```php
+// there wont be a "_field" key on your User entity
+$this->User->unbindFieldable();
+$this->Users->get($id);
+```
 
 Field Handlers
 ==============
 
 Field Handler are "Listeners" classes which must take care of storing, organizing
 and retrieving information for each entity's field. All this is archived using
-QuickAppsCMS's events system
+QuickAppsCMS's [events system](events.md).
 
-Similar to [Event Listeners](events.md) and Hooktags, Field Handlers classes
-must define a series of events, which has been organized in two groups or
-"event subspaces":
+Similar to [Event Listeners](events.md#registering-listeners) and Hooktags, Field
+Handlers classes must define a series of events, which has been organized in two
+groups or "event subspaces":
 
 - `Field.<FieldHandler>.Entity`: For handling Entity's related events such
    as `entity save`, `entity delete`, etc.
@@ -250,31 +262,39 @@ For instance, we could create a `Date` Field Handler, aimed to provide a date
 picker for every entity this field is attached to. You must create a new Event
 Listener class under the `Event` directory of the plugin defining this field.
 
-    // MyPlugin/src/Event/DateField.php
-    namespace MyPlugin\Event;
-    use Field\Utility\FieldHandler;
-    class DateField extends FieldHandler {
-    }
+```php
+// MyPlugin/src/Event/DateField.php
+namespace MyPlugin\Event;
+use Field\Utility\FieldHandler;
+
+class DateField extends FieldHandler {
+
+}
+```
 
 `FieldHandler` is a simple base class which automatically registers all the events
-names a field could handle (listed above), it has empty methods which you should
+names a Field could handle (listed above), it has empty methods which you should
 override with your own logic:
 
-    namespace MyPlugin;
-    use Field\Utility\FieldHandler;
-    class DateField extends FieldHandler {
-      public function entityDisplay(Event $event, $field, $options = []) {
+```php
+namespace MyPlugin;
+use Field\Utility\FieldHandler;
+class DateField extends FieldHandler {
+
+    public function entityDisplay(Event $event, $field, $options = []) {
         return 'HTML representation of $field';
-      }
-
-      public function entityBeforeSave(Event $event, $entity, $field, $options) {
-        return true;
-      }
-
-      ...
     }
 
+    public function entityBeforeSave(Event $event, $entity, $field, $options) {
+        return true;
+    }
+
+    ...
+}
+```
+
 Check this class's documentation for deeper information.
+
 
 ## Preparing Field Inputs
 
@@ -285,20 +305,24 @@ containing all the form elements for [entity, field_instance] tuple.
 
 For example, lets suppose we have a `TextField` attached to `Users` Table for
 storing their `favorite_food`, and now we are editing some specific `User`
-Entity (i.e.: User.id = 4), so in the form editing page we should see some
+Entity (i.e.: User.id = 4), so in the editing form page we should see some
 inputs for change some values like `username` or `password`, and also we
 should see a `favorite_food` input where Users shall type in their favorite
-food. Well, your TextField Handler should return something like this:
+food. Well, your TextField Handler should print something like this:
 
-    // note the `:` prefix
-    <input name=":favorite_food" value="<current_value_from_entity>" />
+```html
+// note the `:` prefix
+<input name=":favorite_food" value="<current_value_from_entity>" />
+```
 
 To accomplish this, your Field Handler should properly catch the
 `Field.<FieldHandler>.Entity.edit` event, example:
 
-    public function entityEdit(Event $event, $field) {
-        return '<input name=":' . $field->name . '" value="' . $field->value . '" />";
-    }
+```php
+public function entityEdit(Event $event, $field) {
+  return '<input name=":' . $field->name . '" value="' . $field->value . '" />";
+}
+```
 
 As usual, the second argument `$field` contains all the information you will
 need to properly render your form inputs.
@@ -308,91 +332,110 @@ action are actually virtual fields. To do this, all your input's `name`
 attributes **must be prefixed** with `:` followed by its machine
 (a.k.a. `slug`) name:
 
-    <input name=":<machine-name>" ... />
+```html
+<input name=":<machine-name>" ... />
+```
 
 You may also create complex data structures like so:
 
-    <input name=":album.name" value="<current_value>" />
-    <input name=":album.photo.0" value="<current_value>" />
-    <input name=":album.photo.1" value="<current_value>" />
-    <input name=":album.photo.2" value="<current_value>" />
+```html
+<input name=":album.name" value="<current_value>" />
+<input name=":album.photo.0" value="<current_value>" />
+<input name=":album.photo.1" value="<current_value>" />
+<input name=":album.photo.2" value="<current_value>" />
+```
 
 The above may produce a $_POST array like below:
 
-        :album => array(
-            name => Album Name,
-            photo => array(
-                0 => url_image1.jpg,
-                1 => url_image2.jpg,
-                2 => url_image3.jpg
-            )
-        ),
-        ...
-        :other_field => ...,
-    )
+```php
+:album => [
+    name => Album Name,
+    photo => [
+        0 => url_image1.jpg,
+        1 => url_image2.jpg,
+        2 => url_image3.jpg
+    ]
+],
+...
+:other_field => ...,
+```
 
 **Remember**, you should always rely on View::elements() for rendering HTML code:
 
-    public function editTextField(Event $event, $field) {
-        $view = $event->subject;
-        return $View->element('text_field_edit', ['field' => $field]);
-    }
+```php
+public function editTextField(Event $event, $field) {
+    $view = $event->subject;
+    return $View->element('text_field_edit', ['field' => $field]);
+}
+```
 
 ## Creating an Edit Form
 
 In previous example we had an User edit form. When rendering User's form-inputs
 usually you would do something like so:
 
-    // edit.ctp
-    <?php echo $this->Form->input('id', ['type' => 'hidden']); ?>
-    <?php echo $this->Form->input('username'); ?>
-    <?php echo $this->Form->input('password'); ?>
+```html
+<?php echo $this->Form->input('id', ['type' => 'hidden']); ?>
+<?php echo $this->Form->input('username'); ?>
+<?php echo $this->Form->input('password'); ?>
+```    
 
 When rendering virtual fields you can pass the whole Field Object to
 `FormHelper::input()` method. So instead of passing the input name as first
 argument (as above) you can do as follow:
 
-    // Remember, custom fields are under the `_fields` property of your entity
-    <?php echo $this->Form->input($user->_fields[0]); ?>
-    <?php echo $this->Form->input($user->_fields[1]); ?>
+```html
+<!-- Remember, custom fields are under the `_fields` property of your entity -->
+<?php echo $this->Form->input($user->_fields[0]); ?>
+<?php echo $this->Form->input($user->_fields[1]); ?>
+```    
 
 That will render the first and second virtual field attached to your entity.
 But usually you'll end creating some loop structure and render all of them
 at once:
 
-    <?php foreach ($user->_fields as $field): ?>
-        <?php echo $this->Form->input($field); ?>
-    <?php endforeach; ?>
+```html
+<?php foreach ($user->_fields as $field): ?>
+    <?php echo $this->Form->input($field); ?>
+<?php endforeach; ?>
+```
 
 As you may see, `Form::input()` **automagically fires** the
 `Field.<FieldHandler>.Entity.edit` event asking to the corresponding Field
 Handler for its HTML form elements. Passing the Field object to `Form::input()`
 is not mandatory, you can manually generate your input elements:
 
-    <input name=":<?= $field->name; ?>" value="<?= $field->value; ?>" />
+```html
+<input name=":<?= $field->name; ?>" value="<?= $field->value; ?>" />
+```
 
 The `$user` variable used in these examples assumes you used `Controller::set()`
 method in your controller.
 
 A more complete example:
 
-    // UsersController.php
-    public function edit($id) {
-        $this->set('user', $this->Users->get($id));
-    }
+```php
+// UsersController.php
 
-    // edit.ctp
-    <?php echo $this->Form->create($user); ?>
-        <?php echo $this->Form->hidden('id'); ?>
-        <?php echo $this->Form->input('username'); ?>
-        <?php echo $this->Form->input('password'); ?>
-        <!-- Custom Fields -->
-        <?php foreach ($user->_fields as $field): ?>
-            <?php echo $this->Form->input($field); ?>
-        <?php endforeach; ?>
-        <!-- /Custom Fields -->
-        <?php echo $this->Form->submit('Save User'); ?>
-    <?php echo $this->Form->end(); ?>
+public function edit($id) {
+    $this->set('user', $this->Users->get($id));
+}
+```
+
+```html
+<!-- edit.ctp -->
+<?php echo $this->Form->create($user); ?>
+    <?php echo $this->Form->hidden('id'); ?>
+    <?php echo $this->Form->input('username'); ?>
+    <?php echo $this->Form->input('password'); ?>
+    <!-- Custom Fields -->
+    <?php foreach ($user->_fields as $field): ?>
+        <?php echo $this->Form->input($field); ?>
+    <?php endforeach; ?>
+    <!-- /Custom Fields -->
+    <?php echo $this->Form->submit('Save User'); ?>
+<?php echo $this->Form->end(); ?>
+```
 
 
 Field API UI
@@ -413,14 +456,18 @@ series of actions over a `clean` controller.
 Beside adding `use FieldUIControllerTrait;` to your controller you MUST also
 indicate the name of the Table being managed. Example:
 
-    namespace MyPlugin\Controller;
-    use MyPlugin\Controller\MyPluginAppController;
-    uses Field\Utility\FieldUIControllerTrait;
+```php
+namespace MyPlugin\Controller;
 
-    class MyCleanController extends MyPluginAppController {
-        use FieldUIControllerTrait;
-        protected $_manageTable = 'user_photos';
-    }
+use MyPlugin\Controller\MyPluginAppController;
+uses Field\Utility\FieldUIControllerTrait;
+
+class MyCleanController extends MyPluginAppController {
+    use FieldUIControllerTrait;
+
+    protected $_manageTable = 'user_photos';
+}
+```
 
 In the example above, `MyCleanController` will be used to manage all fields
 attached to `user_photos` table. You can now access your controller as usual a

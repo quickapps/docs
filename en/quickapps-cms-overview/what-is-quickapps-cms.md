@@ -1,10 +1,10 @@
-What is QuickApps CMS
-=====================
+What is QuickAppsCMS
+====================
 
-QuickApps CMS is a free open source CMS released under GPL license and inspired by most of the popular CMS.
-Powered by CakePHP v3 MVC framework makes this CMS the perfect development platform.
-A robust application fully expandable and capable of manage virtually any website, easy for both developers
-and users to work with.
+QuickAppsCMS is a free open source CMS released under GPL license and inspired by
+most of the popular CMS. Powered by CakePHP v3 MVC framework makes this CMS the
+perfect development platform. A robust application fully expandable and capable
+of manage virtually any website, easy for both developers and users to work with.
 
 
 Features
@@ -21,6 +21,6 @@ Features
 * **Menu management**
 * **Themes:** Backend and Frontend themes are managed separately
 * **RSS feeds:** Powered by a nice built-in search system
-* **Powerful events system:** Which allow to any plugin interact with the whole system or even other modules.
+* **Powerful events system:** Which allow to any plugin interact with the whole system or even other plugins.
 * **Hooktags:** Similar to Wordpress 'shortcodes'.
 * **Free** ...and much more!

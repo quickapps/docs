@@ -6,7 +6,9 @@ little effort. Hooktags can for example print current language code/name or call
 specifics plugin/themes functions. For instance, the following hooktag (in any
 content) would show current language's code:
 
-    [locale code /]
+```html
+[locale code /]
+```
 
 Note: If you are a Wordpress user you will find that `hooktags` are Wordpress's
 `shorcodes` equivalent.
@@ -31,14 +33,20 @@ will handle using the `implementedEvents()` method. The only main difference
 between the event system and hooktag system, is that **Even names must be prefixed
 with the `Hooktag.` word**, for example:
 
-    namespace MyPlugin\Event;
-    ...
-    public function implementedEvents() {
-        return [
-            'Hooktag.redBox' => 'redBox',
-            'Hooktag.blueBox' => 'blueBox',
-        ];
-    }
+```php
+namespace MyPlugin\Event;
+
+//...
+
+public function implementedEvents() {
+    return [
+        'Hooktag.redBox' => 'redBox',
+        'Hooktag.blueBox' => 'blueBox',
+    ];
+}
+
+//...
+```
 
 Where `redBox` and `blueBox` are methods defined within the Event Listener class,
 these methods must expect four arguments:
@@ -52,9 +60,11 @@ these methods must expect four arguments:
 
 For example:
 
-    public function redBox(\Cake\Event\Event $event, $atts, $content, $code) {
-        // logic here, and return HTML
-    }
+```php
+public function redBox(\Cake\Event\Event $event, $atts, $content, $code) {
+    // logic here, and return HTML
+}
+```
 
 These methods are responsible of converting a hooktag (that looks as
 `[locale code /]`) into their HTML equivalent.
@@ -81,20 +91,28 @@ two methods; `hooktags()` and `stripHooktags()`.
 Basically, `hooktags()` receives a string as only arguments and look for hooktags
 in the given text, for example, in any template you could:
 
-    echo $this->hooktags("Current language's code is: [language code /]");
+```php
+echo $this->hooktags("Current language's code is: [language code /]");
+```
 
 Depending on the current language you are navigating you will get:
 
-    Current language's code is: en-us
+```html
+Current language's code is: en-us
+```
 
 The second method, `stripHooktags()`, simply removes all hooktags from the given
 text:
 
-    echo $this->stripHooktags("Current language's code is: [language code /]");
+```php
+echo $this->stripHooktags("Current language's code is: [language code /]");
+```
 
 Now you will get:
 
-     Current language's code is:
+```html
+Current language's code is:
+```
 
 **Important:** As we mention before, Events names are prefixed with `Hooktag.`
 word, which means that `[language ...]` will trigger the `Hooktag.language` event.
@@ -118,35 +136,41 @@ Basically our hooktag must convert the code below:
 
 To its HTML representation:
 
-    <div style="background-color:green;">
-        Lorem ipsum dolor
-    </div>
-
+```html
+<div style="background-color:green;">
+    Lorem ipsum dolor
+</div>
+```
 
 As first step we must create a hooktag listener class, which would listen for
 `content_box`:
 
-    // Blog/src/Event/BoxesHooktag.php
-    namespace Blog\Event;
-    use Cake\Event\EventListener;
-    
-    class BoxesHooktag implements EventListener {
-        public function implementedEvents() {
-            return [
-                'Hooktag.content_box' => 'contentBox',
-            ];
-        }
+```php
+// Blog/src/Event/BoxesHooktag.php
+namespace Blog\Event;
+
+use Cake\Event\EventListener;
+
+class BoxesHooktag implements EventListener {
+    public function implementedEvents() {
+        return [
+            'Hooktag.content_box' => 'contentBox',
+        ];
     }
+}
+```
 
 Now we must define the event handler method which should receive hooktag's
 information and convert it into HTML:
 
-    public function contentBox(Event $event, $atts, $content = null, $code = '') {
-        $return = '<div style="background-color:' . $atts['color'] . ';"';
-        $return .= $content;
-        $return .= '</div>';
-        return $return;
-    }
+```php
+public function contentBox(Event $event, $atts, $content = null, $code = '') {
+    $return = '<div style="background-color:' . $atts['color'] . ';"';
+    $return .= $content;
+    $return .= '</div>';
+    return $return;
+}
+```
 
 **Usage:**
 
@@ -157,4 +181,6 @@ or wherever hooktags are allowed.
 
 Wherever you place the code above it will replaced by the following HTML code:
 
-    <div style="background-color:green;">Lorem ipsum dolor</div>
+```html
+<div style="background-color:green;">Lorem ipsum dolor</div>
+```

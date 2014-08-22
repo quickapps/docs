@@ -1,9 +1,9 @@
-### Which PHP version does QuickApps work with?
+### Which PHP version does QuickApps work with ?
 
 To run it on your server, you need:
 
 - Apache with mod_rewrite
-- PHP 5.4.19 or higher
+- **PHP 5.4.19 or higher**
 - mbstring extension installed
 - mcrypt extension installed
 - intl extension installed
@@ -18,15 +18,10 @@ To run it on your server, you need:
 
 ---
 
-### Is it possible to launch QuickApps on PHP ver. < 5.4.19 somehow?
+### Is it possible to launch QuickApps on PHP ver. < 5.4.19 somehow ?
 
-No it isn't. QuickApps has specific PHP-features which is available only on PHP v5.4.19 or higher.
-Moreover it uses CakePHP v3.0 as framework, which works only on PHP v5.4.19 or higher.
-
----
-
-### Is it possible to use one single QuickApps core on multiple domains in a shared hosting server ?
-
-Of course, [check this](multisite-installation.md).
+No it isn't. QuickApps has specific PHP-features which is available only on PHP
+v5.4.19 or higher. Moreover it uses CakePHP v3.0 as framework, which works only
+on PHP v5.4.19 or higher.
 
 ---
