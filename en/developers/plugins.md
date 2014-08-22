@@ -1,4 +1,4 @@
-What are Modules ?
+What are Plugins ?
 ==================
 
 QuickAppsCMS is designed to be modular. Instead of always having every possible
@@ -43,17 +43,15 @@ such as name, description, version, etc. The schema of this file is the same
 additional requirements specifically for QuickAppsCMS. These special requirements
 are described below:
 
-
 - key `name` must be present. A follow the pattern `author-name/package-name`
 - key `version` must be present.
-- key `type` must be present and be "quickapps-plugin" (even if it's a theme).
+- key `type` must be present and be **quickapps-plugin** (even if it's a theme).
 - key `name` must be present.
 - key `description` must be present.
-- key `extra.regions` must be present if it's a theme (its name ends with `-theme`,
-  e.g. `quickapps/blue-sky-theme`)
+- key `extra.regions` must be present if it's a theme (its `name` ends with
+  `-theme`, e.g. `quickapps/blue-sky-theme`)
 
 **NOTES:**
-
 - Plugins may behave as themes if their name ends with `-theme`
 - Plugin's names are inflected from the `name` key, they are camelized, for
   example for `author-name/super-name`, plugin name is `SuperName`.
@@ -180,5 +178,5 @@ do.
 For more information about:
 ===========================
 
-* [Events](events.md)
+* [Events System](events.md)
 * [Hooktags](hooktags.md)
