@@ -89,7 +89,9 @@ All properties are described below:
      fields, for instance it allows you to access an specific field by its
      corresponding numeric index or by its machine-name.
 
-### Accessing Field Properties
+
+Accessing Field Properties
+==========================
 
 Once you have your Entity (e.g. User Entity), you would probably need to get
 its attached fields and do fancy thing with them. Following with our User
@@ -103,9 +105,11 @@ entity example:
     echo "This field is attached to '" . $user->_fields[0]->metadata->table_alias . "' table";
     // out: This field is attached to 'users' table;
 
-## Searching over custom fields
 
-This behavior allows you to perform WHERE clauses using any of the fields
+Searching over custom fields
+============================
+
+Fieldable Behavior allows you to perform WHERE clauses using any of the fields
 attached to your table. Every attached field has a "machine-name"
 (a.k.a. field slug), you should use this "machine-name" prefixed with
 `:`, for example:
@@ -118,7 +122,8 @@ attached to your table. Every attached field has a "machine-name"
 `Users` table has a custom field attached (first-name), and we are looking for
 all the users whose `first-name` starts with `John`.
 
-## Value vs Extra
+Value vs Extra
+==============
 
 In the "Entity Example" above you might notice that each field attached to
 entities has two properties that looks pretty similar, `value` and `extra`,
@@ -166,7 +171,8 @@ for searches, while `extra` is intended to store sets of complex information.
 
 ***
 
-## Enable/Disable Field Attachment
+Enable/Disable Field Attachment
+===============================
 
 If for some reason you don't need custom fields to be fetched under the `_field`
 of your entities you should use the unbindFieldable(). Or bindFieldable() to
@@ -176,29 +182,35 @@ enable it again.
     $this->User->unbindFieldable();
     $this->Users->get($id);
 
-## About Field-Handlers & Hooks
 
-Field Handler are "Listeners" classes which must take care of storing,
-organizing and retrieving information for each entity's field. This is
-archived using Hook callbacks.
+Field Handlers
+==============
 
-Similar to Hooks and Hooktags, Field-Handlers must define a series of hook event.
-This hook events has been organized in two groups or "event subspaces":
+Field Handler are "Listeners" classes which must take care of storing, organizing
+and retrieving information for each entity's field. All this is archived using
+QuickAppsCMS's events system
+
+Similar to [Event Listeners](events.md) and Hooktags, Field Handlers classes
+must define a series of events, which has been organized in two groups or
+"event subspaces":
 
 - `Field.<FieldHandler>.Entity`: For handling Entity's related events such
    as `entity save`, `entity delete`, etc.
 - `Field.<FieldHandler>.Instance`: Related to Field Instances events, such as
    "instance being detached from table", "new instance attached to table", etc.
 
-Below, a list of available hook events:
+Below, a list of available events:
 
 ### Entity events:
 
 - `Field.<FieldHandler>.Entity.display`: When an entity is being rendered
-- `Field.<FieldHandler>.Entity.edit`: When an entity is being rendered in `edit` mode. (backend usually)
+- `Field.<FieldHandler>.Entity.edit`: When an entity is being rendered in `edit`
+   mode. (backend usually)
 - `Field.<FieldHandler>.Entity.beforeFind`: Before an entity is retrieved from DB
-- `Field.<FieldHandler>.Entity.beforeValidate`: Before entity is validated as part of save operation
-- `Field.<FieldHandler>.Entity.afterValidate`: After entity is validated as part of save operation
+- `Field.<FieldHandler>.Entity.beforeValidate`: Before entity is validated as
+   part of save operation
+- `Field.<FieldHandler>.Entity.afterValidate`: After entity is validated as part
+   of save operation
 - `Field.<FieldHandler>.Entity.beforeSave`: Before entity is saved
 - `Field.<FieldHandler>.Entity.afterSave`: After entity was saved
 - `Field.<FieldHandler>.Entity.beforeDelete`: Before entity is deleted
@@ -206,17 +218,181 @@ Below, a list of available hook events:
 
 ### Instance events:
 
-- `Field.<FieldHandler>.Instance.info`: When QuickAppsCMS asks for information about each registered Field
-- `Field.<FieldHandler>.Instance.settingsForm`: Additional settings for this field. Should define the way the values will be stored in the database.
-- `Field.<FieldHandler>.Instance.settingsDefaults`: Default values for field settings form's inputs
-- `Field.<FieldHandler>.Instance.viewModeForm`: Additional formatter options. Show define the way the values will be rendered for a particular view mode.
-- `Field.<FieldHandler>.Instance.viewModeDefaults`: Default values for view mode settings form's inputs
-- `Field.<FieldHandler>.Instance.beforeValidate`: Before field is validated as part of attach operation
-- `Field.<FieldHandler>.Instance.afterValidate`: After field is validated as part of attach operation
+- `Field.<FieldHandler>.Instance.info`: When QuickAppsCMS asks for information
+   about each registered Field
+- `Field.<FieldHandler>.Instance.settingsForm`: Additional settings for this
+   field. Should define the way the values will be stored in the database.
+- `Field.<FieldHandler>.Instance.settingsDefaults`: Default values for field
+   settings form's inputs
+- `Field.<FieldHandler>.Instance.viewModeForm`: Additional formatter options.
+   Show define the way the values will be rendered for a particular view mode.
+- `Field.<FieldHandler>.Instance.viewModeDefaults`: Default values for view mode
+   settings form's inputs
+- `Field.<FieldHandler>.Instance.beforeValidate`: Before field is validated as
+   part of attach operation
+- `Field.<FieldHandler>.Instance.afterValidate`: After field is validated as
+   part of attach operation
 - `Field.<FieldHandler>.Instance.beforeAttach`: Before field is attached to Tables
 - `Field.<FieldHandler>.Instance.afterAttach`: After field is attached to Tables
 - `Field.<FieldHandler>.Instance.beforeDetach`: Before field is detached from Tables
 - `Field.<FieldHandler>.Instance.afterDetach`: After field is detached from Tables
+
+
+## Creating Field Handlers
+
+As we mention early, Field Handler are simply Event Listeners classes which should
+respond to the enormous list of event names described above. In order to make this
+task easy you can simply create an new Event Listener class and
+extend `Field\Utility\FieldHandler`, so instead of implementing the EvenListener
+interface you should simply extend this class.
+
+For instance, we could create a `Date` Field Handler, aimed to provide a date
+picker for every entity this field is attached to. You must create a new Event
+Listener class under the `Event` directory of the plugin defining this field.
+
+    // MyPlugin/src/Event/DateField.php
+    namespace MyPlugin\Event;
+    use Field\Utility\FieldHandler;
+    class DateField extends FieldHandler {
+    }
+
+`FieldHandler` is a simple base class which automatically registers all the events
+names a field could handle (listed above), it has empty methods which you should
+override with your own logic:
+
+    namespace MyPlugin;
+    use Field\Utility\FieldHandler;
+    class DateField extends FieldHandler {
+      public function entityDisplay(Event $event, $field, $options = []) {
+        return 'HTML representation of $field';
+      }
+
+      public function entityBeforeSave(Event $event, $entity, $field, $options) {
+        return true;
+      }
+
+      ...
+    }
+
+Check this class's documentation for deeper information.
+
+## Preparing Field Inputs
+
+Your Field Handler should somehow render some form elements (inputs, selects,
+textareas, etc) when rendering Table's Entities in `edit mode`. For this we have
+the `Field.<FieldHandler>.Entity.edit` event, which should return a HTML
+containing all the form elements for [entity, field_instance] tuple.
+
+For example, lets suppose we have a `TextField` attached to `Users` Table for
+storing their `favorite_food`, and now we are editing some specific `User`
+Entity (i.e.: User.id = 4), so in the form editing page we should see some
+inputs for change some values like `username` or `password`, and also we
+should see a `favorite_food` input where Users shall type in their favorite
+food. Well, your TextField Handler should return something like this:
+
+    // note the `:` prefix
+    <input name=":favorite_food" value="<current_value_from_entity>" />
+
+To accomplish this, your Field Handler should properly catch the
+`Field.<FieldHandler>.Entity.edit` event, example:
+
+    public function entityEdit(Event $event, $field) {
+        return '<input name=":' . $field->name . '" value="' . $field->value . '" />";
+    }
+
+As usual, the second argument `$field` contains all the information you will
+need to properly render your form inputs.
+
+You must tell to QuickAppsCMS that the fields you are sending in your POST
+action are actually virtual fields. To do this, all your input's `name`
+attributes **must be prefixed** with `:` followed by its machine
+(a.k.a. `slug`) name:
+
+    <input name=":<machine-name>" ... />
+
+You may also create complex data structures like so:
+
+    <input name=":album.name" value="<current_value>" />
+    <input name=":album.photo.0" value="<current_value>" />
+    <input name=":album.photo.1" value="<current_value>" />
+    <input name=":album.photo.2" value="<current_value>" />
+
+The above may produce a $_POST array like below:
+
+        :album => array(
+            name => Album Name,
+            photo => array(
+                0 => url_image1.jpg,
+                1 => url_image2.jpg,
+                2 => url_image3.jpg
+            )
+        ),
+        ...
+        :other_field => ...,
+    )
+
+**Remember**, you should always rely on View::elements() for rendering HTML code:
+
+    public function editTextField(Event $event, $field) {
+        $view = $event->subject;
+        return $View->element('text_field_edit', ['field' => $field]);
+    }
+
+## Creating an Edit Form
+
+In previous example we had an User edit form. When rendering User's form-inputs
+usually you would do something like so:
+
+    // edit.ctp
+    <?php echo $this->Form->input('id', ['type' => 'hidden']); ?>
+    <?php echo $this->Form->input('username'); ?>
+    <?php echo $this->Form->input('password'); ?>
+
+When rendering virtual fields you can pass the whole Field Object to
+`FormHelper::input()` method. So instead of passing the input name as first
+argument (as above) you can do as follow:
+
+    // Remember, custom fields are under the `_fields` property of your entity
+    <?php echo $this->Form->input($user->_fields[0]); ?>
+    <?php echo $this->Form->input($user->_fields[1]); ?>
+
+That will render the first and second virtual field attached to your entity.
+But usually you'll end creating some loop structure and render all of them
+at once:
+
+    <?php foreach ($user->_fields as $field): ?>
+        <?php echo $this->Form->input($field); ?>
+    <?php endforeach; ?>
+
+As you may see, `Form::input()` **automagically fires** the
+`Field.<FieldHandler>.Entity.edit` event asking to the corresponding Field
+Handler for its HTML form elements. Passing the Field object to `Form::input()`
+is not mandatory, you can manually generate your input elements:
+
+    <input name=":<?= $field->name; ?>" value="<?= $field->value; ?>" />
+
+The `$user` variable used in these examples assumes you used `Controller::set()`
+method in your controller.
+
+A more complete example:
+
+    // UsersController.php
+    public function edit($id) {
+        $this->set('user', $this->Users->get($id));
+    }
+
+    // edit.ctp
+    <?php echo $this->Form->create($user); ?>
+        <?php echo $this->Form->hidden('id'); ?>
+        <?php echo $this->Form->input('username'); ?>
+        <?php echo $this->Form->input('password'); ?>
+        <!-- Custom Fields -->
+        <?php foreach ($user->_fields as $field): ?>
+            <?php echo $this->Form->input($field); ?>
+        <?php endforeach; ?>
+        <!-- /Custom Fields -->
+        <?php echo $this->Form->submit('Save User'); ?>
+    <?php echo $this->Form->end(); ?>
 
 
 Field API UI
