@@ -374,7 +374,7 @@ public function editTextField(Event $event, $field) {
 In previous example we had an User edit form. When rendering User's form-inputs
 usually you would do something like so:
 
-```html
+```php
 <?php echo $this->Form->input('id', ['type' => 'hidden']); ?>
 <?php echo $this->Form->input('username'); ?>
 <?php echo $this->Form->input('password'); ?>
@@ -384,7 +384,7 @@ When rendering virtual fields you can pass the whole Field Object to
 `FormHelper::input()` method. So instead of passing the input name as first
 argument (as above) you can do as follow:
 
-```html
+```php
 <!-- Remember, custom fields are under the `_fields` property of your entity -->
 <?php echo $this->Form->input($user->_fields[0]); ?>
 <?php echo $this->Form->input($user->_fields[1]); ?>
@@ -394,7 +394,7 @@ That will render the first and second virtual field attached to your entity.
 But usually you'll end creating some loop structure and render all of them
 at once:
 
-```html
+```php
 <?php foreach ($user->_fields as $field): ?>
     <?php echo $this->Form->input($field); ?>
 <?php endforeach; ?>
@@ -422,7 +422,7 @@ public function edit($id) {
 }
 ```
 
-```html
+```php
 <!-- edit.ctp -->
 <?php echo $this->Form->create($user); ?>
     <?php echo $this->Form->hidden('id'); ?>

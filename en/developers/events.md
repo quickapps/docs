@@ -102,7 +102,7 @@ and `alter()` which are described below.
 
 ### hook($eventName [, $arg0, ..., $argN, ...]);
 
-Trigger the given event name. You can pass an unlimited number of arguments to
+Triggers the given event name. You can pass an unlimited number of arguments to
 your event handler method.
 
 #### Usage:
@@ -131,7 +131,7 @@ If no context is given "$this" will be used by default.
 
 ### didHook([$eventName]);
 
-Retrieve the number of times an event was fired, or the complete list of events
+Retrieves the number of times an event was fired, or the complete list of events
 that were fired. For example:
 
 ```php

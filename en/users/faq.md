@@ -8,12 +8,7 @@ We accept any contributions useful for the project such as:
 
 * [Translating QuickApps](../designers/translating-quickapps-cms.md) to other languages
 * [Bug-fixes](https://github.com/QuickAppsCMS/QuickApps-CMS/issues?sort=updated&direction=desc&state=closed) and improvements
-* [Programming](../developers/index.md) free modules or themes
-
-***
-
-### Where is the WYSIWYG editor ?
-[Right here!](https://github.com/QuickAppsCMS/QACMS-Wysiwyg/) as and external module.
+* [Programming](../developers/index.md) free plugins or themes
 
 ***
 
