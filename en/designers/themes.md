@@ -51,7 +51,9 @@ Theme's names -same as plugins- is inflected from the `name` key from composer.j
 schema.
 
 Also the must define the `extra.regions` key, a list of all regions your theme
-implements.
+implements. Regions as defined as an associative array `machine-name` => `human name`,
+machine-name is used internally when referring to a region, and human name is the
+name users will see in the administration panel when assigning blocks to a region.
 
 And optionally, they may define the `extra.admin` key indicating whether your theme
 is a Backend theme or not. Defaults to "false" if not given.
@@ -78,8 +80,8 @@ Here a full working example:
     }
 
 
-Setting Up The Layout's Header
-==============================
+Layout's Header
+===============
 
 Layout's header is where you should place all links to your CSS and JS files,
 among other things such as meta-descriptions and so on. QuickAppsCMS provides
@@ -89,6 +91,9 @@ a basic header setup which you can use within your theme's layouts:
     <head>
         <?php echo $this->Html->head(); ?>
     </head>
+
+The `head()` methods accepts a series of options which you may tweak depending
+on your needs. For more information please check `QuickApps\View\View::head()`
 
 
 Regions
@@ -104,8 +109,8 @@ RegionHelper as follow:
 
     <?php echo $this->Region->create('right-sidebar'); ?>
 
-You can do nifty things such as combine to regions, limit the number of blocks,
-etc. For example:
+You can do nifty things such as combine two or more regions, limit the
+number of blocks a region can hold, etc. For example:
 
 Merge `left-sidebar` and `right-sidebar` regions together, the resulting region
 limit the number of blocks it can holds to `3`:
@@ -114,6 +119,9 @@ limit the number of blocks it can holds to `3`:
         ->create('left-sidebar')
         ->append($this->Region->create('right-sidebar'))
         ->blockLimit(3);
+
+As you may have noticed, we always use region's machine-name when referring to
+region; `left-sidebar` (human name: Left Sidebar)
 
 For more information please check `Block\View\Helper\RegionHelper` documentation.
 
