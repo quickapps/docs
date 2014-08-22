@@ -51,7 +51,7 @@ Theme's names -same as plugins- is inflected from the `name` key from composer.j
 schema.
 
 Also the must define the `extra.regions` key, a list of all regions your theme
-implements. Regions as defined as an associative array `machine-name` => `human name`,
+implements. Regions are defined as an associative array `machine-name` => `human name`,
 machine-name is used internally when referring to a region, and human name is the
 name users will see in the administration panel when assigning blocks to a region.
 
@@ -101,7 +101,7 @@ Regions
 
 Theme authors can define and implement any number of regions for content to be
 rendered into. Regions are areas of your layout aimed to contain blocks, regions
-(by default) may contain an unlimited number of blocks.
+may contain an unlimited number of blocks (by default).
 
 For rendering a region's content (blocks) in your layout you must use the
 RegionHelper as follow:
@@ -113,7 +113,7 @@ You can do nifty things such as combine two or more regions, limit the
 number of blocks a region can hold, etc. For example:
 
 Merge `left-sidebar` and `right-sidebar` regions together, the resulting region
-limit the number of blocks it can holds to `3`:
+limits the number of blocks it can holds to three (3):
 
     echo $this->Region
         ->create('left-sidebar')
@@ -142,7 +142,6 @@ You can define `specialized-renders` according to your needs as described below.
 You must simply create these template elements under within the `Template/Element`
 directory of your theme.
 
----
 
 ### Render node per node-type & view-mode
 
