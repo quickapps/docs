@@ -454,13 +454,14 @@ series of actions over a `clean` controller.
 ## Usage:
 
 Beside adding `use FieldUIControllerTrait;` to your controller you MUST also
-indicate the name of the Table being managed. Example:
+indicate the name of the Table being managed using the `$_manageTable` property.
+For example:
 
 ```php
 namespace MyPlugin\Controller;
 
 use MyPlugin\Controller\MyPluginAppController;
-uses Field\Utility\FieldUIControllerTrait;
+use Field\Utility\FieldUIControllerTrait;
 
 class MyCleanController extends MyPluginAppController {
     use FieldUIControllerTrait;
@@ -470,7 +471,7 @@ class MyCleanController extends MyPluginAppController {
 ```
 
 In the example above, `MyCleanController` will be used to manage all fields
-attached to `user_photos` table. You can now access your controller as usual a
+attached to `user_photos` table. You can now access your controller as usual and
 you will see Field API UI in action.
 
 **IMPORTANT:** In order to avoid trait collision you should always `extend`
