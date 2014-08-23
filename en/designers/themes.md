@@ -246,7 +246,7 @@ directory of your theme.
 
 ### Render node per node-type & view-mode
 
-    render_node_[node-type]_[view-mode]
+> render_node_[node-type]_[view-mode]
 
 Renders the given node per `node-type` + `view-mode` combination:
 
@@ -261,7 +261,7 @@ Renders the given node per `node-type` + `view-mode` combination:
 
 ### Render node per node-type
 
-    render_node_[node-type]
+> render_node_[node-type]
 
 Similar as before, but just per `node-type` and any view-mode:
 
@@ -273,7 +273,7 @@ Similar as before, but just per `node-type` and any view-mode:
 
 ### Render node per view-mode
 
-    render_node_[view-mode]"
+> render_node_[view-mode]"
 
 Similar as before, but just per `view-mode` and any `node-type`:
 
