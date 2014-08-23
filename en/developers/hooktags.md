@@ -84,7 +84,7 @@ Parsing Hooktags
 
 Once you have defined your hooktag classes is time to start converting a hooktag
 into HTML. To do this, you can use the `QuickApps\Core\HooktagTrait` trait in any
-class, by defaults is trait is attached to `QuickApps\View\View` which means
+class, by defaults this trait is attached to `QuickApps\View\View` which means
 **you can use hooktag functionalities in any template**. HooktagTrait simply adds
 two methods; `hooktags()` and `stripHooktags()`.
 
