@@ -290,6 +290,6 @@ content types. By default, Node plugin defines the following view-modes:
 
 ### Default
 
-    render_node
+> render_node
 
 This is the global render, if none of the above is found we try to use this last.
