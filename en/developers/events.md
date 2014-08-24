@@ -126,7 +126,7 @@ the first element is the event name and the second one is the context:
 $this->hook(['GetTime', new ContextObject()], $arg_0, $arg_0, ..., $arg_1);
 ```
 
-If no context is given "$this" will be used by default.
+If no context is given `$this` will be used by default.
 
 
 ### didHook([$eventName]);
@@ -139,7 +139,7 @@ $this->didHook('event_name');
 // may returns: 10
 ```
 
-If used with no arguments the full list of event as counters will be returned:
+If used with no arguments the full list of event and counters will be returned:
 
 ```php
 $this->didHook();
@@ -155,7 +155,7 @@ $this->didHook();
 
 ### alter($eventName [, $arg0, ..., $arg14]);
 
-Similar to "hook()" but aimed to alter the given arguments. You can pass up to
+Similar to `hook()` but aimed to alter the given arguments. You can pass up to
 15 arguments by reference. The main difference with `hook()` is that `alert()`
 will prefix event names with the `Alter.` word, so invoking "alter_this" will
 actually triggers the event name "Alter.alter_this"
@@ -183,7 +183,7 @@ the first element is the event name and the second one is the context:
 $this->alter(['Time', new ContextObject()], $arg0, $arg1, ...);
 ```
 
-If no context is given "$this" will be used by default.
+If no context is given `$this` will be used by default.
 
 ---
 

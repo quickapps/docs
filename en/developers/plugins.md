@@ -75,8 +75,8 @@ For example you may indicate your plugin requires certain version of QuickAppsCM
 Which means: This plugin can only be installed on QuickAppsCMS v1.0 or higher.
 
 
-The (Un)Installation Process
-============================
+Install & Uninstall Process
+===========================
 
 The following describes some of the tasks automatically performed by QuickAppsCMS
 during the (un)installation process, as well as some tasks that plugins should
@@ -85,10 +85,10 @@ automatically triggered which plugins may responds to in order to change the
 (un)installation process.
 
 
-During Installation
--------------------
+Installation
+------------
 
-### Tasks automatically performed by QuickAppsCMS
+#### Tasks automatically performed by QuickAppsCMS
 
 - Checks plugin folder/files consistency.
 - Checks version compatibilities.
@@ -97,7 +97,7 @@ During Installation
 - Register plugin on `plugins` table.
 - Regenerate related caches.
 
-### Common tasks which plugins may do
+#### Common tasks which plugins may do
 
 - Create new tables on Database.
 - Add new blocks.
@@ -105,22 +105,22 @@ During Installation
 - Add links to an existing menu.
 - Add new options to the `options` table
 
-### Events triggered
+#### Events triggered
 
-- `<PluginName>.beforeInstall`: Before plugins is registered on DB and before
-   plugin's directory is moved to "/plugins"
-- `<PluginName>.afterInstall`: After plugins was registered in DB and after
-   plugin's directory was moved to "/plugins"
+- `Plugin.<PluginName>.beforeInstall`: Before plugins is registered on DB and
+   before plugin's directory is moved to "/plugins"
+- `Plugin.<PluginName>.afterInstall`: After plugins was registered in DB and
+   after plugin's directory was moved to "/plugins"
 
 Where `<PluginName>` is the inflected name of your plugin, for example, if in your
 "composer.json" your package name is `author-name/super-plugin-name` then plugin's
 inflected name is `SuperPluginName`.
 
 
-During Uninstallation
----------------------
+Uninstallation
+--------------
 
-### Tasks automatically performed by QuickAppsCMS
+#### Tasks automatically performed by QuickAppsCMS
 
 - Remove all related [ACOs and AROs](http://book.cakephp.org/2.0/en/core-libraries/components/access-control-lists.html#understanding-how-acl-works)
 - Remove all menus created by the plugin during installation.
@@ -129,7 +129,7 @@ During Uninstallation
 - Regenerate related caches.
 
 
-### Tasks to consider by plugin
+#### Tasks to consider by plugin
 
 The following tasks should be performed by the plugins during the uninstallation
 process. The best place to perform these tasks is on `afterUninstall` or
@@ -141,20 +141,20 @@ process. The best place to perform these tasks is on `afterUninstall` or
 In general, your plugin should remove anything that is not automatically removed
 by QuickAppsCMS.
 
-### Events triggered
+#### Events triggered
 
-- `<PluginName>.beforeUninstall`: Before plugins is removed from DB and before
-   plugin's directory is deleted from "/plugins".
-- `<PluginName>.afterUninstall`: After plugins was removed from DB and after
-   plugin's directory was deleted from "/plugins"
+- `Plugin.<PluginName>.beforeUninstall`: Before plugins is removed from DB and
+   before plugin's directory is deleted from "/plugins".
+- `Plugin.<PluginName>.afterUninstall`: After plugins was removed from DB and
+   after plugin's directory was deleted from "/plugins"
 
 Where `<PluginName>` is the inflected name of your plugin, for example, if in your
 "composer.json" your package name is `author-name/super-plugin-name` then plugin's
 inflected name is `SuperPluginName`.
 
 
-The (En)Disabling Process
-=========================
+Enabling & Disabling Process
+============================
 
 Plugins can be installed and uninstalled from your system, but also they can also
 be enabled or disabled. Disabled plugins have not interaction with the system,
@@ -166,13 +166,35 @@ then you are not able to disable plugin `B` as plugin `A` would stop working pro
 
 When plugins are enabled or disabled the following events are triggered:
 
-- `<PluginName>.beforeEnable`
-- `<PluginName>.afterEnable`
-- `<PluginName>.beforeDisable`
-- `<PluginName>.afterDisable`
+- `Plugin.<PluginName>.beforeEnable`
+- `Plugin.<PluginName>.afterEnable`
+- `Plugin.<PluginName>.beforeDisable`
+- `Plugin.<PluginName>.afterDisable`
 
 The names of these events should be descriptive enough to let you know what they
 do.
+
+
+
+Update Process
+==============
+
+Plugins can also be updated to newer versions, the update & install process are
+both very similar as they perform similar actions during their process.
+
+Plugins can be updated using a ZIP package only if the current version (version
+currently installed) is older than the version in the ZIP package.
+
+During this process two events are triggered:
+
+- `Plugin.<PluginName>.beforeUpdate`: Before plugins's old directory is removed
+   from "/plugins"
+- `Plugin.<PluginName>.afterUpdate`: Before plugins's old directory was removed
+   from "/plugins" and after placing new directory in its place.
+
+The update process basically replaces one directory (older) by another (newer).
+Plugins should take care of migration tasks if needed using the events described
+above.
 
 
 
@@ -235,8 +257,8 @@ below:
 
 This event is automatically triggered every time you try to read a setting value,
 your must implement this event handler in any of your plugin's
-[Event Listener](events.md) classes and it must return an associative array
-for setting keys and their values, a full example:
+[Event Listener](events.md#registering-listeners) classes and it must return an
+associative array for setting keys and their values, a full example:
 
 
 ```php
