@@ -13,6 +13,7 @@ functionality and features. These plugins have been "contributed" back to the
 QuickAppsCMS community by their authors.
 
 
+
 Structure
 =========
 
@@ -31,7 +32,8 @@ Basic structure of plugins:
 
 Plugin's structure is the same defined by CakePHP, the only main difference is
 that plugins MUST define a `composer.json` file, this file contains information
-about the plugin itself which is used by QuickAppsCMS.
+about the plugin itself which is consumed by QuickAppsCMS.
+
 
 
 The "composer.json" file
@@ -73,6 +75,7 @@ For example you may indicate your plugin requires certain version of QuickAppsCM
 ```
 
 Which means: This plugin can only be installed on QuickAppsCMS v1.0 or higher.
+
 
 
 Install & Uninstall Process
@@ -153,12 +156,14 @@ Where `<PluginName>` is the inflected name of your plugin, for example, if in yo
 inflected name is `SuperPluginName`.
 
 
+
 Enabling & Disabling Process
 ============================
 
-Plugins can be installed and uninstalled from your system, but also they can also
-be enabled or disabled. Disabled plugins have not interaction with the system,
-which means all their Event Listeners classes will not respond to any event.
+Plugins can be installed and uninstalled from your system, but they can also be
+enabled or disabled. Disabled plugins have not interaction with the system,
+which means all their Event Listeners classes will not respond to any event, as
+their [routes](http://book.cakephp.org/3.0/en/development/routing.html#plugin-routing) as well.
 
 Plugins can be disabled only if they are not required by any other plugins, that
 is, for instance, if plugin `A` needs some functionalities provided by plugin `B`
@@ -173,6 +178,10 @@ When plugins are enabled or disabled the following events are triggered:
 
 The names of these events should be descriptive enough to let you know what they
 do.
+
+**IMPORTANT:** Plugin's assets are not accessible when plugins are disabled,
+which means anything within the `/webroot` directory of your plugin will not
+be accessible via URL.
 
 
 
