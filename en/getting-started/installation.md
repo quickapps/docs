@@ -24,8 +24,8 @@ Requirements
 
 
 
-Installing QuickApps CMS
-------------------------
+Installing QuickAppsCMS
+-----------------------
 
 You must install QuickAppsCMS using [composer](http://getcomposer.org).
 QuickApps CMS is designed to run as a stand alone application, so you must

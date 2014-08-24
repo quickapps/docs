@@ -175,6 +175,95 @@ The names of these events should be descriptive enough to let you know what they
 do.
 
 
+
+Configurable Settings
+=====================
+
+Plugins are allowed to define a series of customizable parameters, this parameters
+can be tweaked on the administration section by users with proper permissions.
+
+For example, a "Blog" plugin may allow users to change plugin's behavior
+by providing a series of form inputs where users may indicate certain values that
+will alter plugin's functionalities, for example "show publish date" which would
+display articles "publish date" when an article is being rendered.
+
+Any plugin can provide this form inputs by placing them into
+`/src/Tempalte/Element/settings.ctp`, here is where you should all form elements
+that users will be able to teak. For our "Blog" example, this file could look
+as follow:
+
+```php
+<?php echo $this->Form->input('show_publish_date', ['type' => 'checkbox', 'label' => 'Show publish date']); ?>
+```
+
+As you can see, you must simply create all the form inputs you want to provide
+to users, you must omit `Form::create()` & `Form::end()` as they are automatically
+printed by QuickAppsCMS.
+
+
+Reading settings values
+-----------------------
+
+Once you have provided certain teakable values, you may need to read those values
+in order to change your plugin's behavior, in our "Blog" example want to know
+whether the "publish date" should be rendered or not. To read these values
+you should use the `QuickApps\Core\Plugin` class as follow:
+
+
+```php
+Plugin::settings('Blog', 'show_publish_date');
+```
+
+**IMPORTANT:** In some cases you will encounter that no values has been set for
+a setting property, for example if user has not indicated any value for your
+settings yet. This can be solved using the feature described below.
+
+
+
+Default Setting Values
+----------------------
+
+You can provide default values for each of your settings keys using the event
+below:
+
+    Plugin.<PluginName>.settingsDefaults
+
+This event is automatically triggered every time you try to read a setting value,
+your must implement this event handler in any of your plugin's
+[Event Listener](events.md) classes and it must return an associative array
+for setting keys and their values, a full example:
+
+
+```php
+// Blog/src/Event/BlogHook.php
+namespace Blog\Event;
+
+use Cake\Event\Event;
+use Cake\Event\EventListener;
+
+class BlogHook implements EventListener {
+
+    public function implementedEvents() {
+        return [
+            'Plugin.Blog.settingsDefaults' => 'settingsDefaults',
+        ];
+    }
+
+    public function settingsDefaults(Event $event) {
+        return [
+            'show_publish_date' => 1,
+        ];
+    }
+
+}
+```
+
+
+In the example above, if user has not indicated whether to show "publish date" or
+not the default value will be `1` which we'll consider as "YES, show publish date".
+
+
+
 For more information about:
 ===========================
 
