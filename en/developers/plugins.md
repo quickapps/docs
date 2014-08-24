@@ -300,6 +300,43 @@ not the default value will be `1` which we'll consider as "YES, show publish dat
 
 
 
+Validating Settings
+-------------------
+
+Usually you would need to restrict what user's type in on your settings form
+inputs, so for example you may need an users to type in only integer values
+for certain setting parameter. To  validate these inputs you must use the
+`Plugin.<PluginName>.beforeValidate` event which is automatically triggered
+when plugin information is being saved into DB. This event acts exactly the same
+as Cake's `beforeValidate` [event](http://book.cakephp.org/3.0/en/orm/table-objects.html#beforevalidate),
+here you should alter the given Validator instance and attach your own validation
+rules.
+
+There are other useful events triggered when plugin information is being saved,
+you can catch these events and do special logics your plugin may need. Below a
+list of all events triggered when saving plugin's info:
+
+- `Plugin.<PluginName>.beforeValidate`
+- `Plugin.<PluginName>.afterValidate`
+- `Plugin.<PluginName>.beforeSave`
+- `Plugin.<PluginName>.afterSave`
+
+
+### Other events
+
+When plugins are being removed from DB as part of [uninstallation](#uninstallation)
+process the following events are triggered as well:
+
+- `Plugin.<PluginName>.beforeDelete`
+- `Plugin.<PluginName>.afterDelete`
+
+
+**WARNING:** Your plugin should catch this two events only if it needs to do
+something that cannot be done by catching `beforeUninstall` & `afterUninstall`
+events. Use this events with caution as they may break your system.
+
+
+
 For more information about:
 ===========================
 
