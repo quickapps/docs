@@ -193,7 +193,12 @@ that users will be able to teak. For our "Blog" example, this file could look
 as follow:
 
 ```php
-<?php echo $this->Form->input('show_publish_date', ['type' => 'checkbox', 'label' => 'Show publish date']); ?>
+<?php
+    echo $this->Form->input('show_publish_date', [
+        'type' => 'checkbox',
+        'label' => 'Show publish date',
+    ]);
+?>
 ```
 
 As you can see, you must simply create all the form inputs you want to provide
