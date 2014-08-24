@@ -219,9 +219,9 @@ will alter plugin's functionalities, for example "show publish date" which would
 display articles "publish date" when an article is being rendered.
 
 Any plugin can provide this form inputs by placing them into
-`/src/Tempalte/Element/settings.ctp`, here is where you should all form elements
-that users will be able to teak. For our "Blog" example, this file could look
-as follow:
+`/src/Tempalte/Element/settings.ctp`, here is where you should render all form
+elements that users will be able to teak. For our "Blog" example, this file
+could look as follow:
 
 ```php
 <?php
