@@ -1,0 +1,1 @@
+for /r "C:\xampp\htdocs\docs" %%i in (*.md) do pandoc -f markdown -t rst "%%~fi" -o "%%~dpni.rst"
