@@ -157,7 +157,7 @@ space-separated values under `value` property:
 ]
 
 // value:
-OMG! Look at this lol Fuuuu
+"OMG! Look at this lol Fuuuu"
 ```    
 
 In our example when rendering an entity with `AlbumField` attached to it,

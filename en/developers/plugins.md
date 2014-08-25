@@ -303,23 +303,46 @@ not the default value will be `1` which we'll consider as "YES, show publish dat
 Validating Settings
 -------------------
 
-Usually you would need to restrict what user's type in on your settings form
+Usually you would need to restrict what user's types in your settings form
 inputs, so for example you may need an users to type in only integer values
-for certain setting parameter. To  validate these inputs you must use the
-`Plugin.<PluginName>.beforeValidate` event which is automatically triggered
-when plugin information is being saved into DB. This event acts exactly the same
-as Cake's `beforeValidate` [event](http://book.cakephp.org/3.0/en/orm/table-objects.html#beforevalidate),
-here you should alter the given Validator instance and attach your own validation
-rules.
+for certain setting parameter. To validate these inputs you must use the
+`Plugin.<PluginName>.settingsValidate` event which is automatically triggered
+before plugin information is persisted into DB. Event listeners methods should
+expect two arguments: an entity as first arguments representing all settings
+values, and an instance of validator object being used, you should alter this
+object as needed to add your own validation rules. For example:
 
-There are other useful events triggered when plugin information is being saved,
-you can catch these events and do special logics your plugin may need. Below a
-list of all events triggered when saving plugin's info:
 
-- `Plugin.<PluginName>.beforeValidate`
-- `Plugin.<PluginName>.afterValidate`
-- `Plugin.<PluginName>.beforeSave`
-- `Plugin.<PluginName>.afterSave`
+```php
+// Blog/src/Event/BlogHook.php
+namespace Blog\Event;
+
+use Cake\Event\Event;
+use Cake\Event\EventListener;
+
+class BlogHook implements EventListener {
+
+    public function implementedEvents() {
+        return [
+            'Plugin.Blog.settingsValidate' => 'settingsValidate',
+        ];
+    }
+
+    public function settingsValidate(Event $event, $settingsEntity, $validator) {
+        $validator
+            ->validatePresence('show_publish_date')
+            ->notEmpty('show_publish_date', 'This field is required!')
+            ->add('another_settings_input_name', [
+                // ... rules & messages
+            ]);
+    }
+
+}
+```
+
+For more information about validation please check CakePHP's
+[documentation](http://book.cakephp.org/3.0/en/core-libraries/validation.html).
+
 
 
 ### Other events
@@ -340,5 +363,6 @@ events. Use this events with caution as they may break your system.
 For more information about:
 ===========================
 
-* [Events System](events.md)
-* [Hooktags](hooktags.md)
+- [Events System](events.md)
+- [Hooktags](hooktags.md)
+- [Validation](http://book.cakephp.org/3.0/en/core-libraries/validation.html)

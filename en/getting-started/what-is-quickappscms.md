@@ -17,11 +17,14 @@ Features
 * **Taxonomy:** Categorize your content
 * **Multilingual:** Content in multiple languages.
 * **Comments:** With akismet and captcha support.
-* **User management**
+* **User management:** Role-based permission system
 * **Blocks & regions**
 * **Menu management**
 * **Themes:** Backend and Frontend themes are managed separately
+* **Wysiwyg:** Integrated wysiwyg editor and file manager w/ upload capabilities.
+* **Robust API:** Fully documented.
+* **SEO friendly**
 * **RSS feeds:** Powered by a nice built-in search system
-* **Powerful events system:** Which allow to any plugin interact with the whole system or even other plugins.
+* **Powerful events system**
 * **Hooktags:** Similar to Wordpress 'shortcodes'.
 * **Free** ...and much more!

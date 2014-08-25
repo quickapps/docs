@@ -1,14 +1,20 @@
 Search API
 ===========
 
-The Search API allows entities to be search-able through an auto-generated list
+The Search API allows entities to be search-able through an auto-generated index
 of words. You can make any table "index-able" by attaching the `SearchableBehavior`
 to it.
+
 
 Searchable Behavior
 -------------------
 
-## Using this Behavior
+This [behavior](http://book.cakephp.org/3.0/en/orm/behaviors.html) is responsible
+of index each entity under your tables, it also allows you to search any of those
+entities by using human-friendly search criteria.
+
+
+### Using this Behavior
 
 You must indicate which fields can be indexed when attaching this behavior
 to your tables. For example, when attaching this behavior to `Users` table:
@@ -53,7 +59,8 @@ This behaviors will apply a series of filters (converts to lowercase, remove
 line breaks, etc) to the resulting word list, so you should simply return a RAW
 string of words and let this behavior do the rest of the job.
 
-### Banned Words
+
+#### Banned Words
 
 You can use the `bannedWords` option to tell which words should not be indexed
 by this behavior. For example:
@@ -83,15 +90,14 @@ In the example, above any word of 4 or more characters will be indexed
 (e.g. "home", "name", "quickapps", etc). Any word of 3 or less characters will
 be banned (e.g. "and", "or", "the").
 
-## Searching Entities
+
+### Searching Entities
 
 When attaching this behavior, every entity under your table gets a list of
 indexed words. The idea is you can use this list of words to locate any entity
 based on a customized search-criteria. A search-criteria looks as follow:
 
     "this phrase" OR -"not this one" AND this
-
----
 
 Use wildcard searches to broaden results; asterisk (`*`) matches any one or
 more characters, exclamation mark (`!`) matches any single character:
@@ -114,8 +120,6 @@ following parts:
         -word_1,
         word_2,
     ]
-
----
 
 Search criteria allows you to perform complex search conditions in a human-readable
 way. Allows you, for example, create user-friendly search-forms, or create some
@@ -141,7 +145,8 @@ $criteria = '"this phrase" OR -"not this one" AND this';
 $query = $this->Users->search($criteria);
 ```
 
-### Creating Operators
+
+#### Creating Operators
 
 An `Operator` is a search-criteria command which allows you to perform very
 specific filter conditions over your queries. An operator **has two parts**,
@@ -193,7 +198,7 @@ class Nodes extends Table {
 }
 ```
 
-### Fallback Operators
+#### Fallback Operators
 
 When an operator is detected in the given search criteria but no operator
 callable was defined using `addSearchOperator()`, then
@@ -230,3 +235,10 @@ IMPORTANT:
 - Event handler method should always return the modified $query object.
 - The event's context, that is `$event->subject`, is the table instance that
   fired the event.
+
+
+Recommended Reading:
+====================
+
+[Behaviors](http://book.cakephp.org/3.0/en/orm/behaviors.html)
+[Events System](events.md)
