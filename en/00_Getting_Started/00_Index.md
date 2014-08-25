@@ -1,5 +1,5 @@
-Getting Started: Table of Contents
-----------------------------------
+Table of Contents
+-----------------
 
 - [What is QuickAppsCMS ?][what_is_qacms]
 - [Installation][instalaltion]

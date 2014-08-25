@@ -13,10 +13,10 @@ To run it on your server, you need:
 - fileinfo extension installed
 - PHP safe mode disabled
 - Supported database storage engines:
-  - MySQL (5.1.10 or greater)
-  - PostgreSQL
-  - Microsoft SQL Server (2008 or higher)
-  - SQLite 3
+    - MySQL (5.1.10 or greater)
+    - PostgreSQL
+    - Microsoft SQL Server (2008 or higher)
+    - SQLite 3
 - Write permission in your server
 
 ---

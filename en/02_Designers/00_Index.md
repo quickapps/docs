@@ -1,5 +1,5 @@
-Designers: Table of Contents
-----------------------------
+Table of Contents
+-----------------
 
 - [Themes][themes]
 - [Regions][regions]

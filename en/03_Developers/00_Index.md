@@ -1,5 +1,5 @@
-Developers: Table of Contents
------------------------------
+Table of Contents
+-----------------
 
 - [The Framework, CakePHP Book][cake_site]
 - [Events System][events_system]

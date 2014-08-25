@@ -1,5 +1,5 @@
-Plugins Help: Table of Contents
--------------------------------
+Table of Contents
+-----------------
 
 - [Block][block]
 - [Comment][comment]

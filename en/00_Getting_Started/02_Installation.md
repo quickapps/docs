@@ -5,19 +5,19 @@ Before continue make sure you your server meets the following requirements.
 
 ### Requirements
 
-* Apache with mod_rewrite
-* PHP 5.4.19 or higher
-* mbstring extension installed
-* mcrypt extension installed
-* intl extension installed
-* fileinfo extension installed
-* PHP safe mode disabled
-* Supported database storage engines:
-   * MySQL (5.1.10 or greater)
-   * PostgreSQL
-   * Microsoft SQL Server (2008 or higher)
-   * SQLite 3
-* Write permission in your server
+- Apache with mod_rewrite
+- PHP 5.4.19 or higher
+- mbstring extension installed
+- mcrypt extension installed
+- intl extension installed
+- fileinfo extension installed
+- PHP safe mode disabled
+- Supported database storage engines:
+    - MySQL (5.1.10 or greater)
+    - PostgreSQL
+    - Microsoft SQL Server (2008 or higher)
+    - SQLite 3
+- Write permission in your server
 
 
 ### Installing QuickAppsCMS
