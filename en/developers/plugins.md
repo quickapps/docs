@@ -345,21 +345,6 @@ For more information about validation please check CakePHP's
 
 
 
-### Other events
-
-When plugins are being removed from DB as part of [uninstallation](#uninstallation)
-process the following events are triggered as well:
-
-- `Plugin.<PluginName>.beforeDelete`
-- `Plugin.<PluginName>.afterDelete`
-
-
-**WARNING:** Your plugin should catch this two events only if it needs to do
-something that cannot be done by catching `beforeUninstall` & `afterUninstall`
-events. Use this events with caution as they may break your system.
-
-
-
 For more information about:
 ===========================
 
