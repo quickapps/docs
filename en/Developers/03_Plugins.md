@@ -1,5 +1,5 @@
 What are Plugins ?
-==================
+------------------
 
 QuickAppsCMS is designed to be modular. Instead of always having every possible
 tool or feature in every site's code, you can just have those you're actually
@@ -13,9 +13,7 @@ functionality and features. These plugins have been "contributed" back to the
 QuickAppsCMS community by their authors.
 
 
-
-Structure
-=========
+### Plugins Anatomy
 
 Basic structure of plugins:
 
@@ -36,12 +34,11 @@ about the plugin itself which is consumed by QuickAppsCMS.
 
 
 
-The "composer.json" file
-========================
+#### The "composer.json" file
 
 Each plugin has a "composer.json" file which contains information about itself,
 such as name, description, version, etc. The schema of this file is the same
-[required by composer](https://getcomposer.org/doc/04-schema.md), but with some
+[required by composer][composer_json_schema], but with some
 additional requirements specifically for QuickAppsCMS. These special requirements
 are described below:
 
@@ -59,11 +56,11 @@ are described below:
   example for `author-name/super-name`, plugin name is `SuperName`.
 
 
-## Dependencies
+#### Dependencies
 
 You can indicate your plugin depends on another plugin, to do this you must use
 the `require` key in your "composer.json". QuickAppsCMS's dependencies resolver
-system works pretty [similar to composer's](https://getcomposer.org/doc/01-basic-usage.md#package-versions).
+system works pretty [similar to composer's][composer_package_version].
 For example you may indicate your plugin requires certain version of QuickAppsCMS:
 
 ```json
@@ -77,9 +74,7 @@ For example you may indicate your plugin requires certain version of QuickAppsCM
 Which means: This plugin can only be installed on QuickAppsCMS v1.0 or higher.
 
 
-
-Install & Uninstall Process
-===========================
+### Install & Uninstall Process
 
 The following describes some of the tasks automatically performed by QuickAppsCMS
 during the (un)installation process, as well as some tasks that plugins should
@@ -88,10 +83,9 @@ automatically triggered which plugins may responds to in order to change the
 (un)installation process.
 
 
-Installation
-------------
+#### Installation
 
-#### Tasks automatically performed by QuickAppsCMS
+##### Tasks automatically performed by QuickAppsCMS
 
 - Checks plugin folder/files consistency.
 - Checks version compatibilities.
@@ -100,7 +94,7 @@ Installation
 - Register plugin on `plugins` table.
 - Regenerate related caches.
 
-#### Common tasks which plugins may do
+##### Common tasks which plugins may do
 
 - Create new tables on Database.
 - Add new blocks.
@@ -108,7 +102,7 @@ Installation
 - Add links to an existing menu.
 - Add new options to the `options` table
 
-#### Events triggered
+##### Events triggered
 
 - `Plugin.<PluginName>.beforeInstall`: Before plugins is registered on DB and
    before plugin's directory is moved to "/plugins"
@@ -120,19 +114,18 @@ Where `<PluginName>` is the inflected name of your plugin, for example, if in yo
 inflected name is `SuperPluginName`.
 
 
-Uninstallation
---------------
+#### Uninstallation
 
-#### Tasks automatically performed by QuickAppsCMS
+##### Tasks automatically performed by QuickAppsCMS
 
-- Remove all related [ACOs and AROs](http://book.cakephp.org/2.0/en/core-libraries/components/access-control-lists.html#understanding-how-acl-works)
+- Remove all related [ACOs and AROs][cake_doc_aco_aro]
 - Remove all menus created by the plugin during installation.
 - Remove all Blocks defined by the plugin during installation.
 - Unregister plugin from the `plugins` table.
 - Regenerate related caches.
 
 
-#### Tasks to consider by plugin
+##### Tasks to consider by plugin
 
 The following tasks should be performed by the plugins during the uninstallation
 process. The best place to perform these tasks is on `afterUninstall` or
@@ -144,7 +137,7 @@ process. The best place to perform these tasks is on `afterUninstall` or
 In general, your plugin should remove anything that is not automatically removed
 by QuickAppsCMS.
 
-#### Events triggered
+##### Events triggered
 
 - `Plugin.<PluginName>.beforeUninstall`: Before plugins is removed from DB and
    before plugin's directory is deleted from "/plugins".
@@ -157,13 +150,12 @@ inflected name is `SuperPluginName`.
 
 
 
-Enabling & Disabling Process
-============================
+### Enabling & Disabling Process
 
 Plugins can be installed and uninstalled from your system, but they can also be
 enabled or disabled. Disabled plugins have not interaction with the system,
 which means all their Event Listeners classes will not respond to any event, as
-their [routes](http://book.cakephp.org/3.0/en/development/routing.html#plugin-routing) as well.
+their [routes][cake_doc_routes] as well.
 
 Plugins can be disabled only if they are not required by any other plugins, that
 is, for instance, if plugin `A` needs some functionalities provided by plugin `B`
@@ -185,8 +177,7 @@ be accessible via URL.
 
 
 
-Update Process
-==============
+### Update Process
 
 Plugins can also be updated to newer versions, the update & install process are
 both very similar as they perform similar actions during their process.
@@ -207,8 +198,7 @@ above.
 
 
 
-Configurable Settings
-=====================
+### Configurable Settings
 
 Plugins are allowed to define a series of customizable parameters, this parameters
 can be tweaked on the administration section by users with proper permissions.
@@ -237,8 +227,7 @@ to users, you must omit `Form::create()` & `Form::end()` as they are automatical
 printed by QuickAppsCMS.
 
 
-Reading settings values
------------------------
+#### Reading settings values
 
 Once you have provided certain teakable values, you may need to read those values
 in order to change your plugin's behavior, in our "Blog" example want to know
@@ -256,8 +245,7 @@ settings yet. This can be solved using the feature described below.
 
 
 
-Default Setting Values
-----------------------
+#### Default Setting Values
 
 You can provide default values for each of your settings keys using the event
 below:
@@ -266,7 +254,7 @@ below:
 
 This event is automatically triggered every time you try to read a setting value,
 your must implement this event handler in any of your plugin's
-[Event Listener](events.md#registering-listeners) classes and it must return an
+[Event Listener][event_listeners] classes and it must return an
 associative array for setting keys and their values, a full example:
 
 
@@ -300,8 +288,7 @@ not the default value will be `1` which we'll consider as "YES, show publish dat
 
 
 
-Validating Settings
--------------------
+#### Validating Settings
 
 Usually you would need to restrict what user's types in your settings form
 inputs, so for example you may need an users to type in only integer values
@@ -341,13 +328,22 @@ class BlogHook implements EventListener {
 ```
 
 For more information about validation please check CakePHP's
-[documentation](http://book.cakephp.org/3.0/en/core-libraries/validation.html).
+[documentation][cake_doc_validation].
 
 
 
-For more information about:
-===========================
+### Recommended Reading
 
 - [Events System](events.md)
 - [Hooktags](hooktags.md)
-- [Validation](http://book.cakephp.org/3.0/en/core-libraries/validation.html)
+- [CakePHP's Validation][cake_doc_validation]
+
+
+[composer_json_schema]: https://getcomposer.org/doc/04-schema.md
+[composer_package_version]: https://getcomposer.org/doc/01-basic-usage.md#package-versions
+[cake_doc_aco_aro]: http://book.cakephp.org/2.0/en/core-libraries/components/access-control-lists.html#understanding-how-acl-works
+[cake_doc_routes]: http://book.cakephp.org/3.0/en/development/routing.html#plugin-routing
+[event_listeners]: 01_Events_System.md#registering-listeners
+[cake_doc_validation]: http://book.cakephp.org/3.0/en/core-libraries/validation.html
+[events_system]: 01_Events_System.md
+[hooktags]: 02_Hooktags.md

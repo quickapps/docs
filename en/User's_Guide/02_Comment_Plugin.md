@@ -1,16 +1,17 @@
-About
-=====
+Comment Plugin
+--------------
+
+
+### About
 
 The Comment plugin allows users to comment on site content, set commenting
 defaults and permissions, and moderate comments.
 
 
-Uses
-====
+### Uses
 
 
-Default and custom settings
----------------------------
+#### Default and custom settings
 
 Each content type can have its own default comment settings configured as:
 **Open** to allow new comments and show existing ones, **Closed** to prevent new comments
@@ -21,8 +22,7 @@ also be customized per content type, and can be overridden for any given item of
 content.
 
 
-Comment approval
-----------------
+#### Comment approval
 
 All comments are placed in the Unapproved comments queue, until a user who has
 the proper permissions will publishes them, mark them as spam, move them to trash

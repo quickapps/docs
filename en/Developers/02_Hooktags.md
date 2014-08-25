@@ -1,5 +1,5 @@
 Hooktags
-========
+--------
 
 A `Hooktag` is a QuickApps-specific code that lets you do nifty things with very
 little effort. Hooktags can for example print current language code/name or call
@@ -14,13 +14,12 @@ Note: If you are a Wordpress user you will find that `hooktags` are Wordpress's
 `shorcodes` equivalent.
 
 
-Defining Hooktags
-=================
+### Defining Hooktags
 
-Hooktags are actually [Event Listener classes](events.md), they may be located
-in each Plugin's or Theme's `Event` directory. For example, in our `Blog` plugin
-example we could place a "Hooktag listener" class within Blog's "Event" directory
-as follow:
+Hooktags are actually [Event Listener classes][event_system], they may be
+located in each Plugin's or Theme's `Event` directory. For example, in our `Blog`
+plugin example we could place a "Hooktag listener" class within Blog's "Event"
+directory as follow:
 
     - Blog/
      |-- src/
@@ -69,7 +68,7 @@ public function redBox(\Cake\Event\Event $event, $atts, $content, $code) {
 These methods are responsible of converting a hooktag (that looks as
 `[locale code /]`) into their HTML equivalent.
 
-### Attributes
+#### Attributes
 
 The **$atts** array may include any arbitrary attributes that are specified by the
 user. Attribute names are always converted to lowercase before they are passed
@@ -79,8 +78,7 @@ produces $atts = array('foo' => 'bAr').
 **TIP: Don't use camelCase or UPPER-CASE for your $atts attribute names**
 
 
-Parsing Hooktags
-================
+### Parsing Hooktags
 
 Once you have defined your hooktag classes is time to start converting a hooktag
 into HTML. To do this, you can use the `QuickApps\Core\HooktagTrait` trait in any
@@ -118,8 +116,7 @@ Current language's code is:
 word, which means that `[language ...]` will trigger the `Hooktag.language` event.
 
 
-Example, Creating a Hooktag
-===========================
+### Example, creating a Hooktag
 
 Lets create a hooktag for displaying HTML content-boxes. We want our hooktag to
 be as follow:
@@ -172,7 +169,7 @@ public function contentBox(Event $event, $atts, $content = null, $code = '') {
 }
 ```
 
-**Usage:**
+**Usage**
 
 Now you should be able to use the `content_box` hooktag in any Node's contents,
 or wherever hooktags are allowed.
@@ -184,3 +181,6 @@ Wherever you place the code above it will replaced by the following HTML code:
 ```html
 <div style="background-color:green;">Lorem ipsum dolor</div>
 ```
+
+
+[event_system]: 01_Events_System.md

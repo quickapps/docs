@@ -1,5 +1,5 @@
 Versioning Policy
-=================
+-----------------
 
 This document describes how version numbering reflects the type of changes in a new QuickApps CMS release.
 

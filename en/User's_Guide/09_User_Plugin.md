@@ -1,17 +1,16 @@
-About
-=====
+User Plugin
+-----------
+
+### About
 
 The User plugin allows users to register, log in, and log out. It also allows
 users with proper permissions to manage user roles (used to classify users)
 and permissions associated with those roles.
 
 
-Uses
-====
+### Uses
 
-
-User roles and permissions
---------------------------
+#### User roles and permissions
 
 Roles are used to group and classify users; each user can be assigned one or more
 roles. By default there are three roles: anonymous user (users that are not logged

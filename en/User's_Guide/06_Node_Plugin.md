@@ -1,19 +1,18 @@
-About
-=====
+Node Plugin
+-----------
+
+### About
 
 The Node plugin manages the creation, editing, deletion, settings, and display
 of the main site content. Content items managed by the Node plugin are typically
 displayed as pages on your site, and include a title, some meta-data (author,
 creation time, content type, etc.), and optional fields containing text or other
-data (fields are managed by the [Field plugin](field.md)).
+data (fields are managed by the [Field plugin][field_plugin_help]).
 
 
-Uses
-====
+### Uses
 
-
-Creating content
-----------------
+#### Creating content
 
 When new content is created, the Node plugin records basic information about the
 content, including the author, date of creation, and the Content type. It also
@@ -22,18 +21,16 @@ published, promoted to the front page of the site, and/or sticky at the top of
 content lists. Default settings can be configured for each type of content on
 your site.
 
-
-Creating custom content types
------------------------------
+#### Creating custom content types
 
 The Node plugin gives users with the proper permission the ability to create new
 content types in addition to the default ones already configured. Creating custom
 content types allows you the flexibility to add fields and configure default
 settings that suit the differing needs of various site content.
 
-
-Administering content
----------------------
+#### Administering content
 
 The **content administration** page allows you to review and bulk manage your site
 content.
+
+[field_plugin_help]: 03_Field_Plugin.md

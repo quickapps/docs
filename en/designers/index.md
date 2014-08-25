@@ -1,2 +1,0 @@
-- [Themes](themes.md)
-- [Regions](themes.md#regions)

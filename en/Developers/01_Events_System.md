@@ -1,18 +1,17 @@
-Events
-======
+Events System
+-------------
 
 The Events System is most important piece of QuickAppsCMS's architecture, this
-system allows [plugins](plugins.md) to communicate with each other, respond to
+system allows [plugins][plugins] to communicate with each other, respond to
 certain events fired during execution of the script, etc. So for example, "User"
 plugin may trigger an event "user is has been logged in", the rest of the plugins
 in the system may respond to this "signal" and act in consequence.
 
 NOTE: As QuickAppsCMS's events system is built on top of CakePHP's events system
-we recommend you to read their [documentation](http://book.cakephp.org/3.0/en/core-libraries/events.html).
+we recommend you to read their [documentation][cake_events_doc].
 
 
-Architecture
-============
+### Architecture
 
 QuickAppsCMS's events system is composed of three primary elements:
 
@@ -42,11 +41,10 @@ Where `userBeforeLogin` and `userAfterLogin` are methods defined in the Event
 Listener class.
 
 
-Registering Listeners
-=====================
+### Registering Listeners
 
 By default in CakePHP you must create an instance of your Event Listener class
-and then attach it to the [EventManager](http://book.cakephp.org/3.0/en/core-libraries/events.html#global-event-manager),
+and then attach it to the [EventManager][cake_doc_eventmanager],
 in order to make this easier QuickAppsCMS's will automatically load all events
 listeners classes within plugin's "Event" directory. That is, if you want your
 "Blog" plugin's listener classes to be automatically loaded you must place these
@@ -64,8 +62,7 @@ automatically loaded and registered on the `EventManager`. In order to keep the
 things dry, we add the `Hook` suffix to each class name.
 
 
-Dispatching Events
-==================
+### Dispatching Events
 
 Once your listeners classes were automatically loaded and attached, you can now
 start triggering events and see how your listeners respond.
@@ -100,12 +97,12 @@ and `alter()` which are described below.
 
 ---
 
-### hook($eventName [, $arg0, ..., $argN, ...]);
+#### hook($eventName [, $arg0, ..., $argN, ...]);
 
 Triggers the given event name. You can pass an unlimited number of arguments to
 your event handler method.
 
-#### Usage:
+**Usage:**
 
 ```php
 $this->hook('GetTime', $arg_0, $arg_0, ..., $arg_1);
@@ -129,7 +126,7 @@ $this->hook(['GetTime', new ContextObject()], $arg_0, $arg_0, ..., $arg_1);
 If no context is given `$this` will be used by default.
 
 
-### didHook([$eventName]);
+#### didHook([$eventName]);
 
 Retrieves the number of times an event was fired, or the complete list of events
 that were fired. For example:
@@ -153,14 +150,14 @@ $this->didHook();
 ]
 ```
 
-### alter($eventName [, $arg0, ..., $arg14]);
+#### alter($eventName [, $arg0, ..., $arg14]);
 
 Similar to `hook()` but aimed to alter the given arguments. You can pass up to
 15 arguments by reference. The main difference with `hook()` is that `alert()`
 will prefix event names with the `Alter.` word, so invoking "alter_this" will
 actually triggers the event name "Alter.alter_this"
 
-#### Usage:
+**Usage:**
 
 ```php
 $this->alter('Time', $arg_0, $arg_0, ..., $arg_1);
@@ -187,7 +184,7 @@ If no context is given `$this` will be used by default.
 
 ---
 
-## "Hello World!" Example:
+### "Hello World!" Example:
 
 ```php
 // Blog/src/event/MyEventListener.php
@@ -227,10 +224,13 @@ echo $this->hook('Hello', $hello); // out: "Hello World! world!"
 echo $this->hook('Hello', 'hellooo'); // out: "hellooo world!"
 ```
 
-Recommended Reading
-===================
+### Recommended Reading
 
 As QuickAppsCMS's hook system is built on top of CakePHP's events system we
 highly recommend you to take a look at this part of CakePHP's book:
 
-[CakePHP's Events System](http://book.cakephp.org/3.0/en/core-libraries/events.html)
+[CakePHP's Events System][cake_events_doc]
+
+[plugins]: 03_Plugins.md
+[cake_events_doc]: http://book.cakephp.org/3.0/en/core-libraries/events.html
+[cake_doc_eventmanager]: http://book.cakephp.org/3.0/en/core-libraries/events.html#global-event-manager

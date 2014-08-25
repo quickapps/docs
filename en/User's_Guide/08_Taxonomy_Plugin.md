@@ -1,17 +1,16 @@
-About
-=====
+Taxonomy Plugin
+---------------
+
+### About
 
 The Taxonomy plugin allows you to classify the content of your website. To
 classify content, you define vocabularies that contain related terms, and then
 assign the vocabularies to content types.
 
 
-Uses
-====
+### Uses
 
-
-Creating vocabularies
----------------------
+#### Creating vocabularies
 
 Users with sufficient permissions	can create vocabularies and terms through the
 Taxonomy page. The page listing the terms provides an interface for controlling
@@ -28,8 +27,7 @@ sub-terms could look as follows:
 	        |- sub-term: Hard rock
 
 
-Assigning vocabularies to content types
----------------------------------------
+#### Assigning vocabularies to content types
 
 Before you can use a new vocabulary to classify your content, a new **Taxonomy terms
 field** must be added to a content type on its fields page. After choosing the terms
@@ -38,16 +36,14 @@ whether one or multiple terms can be chosen from the vocabulary, and other setti
 The same vocabulary can be added to multiple content types by using the terms field.
 
 
-Classifying content
--------------------
+#### Classifying content
 
 After the vocabulary is assigned to the content type's Taxonomy field, you can
 start classifying content. The field with terms will appear on the content editing
 screen when you edit or _add new content_.
 
 
-Filtering contents by term
---------------------------
+#### Filtering contents by term
 
 Each taxonomy works in combination with `Node` and `Search` plugin in order to
 provide the ability to search and filter contents by an specific term. For example,

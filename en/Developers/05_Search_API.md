@@ -1,20 +1,19 @@
 Search API
-===========
+----------
 
 The Search API allows entities to be search-able through an auto-generated index
 of words. You can make any table "index-able" by attaching the `SearchableBehavior`
 to it.
 
 
-Searchable Behavior
--------------------
+### Searchable Behavior
 
-This [behavior](http://book.cakephp.org/3.0/en/orm/behaviors.html) is responsible
+This [behavior][cake_doc_behaviors] is responsible
 of index each entity under your tables, it also allows you to search any of those
 entities by using human-friendly search criteria.
 
 
-### Using this Behavior
+#### Using this Behavior
 
 You must indicate which fields can be indexed when attaching this behavior
 to your tables. For example, when attaching this behavior to `Users` table:
@@ -60,7 +59,7 @@ line breaks, etc) to the resulting word list, so you should simply return a RAW
 string of words and let this behavior do the rest of the job.
 
 
-#### Banned Words
+##### Banned Words
 
 You can use the `bannedWords` option to tell which words should not be indexed
 by this behavior. For example:
@@ -91,7 +90,7 @@ In the example, above any word of 4 or more characters will be indexed
 be banned (e.g. "and", "or", "the").
 
 
-### Searching Entities
+#### Searching Entities
 
 When attaching this behavior, every entity under your table gets a list of
 indexed words. The idea is you can use this list of words to locate any entity
@@ -146,7 +145,7 @@ $query = $this->Users->search($criteria);
 ```
 
 
-#### Creating Operators
+##### Creating Operators
 
 An `Operator` is a search-criteria command which allows you to perform very
 specific filter conditions over your queries. An operator **has two parts**,
@@ -198,7 +197,7 @@ class Nodes extends Table {
 }
 ```
 
-#### Fallback Operators
+##### Fallback Operators
 
 When an operator is detected in the given search criteria but no operator
 callable was defined using `addSearchOperator()`, then
@@ -237,8 +236,10 @@ IMPORTANT:
   fired the event.
 
 
-Recommended Reading:
-====================
+### Recommended Reading
 
-[Behaviors](http://book.cakephp.org/3.0/en/orm/behaviors.html)
-[Events System](events.md)
+[Behaviors][cake_doc_behaviors]
+[Events System][events_system]
+
+[cake_doc_behaviors]: http://book.cakephp.org/3.0/en/orm/behaviors.html
+[events_system]: 01_Events_System.md

@@ -1,5 +1,5 @@
 Field API
-=========
+---------
 
 The Fields API Allows additional fields to be attached to Tables. Any Table
 (Nodes, Users, etc.) can use Field API to make itself `field-able` and thus
@@ -14,10 +14,7 @@ The Field API defines two primary data structures, `FieldInstance` and `FieldVal
 **Basically, this behavior allows you to add _virtual columns_ to your table schema.**
 
 
-***
-
-Making a Table "fieldable"
-==========================
+### Making a table "fieldable"
 
 Simply by attaching the `FieldableBehavior` to any table will make it fieldable.
 
@@ -28,7 +25,7 @@ $this->addBehavior('Field.Fieldable');
 This behavior modifies each query of your table in order to merge custom-fields
 records into each entity under the `_fields` property.
 
-## Entity Example:
+**Entity Example:**
 
 ```php
 $user = $this->Users->get(1);
@@ -95,8 +92,7 @@ All properties are described below:
      corresponding numeric index or by its machine-name.
 
 
-Accessing Field Properties
-==========================
+### Accessing Field Properties
 
 Once you have your Entity (e.g. User Entity), you would probably need to get
 its attached fields and do fancy thing with them. Following with our User
@@ -112,8 +108,7 @@ echo "This field is attached to '" . $user->_fields[0]->metadata->table_alias . 
 // out: This field is attached to 'users' table;
 ```
 
-Searching Over Custom Fields
-============================
+### Searching Over Custom Fields
 
 Fieldable Behavior allows you to perform WHERE clauses using any of the fields
 attached to your table. Every attached field has a "machine-name"
@@ -131,8 +126,7 @@ TableRegistry::get('Users')
 all the users whose `first-name` starts with `John`.
 
 
-Value vs Extra
-==============
+### Value vs Extra
 
 In the "Entity Example" above you might notice that each field attached to
 entities has two properties that looks pretty similar, `value` and `extra`,
@@ -182,8 +176,7 @@ for searches, while `extra` is intended to store sets of complex information.
 
 ***
 
-Enable/Disable Field Attachment
-===============================
+### Enable/Disable Field Attachment
 
 If for some reason you don't need custom fields to be fetched under the `_field`
 of your entities you should use the unbindFieldable(). Or bindFieldable() to
@@ -195,14 +188,13 @@ $this->User->unbindFieldable();
 $this->Users->get($id);
 ```
 
-Field Handlers
-==============
+### Field Handlers
 
 Field Handler are "Listeners" classes which must take care of storing, organizing
 and retrieving information for each entity's field. All this is archived using
-QuickAppsCMS's [events system](events.md).
+QuickAppsCMS's [events system][events_system].
 
-Similar to [Event Listeners](events.md#registering-listeners) and Hooktags, Field
+Similar to [Event Listeners][event_listeners] and Hooktags, Field
 Handlers classes must define a series of events, which has been organized in two
 groups or "event subspaces":
 
@@ -213,7 +205,7 @@ groups or "event subspaces":
 
 Below, a list of available events:
 
-### Entity events:
+**Entity events:**
 
 - `Field.<FieldHandler>.Entity.display`: When an entity is being rendered
 - `Field.<FieldHandler>.Entity.edit`: When an entity is being rendered in `edit`
@@ -228,7 +220,7 @@ Below, a list of available events:
 - `Field.<FieldHandler>.Entity.beforeDelete`: Before entity is deleted
 - `Field.<FieldHandler>.Entity.afterDelete`: After entity was deleted
 
-### Instance events:
+**Instance events:**
 
 - `Field.<FieldHandler>.Instance.info`: When QuickAppsCMS asks for information
    about each registered Field
@@ -250,7 +242,7 @@ Below, a list of available events:
 - `Field.<FieldHandler>.Instance.afterDetach`: After field is detached from Tables
 
 
-## Creating Field Handlers
+#### Creating Field Handlers
 
 As we mention early, Field Handler are simply Event Listeners classes which should
 respond to the enormous list of event names described above. In order to make this
@@ -296,7 +288,7 @@ class DateField extends FieldHandler {
 Check this class's documentation for deeper information.
 
 
-## Preparing Field Inputs
+#### Preparing Field Inputs
 
 Your Field Handler should somehow render some form elements (inputs, selects,
 textareas, etc) when rendering Table's Entities in `edit mode`. For this we have
@@ -369,7 +361,7 @@ public function editTextField(Event $event, $field) {
 }
 ```
 
-## Creating an Edit Form
+#### Creating an Edit Form
 
 In previous example we had an User edit form. When rendering User's form-inputs
 usually you would do something like so:
@@ -438,8 +430,7 @@ public function edit($id) {
 ```
 
 
-Field API UI
-============
+### Field API UI
 
 Now you know how Field API works you might need an easy way to attach, and
 manage fields for your tables. Field plugin provides an UI (user-interface)
@@ -451,7 +442,7 @@ With this trait, Field plugin provides an user friendly UI for manage entity's
 custom fields. It provides a field-manager user interface (UI) by attaching a
 series of actions over a `clean` controller.
 
-## Usage:
+**Usage:**
 
 Beside adding `use FieldUIControllerTrait;` to your controller you MUST also
 indicate the name of the Table being managed using the `$_manageTable` property.
@@ -480,8 +471,11 @@ class with no methods defined. For instance, create a new controller class
 `MyPlugin\Controller\MyTableFieldManagerController` and use this trait to handle
 custom fields for "MyTable" database table.
 
-### Requirements
+#### Requirements
 
 - This trait should only be used over a clean controller.
 - You must define `$_manageTable` property in your controller.
 - Your Controller must be a backend-controller (under `Controller\Admin` namespace).
+
+[events_system]: 01_Events_System.md
+[event_listeners]: 01_Events_System.md#registering-listeners

@@ -1,3 +1,6 @@
+FAQ
+---
+
 ### Which PHP version does QuickApps work with ?
 
 To run it on your server, you need:
@@ -23,5 +26,3 @@ To run it on your server, you need:
 No it isn't. QuickApps has specific PHP-features which is available only on PHP
 v5.4.19 or higher. Moreover it uses CakePHP v3.0 as framework, which works only
 on PHP v5.4.19 or higher.
-
----

@@ -1,5 +1,7 @@
-About
-=====
+Locale Plugin
+-------------
+
+### About
 
 The Locale plugin allows your QuickApps site to be presented in languages other
 than the default English, and to be multilingual. The Locale plugin works by
@@ -8,13 +10,9 @@ displayed. When a translation of the text is available in the language to be
 displayed, the translation is displayed rather than the original text. When a
 translation is unavailable, the original text is displayed.
 
+### Uses
 
-Uses
-====
-
-
-Configuring a multilingual site
--------------------------------
+#### Configuring a multilingual site
 
 Language negotiation allows your site to automatically change language based on
 path used for each request. Users may (optionally) select their preferred language

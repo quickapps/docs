@@ -1,28 +1,24 @@
 Themes
-======
+------
 
 A theme is a unified set of design elements and color schemes that you can apply
 to your Web pages to give them a professional look. Using a theme is a quick and
 easy way to make sure your Web pages are visually consistent and appealing.
 
-QuickAppsCMS includes by default a
-[Frontend](http://en.wikipedia.org/wiki/Front_and_back_ends) theme named `Frontend`
-and a [Backend](http://en.wikipedia.org/wiki/Front_and_back_ends) theme named `Backend`.
+QuickAppsCMS includes by default a [Frontend](def_frontend) theme named `Frontend`
+and a [Backend](def_backend) theme named `Backend`.
 
 As you may notice, there are two type of themes, `Backend` and `Frontend`, which
 are managed independently by QuickAppsCMS.
 
-This document describes some of the basics of theme creation and structure, but
-we highly recommend you to use [QuickApps CLI](../developers/quickapps-cli.md)
-to easily create and build new themes.
+This document describes some of the basics of theme creation and structure.
 
 Recommended reading: http://book.cakephp.org/2.0/en/views.html
 
 
-Theme Anatomy
-=============
+### Theme Anatomy
 
-> Themes in CakePHP are simply [plugins](plugins.md) that focus on providing
+> Themes in CakePHP are simply [plugins][plugins] that focus on providing
 > view files. In addition to template files, they can also provide helpers and cells
 > if your theming requires that. When using cells and helpers from your theme, you
 > will need to continue using the plugin-syntax.
@@ -30,15 +26,14 @@ Theme Anatomy
 > -- CakePHP's book
 
 That means that your theme folder structure is the same
-[used by plugins](plugins.md). However in QuickAppsCMS there are only two main
+[used by plugins][plugins]. However in QuickAppsCMS there are only two main
 difference between plugins and themes:
 
 1. Themes must define some particular keys in the "composer.json" schema
 2. Themes must be named using the `Theme` suffix.
 
 
-The "composer.json" File
-========================
+#### The "composer.json" File
 
 Themes -same as plugins- *must* define a "composer.json" file containing all the
 information about the theme itself, such as name, available regions, author, etc.
@@ -82,8 +77,7 @@ Here a full working example:
 ```
 
 
-Layouts
-=======
+### Layouts
 
 Most of the following is an extract from CakePHP's book.
 
@@ -144,8 +138,7 @@ of layouts your theme might define:
 - `error.ctp`: When an error is reached; 404, 500, etc
 
 
-Layout's Header
-===============
+#### Layout's Header
 
 Layout's header is where you should place all links to your CSS and JS files,
 among other things such as meta-descriptions and so on. To make your life
@@ -163,8 +156,7 @@ The `head()` methods accepts a series of options which you may tweak depending
 on your needs. For more information please check `QuickApps\View\View::head()`
 
 
-Regions
-=======
+#### Regions
 
 Regions are areas of your layout aimed to contain blocks, regions may contain an
 unlimited number of blocks (by default). Theme authors can define and implement
@@ -196,8 +188,7 @@ particular region; `left-sidebar` (human name: Left Sidebar)
 For more information please check `Block\View\Helper\RegionHelper` documentation.
 
 
-Rendering The Main Content
-==========================
+### Rendering The Main Content
 
 Simply by using the code below in your theme layout you can render out the
 main content of each page. For example, in your layout's body:
@@ -209,8 +200,7 @@ main content of each page. For example, in your layout's body:
 ```
 
 
-View Modes
-==========
+### View Modes
 
 How a content is displayed depends on the context in which it is rendered, such
 as the difference between `full` nodes and `teasers`.
@@ -232,19 +222,18 @@ In a standard QuickAppsCMS installation, the following view modes are available:
 names are used internally when referring to a specific view mode.
 
 These context are automatically set by QuickAppsCMS during the rendering process
-of every content, however other [plugins](plugins.md) may change this on the fly
+of every content, however other [plugins][plugins] may change this on the fly
 and define their own.
 
 
-Specialized Renders for Nodes
-=============================
+### Specialized Renders for Nodes
 
 You can define `specialized-renders` according to your needs as described below.
 You must simply create these template elements within the `/src/Template/Element`
 directory of your theme.
 
 
-### Render node per node-type & view-mode
+#### Render node per node-type and view-mode
 
 > render_node_[node-type]_[view-mode]
 
@@ -259,7 +248,8 @@ Renders the given node per `node-type` + `view-mode` combination:
     // render for `basic-page` nodes in `search-result` view-mode
     `render_node_basic-page_search-result.ctp`
 
-### Render node per node-type
+
+#### Render node per node-type
 
 > render_node_[node-type]
 
@@ -271,7 +261,7 @@ Similar as before, but just per `node-type` and any view-mode:
     // render for `basic-page` nodes
     `render_node_basic-page.ctp`
 
-### Render node per view-mode
+#### Render node per view-mode
 
 > render_node_[view-mode]"
 
@@ -283,13 +273,19 @@ Similar as before, but just per `view-mode` and any `node-type`:
     // render any node (article, page, etc) in `full` view-mode
     `render_node_full.ctp`
 
+
 NOTE: To avoid collisions between `view-mode` names and `node-type` names, you
 should alway use unique and descriptive names as possible when defining new
 content types. By default, Node plugin defines the following view-modes:
 `default`, `teaser`, `search-result`, `rss`, `full`.
 
-### Default
+
+#### Default
 
 > render_node
 
 This is the global render, if none of the above is found we try to use this last.
+
+[def_frontend]: http://en.wikipedia.org/wiki/Front_and_back_ends
+[def_backend]: http://en.wikipedia.org/wiki/Front_and_back_ends
+[plugins]: 03_Plugins.md
