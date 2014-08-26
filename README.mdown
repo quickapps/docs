@@ -5,6 +5,38 @@ Welcome to the official QuickApps CMS documentation.
 This manual assumes that you have a general understanding of PHP and a basic
 understanding of object-oriented programming (OOP) and CakePHP framework.
 
-## Contributing
+
+Requirements
+------------
+
+* Make
+* Python
+* Sphinx
+* PhpDomain for sphinx
+
+For installing `sphinx`:
+
+    easy_install sphinx
+
+For installing `phpdomain`:
+
+    easy_install sphinxcontrib-phpdomain
+
+
+*python's easy_install command requires setuptools package to be installed.*
+
+
+Building PDF Book
+-----------------
+
+1. Install LaTeX - This varies by distribution/OS so refer to your package manager.
+   You should install the full LaTeX package.
+   The basic one requires many additional packages to be installed with `tlmgr`
+2. Run `make latexpdf`
+2. Run `make pdf`
+
+
+Contributing
+------------
 
 To contribute simply fork the repository at https://github.com/QuickAppsCMS/docs
