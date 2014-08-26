@@ -29,7 +29,7 @@ Getting Help
 If you're stuck, there are a number of places you can [get help](getting-started/help.md).
 
 [qacms_site]: http://www.quickappscms.org
-[getting_started]: 00_Getting_Started/00_Index.md
-[users_guide]: 01_User's_Guide/00_Index.md
-[designers]: 02_Designers/00_Index.md
-[developers]: 03_Developers/00_Index.md
+[getting_started]: 00_Getting_Started/index.md
+[users_guide]: 01_User's_Guide/index.md
+[designers]: 02_Designers/index.md
+[developers]: 03_Developers/index.md

@@ -33,5 +33,5 @@ by using a backslash:
 
 [gpl_site]: http://www.gnu.org/copyleft/gpl.html
 [issues_site]: https://github.com/QuickAppsCMS/QuickApps-CMS/issues?sort=updated&direction=desc&state=closed
-[developers]: ../03_Developers/00_Index.md
-[designers]: ../02_Designers/00_Index.md
+[developers]: ../03_Developers/index.md
+[designers]: ../02_Designers/index.md
