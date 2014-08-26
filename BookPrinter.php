@@ -139,31 +139,29 @@ class BookPrinter {
 	protected static function _processDir($dir) {
 		static $headers = [];
 
-		list($folders, $files) = static::_readDir($dir);
+		$scan = static::_readDir($dir);
 		$dirname = basename($dir);
 		$sectionName = str_replace('_', ' ', $dirname);
 		$sectionName = preg_replace('/^\d{2}\s/', '', $sectionName);
 		$sectionHeader = !in_array($sectionName, ['en', 'es']) ? "{$sectionName}\n" . str_repeat('=', strlen($sectionName)) . "\n\n\n" : '';
 
-		foreach ($files as $file) {
-			$fileName = preg_replace('/\.md$/', '', basename($file));
-
+		foreach ($scan as $item) {
 			if (!in_array($sectionHeader, $headers)) {
 				$headers[] = $sectionHeader;
 			} else {
 				$sectionHeader = '';
 			}
 
-			file_put_contents('merged.md',
-				$sectionHeader .
-				file_get_contents($file) .
-				"\n\n---\n\n",
-				FILE_APPEND
-			);
-		}
-
-		foreach ($folders as $folder) {
-			static::_processDir($folder);
+			if (!is_dir($item)) {
+				file_put_contents('merged.md',
+					$sectionHeader .
+					file_get_contents($item) .
+					"\n\n\n\n",
+					FILE_APPEND
+				);
+			} else {
+				static::_processDir($item);
+			}
 		}
 	}
 
@@ -174,25 +172,19 @@ class BookPrinter {
  * @return array List of files and folders
  */
 	protected static function _readDir($dir) {
-		$result = [
-			0 => [], // folders
-			1 => [], // files
-		];
+		$result = [];
+		$ds = DIRECTORY_SEPARATOR;
 
 		foreach (scandir($dir) as $file) {
 			if (strpos($file, '.') === 0) {
 				continue;
 			}
 
-			$fullPath = $dir . DIRECTORY_SEPARATOR . $file;
-			if (is_dir($fullPath)) {
-				$result[0][] = $fullPath;
+			$fullPath = str_replace("{$ds}{$ds}", $ds, "{$dir}{$ds}{$file}");
+			if ($file == 'index.md') {
+				array_unshift($result , $fullPath);
 			} else {
-				if ($file == 'index.md') {
-					array_unshift($result[1] , $fullPath);
-				} else {
-					$result[1][] = $fullPath;
-				}
+				$result[] = $fullPath;
 			}
 		}
 

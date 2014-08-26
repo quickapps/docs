@@ -7,6 +7,7 @@ Table of Contents
 - [Plugins][plugins]
 - [Fields API][field_api]
 - [Search API][search_api]
+- [Core Libraries][core_libraries]
 - [Versioning Policy][versioning_policy]
 - [FAQ][faq]
 
@@ -16,5 +17,6 @@ Table of Contents
 [plugins]: 04_Plugins.md
 [field_api]: 04_Fields_API.md
 [search_api]: 05_Search_API.md
-[versioning_policy]: 06_Versioning_Policy.md
-[faq]: 07_FAQ.md
+[core_libraries]: 06_Core_Libraries.md
+[versioning_policy]: 07_Versioning_Policy.md
+[faq]: 08_FAQ.md
