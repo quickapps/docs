@@ -1,5 +1,6 @@
 *.pyc
 build/*
 */_build/*
+/_build/*
 .DS_Store
 .project

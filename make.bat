@@ -1,5 +1,6 @@
 @ECHO OFF
 set langs=en
+set root=%CD%
 
 if "%1" == "" (
 	goto help
@@ -18,27 +19,9 @@ set target=%1
 
 (for %%l in (%langs%) do (
 	set lang=%%l
-	if "%target%" == "html" (
-		cd %lang%
-		make html %lang%
-	)
-
-	if "%target%" == "epub" (
-		cd %lang%
-		make epub %lang
-	)
-
-	if "%target%" == "latex" (
-		cd %lang%
-		make latex %lang%
-	)
-
-	if "%target%" == "clean" (
-		cd %lang%
-		make clean
-	)
-
-	cd ..
+	cd %lang%
+	make %target% %lang%
+	cd %root%
 ))
 
 :end

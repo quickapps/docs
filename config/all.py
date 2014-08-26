@@ -183,15 +183,32 @@ htmlhelp_basename = 'QuickAppsCMSBookdoc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
+
+preamb = ur'''
+% Custom colors.
+\definecolor{ChapterColor}{RGB}{201,36,52}
+\definecolor{TitleColor}{RGB}{0,0,0}
+
+% No section numbering
+\setcounter{secnumdepth}{0}
+
+% Make chapter titles red.
+\ChNameVar{\color{TitleColor}\Large}
+\ChNumVar{\color{TitleColor}\Large}
+\ChTitleVar{\color{ChapterColor}\Huge\sf}
+
+% link colors
+\definecolor{InnerLinkColor}{RGB}{65,114,130}
+\definecolor{OuterLinkColor}{RGB}{0,61,76}
+
+% background and border for code examples.
+\definecolor{VerbatimColor}{RGB}{242,242,242}
+\definecolor{VerbatimBorderColor}{RGB}{230,230,230}
+'''
+
 latex_elements = {
-# The paper size ('letterpaper' or 'a4paper').
-#'papersize': 'letterpaper',
-
-# The font size ('10pt', '11pt' or '12pt').
-#'pointsize': '10pt',
-
-# Additional stuff for the LaTeX preamble.
-#'preamble': '',
+    'preamble': preamb,
+    'fncychap': '\\usepackage[Sonny]{fncychap}'
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
@@ -204,7 +221,7 @@ latex_documents = [
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
-#latex_logo = None
+latex_logo = '../themes/quickapps/static/pdf-logo.png'
 
 # For "manual" documents, if this is true, then toplevel headings are parts,
 # not chapters.
@@ -254,7 +271,7 @@ latex_elements = {
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('contents', 'quickappscmsbook', u'QuickAppsCMS Book Documentation',
+    ('index', 'quickappscmsbook', u'QuickAppsCMS Book Documentation',
      [u'Christopher Castro'], 1)
 ]
 
@@ -334,8 +351,6 @@ epub_identifier = 'http://quickappscms.org'
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = [
     'index.html',
-    'pdf-contents.html',
-    'search.html',
     'contents.html'
 ]
 
