@@ -188,7 +188,11 @@ class BookPrinter {
 			if (is_dir($fullPath)) {
 				$result[0][] = $fullPath;
 			} else {
-				$result[1][] = $fullPath;
+				if ($file == 'index.md') {
+					array_unshift($result[1] , $fullPath);
+				} else {
+					$result[1][] = $fullPath;
+				}
 			}
 		}
 
