@@ -93,6 +93,8 @@ Most of the following is an extract from CakePHP’s book.
     Anything you want to see in all of your views should be placed in a
     layout.
 
+    -- CakePHP’s book
+
 Default layout is located at ``/src/Template/Layout/default.ctp`` of
 your themes. If you want to change the overall look of your application,
 then this is the right place to start, because controller-rendered view

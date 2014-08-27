@@ -24,12 +24,12 @@ follows:
 ::
 
     |- vocabulary: Music
-        |- term: Jazz
-            |- sub-term: Swing
-            |- sub-term: Fusion
-        |- term: Rock
-            |- sub-term: Country rock
-            |- sub-term: Hard rock
+       |- term: Jazz
+       |  |- sub-term: Swing
+       |  |- sub-term: Fusion
+       |- term: Rock
+          |- sub-term: Country rock
+          |- sub-term: Hard rock
 
 Assigning vocabularies to content types
 ---------------------------------------
