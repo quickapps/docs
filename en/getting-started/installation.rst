@@ -34,16 +34,15 @@ skeleton <https://github.com/QuickAppsCMS/website>`__ as starting point.
 Installing the web skeleton is fast and easy:
 
 1. Download `Composer <http://getcomposer.org/doc/00-intro.md>`__ or
-   update composer self-update.
-2. Run php composer.phar create-project -s dev quickapps/website
-   [your\_website\_name].
+   update: ``composer self-update.``
+2. Run: ``php composer.phar create-project -s dev quickapps/website [your_website_name]``
 
 If Composer is installed globally, run:
 
     composer create-project -s dev quickapps/website [website\_name]
 
-After composer is done visit http://example.com/ and start QuickAppsCMS
-installation.
+After composer is done visit http://your-domain.com/ and start QuickAppsCMS’s
+web installer.
 
 Getting Help
 ============

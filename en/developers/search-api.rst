@@ -26,7 +26,7 @@ behavior to your tables. For example, when attaching this behavior to
     ]);
 
 In the example above, this behavior will look for words to index in
-user's "username" and user's "email" properties.
+user’s "username" and user’s "email" properties.
 
 If you need a really special selection of words for each entity is being
 indexed, then you can set the ``fields`` option as a callable which
@@ -258,7 +258,7 @@ may respond to this call by implementing this event:
 IMPORTANT:
 
 -  Event handler method should always return the modified $query object.
--  The event's context, that is ``$event->subject``, is the table
+-  The event’s context, that is ``$event->subject``, is the table
    instance that fired the event.
 
 Recommended Reading

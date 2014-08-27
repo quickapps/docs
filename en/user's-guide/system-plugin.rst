@@ -26,8 +26,8 @@ provides a series of buil-in hooktags as described below:
 
 Possible values of OPTION are: code, name, native or direction.
 
--  code: Returns language's ISO 639-2 code (en, es, fr, etc)
--  name: Returns language's english name (English, Spanish, German,
+-  code: Returns language’s ISO 639-2 code (en, es, fr, etc)
+-  name: Returns language’s english name (English, Spanish, German,
    French, etc)
 -  direction: Returns direction that text is presented. lft (Left To
    Right) or rtl (Right to Left)

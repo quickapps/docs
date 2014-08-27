@@ -6,7 +6,7 @@ About
 
 The Block plugin allows you to create boxes of content, which are
 rendered into an area, or region, of one or more pages of a website. The
-core's Frontend theme, for example, implements the regions "Right
+core’s Frontend theme, for example, implements the regions "Right
 Sidebar" and "Site Footer", and a block may appear in any one of these
 regions. The Blocks administration page provides an interface for
 assigning a block to a region, and for controlling the order of blocks

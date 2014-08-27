@@ -21,7 +21,7 @@ Configuring a multilingual site
 Language negotiation allows your site to automatically change language
 based on path used for each request. Users may (optionally) select their
 preferred language on their *My account page*, and your site can be
-configured to honor a web browser's preferred language settings.
+configured to honor a web browser’s preferred language settings.
 
 .. meta::
     :title lang=en: Locale Plugin

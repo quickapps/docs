@@ -29,7 +29,7 @@ Theme Anatomy
     using cells and helpers from your theme, you will need to continue
     using the plugin-syntax.
 
-    -- CakePHP's book
+    -- CakePHP’s book
 
 That means that your theme folder structure is the same
 :doc:`used by plugins </developers/plugins>`. However in QuickAppsCMS there are
@@ -49,7 +49,7 @@ their names with the ``Theme`` word, so for example if you have a "Blog"
 plugin, changing its name to "BlogTheme" will be automatically considered a
 Theme.
 
-Theme's names is inflected from the ``name`` key from composer.json schema.
+Theme’s names is inflected from the ``name`` key from composer.json schema.
 
 Also the must define the ``extra.regions`` key, a list of all regions
 your theme implements. Regions are defined as an associative array
@@ -87,7 +87,7 @@ Here a full working example:
 Layouts
 =======
 
-Most of the following is an extract from CakePHP's book.
+Most of the following is an extract from CakePHP’s book.
 
     A layout contains presentation code that wraps around a view.
     Anything you want to see in all of your views should be placed in a
@@ -101,7 +101,7 @@ code is placed inside of the default layout when the page is rendered.
 Other layout files should be placed in ``/src/Template/Layout``. When
 you create a layout, you need to tell QuickAppsCMS where to place the
 output of your views. To do so, make sure your layout includes a place
-for ``$this->fetch('content')`` Here's an example of what a default
+for ``$this->fetch('content')`` Here’s an example of what a default
 layout might look like:
 
 .. code:: html
@@ -111,19 +111,21 @@ layout might look like:
         <head>
             <title><?= h($title) ?></title>
             <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-            <!-- Include external files and scripts here (See HTML helper for more info.) -->
+            <!-- Include external files and scripts
+            here (See HTML helper for more info.) -->
             <?php echo $this->fetch('meta'); ?>
             <?php echo $this->fetch('css'); ?>
             <?php echo $this->fetch('script'); ?>
         </head>
 
         <body>
-            <!-- If you'd like some sort of menu to show up on all of your views, include it here -->
+            <!-- If you'd like some sort of menu to show
+            up on all of your views, include it here -->
             <div id="header">
                 <div id="menu">...</div>
             </div>
 
-            <!-- Here's where I want my views to be displayed -->
+            <!-- Here’s where I want my views to be displayed -->
             <?= $this->fetch('content') ?>
 
             <!-- Add a footer to each displayed page -->
@@ -138,22 +140,22 @@ contents of the rendered view.
 
 Although ``default.ctp`` layout should be enough for most cases,
 QuickAppsCMS may use different layouts depending on the situation, for
-example when rendering the user's login form ``login.ctp`` **will be
+example when rendering the user’s login form ``login.ctp`` **will be
 used if exists**, here is a list of layouts your theme might define:
 
 -  ``default.ctp``: This is the default layout, if none of the listed
    below exists this layout will be used instead.
--  ``login.ctp``: Used when rendering user's login screen.
+-  ``login.ctp``: Used when rendering user’s login screen.
 -  ``ajax.ctp``: Used when rendering AJAX responses
 -  ``error.ctp``: When an error is reached; 404, 500, etc
 
-Layout's Header
+Layout’s Header
 ---------------
 
-Layout's header is where you should place all links to your CSS and JS
+Layout’s header is where you should place all links to your CSS and JS
 files, among other things such as meta-descriptions and so on. To make
 your life easier, QuickAppsCMS provides a basic header setup which you
-can use within your theme's layouts:
+can use within your theme’s layouts:
 
 .. code:: php
 
@@ -175,7 +177,7 @@ contain an unlimited number of blocks (by default). Theme authors can
 define and implement any number of regions for content to be rendered
 into.
 
-For rendering a region's blocks in your layout you must use the ``RegionHelper``
+For rendering a region’s blocks in your layout you must use the ``RegionHelper``
 as follow:
 
 .. code:: php
@@ -195,7 +197,7 @@ resulting region limits the number of blocks it can holds to three (3):
         ->append($this->Region->create('right-sidebar'))
         ->blockLimit(3);
 
-As you may have noticed, we always use region's machine-name when
+As you may have noticed, we always use region’s machine-name when
 referring to a particular region; ``left-sidebar`` (human name: Left
 Sidebar)
 

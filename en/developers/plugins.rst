@@ -5,14 +5,14 @@ What are Plugins ?
 ==================
 
 QuickAppsCMS is designed to be modular. Instead of always having every
-possible tool or feature in every site's code, you can just have those
-you're actually going to use. QuickAppsCMS's core —what you get when you
+possible tool or feature in every site’s code, you can just have those
+you're actually going to use. QuickAppsCMS’s core —what you get when you
 install it— is like a very basic box of Lego™: a platform and some basic
 bricks (plugins) to get you started. You can do a lot with just those
 basics, but usually you'll want more.
 
-That's where contributed plugins come in. Contributed plugins are
-packages of code that extend or enhance QuickAppsCMS's core to add
+That’s where contributed plugins come in. Contributed plugins are
+packages of code that extend or enhance QuickAppsCMS’s core to add
 additional (or alternate) functionality and features. These plugins have
 been "contributed" back to the QuickAppsCMS community by their authors.
 
@@ -24,20 +24,21 @@ Basic structure of plugins:
 ::
 
     |- Blog/
-        |- config/
-        :    |- bootstrap.php
-        :    |- routes.php
-        |- src/
-        :   |- Controller/
-        :   |- Model/
-        :   |- Template/
-        |- webroot/
-        :- composer.json
+       |- config/
+       |  |- bootstrap.php
+       |     |- routes.php
+       |- src/
+       |  |- Controller/
+       |  |- Event/
+       |  |- Model/
+       |  |- Template/
+       |- webroot/
+       |- composer.json
 
-Plugin's structure is the same defined by CakePHP, the only main
-difference is that QuickAppsCMS's plugins MUST define a ``composer.json`` file,
+Plugin’s structure is the same defined by CakePHP, the only main
+difference is that QuickAppsCMS’s plugins MUST define a ``composer.json`` file,
 this file is used by `composer <https://getcomposer.org/>`__ to identify your
-package, but it's also used by QuickAppsCMS to get information about your plugins
+package, but it’s also used by QuickAppsCMS to get information about your plugins
 such as version number, name, description, etc.
 
 The "composer.json" file
@@ -53,16 +54,16 @@ These special requirements are described below:
    ``author-name/package-name``
 -  key ``version`` must be present.
 -  key ``type`` must be present and be **quickapps-plugin** (even if
-   it's a theme).
+   it’s a theme).
 -  key ``name`` must be present.
 -  key ``description`` must be present.
--  key ``extra.regions`` must be present if it's a theme (its ``name``
+-  key ``extra.regions`` must be present if it’s a theme (its ``name``
    ends with ``-theme``, e.g. ``quickapps/blue-sky-theme``)
 
 **NOTES:**
 
 -  Plugins may behave as themes if their name ends with ``-theme``.
--  Plugin's names are inflected from the ``name`` key, they
+-  Plugin’s names are inflected from the ``name`` key, they
    are camelized, for example for ``author-name/super-name``, plugin name
    is ``SuperName``.
 
@@ -70,9 +71,9 @@ Dependencies
 ------------
 
 You can indicate your plugin depends on another plugin, to do so, you
-must use the ``require`` key in your "composer.json". QuickAppsCMS's
+must use the ``require`` key in your "composer.json". QuickAppsCMS’s
 dependencies resolver system works pretty `similar to
-composer's <https://getcomposer.org/doc/01-basic-usage.md#package-versions>`__.
+composer’s <https://getcomposer.org/doc/01-basic-usage.md#package-versions>`__.
 For example you may indicate your plugin requires certain version of
 QuickAppsCMS:
 
@@ -121,13 +122,13 @@ Events triggered
 ~~~~~~~~~~~~~~~~
 
 -  ``Plugin.<PluginName>.beforeInstall``: Before plugins is registered
-   on DB and before plugin's directory is moved to "/plugins"
+   on DB and before plugin’s directory is moved to "/plugins"
 -  ``Plugin.<PluginName>.afterInstall``: After plugins was registered in
-   DB and after plugin's directory was moved to "/plugins"
+   DB and after plugin’s directory was moved to "/plugins"
 
 Where ``<PluginName>`` is the inflected name of your plugin, for
 example, if in your "composer.json" your package name is
-``author-name/super-plugin-name`` then plugin's inflected name is
+``author-name/super-plugin-name`` then plugin’s inflected name is
 ``SuperPluginName``.
 
 Uninstallation
@@ -160,13 +161,13 @@ Events triggered
 ~~~~~~~~~~~~~~~~
 
 -  ``Plugin.<PluginName>.beforeUninstall``: Before plugins is removed
-   from DB and before plugin's directory is deleted from "/plugins".
+   from DB and before plugin’s directory is deleted from "/plugins".
 -  ``Plugin.<PluginName>.afterUninstall``: After plugins was removed
-   from DB and after plugin's directory was deleted from "/plugins"
+   from DB and after plugin’s directory was deleted from "/plugins"
 
 Where ``<PluginName>`` is the inflected name of your plugin, for
 example, if in your "composer.json" your package name is
-``author-name/super-plugin-name`` then plugin's inflected name is
+``author-name/super-plugin-name`` then plugin’s inflected name is
 ``SuperPluginName``.
 
 Enabling & Disabling Process
@@ -194,7 +195,7 @@ When plugins are enabled or disabled the following events are triggered:
 The names of these events should be descriptive enough to let you know
 what they do.
 
-**IMPORTANT:** Plugin's assets are not accessible when plugins are
+**IMPORTANT:** Plugin’s assets are not accessible when plugins are
 disabled, which means anything within the ``/webroot`` directory of your
 plugin will not be accessible via URL.
 
@@ -211,9 +212,9 @@ package.
 
 During this process two events are triggered:
 
--  ``Plugin.<PluginName>.beforeUpdate``: Before plugins's old directory
+-  ``Plugin.<PluginName>.beforeUpdate``: Before plugins’s old directory
    is removed from "/plugins"
--  ``Plugin.<PluginName>.afterUpdate``: Before plugins's old directory
+-  ``Plugin.<PluginName>.afterUpdate``: Before plugins’s old directory
    was removed from "/plugins" and after placing new directory in its
    place.
 
@@ -228,10 +229,10 @@ Plugins are allowed to define a series of customizable parameters, this
 parameters can be tweaked on the administration section by users with
 proper permissions.
 
-For example, a "Blog" plugin could allow users to change plugin's behavior
+For example, a "Blog" plugin could allow users to change plugin’s behavior
 by providing a series of form inputs where users may indicate certain
-values that will alter plugin's functionalities, for example "show
-publish date" which would display article's "publish date" when an
+values that will alter plugin’s functionalities, for example "show
+publish date" which would display article’s "publish date" when an
 article is being rendered.
 
 Any plugin can provide this form inputs by placing them into
@@ -256,7 +257,7 @@ Reading settings values
 -----------------------
 
 Once you have provided certain teakable values, you may need to read
-those values in order to change your plugin's behavior, in our "Blog"
+those values in order to change your plugin’s behavior, in our "Blog"
 example we want to know whether the "publish date" should be rendered or
 not. To read these values you should use the ``QuickApps\Core\Plugin``
 class as follow:
@@ -282,7 +283,7 @@ event below:
 
 This event is automatically triggered every time you try to read a
 setting value, your must implement this event handler in any of your
-plugin's :doc:`Event Listener <events-system>` classes and it must return an
+plugin’s :doc:`Event Listener <events-system>` classes and it must return an
 associative array for setting keys and their values, a full example:
 
 .. code:: php
@@ -316,7 +317,7 @@ date" or not the default value will be ``1`` which we'll consider as
 Validating Settings
 -------------------
 
-Usually you would need to restrict what user's types in your settings
+Usually you would need to restrict what user’s types in your settings
 form inputs, so for example you may need an users to type in only
 integer values for certain setting parameter. To validate these inputs
 you must use the ``Plugin.<PluginName>.settingsValidate`` event which is
@@ -353,15 +354,12 @@ own validation rules. For example:
 
     }
 
-For more information about validation please check CakePHP's
-`documentation <http://book.cakephp.org/3.0/en/core-libraries/validation.html>`__.
-
 Recommended Reading
 ===================
 
 -  :doc:`Events System <events-system>`
 -  :doc:`Hooktags <hooktags>`
--  `CakePHP's
+-  `CakePHP’s
    Validation <http://book.cakephp.org/3.0/en/core-libraries/validation.html>`__
 
 .. meta::

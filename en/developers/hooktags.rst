@@ -4,20 +4,20 @@ Hooktags
 A ``Hooktag`` is a QuickApps-specific code that lets you do nifty things
 with very little effort. Hooktags can for example print current language
 code/name or call specifics plugin/themes functions. For instance, the
-following hooktag (in any content) would show current language's code:
+following hooktag (in any content) would show current language’s code:
 
 .. code:: html
 
     [locale code /]
 
 Note: If you are a Wordpress user you will find that ``hooktags`` are
-Wordpress's ``shorcodes`` equivalent.
+Wordpress’s ``shorcodes`` equivalent.
 
 Defining Hooktags
 =================
 
 At core level a hooktag is just an event name prefixed with the ``Hooktag.``
-word, your event listener class classes must indicate which hooktags it will
+word, your event listeners classes must indicate which hooktags it will
 handle using the ``implementedEvents()`` method. For example:
 
 .. code:: php
@@ -60,18 +60,17 @@ These methods are responsible of converting a hooktag (that looks as
 
 **TIP:**
 
-A good practice is to have all your hooktags events defined in a independent
+A good practice is to have all your hooktags events defined in independent
 classes, you could also add the `Hooktag` prefix to your class name keep
 things event more clean:
 
 ::
 
-    - Blog/
-     |-- src/
-        |-- Event/
-           |-- ArticlesHooktag.php
-           |-- CommentsHooktag.php
-
+    |- Blog/
+       |- src/
+          |- Event/
+             |- ArticlesHooktag.php
+             |- CommentsHooktag.php
 
 Attributes
 ----------
@@ -97,26 +96,26 @@ for hooktags in the given text, for example, in any template you could:
 
 .. code:: php
 
-    echo $this->hooktags("Current language's code is: [language code /]");
+    echo $this->hooktags("Current language code is: [language code /]");
 
 Depending on the current language you are navigating you will get:
 
 .. code:: html
 
-    Current language's code is: en-us
+    Current language code is: en-us
 
 The second method, ``stripHooktags()``, simply removes all hooktags from
 the given text:
 
 .. code:: php
 
-    echo $this->stripHooktags("Current language's code is: [language code /]");
+    echo $this->stripHooktags("Current language code is: [language code /]");
 
 Now you will get:
 
 .. code:: html
 
-    Current language's code is:
+    Current language code is:
 
 **Important:** As we mention before, Events names are prefixed with
 ``Hooktag.`` word, which means that ``[language ...]`` will trigger the
@@ -130,7 +129,7 @@ hooktag to be as follow:
 
 -  Its name will be ``content_box``.
 -  Will use the ``enclosed`` form ([tag] ... [/tag]), for holding the
-   box's content.
+   box’s content.
 -  Will accept a ``color`` parameter for specify the color of the box to
    render.
 -  Will be handled by the ``Blog`` plugin.
@@ -166,7 +165,7 @@ listen for ``content_box``:
     }
 
 Now we must define the event handler method which should receive
-hooktag's information and convert it into HTML:
+hooktag’s information and convert it into HTML:
 
 .. code:: php
 
@@ -179,7 +178,7 @@ hooktag's information and convert it into HTML:
 
 **Usage**
 
-Now you should be able to use the ``content_box`` hooktag in any Node's
+Now you should be able to use the ``content_box`` hooktag in any Node’s
 contents, or wherever hooktags are allowed.
 
     [content\_box color=green]Lorem ipsum dolor[/content\_box]

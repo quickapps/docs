@@ -34,7 +34,7 @@ normalizePath(string $path, string $ds = DIRECTORY\_SEPARATOR)
 --------------------------------------------------------------
 
 Normalizes the given file system path, makes sure that all
-DIRECTORY\_SEPARATOR are the same, so you won't get a mix of "/" and ""
+DIRECTORY\_SEPARATOR are the same, so you won't get a mix of "/" and "\\"
 in your paths.
 
 **Example:**
@@ -49,7 +49,7 @@ second argument:
 
 .. code:: php
 
-    normalizePath('/some/path\to//some\thing\about.zip', '\');
+    normalizePath('/some/path\to//some\thing\about.zip', '\\');
     // output:
     \some\path\to\some\thing\about.zip
 
@@ -58,7 +58,7 @@ By defaults uses DIRECTORY\_SEPARATOR as symbol.
 quickapps(string $key = null)
 -----------------------------
 
-Shortcut for reading QuickApps's snapshot configuration.
+Shortcut for reading QuickApps’s snapshot configuration.
 
 For example, ``quickapps('variables');`` maps to
 ``Configure::read('QuickApps.variables');``. If this function is used
@@ -88,7 +88,7 @@ Returns a list of all registered event listeners in the system.
 pluginName(string $name)
 ------------------------
 
-Used to extract plugin names from composer's package names.
+Used to extract plugin names from composer’s package names.
 
 **Example:**
 
@@ -98,7 +98,7 @@ Used to extract plugin names from composer's package names.
     // returns: MySuperPlugin
 
 Package names must follow the "author/app-name" pattern, there are two
-"especial" composer's package names which are handled differently:
+"especial" composer’s package names which are handled differently:
 
 -  ``php``: Will return "**PHP**\ "
 -  ``quickapps/cms``: Will return "**QUICKAPPS**\ "
@@ -124,7 +124,7 @@ php\_eval(string $code, array $args = [])
 
 Evaluate a string of PHP code.
 
-This is a wrapper around PHP's eval(). It uses output buffering to
+This is a wrapper around PHP’s eval(). It uses output buffering to
 capture both returned and printed text. Unlike eval(), we require code
 to be surrounded by tags; in other words, we evaluate the code as if it
 were a stand-alone PHP file.
@@ -199,7 +199,7 @@ language(string $key = null)
 
 Retrieves information for current language.
 
-Useful when you need to read current language's code, direction, etc. It
+Useful when you need to read current language’s code, direction, etc. It
 will return all the information if no ``$key`` is given.
 
 **Usage:**
@@ -224,15 +224,15 @@ will return all the information if no ``$key`` is given.
 
 Accepted keys are:
 
--  ``name``: Language's name, e.g. ``English``, ``Spanish``, etc.
+-  ``name``: Language’s name, e.g. ``English``, ``Spanish``, etc.
 -  ``code``: Localized language's code, e.g. ``en-us``, ``es``, etc.
--  ``iso``: Language's ISO 639-1 code, e.g. ``en``, ``es``, ``fr``, etc.
--  ``country``: Language's country code, e.g. ``US``, ``ES``, ``FR``,
+-  ``iso``: Language’s ISO 639-1 code, e.g. ``en``, ``es``, ``fr``, etc.
+-  ``country``: Language’s country code, e.g. ``US``, ``ES``, ``FR``,
    etc.
 -  ``direction``: Language writing direction, possible values are "ltr"
    or "rtl".
 -  ``icon``: Flag icon (it may be empty) e.g. ``es.gif``, ``es.gif``,
-   icons files are located in Locale plugin's ``/webroot/img/flags/``
+   icons files are located in Locale plugin’s ``/webroot/img/flags/``
    directory, to render an icon using HtmlHelper you should do as
    follow:
 
@@ -243,7 +243,7 @@ Accepted keys are:
 user()
 ------
 
-Retrieves current user's information (logged in or not) as an entity
+Retrieves current user’s information (logged in or not) as an entity
 object.
 
 **Usage:**

@@ -29,7 +29,7 @@ Managing field data storage
 
 Developers of field plugins can either use the default QuickApps storage
 table to store data for their fields, or a contributed or custom storage
-system developed using QuickApps's Field API.
+system developed using QuickApps’s Field API.
 
 .. meta::
     :title lang=en: Field Plugin

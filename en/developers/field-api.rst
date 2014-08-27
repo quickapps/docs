@@ -1,20 +1,21 @@
 Field API
 #########
 
-The Fields API Allows additional fields to be attached to Tables. Any
+The Fields API allows additional fields to be attached to Tables. Any
 Table (Nodes, Users, etc.) can use Field API to make itself
 ``field-able`` and thus allow fields to be attached to it.
 
 The Field API defines two primary data structures, ``FieldInstance`` and
 ``FieldValue``:
 
--  FieldInstance: is a Field attached to a single Table. (Schema
-   equivalent: column)
--  FieldValue: is the stored data for a particular [FieldInstance,
-   Entity] tuple of your Table. (Schema equivalent: cell value)
+-  FieldInstance: is a Field attached to a single Table. (Schema equivalent:
+   column)
+-  FieldValue: is the stored data for a particular [FieldInstance, Entity] tuple
+   of your Table. (Schema equivalent: cell value)
 
-**Basically, this behavior allows you to add *virtual columns* to your
-table schema.**
+**In other words:** Field API allows you to add **additional columns** to
+your table schema without actually alter the physical schema of your tables.
+Which is known as `EAV model <http://en.wikipedia.org/wiki/Entity%E2%80%93attribute%E2%80%93value_model>`__
 
 Making a table "fieldable"
 ==========================
@@ -35,7 +36,7 @@ custom-fields records into each entity under the ``_fields`` property.
 
     $user = $this->Users->get(1);
 
-    // $user's properties might look as follows:
+    // $user’s properties might look as follows:
     [id] => 1,
     [password] => e10adc3949ba59abbe56e057f20f883e,
     ...
@@ -154,11 +155,11 @@ Field Handlers may store complex information or structures. For example,
 ``AlbumField`` handler may store a list of photos for each entity. In
 those cases you should use the ``extra`` property to store your array
 list of photos, while ``value`` property should always store a
-Human-Readable representation of your field's value.
+Human-Readable representation of your field’s value.
 
 In our ``AlbumField`` example, we could store an array list of file
 names and titles for a given entity under the ``extra`` property. And we
-could save photo's titles as space-separated values under ``value``
+could save photo’s titles as space-separated values under ``value``
 property:
 
 .. code:: php
@@ -186,7 +187,7 @@ feature described above.
    an array.
 -  ``Search over custom fields`` feature described above uses the
    ``value`` property when looking for matches. So in this way your
-   entities can be found when using Field's machine-name in WHERE
+   entities can be found when using Field’s machine-name in WHERE
    clauses.
 -  Using ``extra`` is not mandatory, for instance your Field Handler
    could use an additional table schema to store entities information
@@ -215,21 +216,46 @@ bindFieldable() to enable it again.
 Field Handlers
 ==============
 
-Field Handler are "Listeners" classes which must take care of storing,
-organizing and retrieving information for each entity's field. All this
-is archived using QuickAppsCMS's :doc:`events system <events-system>`.
+Field Handler are :doc:`event listener <events-system>` classes which must take
+care of storing, organizing and retrieving information for each entity’s
+field. All this is archived using QuickAppsCMS’s
+:doc:`events system <events-system>`. Filed handler handlers belongs always to
+a plugin, which must define them as event listeners classes under its "Events"
+directory. For instance:
 
-Similar to :doc:`Event Listeners <events-system>` and Hooktags,
-Field Handlers classes must define a series of events, which has been
-organized in two groups or "event subspaces":
+::
 
--  ``Field.<FieldHandler>.Entity``: For handling Entity's related events
-   such as ``entity save``, ``entity delete``, etc.
+    |- Blog/
+       |- src/
+          |- Controller/
+          |- Event/
+             |- MyFieldHandler1.php
+             |- MyFieldHandler2.php
+             |- MyFieldHandler3.php
+
+Similar to :doc:`event listeners <events-system>` and :doc:`hooktags <hooktags`,
+Field Handlers classes must define all event names it will handle using the
+``implementedEvents()`` method, Field API has organized these event names
+in two groups or "events subspaces":
+
+-  ``Field.<FieldHandler>.Entity``: For handling entities events such as
+   "entity save", "entity delete", etc.
 -  ``Field.<FieldHandler>.Instance``: Related to Field Instances events,
    such as "instance being detached from table", "new instance attached
    to table", etc.
 
-Below, a list of available events:
+Where ``<FieldHandler>`` is an arbitrary name of your choose, it must be unique
+across the entire system.
+
+**TIP:** A good practice is to use the name of your event listener class as
+"handler name", for example for the class
+``plugins/Blog/Event/ImageAttachment.php`` your field handler name is
+``ImageAttachment``, in order to make sure this name is unique across the entire
+system you could use plugin’s name as prefix: ``BlogImageAttachment``
+
+---
+
+Below, a list of available events fields handler should implement:
 
 **Entity events:**
 
@@ -263,15 +289,15 @@ event name listed below. For example, ``info`` is actually
    registered Field.
 -  ``settingsForm``: Additional settings for this field, should define
    the way the values will be stored in the database.
--  ``settingsDefaults``: Default values for field settings form's
+-  ``settingsDefaults``: Default values for field settings form’s
    inputs.
--  ``settingsValidate``: Before instance's settings are changed, here
+-  ``settingsValidate``: Before instance’s settings are changed, here
    you can apply your own validation rules.
 -  ``viewModeForm``: Additional view mode settings, should define the
    way the values will be rendered for a particular view mode.
--  ``viewModeDefaults``: Default values for view mode settings form's
+-  ``viewModeDefaults``: Default values for view mode settings form’s
    inputs.
--  ``viewModeValidate``: Before view-mode's settings are changed, here
+-  ``viewModeValidate``: Before view-mode’s settings are changed, here
    you can apply your own validation rules.
 -  ``beforeAttach``: Before field is attached to Tables.
 -  ``afterAttach``: After field is attached to Tables.
@@ -324,13 +350,13 @@ methods which you should override with your own logic:
         ...
     }
 
-Check this class's documentation for deeper information.
+Check this class’s documentation for deeper information.
 
 Preparing Field Inputs
 ----------------------
 
 Your Field Handler should somehow render some form elements (inputs,
-selects, textareas, etc) when rendering Table's Entities in
+selects, textareas, etc) when rendering Table’s Entities in
 ``edit mode``. For this we have the ``Field.<FieldHandler>.Entity.edit``
 event, which should return a HTML containing all the form elements for
 [entity, field\_instance] tuple.
@@ -361,7 +387,7 @@ As usual, the second argument ``$field`` contains all the information
 you will need to properly render your form inputs.
 
 You must tell to QuickAppsCMS that the fields you are sending in your
-POST action are actually virtual fields. To do so, all your input's
+POST action are actually virtual fields. To do so, all your input’s
 ``name`` attributes **must be prefixed** with ``:`` followed by its
 machine (a.k.a. ``slug``) name:
 
@@ -406,7 +432,7 @@ HTML code:
 Creating an Edit Form
 ---------------------
 
-In previous example we had an User edit form. When rendering User's
+In previous example we had an User edit form. When rendering User’s
 form-inputs usually you would do something like so:
 
 .. code:: php
@@ -485,7 +511,7 @@ must simply attach this trait to an empty controller and you are ready
 to go.
 
 With this trait, Field plugin provides an user friendly UI for manage
-entity's custom fields. It provides a field-manager user interface (UI)
+entity’s custom fields. It provides a field-manager user interface (UI)
 by attaching a series of actions over a ``clean`` controller.
 
 **Usage:**

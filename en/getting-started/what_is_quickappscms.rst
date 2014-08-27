@@ -27,7 +27,7 @@ Features
 -  **SEO friendly**
 -  **RSS feeds:** Powered by a nice built-in search system
 -  **Powerful events system**
--  **Hooktags:** Similar to Wordpress 'shortcodes'.
+-  **Hooktags:** Similar to Wordpress "shortcodes".
 -  **Free** ...and much more!
 
 License

@@ -45,7 +45,7 @@ field.
 Classifying content
 -------------------
 
-After the vocabulary is assigned to the content type's Taxonomy field,
+After the vocabulary is assigned to the content type’s Taxonomy field,
 you can start classifying content. The field with terms will appear on
 the content editing screen when you edit or *add new content*.
 

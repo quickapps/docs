@@ -150,7 +150,8 @@ if "%1" == "latex" (
 if "%1" == "latexpdf" (
 	%SPHINXBUILD% -b latex %ALLSPHINXOPTS% %BUILDDIR%/latex
 	cd %BUILDDIR%/latex
-	make all-pdf
+	pdflatex QuickAppsCMSBook.tex
+	pdflatex QuickAppsCMSBook.tex
 	cd %BUILDDIR%/..
 	echo.
 	echo.Build finished; the PDF files are in %BUILDDIR%/latex.

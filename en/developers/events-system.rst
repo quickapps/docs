@@ -1,21 +1,21 @@
 Events System
 #############
 
-The Events System is most important piece of QuickAppsCMS's
+The Events System is most important piece of QuickAppsCMS’s
 architecture, this system allows `plugins <03_Plugins.md>`__ to
 communicate with each other, respond to certain events fired during
 execution of the script, etc. So for example, "User" plugin may trigger
 an event "user logged in", the rest of the plugins in the system may respond to
 this "signal" and act in consequence.
 
-NOTE: As QuickAppsCMS's events system is built on top of CakePHP's
+NOTE: As QuickAppsCMS’s events system is built on top of CakePHP’s
 events system we recommend you to read their
 `documentation <http://book.cakephp.org/3.0/en/core-libraries/events.html>`__.
 
 Architecture
 ============
 
-QuickAppsCMS's events system is composed of three primary elements:
+QuickAppsCMS’s events system is composed of three primary elements:
 
 -  ``Event Listener``: An event listeners class implementing the
    EventListener interface.
@@ -49,19 +49,20 @@ Registering Listeners
 By default in CakePHP you must create an instance of your Event Listener
 class and then attach it to the
 `EventManager <http://book.cakephp.org/3.0/en/core-libraries/events.html#global-event-manager>`__,
-in order to make this easier QuickAppsCMS's will automatically load all
-events listeners classes within plugin's "Event" directory. That is, if
-you want your "Blog" plugin's listener classes to be automatically
+in order to make this easier QuickAppsCMS’s will automatically load all
+events listeners classes within plugin’s "Event" directory. That is, if
+you want your "Blog" plugin’s listener classes to be automatically
 loaded you must place these classes as follow:
 
 ::
 
-    - Blog/
-     |-- src/
-        |-- Event/
-           |-- Listener1Hook.php
-           |-- Listener2Hook.php
-           |-- Listener3Hook.php
+    |- Blog/
+       |- src/
+          |- Controller/
+          |- Event/
+             |- Listener1Hook.php
+             |- Listener2Hook.php
+             |- Listener3Hook.php
 
 All three classes (Listener1Hook, Listener2Hook and Listener3Hook) will
 be automatically loaded and registered on the ``EventManager``. In order
@@ -79,7 +80,7 @@ for triggering events.
 
 By default, this trait is attached to ``QuickApps\Controller\Controller``,
 to ``QuickApps\View\View`` and to ``QuickApps\View\Helper`` classes. This means
-you can use this trait's methods in any controller of your plugin, in any
+you can use this trait’s methods in any controller of your plugin, in any
 view or within any helper. Of course you must extend these classes in order to
 inherit this methods.
 
@@ -239,10 +240,10 @@ If no context is given ``$this`` will be used by default.
 Recommended Reading
 ===================
 
-As QuickAppsCMS's hook system is built on top of CakePHP's events system
-we highly recommend you to take a look at this part of CakePHP's book:
+As QuickAppsCMS’s events system is built on top of CakePHP’s events system
+we highly recommend you to take a look at this part of CakePHP’s book:
 
-`CakePHP's Events
+`CakePHP’s Events
 System <http://book.cakephp.org/3.0/en/core-libraries/events.html>`__
 
 .. meta::
