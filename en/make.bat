@@ -6,7 +6,7 @@ if "%SPHINXBUILD%" == "" (
 	set SPHINXBUILD=sphinx-build
 )
 set LANG=en
-set BUILDDIR="../_build/"%LANG%
+set BUILDDIR=..\_build\%LANG%
 set SPHINXOPTS=
 set ALLSPHINXOPTS=-d %BUILDDIR%/doctrees %SPHINXOPTS% .
 set I18NSPHINXOPTS=%SPHINXOPTS% .
