@@ -5,8 +5,8 @@ The Events System is most important piece of QuickAppsCMS's
 architecture, this system allows `plugins <03_Plugins.md>`__ to
 communicate with each other, respond to certain events fired during
 execution of the script, etc. So for example, "User" plugin may trigger
-an event "user is has been logged in", the rest of the plugins in the
-system may respond to this "signal" and act in consequence.
+an event "user logged in", the rest of the plugins in the system may respond to
+this "signal" and act in consequence.
 
 NOTE: As QuickAppsCMS's events system is built on top of CakePHP's
 events system we recommend you to read their
@@ -21,7 +21,7 @@ QuickAppsCMS's events system is composed of three primary elements:
    EventListener interface.
 -  ``Event Handler``: A method in your your listener class which take
    care of a single event.
--  ``Event``: Name of the event. e.g.: ``FormHelper.input``.
+-  ``Event``: Name of the event. e.g. ``FormHelper.input``.
 
 An Event Listener class, may listen to many Events. But a Event Handler
 can only responds to a single Event.
@@ -77,12 +77,11 @@ You can trigger events within any class you wish just by using
 ``QuickApps\Core\HooKTrait``, this trait will add a few handy methods
 for triggering events.
 
-By default, this trait is attached to
-``QuickApps\Controller\Controller``, ``QuickApps\View\View`` &
-``QuickApps\View\Helper`` classes. This means you can use this trait's
-methods in any controller of your plugin, in any template or within any
-helper. Of course you must extend these classes in order to inherit this
-methods.
+By default, this trait is attached to ``QuickApps\Controller\Controller``,
+to ``QuickApps\View\View`` and to ``QuickApps\View\Helper`` classes. This means
+you can use this trait's methods in any controller of your plugin, in any
+view or within any helper. Of course you must extend these classes in order to
+inherit this methods.
 
 For example, in our "Blog" plugin example, we could have an
 ``ArticlesController.php`` that may looks as follow:
@@ -165,7 +164,7 @@ alter(mixed $eventName[, mixed $arg0, ..., mixed $arg14])
 
 Similar to ``hook()`` but aimed to alter the given arguments. You can
 pass up to 15 arguments by reference. The main difference with
-``hook()`` is that ``alert()`` will prefix event names with the
+``hook()`` is that ``alert()`` **will prefix event names** with the
 ``Alter.`` word, so invoking "alter\_this" will actually triggers the
 event name "Alter.alter\_this"
 
@@ -245,3 +244,7 @@ we highly recommend you to take a look at this part of CakePHP's book:
 
 `CakePHP's Events
 System <http://book.cakephp.org/3.0/en/core-libraries/events.html>`__
+
+.. meta::
+    :title lang=en: Events System
+    :keywords lang=en: events,events system,event,trigger,hook,alter,hooktag,listeners,listener,event listener

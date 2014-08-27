@@ -361,7 +361,7 @@ As usual, the second argument ``$field`` contains all the information
 you will need to properly render your form inputs.
 
 You must tell to QuickAppsCMS that the fields you are sending in your
-POST action are actually virtual fields. To do this, all your input's
+POST action are actually virtual fields. To do so, all your input's
 ``name`` attributes **must be prefixed** with ``:`` followed by its
 machine (a.k.a. ``slug``) name:
 
@@ -526,3 +526,6 @@ Requirements
 -  Your Controller must be a backend-controller (under
    ``Controller\Admin`` namespace).
 
+.. meta::
+    :title lang=en: Field API
+    :keywords lang=en: api,fields,field,behavior,cck,eav,fieldable,entity,custom field,search,render field,form input

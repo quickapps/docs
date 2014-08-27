@@ -59,7 +59,6 @@ slug *country-rock*, then you will find content "marked" with this term
 at the path ``/find/term:country-rock``. The RSS feed will use the path
 ``/rss/term:country-rock``.
 
-
 .. meta::
     :title lang=en: Taxonomy Plugin
     :keywords lang=en: taxonomy plugin,taxonomy,plugin,terms,vocabularies,classify

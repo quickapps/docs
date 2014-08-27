@@ -59,7 +59,7 @@ Similar as before, but just per ``node-type`` and any view-mode:
 Render node per view-mode
 --------------------------
 
-    render\_node\_[view-mode]"
+    render\_node\_[view-mode]
 
 Similar as before, but just per ``view-mode`` and any ``node-type``:
 
@@ -84,3 +84,7 @@ Default
 
 This is the global render, if none of the above is found we try to use
 this last.
+
+.. meta::
+    :title lang=en: Rendering Contents
+    :keywords lang=en: content,fetch,block,view mode,nodes,specialized render,view mode

@@ -13,3 +13,7 @@ object-oriented programming (OOP) and CakePHP v3.0 framework.
 The QuickBook is an openly developed and community editable documentation
 project. We hope to maintain a high level of quality, validity and accuracy for
 the documentation.
+
+.. meta::
+    :title lang=en: Welcome
+    :keywords lang=en: welcome,about,manual,book,documentation,cakephp,quickbook

@@ -12,4 +12,3 @@ Developers
     developers/core-libraries
     developers/versioning-policy
     developers/faq
-

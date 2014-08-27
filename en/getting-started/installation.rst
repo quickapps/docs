@@ -49,3 +49,7 @@ Getting Help
 ============
 
 If you're stuck, there are a number of places you can :doc:`get help </getting-started/help>`.
+
+.. meta::
+    :title lang=en: Installation
+    :keywords lang=en: install,requirements,apache,php,version,database,db,quickapps,composer,mbstring,safe mode,safe_mode,mod_rewrite,mysql,postgre,sql

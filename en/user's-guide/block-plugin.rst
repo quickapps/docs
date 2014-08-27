@@ -38,7 +38,6 @@ Users with permissions can add custom blocks, which are then listed on
 the *Blocks administration page*. Once created, custom blocks behave
 just like default and plugin-generated blocks.
 
-
 .. meta::
     :title lang=en: Block Plugin
     :keywords lang=en: block plugin,block,plugin,blocks,region,regions

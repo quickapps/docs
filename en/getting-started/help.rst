@@ -16,3 +16,8 @@ http://groups.google.com/group/quickapps-cms
 
 It can be a great resource for finding archived answers, frequently
 asked questions, and getting answers to immediate problems.
+
+
+.. meta::
+    :title lang=en: Where to Get Help
+    :keywords lang=en: help,google group,group,chat,faq,question,answer

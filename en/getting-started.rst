@@ -7,4 +7,3 @@ Getting Started
     getting-started/what_is_quickappscms
     getting-started/installation
     getting-started/help
-

@@ -39,7 +39,6 @@ Administering content
 The **content administration** page allows you to review and bulk manage
 your site content.
 
-
 .. meta::
     :title lang=en: Node Plugin
     :keywords lang=en: node plugin,node,plugin,nodes,contents,conetnt,content types,types,article,basic page

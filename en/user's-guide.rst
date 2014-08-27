@@ -14,7 +14,3 @@ User's Guide
     user's-guide/taxonomy-plugin
     user's-guide/user-plugin
     user's-guide/faq
-
-.. meta::
-    :title lang=en: Users's Guide
-    :keywords lang=en: plugins,block,comment,field,locale,menu,node,system,taxonomy,user

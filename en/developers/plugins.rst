@@ -69,7 +69,7 @@ These special requirements are described below:
 Dependencies
 ------------
 
-You can indicate your plugin depends on another plugin, to do this you
+You can indicate your plugin depends on another plugin, to do so, you
 must use the ``require`` key in your "composer.json". QuickAppsCMS's
 dependencies resolver system works pretty `similar to
 composer's <https://getcomposer.org/doc/01-basic-usage.md#package-versions>`__.
@@ -363,3 +363,7 @@ Recommended Reading
 -  :doc:`Hooktags <hooktags>`
 -  `CakePHP's
    Validation <http://book.cakephp.org/3.0/en/core-libraries/validation.html>`__
+
+.. meta::
+    :title lang=en: Plugins
+    :keywords lang=en: plugins,anatomy,composer,dependencies,install,uninstall,update,enable,disable,settings,custom settings

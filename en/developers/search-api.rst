@@ -266,3 +266,7 @@ Recommended Reading
 
 - `Behaviors <http://book.cakephp.org/3.0/en/orm/behaviors.html>`__
 - :doc:`Events System <events-system>`
+
+.. meta::
+    :title lang=en: Search API
+    :keywords lang=en: api,searchable,entity,search operator,operator,events,event,behavior

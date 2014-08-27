@@ -25,3 +25,7 @@ features, or enough time should have passed, when the minor version is
 increased so that it doesn’t grow very fast. And the major version
 number should only be increased when there is a serious reason to make
 backwards incompatible changes to the library.
+
+.. meta::
+    :title lang=en: Versioning Policy
+    :keywords lang=en: versioning,version,release,bug fix,major version,development

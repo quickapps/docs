@@ -44,3 +44,7 @@ QuickAppsCMS is distributed in the hope that it will be useful, but WITHOUT ANY
 WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE. See the
 `GNU General Public License <http://www.gnu.org/licenses/>`__ for more details.
+
+.. meta::
+    :title lang=en: What is QuickAppsCMS
+    :keywords lang=en: quickapps,cms,about,features,license,gpl,gnu

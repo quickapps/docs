@@ -254,3 +254,6 @@ object.
     echo user()->name;
     // prints "Anonymous" if not logged in
 
+.. meta::
+    :title lang=en: Core Libraries
+    :keywords lang=en: functions,global function,library,libraries,snapshot,normalizePath,quickapps,option,php_eval,eval,php,listeners,pluginName,array_move,get_this_class_methods,str_replace_once,str_replace_last,str_starts_with,str_ends_with,language,user,session,loggin,replace,str_replace

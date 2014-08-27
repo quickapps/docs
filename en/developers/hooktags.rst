@@ -16,24 +16,9 @@ Wordpress's ``shorcodes`` equivalent.
 Defining Hooktags
 =================
 
-Hooktags are actually :doc:`Event Listener classes <events-system>`,
-they may be located in each Plugin's or Theme's ``Event`` directory. For
-example, in our ``Blog`` plugin example we could place a "Hooktag
-listener" class within Blog's "Event" directory as follow:
-
-::
-
-    - Blog/
-     |-- src/
-        |-- Event/
-           |-- ArticlesHooktag.php
-           |-- CommentsHooktag.php
-
-Similar as Event Listener classes, they must define which ``hooktags``
-this class will handle using the ``implementedEvents()`` method. The
-only main difference between the event system and hooktag system, is
-that **event names must be prefixed with the ``Hooktag.`` word**, for
-example:
+At core level a hooktag is just an event name prefixed with the ``Hooktag.``
+word, your event listener class classes must indicate which hooktags it will
+handle using the ``implementedEvents()`` method. For example:
 
 .. code:: php
 
@@ -50,8 +35,8 @@ example:
 
     //...
 
-Where ``redBox`` and ``blueBox`` are methods defined within the Event
-Listener class, these methods must expect four arguments:
+Where ``redBox`` and ``blueBox`` are methods defined within the event
+listener class, these methods must expect four arguments:
 
 -  **$event** (first argument): the event object that was triggered
 -  **$atts** (second argument): an associative array of attributes
@@ -71,6 +56,23 @@ For example:
 These methods are responsible of converting a hooktag (that looks as
 ``[locale code /]``) into their HTML equivalent.
 
+---
+
+**TIP:**
+
+A good practice is to have all your hooktags events defined in a independent
+classes, you could also add the `Hooktag` prefix to your class name keep
+things event more clean:
+
+::
+
+    - Blog/
+     |-- src/
+        |-- Event/
+           |-- ArticlesHooktag.php
+           |-- CommentsHooktag.php
+
+
 Attributes
 ----------
 
@@ -79,18 +81,16 @@ specified by the user. Attribute names are always converted to lowercase
 before they are passed into the handler function. Values are untouched.
 [some\_hooktag Foo="bAr"] produces $atts = array('foo' => 'bAr').
 
-**TIP: Don't use camelCase or UPPER-CASE for your $atts attribute
-names**
+**TIP: Don't use camelCase or UPPER-CASE for your $atts attribute names**
 
 Parsing Hooktags
 ================
 
-Once you have defined your hooktag classes is time to start converting a
-hooktag into HTML. To do this, you can use the
-``QuickApps\Core\HooktagTrait`` trait in any class, by defaults this
-trait is attached to ``QuickApps\View\View`` which means **you can use
-hooktag functionalities in any template**. HooktagTrait simply adds two
-methods; ``hooktags()`` and ``stripHooktags()``.
+Once you have defined your hooktags is time to start converting a hooktag into
+HTML. To do so, you can use the ``QuickApps\Core\HooktagTrait`` trait in any
+class, by defaults this trait is attached to ``QuickApps\View\View``
+which means **you can use hooktag functionalities in any template**.
+HooktagTrait simply adds two methods: ``hooktags()`` and ``stripHooktags()``.
 
 Basically, ``hooktags()`` receives a string as only arguments and look
 for hooktags in the given text, for example, in any template you could:
@@ -191,3 +191,6 @@ code:
 
     <div style="background-color:green;">Lorem ipsum dolor</div>
 
+.. meta::
+    :title lang=en: Hooktags
+    :keywords lang=en: hooktags,events,event system,listener,Hooktag.,shortcode,stripHooktags

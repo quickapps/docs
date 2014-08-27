@@ -32,8 +32,8 @@ Theme Anatomy
     -- CakePHP's book
 
 That means that your theme folder structure is the same
-:doc:`used by plugins </developers/plugins>`. However in
-QuickAppsCMS there are only two main difference between plugins and themes:
+:doc:`used by plugins </developers/plugins>`. However in QuickAppsCMS there are
+only two main difference between plugins and themes:
 
 1. Themes must define some particular keys in the "composer.json" schema
 2. Themes must be named using the ``Theme`` suffix.
@@ -41,17 +41,15 @@ QuickAppsCMS there are only two main difference between plugins and themes:
 The "composer.json" File
 ------------------------
 
-Themes -same as plugins- *must* define a "composer.json" file containing
-all the information about the theme itself, such as name, available
-regions, author, etc.
+Themes *must* define a "composer.json" file containing all the information about
+the theme itself, such as name, available regions, author, etc.
 
 In order to distinguish between plugins and themes, themes must suffix
 their names with the ``Theme`` word, so for example if you have a "Blog"
-plugin, changing its name to "BlogTheme" will be automatically
-considered a Theme.
+plugin, changing its name to "BlogTheme" will be automatically considered a
+Theme.
 
-Theme's names -same as plugins- is inflected from the ``name`` key from
-composer.json schema.
+Theme's names is inflected from the ``name`` key from composer.json schema.
 
 Also the must define the ``extra.regions`` key, a list of all regions
 your theme implements. Regions are defined as an associative array
@@ -177,8 +175,8 @@ contain an unlimited number of blocks (by default). Theme authors can
 define and implement any number of regions for content to be rendered
 into.
 
-For rendering a region's content (blocks) in your layout you must use
-the RegionHelper as follow:
+For rendering a region's blocks in your layout you must use the ``RegionHelper``
+as follow:
 
 .. code:: php
 
@@ -204,3 +202,6 @@ Sidebar)
 For more information please check ``Block\View\Helper\RegionHelper``
 documentation.
 
+.. meta::
+    :title lang=en: Themes
+    :keywords lang=en: block,blocks,regions,layout,theme,header,region helper,regionhelper
