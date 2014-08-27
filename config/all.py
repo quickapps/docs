@@ -21,6 +21,7 @@
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx.ext.autodoc',
     'sphinx.ext.todo',
     'sphinxcontrib.phpdomain',
 ]
@@ -152,10 +153,10 @@ html_sidebars = {
 #html_additional_pages = {}
 
 # If false, no module index is generated.
-#html_domain_indices = True
+html_domain_indices = True
 
 # If false, no index is generated.
-#html_use_index = True
+html_use_index = True
 
 # If true, the index is split into individual pages for each letter.
 #html_split_index = False
@@ -183,39 +184,17 @@ htmlhelp_basename = 'QuickAppsCMSBookdoc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
+# The paper size ('letter' or 'a4').
+#latex_paper_size = 'letter'
 
-preamb = ur'''
-% Custom colors.
-\definecolor{ChapterColor}{RGB}{201,36,52}
-\definecolor{TitleColor}{RGB}{0,0,0}
-
-% No section numbering
-\setcounter{secnumdepth}{0}
-
-% Make chapter titles red.
-\ChNameVar{\color{TitleColor}\Large}
-\ChNumVar{\color{TitleColor}\Large}
-\ChTitleVar{\color{ChapterColor}\Huge\sf}
-
-% link colors
-\definecolor{InnerLinkColor}{RGB}{65,114,130}
-\definecolor{OuterLinkColor}{RGB}{0,61,76}
-
-% background and border for code examples.
-\definecolor{VerbatimColor}{RGB}{242,242,242}
-\definecolor{VerbatimBorderColor}{RGB}{230,230,230}
-'''
-
-latex_elements = {
-    'preamble': preamb,
-    'fncychap': '\\usepackage[Sonny]{fncychap}'
-}
+# The font size ('10pt', '11pt' or '12pt').
+latex_font_size = '11pt'
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('contents', 'QuickAppsCMSBook.tex', u'QuickAppsCMS Book Documentation',
+  ('pdf-contents', 'QuickAppsCMSBook.tex', u'QuickAppsCMS Book Documentation',
    u'Christopher Castro', 'manual'),
 ]
 
@@ -231,7 +210,7 @@ latex_logo = '../themes/quickapps/static/pdf-logo.png'
 #latex_show_pagerefs = False
 
 # If true, show URL addresses after external links.
-#latex_show_urls = False
+latex_show_urls = 'footnote'
 
 # Documents to append as an appendix to all manuals.
 #latex_appendices = []
@@ -351,6 +330,7 @@ epub_identifier = 'http://quickappscms.org'
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = [
     'index.html',
+    'pdf-contents.html',
     'contents.html'
 ]
 

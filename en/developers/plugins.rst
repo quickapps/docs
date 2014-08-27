@@ -35,19 +35,19 @@ Basic structure of plugins:
         :- composer.json
 
 Plugin's structure is the same defined by CakePHP, the only main
-difference is that plugins MUST define a ``composer.json`` file, this
-file contains information about the plugin itself which is consumed by
-QuickAppsCMS.
+difference is that QuickAppsCMS's plugins MUST define a ``composer.json`` file,
+this file is used by `composer <https://getcomposer.org/>`__ to identify your
+package, but it's also used by QuickAppsCMS to get information about your plugins
+such as version number, name, description, etc.
 
 The "composer.json" file
 ------------------------
 
 Each plugin has a "composer.json" file which contains information about
 itself, such as name, description, version, etc. The schema of this file
-is the same `required by
-composer <https://getcomposer.org/doc/04-schema.md>`__, but with some
-additional requirements specifically for QuickAppsCMS. These special
-requirements are described below:
+is the same `required by composer <https://getcomposer.org/doc/04-schema.md>`__,
+but with some additional requirements specifically for QuickAppsCMS.
+These special requirements are described below:
 
 -  key ``name`` must be present. A follow the pattern
    ``author-name/package-name``
@@ -59,10 +59,12 @@ requirements are described below:
 -  key ``extra.regions`` must be present if it's a theme (its ``name``
    ends with ``-theme``, e.g. ``quickapps/blue-sky-theme``)
 
-**NOTES:** - Plugins may behave as themes if their name ends with
-``-theme`` - Plugin's names are inflected from the ``name`` key, they
-are camelized, for example for ``author-name/super-name``, plugin name
-is ``SuperName``.
+**NOTES:**
+
+-  Plugins may behave as themes if their name ends with ``-theme``.
+-  Plugin's names are inflected from the ``name`` key, they
+   are camelized, for example for ``author-name/super-name``, plugin name
+   is ``SuperName``.
 
 Dependencies
 ------------
@@ -82,8 +84,7 @@ QuickAppsCMS:
         }
     }
 
-Which means: This plugin can only be installed on QuickAppsCMS v1.0 or
-higher.
+Which means: "This plugin can only be installed on QuickAppsCMS v1.0 or higher."
 
 Install & Uninstall Process
 ===========================
@@ -97,8 +98,8 @@ to in order to change the (un)installation process.
 Installation
 ------------
 
-Tasks automatically performed by QuickAppsCMS
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What QuickAppsCMS does
+~~~~~~~~~~~~~~~~~~~~~~
 
 -  Checks plugin folder/files consistency.
 -  Checks version compatibilities.
@@ -107,8 +108,8 @@ Tasks automatically performed by QuickAppsCMS
 -  Register plugin on ``plugins`` table.
 -  Regenerate related caches.
 
-Common tasks which plugins may do
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What plugins may do
+~~~~~~~~~~~~~~~~~~~
 
 -  Create new tables on Database.
 -  Add new blocks.
@@ -132,8 +133,8 @@ example, if in your "composer.json" your package name is
 Uninstallation
 --------------
 
-Tasks automatically performed by QuickAppsCMS
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What QuickAppsCMS does
+~~~~~~~~~~~~~~~~~~~~~~
 
 -  Remove all related `ACOs and
    AROs <http://book.cakephp.org/2.0/en/core-libraries/components/access-control-lists.html#understanding-how-acl-works>`__
@@ -142,8 +143,8 @@ Tasks automatically performed by QuickAppsCMS
 -  Unregister plugin from the ``plugins`` table.
 -  Regenerate related caches.
 
-Tasks to consider by plugin
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What plugins should do
+~~~~~~~~~~~~~~~~~~~~~~
 
 The following tasks should be performed by the plugins during the
 uninstallation process. The best place to perform these tasks is on
@@ -217,7 +218,7 @@ During this process two events are triggered:
    place.
 
 The update process basically replaces one directory (older) by another
-(newer). Plugins should take care of migration tasks if needed using the
+(latest). Plugins should take care of migration tasks if needed using the
 events described above.
 
 Configurable Settings
@@ -227,10 +228,10 @@ Plugins are allowed to define a series of customizable parameters, this
 parameters can be tweaked on the administration section by users with
 proper permissions.
 
-For example, a "Blog" plugin may allow users to change plugin's behavior
+For example, a "Blog" plugin could allow users to change plugin's behavior
 by providing a series of form inputs where users may indicate certain
 values that will alter plugin's functionalities, for example "show
-publish date" which would display articles "publish date" when an
+publish date" which would display article's "publish date" when an
 article is being rendered.
 
 Any plugin can provide this form inputs by placing them into
@@ -249,14 +250,14 @@ example, this file could look as follow:
 
 As you can see, you must simply create all the form inputs you want to
 provide to users, you must omit ``Form::create()`` & ``Form::end()`` as
-they are automatically printed by QuickAppsCMS.
+they are automatically created by QuickAppsCMS.
 
 Reading settings values
 -----------------------
 
 Once you have provided certain teakable values, you may need to read
 those values in order to change your plugin's behavior, in our "Blog"
-example want to know whether the "publish date" should be rendered or
+example we want to know whether the "publish date" should be rendered or
 not. To read these values you should use the ``QuickApps\Core\Plugin``
 class as follow:
 
@@ -265,7 +266,7 @@ class as follow:
     Plugin::settings('Blog', 'show_publish_date');
 
 **IMPORTANT:** In some cases you will encounter that no values has been
-set for a setting property, for example if user has not indicated any
+set for a setting key, for example if user has not indicated any
 value for your settings yet. This can be solved using the feature
 described below.
 
@@ -281,9 +282,8 @@ event below:
 
 This event is automatically triggered every time you try to read a
 setting value, your must implement this event handler in any of your
-plugin's `Event Listener <01_Events_System.md#registering-listeners>`__
-classes and it must return an associative array for setting keys and
-their values, a full example:
+plugin's :doc:`Event Listener <events-system>` classes and it must return an
+associative array for setting keys and their values, a full example:
 
 .. code:: php
 

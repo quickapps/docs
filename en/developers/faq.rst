@@ -28,3 +28,7 @@ Is it possible to launch QuickApps on PHP ver. < 5.4.19 somehow ?
 No it isn't. QuickApps has specific PHP-features which is available only
 on PHP v5.4.19 or higher. Moreover it uses CakePHP v3.0 as framework,
 which works only on PHP v5.4.19 or higher.
+
+.. meta::
+    :title lang=en: FAQ
+    :keywords lang=en: faq,developers,php,requirements

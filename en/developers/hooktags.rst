@@ -16,7 +16,7 @@ Wordpress's ``shorcodes`` equivalent.
 Defining Hooktags
 =================
 
-Hooktags are actually `Event Listener classes <01_Events_System.md>`__,
+Hooktags are actually :doc:`Event Listener classes <events-system>`,
 they may be located in each Plugin's or Theme's ``Event`` directory. For
 example, in our ``Blog`` plugin example we could place a "Hooktag
 listener" class within Blog's "Event" directory as follow:
@@ -32,7 +32,7 @@ listener" class within Blog's "Event" directory as follow:
 Similar as Event Listener classes, they must define which ``hooktags``
 this class will handle using the ``implementedEvents()`` method. The
 only main difference between the event system and hooktag system, is
-that **Even names must be prefixed with the ``Hooktag.`` word**, for
+that **event names must be prefixed with the ``Hooktag.`` word**, for
 example:
 
 .. code:: php

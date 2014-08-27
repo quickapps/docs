@@ -9,7 +9,7 @@ display of the main site content. Content items managed by the Node
 plugin are typically displayed as pages on your site, and include a
 title, some meta-data (author, creation time, content type, etc.), and
 optional fields containing text or other data (fields are managed by the
-`Field plugin <03_Field_Plugin.md>`__).
+:doc:`Field plugin </user's-guide/field-plugin>`).
 
 Uses
 ====

@@ -217,11 +217,9 @@ Field Handlers
 
 Field Handler are "Listeners" classes which must take care of storing,
 organizing and retrieving information for each entity's field. All this
-is archived using QuickAppsCMS's `events
-system <01_Events_System.md>`__.
+is archived using QuickAppsCMS's :doc:`events system events-system>`.
 
-Similar to `Event
-Listeners <01_Events_System.md#registering-listeners>`__ and Hooktags,
+Similar to :doc:`Event Listeners <events-system>` and Hooktags,
 Field Handlers classes must define a series of events, which has been
 organized in two groups or "event subspaces":
 

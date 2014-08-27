@@ -15,10 +15,12 @@ Requirements
 -  fileinfo extension installed
 -  PHP safe mode disabled
 -  Supported database storage engines:
+
    -  MySQL (5.1.10 or greater)
    -  PostgreSQL
    -  Microsoft SQL Server (2008 or higher)
    -  SQLite 3
+
 -  Writing permission in your server
 
 Installing QuickAppsCMS
@@ -46,5 +48,4 @@ installation.
 Getting Help
 ============
 
-If you're stuck, there are a number of places you can `get
-help <getting-started/help.md>`__.
+If you're stuck, there are a number of places you can :doc:`get help </getting-started/help>`.

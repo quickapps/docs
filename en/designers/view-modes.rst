@@ -23,5 +23,5 @@ available:
 these names are used internally when referring to a specific view mode.
 
 These context are automatically set by QuickAppsCMS during the rendering
-process of every content, however other `plugins <03_Plugins.md>`__ may
-change this on the fly and define their own.
+process of every content, however other :doc:`plugins </developers/plugins>`
+may change this on the fly and define their own.

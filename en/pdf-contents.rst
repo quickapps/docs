@@ -2,18 +2,15 @@ Contents
 ########
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
 
-   index
    getting-started
    user's-guide
    designers
    developers
 
-
-Indices and tables
+Indices and Tables
 ==================
- 
+
 * :ref:`genindex`
 * :ref:`modindex`
-* :ref:`search`

@@ -6,8 +6,10 @@ can apply to your Web pages to give them a professional look. Using a
 theme is a quick and easy way to make sure your Web pages are visually
 consistent and appealing.
 
-QuickAppsCMS includes by default a `Frontend <def_frontend>`__ theme
-named ``Frontend`` and a `Backend <def_backend>`__ theme named
+QuickAppsCMS includes by default a
+`Frontend <http://en.wikipedia.org/wiki/Front_and_back_ends>`__ theme named
+``Frontend`` and a
+`Backend <http://en.wikipedia.org/wiki/Front_and_back_ends>`__ theme named
 ``Backend``.
 
 As you may notice, there are two type of themes, ``Backend`` and
