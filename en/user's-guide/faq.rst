@@ -51,16 +51,16 @@ you must edit your site’s settings file ``/config/settings.php`` as follow:
 .. code:: php
 
     $config = [
-    	// ... DB settings and etc,
-		'EmailTransport' => [
-			'default' => [
-				'className' => 'Smtp',
-				'host' => 'YOUR_HOST',
-				'port' => PORT,
-				'username' => 'ACCOUNT',
-				'password' => 'SECRET',
-			],
-		],
+        // ... DB settings and etc,
+        'EmailTransport' => [
+            'default' => [
+                'className' => 'Smtp',
+                'host' => 'YOUR_HOST',
+                'port' => PORT,
+                'username' => 'ACCOUNT',
+                'password' => 'SECRET',
+            ],
+        ],
     ];
 
 For instance you could use **Gmail** for sending your emails:
