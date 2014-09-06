@@ -28,7 +28,7 @@ fieldable.
     $this->addBehavior('Field.Fieldable');
 
 This behavior modifies each query of your table in order to merge
-custom-fields records into each entity under the ``_fields`` property.
+custom fields records into each entity under the ``_fields`` property.
 
 **Entity Example:**
 
@@ -309,7 +309,7 @@ Creating Field Handlers
 
 As we mention early, Field Handler are simply Event Listeners classes
 which should respond to the enormous list of event names described
-above. In order to make this task easy you can simply create an new
+above. In order to make this task easy you can simply create a new
 Event Listener class and extend ``Field\Core\FieldHandler``, so instead
 of implementing the EvenListener interface you should simply extend this
 class.
@@ -359,7 +359,7 @@ Your Field Handler should somehow render some form elements (inputs,
 selects, textareas, etc) when rendering Table’s Entities in
 ``edit mode``. For this we have the ``Field.<FieldHandler>.Entity.edit``
 event, which should return a HTML containing all the form elements for
-[entity, field\_instance] tuple.
+[entity, field_instance] tuple.
 
 For example, lets suppose we have a ``TextField`` attached to ``Users``
 Table for storing their ``favorite_food``, and now we are editing some
@@ -389,7 +389,7 @@ you will need to properly render your form inputs.
 You must tell to QuickAppsCMS that the fields you are sending in your
 POST action are actually virtual fields. To do so, all your input’s
 ``name`` attributes **must be prefixed** with ``:`` followed by its
-machine (a.k.a. ``slug``) name:
+machine name (a.k.a. ``slug``):
 
 .. code:: html
 
@@ -404,7 +404,7 @@ You may also create complex data structures like so:
     <input name=":album.photo.1" value="<current_value>" />
     <input name=":album.photo.2" value="<current_value>" />
 
-The above may produce a $\_POST array like below:
+The above may produce a $_POST array like below:
 
 .. code:: php
 
@@ -419,14 +419,17 @@ The above may produce a $\_POST array like below:
     ...
     :other_field => ...,
 
-**Remember**, you should always rely on View::elements() for rendering
-HTML code:
+**Remember**, you should always rely on ``View::elements()`` for rendering
+HTML code, instead printing HTML code directly from PHP you should place your
+HTML code into a view element and render it using ``View`` class. All events
+related to rendering tasks (such as "edit", "display", etc) have their subject
+set to the view instance being used, this means you could do as follow:
 
 .. code:: php
 
     public function editTextField(Event $event, $field) {
         $view = $event->subject;
-        return $View->element('text_field_edit', ['field' => $field]);
+        return $view->element('text_field_edit', ['field' => $field]);
     }
 
 Creating an Edit Form
@@ -506,13 +509,11 @@ Field API UI
 Now you know how Field API works you might need an easy way to attach,
 and manage fields for your tables. Field plugin provides an UI
 (user-interface) for handling all this tasks, Field API UI is packaged
-as a trait piece of code: ``Field\Utility\FieldUIControllerTrait``, you
-must simply attach this trait to an empty controller and you are ready
-to go.
+as a trait: ``Field\Utility\FieldUIControllerTrait``, you must simply attach
+this trait to an empty controller and you are ready to go.
 
 With this trait, Field plugin provides an user friendly UI for manage
-entity’s custom fields. It provides a field-manager user interface (UI)
-by attaching a series of actions over a ``clean`` controller.
+entity’s custom by attaching a series of actions over a ``clean`` controller.
 
 **Usage:**
 

@@ -7,7 +7,7 @@ requirements.
 Requirements
 ============
 
--  Apache with mod\_rewrite
+-  Apache with mod_rewrite
 -  PHP 5.4.19 or higher
 -  mbstring extension installed
 -  mcrypt extension installed
@@ -39,7 +39,7 @@ Installing the web skeleton is fast and easy:
 
 If Composer is installed globally, run:
 
-    composer create-project -s dev quickapps/website [website\_name]
+    composer create-project -s dev quickapps/website [website_name]
 
 After composer is done visit http://your-domain.com/ and start QuickAppsCMS’s
 web installer.

@@ -39,7 +39,7 @@ source_suffix = '.rst'
 master_doc = 'contents'
 
 # General information about the project.
-project = u'QuickAppsCMS Book'
+project = u'QuickBook'
 copyright = u'2014, Christopher Castro'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -144,9 +144,7 @@ html_last_updated_fmt = '%b %d, %Y'
 #html_use_smartypants = True
 
 # Custom sidebar templates, maps document names to template names.
-html_sidebars = {
- '**' : ['globaltoc.html', 'localtoc.html', 'searchbox.html', 'relations.html', 'sourcelink.html']
-}
+#html_sidebars = {}
 
 # Additional templates that should be rendered to pages, maps page names to
 # template names.

@@ -30,11 +30,11 @@ Or using the ``quickapps()`` global function:
 
     quickapps('<option>');
 
-normalizePath(string $path, string $ds = DIRECTORY\_SEPARATOR)
+normalizePath(string $path, string $ds = DIRECTORY_SEPARATOR)
 --------------------------------------------------------------
 
 Normalizes the given file system path, makes sure that all
-DIRECTORY\_SEPARATOR are the same, so you won't get a mix of "/" and "\\"
+DIRECTORY_SEPARATOR are the same, so you won't get a mix of "/" and "\\"
 in your paths.
 
 **Example:**
@@ -53,7 +53,7 @@ second argument:
     // output:
     \some\path\to\some\thing\about.zip
 
-By defaults uses DIRECTORY\_SEPARATOR as symbol.
+By defaults uses DIRECTORY_SEPARATOR as symbol.
 
 quickapps(string $key = null)
 -----------------------------
@@ -100,10 +100,10 @@ Used to extract plugin names from composer’s package names.
 Package names must follow the "author/app-name" pattern, there are two
 "especial" composer’s package names which are handled differently:
 
--  ``php``: Will return "**PHP**\ "
--  ``quickapps/cms``: Will return "**QUICKAPPS**\ "
+-  ``php``: Will return "__PHP\_\_"
+-  ``quickapps/cms``: Will return "__QUICKAPPS\_\_"
 
-array\_move(array $list, integer $index, string $direction)
+array_move(array $list, integer $index, string $direction)
 -----------------------------------------------------------
 
 Moves up or down the given element by index from a list array of
@@ -119,7 +119,7 @@ values for $direction are ``up`` or ``down``.
     array_move(['a', 'b', 'c'], 1, 'up');
     // returns: ['a', 'c', 'b']
 
-php\_eval(string $code, array $args = [])
+php_eval(string $code, array $args = [])
 -----------------------------------------
 
 Evaluate a string of PHP code.
@@ -140,13 +140,13 @@ call.
     echo php_eval('<?php return "Hello {$world}!"; ?>', ['world' => 'WORLD']);
     // output: Hello WORLD
 
-get\_this\_class\_methods(string $class)
+get_this_class_methods(string $class)
 ----------------------------------------
 
 Return only the methods for the given object. It will strip out
 inherited methods.
 
-str\_replace\_once(string $search, string $replace, string $subject)
+str_replace_once(string $search, string $replace, string $subject)
 --------------------------------------------------------------------
 
 Replace the first occurrence only.
@@ -158,7 +158,7 @@ Replace the first occurrence only.
     echo str_replace_once('A', 'a', 'AAABBBCCC');
     // out: aAABBBCCC
 
-str\_replace\_last(string $search, string $replace, string $subject)
+str_replace_last(string $search, string $replace, string $subject)
 --------------------------------------------------------------------
 
 Replace the last occurrence only.
@@ -170,7 +170,7 @@ Replace the last occurrence only.
     echo str_replace_once('A', 'a', 'AAABBBCCC');
     // out: AAaBBBCCC
 
-str\_starts\_with(string $haystack, string $needle)
+str_starts_with(string $haystack, string $needle)
 ---------------------------------------------------
 
 Check if $haystack string starts with $needle string.
@@ -182,7 +182,7 @@ Check if $haystack string starts with $needle string.
     str_starts_with('lorem ipsum', 'lo'); // true
     str_starts_with('lorem ipsum', 'ipsum'); // false
 
-str\_ends\_with(string $haystack, string $needle)
+str_ends_with(string $haystack, string $needle)
 -------------------------------------------------
 
 Check if $haystack string ends with $needle string.

@@ -173,7 +173,7 @@ using the ``:`` symbol e.g.:
     // operator arguments are: ">2014-03-01"
     date:>2014-03-01
 
-NOTE: Operators names are treated as **lowercase\_and\_underscored**, so
+NOTE: Operators names are treated as **lowercase_and_underscored**, so
 ``AuthorName``, ``AUTHOR_NAME`` or ``AuThoR_naMe`` are all treated as:
 ``author_name``.
 
@@ -200,10 +200,10 @@ as follow:
             $this->addBehavior('Search.Searchable');
 
             // register a new operator for handling `author:<author_name>` expressions
-            $this->addSearchOperator('author', 'scopeAuthor');
+            $this->addSearchOperator('author', 'operatorAuthor');
         }
 
-        public function scopeAuthor($query, $value, $negate, $orAnd) {
+        public function operatorAuthor($query, $value, $negate, $orAnd) {
             // $query:
             //     The query object to alter
             // $value:

@@ -78,7 +78,7 @@ Attributes
 The **$atts** array may include any arbitrary attributes that are
 specified by the user. Attribute names are always converted to lowercase
 before they are passed into the handler function. Values are untouched.
-[some\_hooktag Foo="bAr"] produces $atts = array('foo' => 'bAr').
+[some_hooktag Foo="bAr"] produces $atts = array('foo' => 'bAr').
 
 **TIP: Don't use camelCase or UPPER-CASE for your $atts attribute names**
 
@@ -86,10 +86,10 @@ Parsing Hooktags
 ================
 
 Once you have defined your hooktags is time to start converting a hooktag into
-HTML. To do so, you can use the ``QuickApps\Core\HooktagTrait`` trait in any
-class, by defaults this trait is attached to ``QuickApps\View\View``
+HTML. To do so, you can use the ``QuickApps\Event\HooktagAwareTrait`` trait in
+any class, by defaults this trait is attached to ``QuickApps\View\View``
 which means **you can use hooktag functionalities in any template**.
-HooktagTrait simply adds two methods: ``hooktags()`` and ``stripHooktags()``.
+HookAwareTrait simply adds two methods: ``hooktags()`` and ``stripHooktags()``.
 
 Basically, ``hooktags()`` receives a string as only arguments and look
 for hooktags in the given text, for example, in any template you could:
@@ -136,7 +136,7 @@ hooktag to be as follow:
 
 Basically our hooktag must convert the code below:
 
-    [content\_box color=green]Lorem ipsum dolor[/content\_box]
+    [content_box color=green]Lorem ipsum dolor[/content_box]
 
 To its HTML representation:
 
@@ -181,7 +181,7 @@ hooktag’s information and convert it into HTML:
 Now you should be able to use the ``content_box`` hooktag in any Node’s
 contents, or wherever hooktags are allowed.
 
-    [content\_box color=green]Lorem ipsum dolor[/content\_box]
+    [content_box color=green]Lorem ipsum dolor[/content_box]
 
 Wherever you place the code above it will replaced by the following HTML
 code:

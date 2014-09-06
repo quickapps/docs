@@ -6,7 +6,7 @@ Which PHP version does QuickApps work with ?
 
 To run it on your server, you need:
 
--  Apache with mod\_rewrite
+-  Apache with mod_rewrite
 -  **PHP 5.4.19 or higher**
 -  mbstring extension installed
 -  mcrypt extension installed

@@ -99,7 +99,7 @@ For example, in our "Blog" plugin example, we could have an
         }
     }
 
-The ``QuickApps\Core\HooKTrait`` trait provides the methods: ``hook()``,
+The ``QuickApps\Event\HookAwareTrait`` trait provides the methods: ``hook()``,
 ``didHook()`` and ``alter()`` which are described below.
 
 
@@ -166,8 +166,8 @@ alter(mixed $eventName[, mixed $arg0, ..., mixed $arg14])
 Similar to ``hook()`` but aimed to alter the given arguments. You can
 pass up to 15 arguments by reference. The main difference with
 ``hook()`` is that ``alert()`` **will prefix event names** with the
-``Alter.`` word, so invoking "alter\_this" will actually triggers the
-event name "Alter.alter\_this"
+``Alter.`` word, so invoking "alter_this" will actually triggers the
+event name "Alter.alter_this"
 
 **Usage:**
 

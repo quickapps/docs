@@ -47,15 +47,14 @@ plugin translation table.
 
 Search for translation in default translation domain.
 
-    [url]/some\_path/image.jpg[/url]
+    [url]/some_path/image.jpg[/url]
 
 Return well formatted url. URL can be an relative url
-(/type-of-content/my-post.html) or external
-(http://www.example.com/my-url).
+(/type-of-content/my-post.html) or external (http://www.example.com/my-url).
 
-    [date format=FORMAT]TIME\_STAMP\_OR\_ENGLISH\_DATE[/date]
+    [date format=FORMAT]TIME_STAMP_OR_ENGLISH_DATE[/date]
 
-Returns php result of date(FORMAT, TIME\_STAMP\_OR\_ENGLISH\_DATE).
+Returns php result of date(FORMAT, TIME_STAMP_OR_ENGLISH_DATE).
 `More info about
 date() <http://www.php.net/manual/function.date.php>`__. It accepts
 both: numeric time stamp or English formatted date (Year-month-day
