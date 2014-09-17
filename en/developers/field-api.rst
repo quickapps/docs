@@ -45,14 +45,14 @@ custom fields records into each entity under the ``_fields`` property.
             [name] => user-age,
             [label] => User Age,
             [value] => 22,
-            [extra] => null,
+            [raw] => null,
             [metadata] => [ ... ]
         ],
         [1] => [
             [name] => user-phone,
             [label] => User Phone,
             [value] => null, // no data stored
-            [extra] => null, // no data stored
+            [raw] => null, // no data stored
             [metadata] => [ ... ]
         ],
         ...
@@ -76,7 +76,7 @@ described below:
    ``User Last name``.
 -  ``value``: Value for this [field, entity] tuple. (Schema equivalent:
    cell value)
--  ``extra``: Extra data for Field Handler.
+-  ``extra``: Raw value.
 -  ``metadata``: Metadata (an Entity Object).
 
    -  ``field_value_id``: ID of the value stored in ``field_values``
@@ -94,9 +94,8 @@ described below:
    -  ``view_modes``: Information about how this field should be
       rendered on each View Mode. Information is stored as
       ``view-mode-name`` => ``rendering-information``.
-   -  ``handler``: class name of the Field Handler under ``Field``
-      namespace. e.g.: ``TextField`` (namespaced name:
-      ``Field\TextField``)
+   -  ``handler``: Name of the Field Handler (without namespace). e.g.
+      ``TaxonomyField`` for ``Taxonomy\Event\TaxonomyField`` class.
    -  ``errors``: Array of validation error messages, only on edit mode.
 
 **Notes:**
@@ -143,28 +142,28 @@ fields attached to your table. Every attached field has a "machine-name"
 ``Users`` table has a custom field attached (first-name), and we are
 looking for all the users whose ``first-name`` starts with ``John``.
 
-Value vs Extra
+Value vs Raw
 ==============
 
 In the "Entity Example" above you might notice that each field attached
 to entities has two properties that looks pretty similar, ``value`` and
-``extra``, as both are intended to store information. Here we explain
+``raw``, as both are intended to store information. Here we explain
 the "why" of this.
 
 Field Handlers may store complex information or structures. For example,
 ``AlbumField`` handler may store a list of photos for each entity. In
-those cases you should use the ``extra`` property to store your array
+those cases you should use the ``raw`` property to store your array
 list of photos, while ``value`` property should always store a
 Human-Readable representation of your field’s value.
 
 In our ``AlbumField`` example, we could store an array list of file
-names and titles for a given entity under the ``extra`` property. And we
+names and titles for a given entity under the ``raw`` property. And we
 could save photo’s titles as space-separated values under ``value``
 property:
 
 .. code:: php
 
-    // extra:
+    // raw:
     [photos] => [
         ['title' => 'OMG!', 'file' => 'omg.jpg'],
         ['title' => 'Look at this, lol', 'file' => 'cats-fighting.gif'],
@@ -175,7 +174,7 @@ property:
     "OMG! Look at this lol Fuuuu"
 
 In our example when rendering an entity with ``AlbumField`` attached to
-it, ``AlbumField`` should use ``extra`` information to create a
+it, ``AlbumField`` should use ``raw`` information to create a
 representation of itself, while ``value`` information would acts like
 some kind of ``words index`` when using ``Searching over custom fields``
 feature described above.
@@ -183,20 +182,20 @@ feature described above.
 **Important:**
 
 -  FieldableBehavior automatically serializes & unserializes the
-   ``extra`` property for you, so you should always treat ``extra`` as
+   ``raw`` property for you, so you should always treat ``raw`` as
    an array.
 -  ``Search over custom fields`` feature described above uses the
    ``value`` property when looking for matches. So in this way your
    entities can be found when using Field’s machine-name in WHERE
    clauses.
--  Using ``extra`` is not mandatory, for instance your Field Handler
+-  Using ``raw`` is not mandatory, for instance your Field Handler
    could use an additional table schema to store entities information
-   and leave ``extra`` as NULL. In that case, your Field Handler must
+   and leave ``raw`` as NULL. In that case, your Field Handler must
    take care of joining entities with that external table of
    information.
 
 **Summarizing:** ``value`` is intended to store ``plain text``
-information suitable for searches, while ``extra`` is intended to store
+information suitable for searches, while ``raw`` is intended to store
 sets of complex information.
 
 
@@ -310,7 +309,7 @@ Creating Field Handlers
 As we mention early, Field Handler are simply Event Listeners classes
 which should respond to the enormous list of event names described
 above. In order to make this task easy you can simply create a new
-Event Listener class and extend ``Field\Core\FieldHandler``, so instead
+Event Listener class and extend ``Field\Event\FieldHandler``, so instead
 of implementing the EvenListener interface you should simply extend this
 class.
 
@@ -323,7 +322,7 @@ plugin defining this field.
 
     // MyPlugin/src/Event/DateField.php
     namespace MyPlugin\Event;
-    use Field\Core\FieldHandler;
+    use Field\Event\FieldHandler;
 
     class DateField extends FieldHandler {
 
@@ -336,7 +335,7 @@ methods which you should override with your own logic:
 .. code:: php
 
     namespace MyPlugin;
-    use Field\Core\FieldHandler;
+    use Field\Event\FieldHandler;
     class DateField extends FieldHandler {
 
         public function entityDisplay(Event $event, $field, $options = []) {
