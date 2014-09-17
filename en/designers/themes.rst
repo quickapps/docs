@@ -179,12 +179,12 @@ contain an unlimited number of blocks (by default). Theme authors can
 define and implement any number of regions for content to be rendered
 into.
 
-For rendering a region’s blocks in your layout you must use the ``RegionHelper``
-as follow:
+For rendering a region’s blocks in your layout you must use the
+``View::region()`` method as follow:
 
 .. code:: php
 
-    <?php echo $this->Region->create('right-sidebar'); ?>
+    <?php echo $this->region('right-sidebar'); ?>
 
 You can do nifty things such as combine two or more regions, limit the
 number of blocks a region can hold, etc. For example:
@@ -194,16 +194,15 @@ resulting region limits the number of blocks it can holds to three (3):
 
 .. code:: php
 
-    echo $this->Region
-        ->create('left-sidebar')
-        ->append($this->Region->create('right-sidebar'))
+    echo $this->region('left-sidebar')
+        ->append($this->region('right-sidebar'))
         ->blockLimit(3);
 
 As you may have noticed, we always use region’s machine-name when
 referring to a particular region; ``left-sidebar`` (human name: Left
 Sidebar)
 
-For more information please check ``Block\View\Helper\RegionHelper``
+For more information please check ``QuickApps\View\View::region()``
 documentation.
 
 .. meta::
