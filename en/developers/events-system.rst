@@ -75,7 +75,7 @@ Once your listeners classes were automatically loaded and attached, you
 can now start triggering events and see how your listeners respond.
 
 You can trigger events within any class you wish just by using
-``QuickApps\Core\HooKTrait``, this trait will add a few handy methods
+``QuickApps\Core\HookAwareTrait``, this trait will add a few handy methods
 for triggering events.
 
 By default, this trait is attached to ``QuickApps\Controller\Controller``,
