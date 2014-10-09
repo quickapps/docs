@@ -19,9 +19,9 @@ the main content of each page. For example, in your layout’s body:
 Specialized Renders
 ===================
 
-You can define ``specialized-renders`` when rendering each content according to
-your needs as described below. You must simply create these template elements
-within the ``/src/Template/Element`` directory of your theme.
+You can define ``specialized-renders`` when rendering each content (nodes)
+according to your needs as described below. You must simply create these
+template elements within the ``/src/Template/Element`` directory of your theme.
 
 Render node per node-type and view-mode
 ---------------------------------------

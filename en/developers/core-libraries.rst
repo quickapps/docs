@@ -231,7 +231,7 @@ Accepted keys are:
    etc.
 -  ``direction``: Language writing direction, possible values are "ltr"
    or "rtl".
--  ``icon``: Flag icon (it may be empty) e.g. ``es.gif``, ``es.gif``,
+-  ``icon``: Flag icon (it may be empty) e.g. ``es.gif``, ``en.gif``,
    icons files are located in Locale plugin’s ``/webroot/img/flags/``
    directory, to render an icon using HtmlHelper you should do as
    follow:

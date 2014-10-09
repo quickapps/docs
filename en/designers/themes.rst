@@ -51,7 +51,7 @@ Theme.
 
 Theme’s names is inflected from the ``name`` key from composer.json schema.
 
-Also the must define the ``extra.regions`` key, a list of all regions
+Also they must define the ``extra.regions`` key, a list of all regions
 your theme implements. Regions are defined as an associative array
 ``machine-name`` => ``human name``, machine-name is used internally when
 referring to a region, and human name is the name users will see in the

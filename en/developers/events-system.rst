@@ -1,7 +1,7 @@
 Events System
 #############
 
-The Events System is most important piece of QuickAppsCMS’s
+The Events System is one of the most important pieces of QuickAppsCMS’s
 architecture, this system allows `plugins <03_Plugins.md>`__ to
 communicate with each other, respond to certain events fired during
 execution of the script, etc. So for example, "User" plugin may trigger
@@ -95,16 +95,16 @@ For example, in our "Blog" plugin example, we could have an
 
     class ArticlesController extends Controller {
         public function view_post($id) {
-            $this->hook('event_name', $id);
+            $this->trigger('event_name', $id);
         }
     }
 
-The ``QuickApps\Event\HookAwareTrait`` trait provides the methods: ``hook()``,
-``didHook()`` and ``alter()`` which are described below.
+The ``QuickApps\Event\HookAwareTrait`` trait provides the methods: ``trigger()``,
+``triggered()`` and ``alter()`` which are described below.
 
 
-hook(mixed $eventName[, mixed $arg0, ..., mixed $argN, ...])
-------------------------------------------------------------
+trigger(mixed $eventName[, mixed $arg0, ..., mixed $argN, ...])
+---------------------------------------------------------------
 
 Triggers the given event name. You can pass an unlimited number of
 arguments to your event handler method.
@@ -113,7 +113,7 @@ arguments to your event handler method.
 
 .. code:: php
 
-    $this->hook('GetTime', $arg_0, $arg_0, ..., $arg_1);
+    $this->trigger('GetTime', $arg_0, $arg_0, ..., $arg_1);
 
 Your ``Event Listener`` must implement the ``GetTime`` event name, for
 instance:
@@ -130,15 +130,15 @@ context:
 
 .. code:: php
 
-    $this->hook(['GetTime', new ContextObject()], $arg_0, $arg_0, ..., $arg_1);
+    $this->trigger(['GetTime', new ContextObject()], $arg_0, $arg_0, ..., $arg_1);
 
 If no context is given ``$this`` will be used by default.
 
-didHook(string $eventName = null)
----------------------------------
+triggered(string $eventName = null)
+-----------------------------------
 
-Retrieves the number of times an event was fired, or the complete list
-of events that were fired. For example:
+Retrieves the number of times an event was triggered, or the complete list
+of events that were triggered. For example:
 
 .. code:: php
 
@@ -163,9 +163,9 @@ returned:
 alter(mixed $eventName[, mixed $arg0, ..., mixed $arg14])
 ---------------------------------------------------------
 
-Similar to ``hook()`` but aimed to alter the given arguments. You can
+Similar to ``trigger()`` but aimed to alter the given arguments. You can
 pass up to 15 arguments by reference. The main difference with
-``hook()`` is that ``alert()`` **will prefix event names** with the
+``trigger()`` is that ``alert()`` **will prefix event names** with the
 ``Alter.`` word, so invoking "alter_this" will actually triggers the
 event name "Alter.alter_this"
 
@@ -227,14 +227,14 @@ If no context is given ``$this`` will be used by default.
 
 .. code:: php
 
-    // Wherever you are able to use hook() and alter():
+    // Wherever you are able to use trigger() and alter():
 
     $hello = 'Hello';
     $this->alter('Hello', $hello);
 
     echo $hello; // out: "Hello World!"
-    echo $this->hook('Hello', $hello); // out: "Hello World! world!"
-    echo $this->hook('Hello', 'hellooo'); // out: "hellooo world!"
+    echo $this->trigger('Hello', $hello); // out: "Hello World! world!"
+    echo $this->trigger('Hello', 'hellooo'); // out: "hellooo world!"
 
 
 Recommended Reading
