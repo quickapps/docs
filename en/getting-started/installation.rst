@@ -26,23 +26,22 @@ Requirements
 Installing QuickAppsCMS
 =======================
 
-You must install QuickAppsCMS using
-`composer <http://getcomposer.org>`__. QuickApps CMS is designed to run
-as a stand alone application, so you must use the `website
-skeleton <https://github.com/QuickAppsCMS/website>`__ as starting point.
+You must install QuickAppsCMS using `composer <http://getcomposer.org>`__.
+QuickApps CMS is designed to run as a stand alone application, so you must use
+the `website skeleton <https://github.com/QuickAppsCMS/website>`__ as starting
+point.
 
 Installing the web skeleton is fast and easy:
 
-1. Download `Composer <http://getcomposer.org/doc/00-intro.md>`__ or
-   update: ``composer self-update.``
+1. Download `Composer <http://getcomposer.org/doc/00-intro.md>`__ or update: ``composer self-update.``
 2. Run: ``php composer.phar create-project -s dev quickapps/website [your_website_name]``
 
 If Composer is installed globally, run:
 
     composer create-project -s dev quickapps/website [website_name]
 
-After composer is done visit http://your-domain.com/ and start QuickAppsCMS’s
-web installer.
+After composer is done visit http://your-domain.com/ to start QuickAppsCMS’s
+web installer and follow the instructions.
 
 Getting Help
 ============

@@ -1,15 +1,14 @@
 Field API
 #########
 
-The Fields API allows additional fields to be attached to Tables. Any
-Table (Nodes, Users, etc.) can use Field API to make itself
-``field-able`` and thus allow fields to be attached to it.
+The Fields API allows additional fields to be attached to Tables. Any Table
+(Nodes, Users, etc.) can use Field API to make itself ``fieldable`` and thus
+allow fields to be attached to it.
 
 The Field API defines two primary data structures, ``FieldInstance`` and
 ``FieldValue``:
 
--  FieldInstance: is a Field attached to a single Table. (Schema equivalent:
-   column)
+-  FieldInstance: is a Field attached to a single Table. (Schema equivalent: column)
 -  FieldValue: is the stored data for a particular [FieldInstance, Entity] tuple
    of your Table. (Schema equivalent: cell value)
 
@@ -139,8 +138,8 @@ fields attached to your table. Every attached field has a "machine-name"
         ->where(['Users.:first-name LIKE' => 'John%'])
         ->all();
 
-``Users`` table has a custom field attached (first-name), and we are
-looking for all the users whose ``first-name`` starts with ``John``.
+In this example the ``Users`` table has a custom field attached (first-name),
+and we are looking for all the users whose ``first-name`` starts with ``John``.
 
 Value vs Raw
 ==============
@@ -156,10 +155,9 @@ those cases you should use the ``raw`` property to store your array
 list of photos, while ``value`` property should always store a
 Human-Readable representation of your field’s value.
 
-In our ``AlbumField`` example, we could store an array list of file
-names and titles for a given entity under the ``raw`` property. And we
-could save photo’s titles as space-separated values under ``value``
-property:
+In the ``AlbumField`` example described above, we could store an array list of
+file names and titles for a given entity under the ``raw`` property. And we
+could save photo’s titles as space-separated values under ``value`` property:
 
 .. code:: php
 
@@ -233,9 +231,9 @@ directory. For instance:
              |- MyFieldHandler3.php
 
 Similar to :doc:`event listeners <events-system>` and :doc:`hooktags <hooktags`,
-Field Handlers classes must define all event names it will handle using the
-``implementedEvents()`` method, Field API has organized these event names
-in two groups or "events subspaces":
+Field Handlers classes must define all the event names it will handle using the
+``implementedEvents()`` method, Field API has organized these event names in two
+groups or "events subspaces":
 
 -  ``Field.<FieldHandler>.Entity``: For handling entities events such as
    "entity save", "entity delete", etc.
@@ -244,7 +242,7 @@ in two groups or "events subspaces":
    to table", etc.
 
 Where ``<FieldHandler>`` is an arbitrary name of your choose, it must be unique
-across the entire system.
+across the entire system. e.g. `TextField`, `ImageField`, `AlgumField`, etc
 
 **TIP:** A good practice is to use the name of your event listener class as
 "handler name", for example for the class
@@ -259,18 +257,15 @@ Below, a list of available events fields handler should implement:
 **Entity events:**
 
 **NOTE:** In order to make reading more comfortable the
-``Field.<FieldHandler>.Entity.`` prefix has been trimmed from each event
-name listed below. For example, ``display`` is actually
+``Field.<FieldHandler>.Entity.`` prefix has been trimmed from each event name
+listed below. For example, ``display`` is actually
 ``Field.Field.<FieldHandler>.Entity.info``
 
 -  ``display``: When an entity is being rendered.
--  ``edit``: When an entity is being rendered in ``edit`` mode. (backend
-   usually).
+-  ``edit``: When an entity is being rendered in ``edit`` mode. (backend usually).
 -  ``beforeFind``: Before an entity is retrieved from DB.
--  ``beforeValidate``: Before entity is validated as part of save
-   operation.
--  ``afterValidate``: After entity is validated as part of save
-   operation.
+-  ``beforeValidate``: Before entity is validated as part of save operation.
+-  ``afterValidate``: After entity is validated as part of save operation.
 -  ``beforeSave``: Before entity is saved.
 -  ``afterSave``: After entity was saved.
 -  ``beforeDelete``: Before entity is deleted.
@@ -280,24 +275,17 @@ name listed below. For example, ``display`` is actually
 **Instance events:**
 
 **NOTE:** In order to make reading more comfortable the
-``Field.<FieldHandler>.Instance.`` prefix has been trimmed from each
-event name listed below. For example, ``info`` is actually
+``Field.<FieldHandler>.Instance.`` prefix has been trimmed from each event name
+listed below. For example, ``info`` is actually
 ``Field.<FieldHandler>.Instance.info``
 
--  ``info``: When QuickAppsCMS asks for information about each
-   registered Field.
--  ``settingsForm``: Additional settings for this field, should define
-   the way the values will be stored in the database.
--  ``settingsDefaults``: Default values for field settings form’s
-   inputs.
--  ``settingsValidate``: Before instance’s settings are changed, here
-   you can apply your own validation rules.
--  ``viewModeForm``: Additional view mode settings, should define the
-   way the values will be rendered for a particular view mode.
--  ``viewModeDefaults``: Default values for view mode settings form’s
-   inputs.
--  ``viewModeValidate``: Before view-mode’s settings are changed, here
-   you can apply your own validation rules.
+-  ``info``: When QuickAppsCMS asks for information about each registered Field.
+-  ``settingsForm``: Additional settings for this field, should define the way the values will be stored in the database.
+-  ``settingsDefaults``: Default values for field settings form’s inputs.
+-  ``settingsValidate``: Before instance’s settings are changed, here you can apply your own validation rules.
+-  ``viewModeForm``: Additional view mode settings, should define the way the values will be rendered for a particular view mode.
+-  ``viewModeDefaults``: Default values for view mode settings form’s inputs.
+-  ``viewModeValidate``: Before view-mode’s settings are changed, here you can apply your own validation rules.
 -  ``beforeAttach``: Before field is attached to Tables.
 -  ``afterAttach``: After field is attached to Tables.
 -  ``beforeDetach``: Before field is detached from Tables.
@@ -306,17 +294,15 @@ event name listed below. For example, ``info`` is actually
 Creating Field Handlers
 -----------------------
 
-As we mention early, Field Handler are simply Event Listeners classes
-which should respond to the enormous list of event names described
-above. In order to make this task easy you can simply create a new
-Event Listener class and extend ``Field\Event\FieldHandler``, so instead
-of implementing the EvenListener interface you should simply extend this
-class.
+As we mention early, Field Handler are simply Event Listeners classes which
+should respond to the enormous list of event names described above. In order to
+make this task easy you can simply create a new Event Listener class and extend
+``Field\Event\FieldHandler``, so instead of implementing the EvenListener
+interface you should simply extend this class.
 
-For instance, we could create a ``Date`` Field Handler, aimed to provide
-a date picker for every entity this field is attached to. You must
-create a new Event Listener class under the ``Event`` directory of the
-plugin defining this field.
+For instance, we could create a ``Date`` Field Handler, aimed to provide a date
+picker for every entity this field is attached to. You must create a new Event
+Listener class under the ``Event`` directory of the plugin defining this field.
 
 .. code:: php
 
@@ -329,7 +315,7 @@ plugin defining this field.
     }
 
 ``FieldHandler`` is a simple base class which automatically registers
-all the events names a Field could handle (listed above), it has empty
+all the events names a Field could handle (as listed above), it has empty
 methods which you should override with your own logic:
 
 .. code:: php
@@ -345,33 +331,31 @@ methods which you should override with your own logic:
         public function entityBeforeSave(Event $event, $entity, $field, $options) {
             return true;
         }
-
         ...
     }
 
 Check this class’s documentation for deeper information.
 
+
 Preparing Field Inputs
 ----------------------
 
-Your Field Handler should somehow render some form elements (inputs,
-selects, textareas, etc) when rendering Table’s Entities in
-``edit mode``. For this we have the ``Field.<FieldHandler>.Entity.edit``
-event, which should return a HTML containing all the form elements for
-[entity, field_instance] tuple.
+Your Field Handler should somehow render some form elements (inputs, selects,
+textareas, etc) when rendering Table’s Entities in ``edit mode``. For this we
+have the ``Field.<FieldHandler>.Entity.edit`` event, which should return a HTML
+code containing all the form elements for [entity, field_instance] tuple.
 
-For example, lets suppose we have a ``TextField`` attached to ``Users``
-Table for storing their ``favorite_food``, and now we are editing some
-specific ``User`` Entity (i.e.: User.id = 4), so in the editing form
-page we should see some inputs for change some values like ``username``
-or ``password``, and also we should see a ``favorite_food`` input where
-Users shall type in their favorite food. Well, your TextField Handler
-should print something like this:
+For example, lets suppose we have a ``TextField`` attached to the ``Users``
+Table for storing their ``favorite-food``, and now we are editing some specific
+``User`` Entity (i.e.: User.id = 4), so in the editing form page we should see
+some inputs for change some values like ``username`` or ``password``, and also
+we should see a ``favorite-food`` input where Users shall type in their favorite
+food. Well, your TextField Handler should print something like this:
 
 .. code:: html
 
     // note the `:` prefix
-    <input name=":favorite_food" value="<current_value_from_entity>" />
+    <input name=":favorite-food" value="<current_value_from_entity>" />
 
 To accomplish this, your Field Handler should properly catch the
 ``Field.<FieldHandler>.Entity.edit`` event, example:
@@ -382,13 +366,13 @@ To accomplish this, your Field Handler should properly catch the
       return '<input name=":' . $field->name . '" value="' . $field->value . '" />";
     }
 
-As usual, the second argument ``$field`` contains all the information
-you will need to properly render your form inputs.
+As usual, the second argument ``$field`` contains all the information you will
+need to properly render your form inputs.
 
-You must tell to QuickAppsCMS that the fields you are sending in your
-POST action are actually virtual fields. To do so, all your input’s
-``name`` attributes **must be prefixed** with ``:`` followed by its
-machine name (a.k.a. ``slug``):
+You must tell to QuickAppsCMS that the fields you are sending in your POST
+action are actually virtual fields. To do so, all your input’s ``name``
+attributes **must be prefixed** with ``:`` followed by its machine name (a.k.a.
+``slug``):
 
 .. code:: html
 
@@ -418,11 +402,11 @@ The above may produce a $_POST array like below:
     ...
     :other_field => ...,
 
-**Remember**, you should always rely on ``View::elements()`` for rendering
-HTML code, instead printing HTML code directly from PHP you should place your
-HTML code into a view element and render it using ``View`` class. All events
-related to rendering tasks (such as "edit", "display", etc) have their subject
-set to the view instance being used, this means you could do as follow:
+**Remember**, you should always rely on ``View::elements()`` for rendering HTML
+code, instead printing HTML code directly from PHP you should place your HTML
+code into a view element and render it using ``View`` class. All events related
+to rendering tasks (such as "edit", "display", etc) have their subject set to
+the view instance being used, this means you could do as follow:
 
 .. code:: php
 
@@ -434,8 +418,8 @@ set to the view instance being used, this means you could do as follow:
 Creating an Edit Form
 ---------------------
 
-In previous example we had an User edit form. When rendering User’s
-form-inputs usually you would do something like so:
+In previous example we had an User edit form. When rendering User’s form-inputs
+usually you would do something like so:
 
 .. code:: php
 
@@ -444,8 +428,8 @@ form-inputs usually you would do something like so:
     <?php echo $this->Form->input('password'); ?>
 
 When rendering virtual fields you can pass the whole Field Object to
-``FormHelper::input()`` method. So instead of passing the input name as
-first argument (as above) you can do as follow:
+``FormHelper::input()`` method. So instead of passing the input name as first
+argument (as above) you can do as follow:
 
 .. code:: php
 
@@ -453,9 +437,8 @@ first argument (as above) you can do as follow:
     <?php echo $this->Form->input($user->_fields[0]); ?>
     <?php echo $this->Form->input($user->_fields[1]); ?>
 
-That will render the first and second virtual field attached to your
-entity. But usually you'll end creating some loop structure and render
-all of them at once:
+That will render the first and second virtual field attached to your entity. But
+usually you'll end creating some loop structure and render all of them at once:
 
 .. code:: php
 
@@ -464,8 +447,8 @@ all of them at once:
     <?php endforeach; ?>
 
 As you may see, ``Form::input()`` **automagically fires** the
-``Field.<FieldHandler>.Entity.edit`` event asking to the corresponding
-Field Handler for its HTML form elements. Passing the Field object to
+``Field.<FieldHandler>.Entity.edit`` event asking to the corresponding Field
+Handler for its HTML form elements. Passing the Field object to
 ``Form::input()`` is not mandatory, you can manually generate your input
 elements:
 
@@ -505,52 +488,49 @@ A more complete example:
 Field API UI
 ============
 
-Now you know how Field API works you might need an easy way to attach,
-and manage fields for your tables. Field plugin provides an UI
-(user-interface) for handling all this tasks, Field API UI is packaged
-as a trait: ``Field\Utility\FieldUIControllerTrait``, you must simply attach
-this trait to an empty controller and you are ready to go.
+Now you know how Field API works you might need an easy way to attach, and
+manage fields for your tables. Field plugin provides an UI (user-interface) for
+handling all this tasks, Field API UI is packaged as a trait:
+``Field\Controller\FieldUIControllerTrait``, you must simply attach this trait to
+an empty controller and you are ready to go.
 
-With this trait, Field plugin provides an user friendly UI for manage
-entity’s custom by attaching a series of actions over a ``clean`` controller.
+With this trait, Field plugin provides an user friendly UI for manage entity’s
+fields by attaching a series of actions over a ``clean`` controller.
 
 **Usage:**
 
-Beside adding ``use FieldUIControllerTrait;`` to your controller you
-MUST also indicate the name of the Table being managed using the
-``$_manageTable`` property. For example:
+Beside adding ``use FieldUIControllerTrait;`` to your controller you MUST also
+indicate the name of the Table being managed using the ``$_manageTable``
+property. For example:
 
 .. code:: php
 
     namespace MyPlugin\Controller;
 
     use MyPlugin\Controller\MyPluginAppController;
-    use Field\Utility\FieldUIControllerTrait;
+    use Field\Controller\FieldUIControllerTrait;
 
     class MyCleanController extends MyPluginAppController {
         use FieldUIControllerTrait;
-
         protected $_manageTable = 'user_photos';
     }
 
-In the example above, ``MyCleanController`` will be used to manage all
-fields attached to ``user_photos`` table. You can now access your
-controller as usual and you will see Field API UI in action.
+In the example above, ``MyCleanController`` will be used to manage all fields
+attached to the ``user_photos`` table. You can now access your controller as
+usual and you will see Field API UI in action.
 
-**IMPORTANT:** In order to avoid trait collision you should always
-``extend`` Field UI using this trait over a ``clean`` controller. This
-is, a empty controller class with no methods defined. For instance,
-create a new controller class
-``MyPlugin\Controller\MyTableFieldManagerController`` and use this trait
-to handle custom fields for "MyTable" database table.
+**IMPORTANT:** In order to avoid trait collision you should always ``extend``
+Field UI using this trait over a ``clean`` controller. This is, an empty
+controller class with no methods defined.
 
 Requirements
 ------------
 
 -  This trait should only be used over a clean controller.
 -  You must define ``$_manageTable`` property in your controller.
--  Your Controller must be a backend-controller (under
-   ``Controller\Admin`` namespace).
+-  Your Controller must be a backend-controller (under ``Controller\Admin`` namespace).
+
+An exception will be raised if any of the requirements described above has not accomplished.
 
 .. meta::
     :title lang=en: Field API

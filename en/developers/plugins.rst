@@ -52,11 +52,9 @@ These special requirements are described below:
 
 -  key ``name`` must be present. A follow the pattern
    ``author-name/package-name``
--  key ``version`` must be present.
--  key ``type`` must be present and be **quickapps-plugin** (even if
-   it’s a theme).
+-  key ``type`` must be present and be **quickapps-plugin** or
+   **cakephp/cakephp** (even if it’s a theme).
 -  key ``name`` must be present.
--  key ``description`` must be present.
 -  key ``extra.regions`` must be present if it’s a theme (its ``name``
    ends with ``-theme``, e.g. ``quickapps/blue-sky-theme``)
 
@@ -81,11 +79,19 @@ QuickAppsCMS:
 
     {
         "require": {
-            "quickapps/cms": ">1.0"
+            "quickapps/cms": "2.*",
+            "cakephp/cakephp": "3.0.1",
+            "php": "5.4.*",
+            "some-author/some-plugin-required": "*"
         }
     }
 
-Which means: "This plugin can only be installed on QuickAppsCMS v1.0 or higher."
+There are three special packages names:
+
+- **quickapps/cms**: Required version of QuickAppsCMS
+- **cakephp/cakephp**: Required version of CakePHP (commonly used by cakephp's
+  community plugins)
+- **php**: Required version of PHP
 
 Install & Uninstall Process
 ===========================

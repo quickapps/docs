@@ -43,10 +43,10 @@ Is there a way to send e-mail using SMTP ?
 
 By default all e-mail messages that are sent by QuickAppsCMS (such as user’s
 welcome message, user's password recovery instructions and so on) are sent using
-PHP’s `mail() <http://php.net//manual/en/function.mail.php>`__
-function. Although this should be enough for most cases, you can tell
-QuickAppsCMS to send those messages using your own SMTP server, to do so,
-you must edit your site’s settings file ``/config/settings.php`` as follow:
+PHP’s `mail() <http://php.net//manual/en/function.mail.php>`__ function.
+Although this should be enough for most cases, you can tell QuickAppsCMS to send
+those messages using your own SMTP server, to do so, you must edit your site’s
+settings file ``/config/settings.php`` as follow:
 
 .. code:: php
 

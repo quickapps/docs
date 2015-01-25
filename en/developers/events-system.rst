@@ -2,11 +2,10 @@ Events System
 #############
 
 The Events System is one of the most important pieces of QuickAppsCMS’s
-architecture, this system allows `plugins <03_Plugins.md>`__ to
-communicate with each other, respond to certain events fired during
-execution of the script, etc. So for example, "User" plugin may trigger
-an event "user logged in", the rest of the plugins in the system may respond to
-this "signal" and act in consequence.
+architecture, this system allows :doc:`plugins <plugins>` to communicate with each other, respond
+to certain events fired during execution of the script and so on etc. So for
+example, "User" plugin may trigger an event "user logged in", the rest of the
+plugins in the system may respond to this "signal" and act in consequence.
 
 NOTE: As QuickAppsCMS’s events system is built on top of CakePHP’s
 events system we recommend you to read their
@@ -17,19 +16,17 @@ Architecture
 
 QuickAppsCMS’s events system is composed of three primary elements:
 
--  ``Event Listener``: An event listeners class implementing the
-   EventListener interface.
--  ``Event Handler``: A method in your your listener class which take
-   care of a single event.
--  ``Event``: Name of the event. e.g. ``FormHelper.input``.
+-  ``Event Listener``: An event listener class implementing the EventListener interface.
+-  ``Event Handler``: A method in your your listener class which take care of a single event.
+-  ``Event``: An event object that represents the event itself. e.g. ``FormHelper.input``.
 
-An Event Listener class, may listen to many Events. But a Event Handler
+An Event Listener class, may listen to many Events. But an Event Handler
 can only responds to a single Event.
 
-All ``Event Listeners`` classes must implement the
-``\Cake\Event\EventListener`` interface and provide the
-``implementedEvents()`` method. This method must return an associative
-array with all Event names the class will handle. For example:
+All ``Event Listeners`` classes must implement the ``\Cake\Event\EventListener``
+interface and provide the ``implementedEvents()`` method. This method must
+return an associative array with all Event names the class will handle. For
+example:
 
 .. code:: php
 
@@ -40,8 +37,8 @@ array with all Event names the class will handle. For example:
         ];
     }
 
-Where ``userBeforeLogin`` and ``userAfterLogin`` are methods defined in
-the Event Listener class.
+Where ``userBeforeLogin`` and ``userAfterLogin`` are methods defined in the
+Event Listener class.
 
 Registering Listeners
 =====================
@@ -78,11 +75,11 @@ You can trigger events within any class you wish just by using
 ``QuickApps\Core\HookAwareTrait``, this trait will add a few handy methods
 for triggering events.
 
-By default, this trait is attached to ``QuickApps\Controller\Controller``,
-to ``QuickApps\View\View`` and to ``QuickApps\View\Helper`` classes. This means
-you can use this trait’s methods in any controller of your plugin, in any
-view or within any helper. Of course you must extend these classes in order to
-inherit this methods.
+By default, this trait is attached to ``QuickApps\Controller\Controller``, to
+``QuickApps\View\View`` and to ``QuickApps\View\Helper`` classes. This means you
+can use this trait’s methods in any controller of your plugin, in any view (and
+templates) or within any helper. Of course you must extend these classes in
+order to inherit this methods.
 
 For example, in our "Blog" plugin example, we could have an
 ``ArticlesController.php`` that may looks as follow:
@@ -94,7 +91,7 @@ For example, in our "Blog" plugin example, we could have an
     use QuickApps\Controller\Controller;
 
     class ArticlesController extends Controller {
-        public function view_post($id) {
+        public function viewPost($id) {
             $this->trigger('event_name', $id);
         }
     }
@@ -142,7 +139,7 @@ of events that were triggered. For example:
 
 .. code:: php
 
-    $this->didHook('event_name');
+    $this->triggered('event_name');
     // may returns: 10
 
 If used with no arguments the full list of event and counters will be
@@ -150,7 +147,7 @@ returned:
 
 .. code:: php
 
-    $this->didHook();
+    $this->triggered();
     // may produce:
     [
         'event_name' => 10,

@@ -5,8 +5,8 @@ Rendering Contents
 Rendering The Main Content
 ==========================
 
-Simply by using the code below in your theme layout you can render out
-the main content of each page. For example, in your layout’s body:
+Simply by using the code below in your theme layout you can render out the main
+content of each page. For example, in your layout’s body:
 
 .. code:: php
 
