@@ -111,14 +111,14 @@ character:
 
 ::
 
-    "thisrase" OR -"not th!! one" AND thi!
+    "thisrase" OR wor* AND thi!
 
 Anything containing space (" ") characters must be wrapper between
 quotation marks:
 
 ::
 
-    "this phrase" special_operator:"[100 to 500]" -word -"more words" -word_1 word_2
+    "this phrase" my_operator:100..500 -word -"more words" -word_1 word_2
 
 The search criteria above will be treated as it were composed by the
 following parts:
@@ -127,7 +127,7 @@ following parts:
 
     [
         this phrase,
-        special_operator:[100 to 500],
+        my_operator:100..500,
         -word,
         -more words,
         -word_1,
@@ -138,7 +138,7 @@ Search criteria allows you to perform complex search conditions in a
 human-readable way. Allows you, for example, create user-friendly
 search-forms, or create some RSS feed just by creating a friendly URL
 using a search-criteria. e.g.:
-``http://example.com/rss/category:art date:>2014-01-01``
+``http://example.com/rss/category:music created:2014``
 
 You must use the ``search()`` method to scope any query using a
 search-criteria. For example, in one controller using ``Users`` model:
@@ -218,6 +218,7 @@ as follow:
             //     Query::andWhere() and Query::orWhere() methods.
         }
     }
+
 
 Fallback Operators
 ~~~~~~~~~~~~~~~~~~

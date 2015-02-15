@@ -1,9 +1,10 @@
 Themes
 ######
 
-A theme is a unified set of design elements and color schemes that you can apply
-to your Web pages to give them a professional look. Using a theme is a quick and
-easy way to make sure your Web pages are visually consistent and appealing.
+A theme is an unified set of design elements and color schemes that you can
+apply to your Web pages to give them a professional look. Using a theme is a
+quick and easy way to make sure your Web pages are visually consistent and
+appealing.
 
 QuickAppsCMS includes by default a `Frontend
 <http://en.wikipedia.org/wiki/Front_and_back_ends>`__ theme named ``Frontend``

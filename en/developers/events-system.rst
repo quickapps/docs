@@ -2,14 +2,15 @@ Events System
 #############
 
 The Events System is one of the most important pieces of QuickAppsCMS’s
-architecture, this system allows :doc:`plugins <plugins>` to communicate with each other, respond
-to certain events fired during execution of the script and so on etc. So for
-example, "User" plugin may trigger an event "user logged in", the rest of the
-plugins in the system may respond to this "signal" and act in consequence.
+architecture, this system allows :doc:`plugins <plugins>` to communicate with
+each other, respond to certain events fired during execution of the script and
+so on etc. As an example, "User" plugin may trigger an event "user logged in",
+the rest of the plugins in the system may respond to this "signal" and act in
+consequence.
 
-NOTE: As QuickAppsCMS’s events system is built on top of CakePHP’s
-events system we recommend you to read their
-`documentation <http://book.cakephp.org/3.0/en/core-libraries/events.html>`__.
+NOTE: As QuickAppsCMS’s events system is built on top of CakePHP’s events system
+we recommend you to read their `documentation <http://book.cakephp.org/3.0/en
+/core-libraries/events.html>`__.
 
 Architecture
 ============
@@ -17,11 +18,8 @@ Architecture
 QuickAppsCMS’s events system is composed of three primary elements:
 
 -  ``Event Listener``: An event listener class implementing the EventListener interface.
--  ``Event Handler``: A method in your your listener class which take care of a single event.
+-  ``Event Handler``: A method within your listener class which handles a single event.
 -  ``Event``: An event object that represents the event itself. e.g. ``FormHelper.input``.
-
-An Event Listener class, may listen to many Events. But an Event Handler
-can only responds to a single Event.
 
 All ``Event Listeners`` classes must implement the ``\Cake\Event\EventListener``
 interface and provide the ``implementedEvents()`` method. This method must
@@ -43,13 +41,12 @@ Event Listener class.
 Registering Listeners
 =====================
 
-By default in CakePHP you must create an instance of your Event Listener
-class and then attach it to the
-`EventManager <http://book.cakephp.org/3.0/en/core-libraries/events.html#global-event-manager>`__,
-in order to make this easier QuickAppsCMS’s will automatically load all
-events listeners classes within plugin’s "Event" directory. That is, if
-you want your "Blog" plugin’s listener classes to be automatically
-loaded you must place these classes as follow:
+By default in CakePHP you must create an instance of your Event Listener class
+and then attach it to the `EventManager <http://book.cakephp.org/3.0/en/core-
+libraries/events.html#global-event-manager>`__, in order to make this easier
+QuickAppsCMS’s will automatically load all event listeners classes within
+plugin’s "Event" directory. That is, if you want your "Blog" plugin’s listener
+classes to be automatically loaded you must place these classes as follow:
 
 ::
 
@@ -61,25 +58,24 @@ loaded you must place these classes as follow:
              |- Listener2Hook.php
              |- Listener3Hook.php
 
-All three classes (Listener1Hook, Listener2Hook and Listener3Hook) will
-be automatically loaded and registered on the ``EventManager``. In order
-to keep the things dry, we add the ``Hook`` suffix to each class name.
+All three classes (Listener1Hook, Listener2Hook and Listener3Hook) will be
+automatically loaded and registered on the ``EventManager``. In order to keep
+the things dry, we add the ``Hook`` suffix to each class name.
 
 Dispatching Events
 ==================
 
-Once your listeners classes were automatically loaded and attached, you
-can now start triggering events and see how your listeners respond.
+Once your listeners classes were automatically loaded and attached, you can now
+start triggering events and see how your listeners respond.
 
 You can trigger events within any class you wish just by using
-``QuickApps\Core\HookAwareTrait``, this trait will add a few handy methods
-for triggering events.
+``QuickApps\Core\HookAwareTrait``, this trait will add a few handy methods for
+triggering events.
 
 By default, this trait is attached to ``QuickApps\Controller\Controller``, to
-``QuickApps\View\View`` and to ``QuickApps\View\Helper`` classes. This means you
-can use this trait’s methods in any controller of your plugin, in any view (and
-templates) or within any helper. Of course you must extend these classes in
-order to inherit this methods.
+``QuickApps\View\View`` and to ``QuickApps\View\Helper`` classes. Means you can
+use this trigger events within any controller, any view template or within any
+helper.
 
 For example, in our "Blog" plugin example, we could have an
 ``ArticlesController.php`` that may looks as follow:
@@ -237,8 +233,8 @@ If no context is given ``$this`` will be used by default.
 Recommended Reading
 ===================
 
-As QuickAppsCMS’s events system is built on top of CakePHP’s events system
-we highly recommend you to take a look at this part of CakePHP’s book:
+As QuickAppsCMS’s events system is built on top of CakePHP’s events system we
+highly recommend you to take a look at this part of CakePHP’s book:
 
 `CakePHP’s Events
 System <http://book.cakephp.org/3.0/en/core-libraries/events.html>`__
