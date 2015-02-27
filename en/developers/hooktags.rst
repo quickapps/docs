@@ -8,7 +8,7 @@ following hooktag (in any content) would show current language’s code:
 
 .. code:: html
 
-    [locale code /]
+    {locale code /}
 
 Note: If you are a Wordpress user you will find that ``hooktags`` are
 Wordpress’s ``shorcodes`` equivalent.
@@ -26,7 +26,8 @@ handle using the ``implementedEvents()`` method. For example:
 
     //...
 
-    public function implementedEvents() {
+    public function implementedEvents()
+    {
         return [
             'Hooktag.redBox' => 'redBox',
             'Hooktag.blueBox' => 'blueBox',
@@ -54,7 +55,7 @@ For example:
     }
 
 These methods are responsible of converting a hooktag (that looks as
-``[locale code /]``) into their HTML equivalent.
+``{locale code /}``) into their HTML equivalent.
 
 ---
 
@@ -78,7 +79,7 @@ Attributes
 The **$atts** array may include any arbitrary attributes that are
 specified by the user. Attribute names are always converted to lowercase
 before they are passed into the handler function. Values are untouched.
-[some_hooktag Foo="bAr"] produces $atts = array('foo' => 'bAr').
+{some_hooktag Foo="bAr"} produces $atts = array('foo' => 'bAr').
 
 **TIP: Don't use camelCase or UPPER-CASE for your $atts attribute names**
 
@@ -96,7 +97,7 @@ for hooktags in the given text, for example, in any template you could:
 
 .. code:: php
 
-    echo $this->hooktags("Current language code is: [language code /]");
+    echo $this->hooktags("Current language code is: {language code /}");
 
 Depending on the current language you are navigating you will get:
 
@@ -118,7 +119,7 @@ Now you will get:
     Current language code is:
 
 **Important:** As we mention before, Events names are prefixed with
-``Hooktag.`` word, which means that ``[language ...]`` will trigger the
+``Hooktag.`` word, which means that ``{language ...}`` will trigger the
 ``Hooktag.language`` event.
 
 Example, creating a Hooktag
@@ -128,15 +129,13 @@ Lets create a hooktag for displaying HTML content-boxes. We want our
 hooktag to be as follow:
 
 -  Its name will be ``content_box``.
--  Will use the ``enclosed`` form ([tag] ... [/tag]), for holding the
-   box’s content.
--  Will accept a ``color`` parameter for specify the color of the box to
-   render.
+-  Will use the ``enclosed`` form ({tag} ... {/tag}), for holding the box’s content.
+-  Will accept a ``color`` parameter for specify the color of the box to render.
 -  Will be handled by the ``Blog`` plugin.
 
 Basically our hooktag must convert the code below:
 
-    [content_box color=green]Lorem ipsum dolor[/content_box]
+    {content_box color=green}Lorem ipsum dolor{/content_box}
 
 To its HTML representation:
 
@@ -156,8 +155,10 @@ listen for ``content_box``:
 
     use Cake\Event\EventListener;
 
-    class BoxesHooktag implements EventListener {
-        public function implementedEvents() {
+    class BoxesHooktag implements EventListener
+    {
+        public function implementedEvents()
+        {
             return [
                 'Hooktag.content_box' => 'contentBox',
             ];
@@ -169,7 +170,8 @@ hooktag’s information and convert it into HTML:
 
 .. code:: php
 
-    public function contentBox(Event $event, $atts, $content = null, $code = '') {
+    public function contentBox(Event $event, $atts, $content = null, $code = '')
+    {
         $return = '<div style="background-color:' . $atts['color'] . ';"';
         $return .= $content;
         $return .= '</div>';
@@ -178,13 +180,12 @@ hooktag’s information and convert it into HTML:
 
 **Usage**
 
-Now you should be able to use the ``content_box`` hooktag in any Node’s
-contents, or wherever hooktags are allowed.
+Now you should be able to use the ``content_box`` hooktag as part of any content as
+follow:
 
-    [content_box color=green]Lorem ipsum dolor[/content_box]
+    {content_box color=green}Lorem ipsum dolor{/content_box}
 
-Wherever you place the code above it will replaced by the following HTML
-code:
+Wherever you place the code above it will replaced by the following HTML code:
 
 .. code:: html
 
