@@ -167,7 +167,7 @@ could save photo’s titles as space-separated values under ``value`` property:
         ['title' => 'Look at this, lol', 'file' => 'cats-fighting.gif'],
         ['title' => 'Fuuuu', 'file' => 'fuuuu-meme.png'],
     ]
-
+    
     // value:
     "OMG! Look at this lol Fuuuu"
 
@@ -297,7 +297,7 @@ Creating Field Handlers
 As we mention early, Field Handler are simply Event Listeners classes which
 should respond to the enormous list of event names described above. In order to
 make this task easy you can simply create a new Event Listener class and extend
-``Field\Event\FieldHandler``, so instead of implementing the EvenListener
+``Field\BaseHandler``, so instead of implementing the EvenListener
 interface you should simply extend this class.
 
 For instance, we could create a ``Date`` Field Handler, aimed to provide a date
@@ -308,30 +308,36 @@ Listener class under the ``Event`` directory of the plugin defining this field.
 
     // MyPlugin/src/Event/DateField.php
     namespace MyPlugin\Event;
-    use Field\Event\FieldHandler;
-
-    class DateField extends FieldHandler {
-
+    use Field\BaseHandler;
+    
+    class DateField extends BaseHandler
+    {
+        // logic
     }
 
-``FieldHandler`` is a simple base class which automatically registers
+``BaseHandler`` class is a simple base class which automatically registers
 all the events names a Field could handle (as listed above), it has empty
 methods which you should override with your own logic:
 
 .. code:: php
 
     namespace MyPlugin;
-    use Field\Event\FieldHandler;
-    class DateField extends FieldHandler {
+    use Field\BaseHandler;
+    
+    class DateField extends BaseHandler
+    {
 
-        public function entityDisplay(Event $event, $field, $options = []) {
+        public function entityDisplay(Event $event, $field, $options = [])
+        {
             return 'HTML representation of $field';
         }
 
-        public function entityBeforeSave(Event $event, $entity, $field, $options) {
+        public function entityBeforeSave(Event $event, $entity, $field, $options)
+        {
             return true;
         }
-        ...
+
+        // ...
     }
 
 Check this class’s documentation for deeper information.
@@ -362,7 +368,8 @@ To accomplish this, your Field Handler should properly catch the
 
 .. code:: php
 
-    public function entityEdit(Event $event, $field) {
+    public function entityEdit(Event $event, $field)
+    {
       return '<input name=":' . $field->name . '" value="' . $field->value . '" />";
     }
 
@@ -410,8 +417,9 @@ the view instance being used, this means you could do as follow:
 
 .. code:: php
 
-    public function editTextField(Event $event, $field) {
-        $view = $event->subject;
+    public function editTextField(Event $event, $field)
+    {
+        $view = $event->subject();
         return $view->element('text_field_edit', ['field' => $field]);
     }
 
@@ -464,8 +472,8 @@ A more complete example:
 .. code:: php
 
     // UsersController.php
-
-    public function edit($id) {
+    public function edit($id)
+    {
         $this->set('user', $this->Users->get($id));
     }
 
@@ -510,7 +518,8 @@ property. For example:
     use MyPlugin\Controller\MyPluginAppController;
     use Field\Controller\FieldUIControllerTrait;
 
-    class MyCleanController extends MyPluginAppController {
+    class MyCleanController extends MyPluginAppController
+    {
         use FieldUIControllerTrait;
         protected $_manageTable = 'user_photos';
     }
