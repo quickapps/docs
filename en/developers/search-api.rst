@@ -74,20 +74,18 @@ indexed by this behavior. For example:
 
 If you need to ban a really specific list of words you can set
 ``bannedWords`` option as a callable method that should return true or
-false to tell if a words should be indexed or not. For example:
+false to tell if a words is banned or not. For example:
 
 .. code:: php
 
     $this->addBehavior('Search.Searchable', [
         'bannedWords' => function ($word) {
-            return strlen($word) > 3;
+            return strlen($word) <= 3;
         }
     ]);
 
--  Returning TRUE indicates that the word is safe for indexing (not
-   banned).
--  Returning FALSE indicates that the word should NOT be indexed
-   (banned).
+-  Returning TRUE indicates that the word is banned (will not be index).
+-  Returning FALSE indicates that the word is NOT banned (will be index).
 
 In the example, above any word of 4 or more characters will be indexed
 (e.g. "home", "name", "quickapps", etc). Any word of 3 or less
