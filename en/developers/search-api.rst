@@ -186,14 +186,14 @@ follow:
     // get all nodes containing `this phrase` and created by `JohnLocke`
     "this phrase" author:JohnLocke
 
-You must define in your Table an operator method and register it into
-this behavior under the ``author`` name, a full working example may look
-as follow:
+You can define in your table an operator method and register it into this
+behavior under the `author` name, a full working example may look as follow:
 
 .. code:: php
 
-    class Nodes extends Table {
-        public function initialize(array $config) {
+    class MyTable extends Table {
+        public function initialize(array $config)
+        {
             // attach the behavior
             $this->addBehavior('Search.Searchable');
 
@@ -201,21 +201,63 @@ as follow:
             $this->addSearchOperator('author', 'operatorAuthor');
         }
 
-        public function operatorAuthor($query, $value, $negate, $orAnd) {
-            // $query:
-            //     The query object to alter
-            // $value:
-            //     The value after `author:`. e.g.: `JohnLocke`
-            // $negate:
-            //     TRUE if user has negated this command. e.g.: `-author:JohnLocke`.
-            //     FALSE otherwise.
-            // $orAnd:
-            //     or|and|false Indicates the type of condition. e.g.: `OR author:JohnLocke`
-            //     will set $orAnd to `or`. But, `AND author:JohnLocke` will set $orAnd to `and`.
-            //     By default is set to FALSE. This allows you to use
-            //     Query::andWhere() and Query::orWhere() methods.
+        public function operatorAuthor(Query $query, Token $token)
+        {
+            // $query: The query object to alter
+            // $token: Token representing the operator to apply.
+            // Scope query using $token information and return.
+            return $query;
         }
     }
+
+You can also define operator as a callable function:
+
+.. code:: php
+
+    class MyTable extends Table
+    {
+        public function initialize(array $config)
+        {
+            $this->addBehavior('Search.Searchable');
+    
+            $this->addSearchOperator('author', function(Query $query, Token $token) {
+                // Scope query and return.
+                return $query;
+            });
+        }
+    }
+
+
+Creating Reusable Operators
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If your application has operators that are commonly reused, it is helpful to
+package those operators into re-usable classes:
+
+.. code:: php
+
+    // in MyPlugin/Model/Search/CustomOperator.php
+    namespace MyPlugin\Model\Search;
+    
+    use Search\Operator;
+    
+    class CustomOperator extends Operator
+    {
+        public function scope($query, $token)
+        {
+            // Scope $query
+            return $query;
+        }
+    }
+
+    // In any table class:
+    
+    // Add the custom operator,
+    $this->addSearchOperator('operator_name', 'MyPlugin.Custom', ['opt1' => 'val1', ...]);
+    
+    // OR passing a constructed operator
+    use MyPlugin\Model\Search\CustomOperator;
+    $this->addSearchOperator('operator_name', new CustomOperator($this, ['opt1' => 'val1', ...]));
 
 
 Fallback Operators
@@ -247,7 +289,8 @@ may respond to this call by implementing this event:
 
     // ...
 
-    public function operatorDate($event, $query, $value, $negate, $orAnd) {
+    public function operatorDate($event, $query, $token)
+    {
         // alter $query object and return it
         return $query;
     }
