@@ -50,7 +50,7 @@ settings file ``/config/settings.php`` as follow:
 
 .. code:: php
 
-    $config = [
+    return [
         // ... DB settings and etc,
         'EmailTransport' => [
             'default' => [

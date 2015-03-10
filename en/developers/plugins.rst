@@ -86,7 +86,7 @@ QuickAppsCMS:
         }
     }
 
-There are three special packages names:
+There are a few special packages names, such as:
 
 - **quickapps/cms**: Required version of QuickAppsCMS
 - **cakephp/cakephp**: Required version of CakePHP (commonly used by cakephp's
@@ -187,7 +187,7 @@ respond to any event, as their
 as well.
 
 Plugins can be disabled only if they are not required by any other
-plugins, that is, for instance, if plugin ``A`` needs some
+plugins, that is, for instance if plugin ``A`` needs some
 functionalities provided by plugin ``B`` then you are not able to
 disable plugin ``B`` as plugin ``A`` would stop working properly.
 
@@ -270,7 +270,7 @@ class as follow:
 
 .. code:: php
 
-    Plugin::settings('Blog', 'show_publish_date');
+    Plugin::get('Blog')->settings['show_publish_date'];
 
 **IMPORTANT:** In some cases you will encounter that no values has been
 set for a setting key, for example if user has not indicated any

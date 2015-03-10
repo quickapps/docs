@@ -85,23 +85,21 @@ listeners()
 
 Returns a list of all registered event listeners in the system.
 
-pluginName(string $name)
+packageSplit(string $name, bool $camelize)
 ------------------------
 
-Used to extract plugin names from composer’s package names.
+Splits a composer package syntax into its vendor and package name.
+
+Commonly used like `list($vendor, $package) = packageSplit($name);`
 
 **Example:**
 
 .. code:: php
 
-    pluginName('quickapps/my-super-plugin');
-    // returns: MySuperPlugin
+    list($vsendor, $package) = packageSplit('some-vendor/this-package', true);
+    echo "{$vendor} : {$package}";
+    // prints: SomeVendor : ThisPackage
 
-Package names must follow the "author/app-name" pattern, there are two
-"especial" composer’s package names which are handled differently:
-
--  ``php``: Will return "__PHP\_\_"
--  ``quickapps/cms``: Will return "__QUICKAPPS\_\_"
 
 array_move(array $list, integer $index, string $direction)
 -----------------------------------------------------------
