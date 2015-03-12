@@ -176,6 +176,63 @@ example, if in your "composer.json" your package name is
 ``author-name/super-plugin-name`` then plugin’s inflected name is
 ``SuperPluginName``.
 
+
+Plugin Options
+--------------
+
+QuickAppsCMS provides a simple "options" repository for storage of simple key-value
+pairs. This values can be read anywhere using the global function
+:doc:`option() <core-libraries>`.
+
+Plugins can declare this pairs on their "composer.json". When a new plugins is
+installed QuickAppsCMS moves this pairs from plugin's "composer.json" file to the
+repository mentioned before. And removes these pairs when plugin is uninstalled
+from the system.
+
+Declaring options
+~~~~~~~~~~~~~~~~~
+
+Plugins are able declare options pairs under the `extra.options` key of their
+"composer.json" file, for instance:
+
+.. code:: json
+
+    [
+        "extra": {
+            "options": [
+                {"name": "MyPlugin.option-1", "value": "value1", "autoload": false},
+                {"name": "MyPlugin.option-2", "value": "value2"},
+                {"name": "MyPlugin.option-3"}
+            ]
+        }
+    ]
+
+
+In the example above, you can read your options values by using the `option()`
+function as follows:
+
+.. code:: php
+
+    <?php
+        echo option('MyPlugin.option-1'); // returns "value1"
+        echo option('MyPlugin.option-2'); // returns "value2"
+        echo option('MyPlugin.option-3'); // returns NULL
+    ?>
+
+The `autoload` and `value` option are optional and their default values are `false`
+and `NULL` respectively. The `autoload` flag indicates QuickAppsCMS to load this
+value on bootstrap, if set to false (do not autoload) value will be fetched
+on-demand, that is, when `option()` function is used.
+
+
+**IMPORTANT:** You should always try to keep option names unique as possible. In
+order to avoid collisions is always a good practice to prefix plugin's options with
+plugin's name. For instance, instead of `generic_name` you could use
+`MyPlugin.generic_name`. During plugin installation QuickAppsCMS will raise an error
+if a collision is found and stopping the installation process.
+
+
+
 Enabling & Disabling Process
 ============================
 
