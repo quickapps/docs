@@ -192,7 +192,7 @@ from the system.
 Declaring options
 ~~~~~~~~~~~~~~~~~
 
-Plugins are able declare options pairs under the `extra.options` key of their
+Plugins are able declare options pairs under the ``extra.options`` key of their
 "composer.json" file, for instance:
 
 .. code:: json
@@ -208,7 +208,7 @@ Plugins are able declare options pairs under the `extra.options` key of their
     }
 
 
-In the example above, you can read your options values by using the `option()`
+In the example above, you can read your options values by using the ``option()``
 function as follows:
 
 .. code:: php
@@ -227,9 +227,9 @@ on-demand, that is, when ``option()`` function is used.
 
 **IMPORTANT:** You should always try to keep option names unique as possible. In
 order to avoid collisions is always a good practice to prefix plugin's options with
-plugin's name. For instance, instead of `generic_name` you could use
-`MyPlugin.generic_name`. During plugin installation QuickAppsCMS will raise an error
-if a collision is found and stopping the installation process.
+plugin's name. For instance, instead of ``generic_name`` you could use
+``MyPlugin.generic_name``. During plugin installation QuickAppsCMS will raise an
+error if a collision is found and stopping the installation process.
 
 
 
