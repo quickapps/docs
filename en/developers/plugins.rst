@@ -219,10 +219,10 @@ function as follows:
         echo option('MyPlugin.option-3'); // returns NULL
     ?>
 
-The `autoload` and `value` option are optional and their default values are `false`
-and `NULL` respectively. The `autoload` flag indicates QuickAppsCMS to load this
-value on bootstrap, if set to false (do not autoload) value will be fetched
-on-demand, that is, when `option()` function is used.
+The ``autoload`` and ``value`` option are optional and their default values are
+``false`` and ``NULL`` respectively. The `autoload` flag indicates QuickAppsCMS to
+load this value on bootstrap, if set to false (do not autoload) value will be fetched
+on-demand, that is, when ``option()`` function is used.
 
 
 **IMPORTANT:** You should always try to keep option names unique as possible. In
