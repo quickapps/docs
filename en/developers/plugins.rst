@@ -197,7 +197,7 @@ Plugins are able declare options pairs under the `extra.options` key of their
 
 .. code:: json
 
-    [
+    {
         "extra": {
             "options": [
                 {"name": "MyPlugin.option-1", "value": "value1", "autoload": false},
@@ -205,7 +205,7 @@ Plugins are able declare options pairs under the `extra.options` key of their
                 {"name": "MyPlugin.option-3"}
             ]
         }
-    ]
+    }
 
 
 In the example above, you can read your options values by using the `option()`
