@@ -8,9 +8,10 @@ attaching the ``SearchableBehavior`` to it.
 Searchable Behavior
 ===================
 
-This `behavior <http://book.cakephp.org/3.0/en/orm/behaviors.html>`__ is
-responsible of index each entity under your tables, it also allows you
-to search any of those entities by using human-friendly search criteria.
+This `behavior <http://book.cakephp.org/3.0/en/orm/behaviors.html>`__ is provided by
+the Search plugin and it's responsible of index each entity under your tables, it
+also allows you to search any of those entities by using human-friendly search
+criteria.
 
 Using this Behavior
 -------------------
@@ -177,8 +178,8 @@ NOTE: Operators names are treated as **lowercase_and_underscored**, so
 
 You can define custom operators for your table by using the
 ``addSearchOperator()`` method. For example, you might need create a
-custom operator ``author`` which allows you to search a ``Node`` entity
-by ``author name``. A search-criteria using this operator may looks as
+custom operator ``author`` which would allow you to search a ``Node`` entity
+by its author name``. A search-criteria using this operator may looks as
 follow:
 
 ::
@@ -219,7 +220,7 @@ You can also define operator as a callable function:
         public function initialize(array $config)
         {
             $this->addBehavior('Search.Searchable');
-    
+
             $this->addSearchOperator('author', function(Query $query, Token $token) {
                 // Scope query and return.
                 return $query;
@@ -238,9 +239,9 @@ package those operators into re-usable classes:
 
     // in MyPlugin/Model/Search/CustomOperator.php
     namespace MyPlugin\Model\Search;
-    
+
     use Search\Operator;
-    
+
     class CustomOperator extends Operator
     {
         public function scope($query, $token)
@@ -251,10 +252,10 @@ package those operators into re-usable classes:
     }
 
     // In any table class:
-    
+
     // Add the custom operator,
     $this->addSearchOperator('operator_name', 'MyPlugin.Custom', ['opt1' => 'val1', ...]);
-    
+
     // OR passing a constructed operator
     use MyPlugin\Model\Search\CustomOperator;
     $this->addSearchOperator('operator_name', new CustomOperator($this, ['opt1' => 'val1', ...]));
@@ -265,8 +266,8 @@ Fallback Operators
 
 When an operator is detected in the given search criteria but no
 operator callable was defined using ``addSearchOperator()``, then
-``SearchableBehavior.operator<OperatorName>`` will be fired, so other
-plugins may respond to any undefined operator. For example, given the
+``SearchableBehavior.operator<OperatorName>`` event will be triggered, so
+other plugins may respond and handle any undefined operator. For example, given the
 search criteria below, lets suppose ``date`` operator **was not
 defined** early:
 
@@ -301,7 +302,7 @@ IMPORTANT:
 
 -  Event handler method should always return the modified $query object.
 -  The event’s context, that is ``$event->subject``, is the table
-   instance that fired the event.
+   instance that triggered the event.
 
 Recommended Reading
 ===================
