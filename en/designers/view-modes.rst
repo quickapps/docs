@@ -40,7 +40,23 @@ soon as possible.
 
     ViewModeRegistry::add('machine-name', 'My View Mode', 'Description');
 
-Check the API for more details.
+Check ``ViewModeRegistry``` class API for more details.
+
+Translations
+------------
+
+Usually you will need to translate view-mode's description or name, but you should
+be aware that system language is not set after bootstrap step is completed, which
+means that using translation functions (such as **__d()**, **__()**, etc) in your
+"bootstrap.php" files will have no effect. In these cases, a better place to define
+your view-modes is on ``routes.php`` file:
+
+.. code:: php
+
+    // MyPlugin/config/routes.php
+    use QuickApps\View\ViewModeRegistry;
+
+    ViewModeRegistry::add('machine-name', __d('my_plugin', 'My View Mode'), __d('my_plugin', 'Description'));
 
 
 Switch View Modes
