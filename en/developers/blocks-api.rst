@@ -28,9 +28,9 @@ A Block entity objects holds the following properties:
 - handler (string): The plugin from which the block originates.
 - status (bool): Block enabled status.
 - visibility (string): Indicates how to show blocks on pages, possible values are:
-  - except: Show on all pages except listed pages
-  - only: Show only on listed pages
-  - php: Use custom PHP code to determine visibility
+    - except: Show on all pages except listed pages
+    - only: Show only on listed pages
+    - php: Use custom PHP code to determine visibility
 - pages (string): List of paths to be used by "visibility" property
 - settings (array): Extra information used by the block. Commonly used by Widget Blocks.
 
@@ -41,7 +41,6 @@ events names that could be triggered during block's life cycle, blocks event nam
 follows the pattern:
 
 .. code::
-
     Block.<handler>.<event-name>
 
 In this way plugins are able to "handle" an unlimited amount blocks. For instance
@@ -55,16 +54,10 @@ block being handled. For example, a "Forum" plugin has registered two Widget Blo
 in the system:
 
 - Block 1:
-  - title: Connected Users
-  - delta: "connected_users"
-  - handler: "Forum"
 
 and
 
 - Block 2
-  - title: Latest Threads
-  - delta: "latest_threads"
-  - handler: "Forum"
 
 When rendering either "Connected Users" or "Latest Threads" block the same event
 name will be triggered: ``Block.Forum.display``, event handler method should use the
@@ -72,33 +65,33 @@ name will be triggered: ``Block.Forum.display``, event handler method should use
 for instance:
 
 .. code:: php
+    <?php
+        // Forum/Event/ForumHook.php
+        namespace Forum\Event;
 
-    // Forum/Event/ForumHook.php
-    namespace Forum\Event;
+        use Block\Model\Entity\Block;
+        use Cake\Event\Event;
+        use Cake\Event\EventListenerInterface;
 
-    use Block\Model\Entity\Block;
-    use Cake\Event\Event;
-    use Cake\Event\EventListenerInterface;
-
-    class ForumHook implements EventListenerInterface
-    {
-        public function implementedEvents()
+        class ForumHook implements EventListenerInterface
         {
-            return [
-                'Block.Forum.display' => 'displayForumBlock',
-            ];
-        }
+            public function implementedEvents()
+            {
+                return [
+                    'Block.Forum.display' => 'displayForumBlock',
+                ];
+            }
 
-        public function displayForumBlock(Event $event, Block $block)
-        {
-            $view = $event->subject();
-            if ($block->delta == 'connected_users') {
-                // Rendering logic for "Connected Users" block
-            } elseif ($block->delta == 'latest_threads') {
-                // Rendering logic for "Latest Threads" block
+            public function displayForumBlock(Event $event, Block $block)
+            {
+                $view = $event->subject();
+                if ($block->delta == 'connected_users') {
+                    // Rendering logic for "Connected Users" block
+                } elseif ($block->delta == 'latest_threads') {
+                    // Rendering logic for "Latest Threads" block
+                }
             }
         }
-    }
 
 Blocks Life Cycle
 =================
@@ -140,19 +133,19 @@ registering a new block is just as easy as creating a new entity in this table, 
 instance:
 
 .. code:: php
+    <?php
+        use Cake\ORM\TableRegistry;
 
-    use Cake\ORM\TableRegistry;
+        $newBlock = TableRegistry::get('Block.Block')->newEntity([
+            'title' => 'Latest Articles',
+            'handler' => 'Blog',
+            'delta' => 'latest_articles',
+            'settings' => [
+                'articles_limit' => 5, // show latest 5 threads created
+            ]
+        ]);
 
-    $newBlock = TableRegistry::get('Block.Block')->newEntity([
-        'title' => 'Latest Articles',
-        'handler' => 'Blog',
-        'delta' => 'latest_articles',
-        'settings' => [
-            'articles_limit' => 5, // show latest 5 threads created
-        ]
-    ]);
-
-    TableRegistry::get('Block.Block')->save($newBlock);
+        TableRegistry::get('Block.Block')->save($newBlock);
 
 **NOTE**: This step is usually performed on plugin installation process. Check the
 Plugin API for more details on this process.
@@ -184,34 +177,35 @@ displayed in the block when it is rendered. To do so, we must simply catch the e
 and return all the form inputs we want to provide to users:
 
 .. code:: php
+    <?php
+        // Blog/Event/BlogHook.php
+        namespace Blog\Event;
 
-    // Blog/Event/BlogHook.php
-    namespace Blog\Event;
+        use Block\Model\Entity\Block;
+        use Cake\Event\Event;
+        use Cake\Event\EventListenerInterface;
 
-    use Block\Model\Entity\Block;
-    use Cake\Event\Event;
-    use Cake\Event\EventListenerInterface;
-
-    class BlogHook implements EventListenerInterface
-    {
-        public function implementedEvents()
+        class BlogHook implements EventListenerInterface
         {
-            return [
-                'Block.Blog.settings' => 'blockSettings',
-            ];
-        }
+            public function implementedEvents()
+            {
+                return [
+                    'Block.Blog.settings' => 'blockSettings',
+                ];
+            }
 
-        public function blockSettings(Event $event, Block $block)
-        {
-            $view = $event->subject();
-            if ($block->delta == 'latest_articles') {
-                return $view->element('Blog.block_latest_articles_settings', compact('block'));
+            public function blockSettings(Event $event, Block $block)
+            {
+                $view = $event->subject();
+                if ($block->delta == 'latest_articles') {
+                    return $view->element('Blog.block_latest_articles_settings', compact('block'));
+                }
             }
         }
-    }
 
-    // Blog/Template/Element/block_latest_articles_settings.ctp
+.. code:: php
     <?php
+        // Blog/Template/Element/block_latest_articles_settings.ctp
         echo $this->Form->input('articles_limit', [
             'label' => 'How may articles to show?',
             'type' => 'select',
@@ -233,9 +227,8 @@ any view. A block object can be rendered at any time within a view by using the 
 ``View::render()`` method, for instance:
 
 .. code:: php
-
-    // some_view.ctp
     <?php
+        // some_view.ctp
         use Cake\ORM\TableRegistry;
 
         $block = TableRegistry::get('Block.Block')
@@ -249,7 +242,6 @@ Although this is possible, blocks are usually rendered as part of theme regions 
 described in the :doc:`designers <designers/themes>` guide:
 
 .. code:: php
-
     <?php
         // renders all blocks within this region (and current theme)
         echo $this->region('some-region-name');
@@ -261,52 +253,54 @@ rendering a block as described before. You must catch this event and render the
 given block as HTML, we’ll add an event handler method this our ``BlogHook`` class:
 
 .. code:: php
+    <?php
+        // Blog/Event/BlogHook.php
+        namespace Blog\Event;
 
-    // Blog/Event/BlogHook.php
-    namespace Blog\Event;
+        use Block\Model\Entity\Block;
+        use Cake\Event\Event;
+        use Cake\Event\EventListenerInterface;
+        use Cake\ORM\TableRegistry;
 
-    use Block\Model\Entity\Block;
-    use Cake\Event\Event;
-    use Cake\Event\EventListenerInterface;
-    use Cake\ORM\TableRegistry;
-
-    class BlogHook implements EventListenerInterface
-    {
-        public function implementedEvents()
+        class BlogHook implements EventListenerInterface
         {
-            return [
-                'Block.Blog.display' => 'blockDisplay',
-                'Block.Blog.settings' => 'blockSettings',
-            ];
-        }
+            public function implementedEvents()
+            {
+                return [
+                    'Block.Blog.display' => 'blockDisplay',
+                    'Block.Blog.settings' => 'blockSettings',
+                ];
+            }
 
-        public function blockDisplay(Event $event, Block $block, $options = [])
-        {
-            $view = $event->subject();
-            if ($block->delta == 'latest_articles') {
-                // find the latest created articles and pass them to view-element
-                $articles = TableRegistry::get('Articles.Articles')
-                    ->find()
-                    ->limit($block->settings['articles_limit'])
-                    ->order(['Articles.created' => 'DESC'])
-                    ->all();
-                return $view->element('Articles.block_latest_articles_display', compact('block', 'options', 'articles'));
+            public function blockDisplay(Event $event, Block $block, $options = [])
+            {
+                $view = $event->subject();
+                if ($block->delta == 'latest_articles') {
+                    // find the latest created articles and pass them to view-element
+                    $articles = TableRegistry::get('Articles.Articles')
+                        ->find()
+                        ->limit($block->settings['articles_limit'])
+                        ->order(['Articles.created' => 'DESC'])
+                        ->all();
+                    return $view->element('Articles.block_latest_articles_display', compact('block', 'options', 'articles'));
+                }
+            }
+
+            public function blockSettings(Event $event, Block $block)
+            {
+                $view = $event->subject();
+                if ($block->delta == 'latest_articles') {
+                    return $view->element('Blog.block_latest_articles_settings', compact('block'));
+                }
             }
         }
 
-        public function blockSettings(Event $event, Block $block)
-        {
-            $view = $event->subject();
-            if ($block->delta == 'latest_articles') {
-                return $view->element('Blog.block_latest_articles_settings', compact('block'));
-            }
-        }
-    }
+.. code:: php
+    <!-- Forum/Template/Element/block_latest_articles_display.ctp -->
 
-    // Forum/Template/Element/block_latest_articles_display.ctp
     <h2>Latest Articles</h2>
     <ul>
-    <?php foreach ($articles as $article): ?>
+        <?php foreach ($articles as $article): ?>
         <li><?php $article->get('title'); ?></li>
-    <?php endforeach; ?>
+        <?php endforeach; ?>
     </ul>

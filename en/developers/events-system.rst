@@ -81,16 +81,18 @@ For example, in our "Blog" plugin example, we could have an
 ``ArticlesController.php`` that may looks as follow:
 
 .. code:: php
+    <?php
+        namespace Blog\Controller;
 
-    namespace Blog\Controller;
+        use QuickApps\Controller\Controller;
 
-    use QuickApps\Controller\Controller;
-
-    class ArticlesController extends Controller {
-        public function viewPost($id) {
-            $this->trigger('event_name', $id);
+        class ArticlesController extends Controller
+        {
+            public function viewPost($id)
+            {
+                $this->trigger('event_name', $id);
+            }
         }
-    }
 
 The ``QuickApps\Event\HookAwareTrait`` trait provides the methods: ``trigger()``,
 ``triggered()`` and ``alter()`` which are described below.
@@ -112,18 +114,19 @@ Your ``Event Listener`` must implement the ``GetTime`` event name, for
 instance:
 
 .. code:: php
-
-    public function implementedEvents() {
-        return ['GetTime' => 'handlerForGetTime'];
-    }
+    <?php
+        // ...
+        public function implementedEvents()
+        {
+            return ['GetTime' => 'handlerForGetTime'];
+        }
 
 You can provide a context to use by passing an array as first arguments
 where the first element is the event name and the second one is the
 context:
 
 .. code:: php
-
-    $this->trigger(['GetTime', new ContextObject()], $arg_0, $arg_0, ..., $arg_1);
+    <?php $this->trigger(['GetTime', new ContextObject()], $arg_0, $arg_0, ..., $arg_1); ?>
 
 If no context is given ``$this`` will be used by default.
 

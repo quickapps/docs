@@ -59,7 +59,6 @@ theme is a Backend theme or not. Defaults to "false" if not given.
 Here a full working example:
 
 .. code:: json
-
     {
         "name": "quickapps-themes/basic-theme",
         "description": "QuickApps CMS theme skeleton.",
@@ -101,7 +100,6 @@ To do so, make sure your layout includes a place for ``$this->fetch('content')``
 Here’s an example of what a default layout might look like:
 
 .. code:: html
-
     <!DOCTYPE html>
     <html lang="en">
         <head>
@@ -153,7 +151,6 @@ easier, QuickAppsCMS provides a basic header setup which you can use within your
 theme’s layouts:
 
 .. code:: php
-
     <html>
     <head>
         <?php echo $this->Html->head(); ?>
@@ -174,7 +171,6 @@ For rendering region’s blocks in your layout you must use the ``View::region()
 method as follow:
 
 .. code:: php
-
     <?php echo $this->region('right-sidebar'); ?>
 
 You can do nifty things such as combine two or more regions, limit the number of
@@ -184,10 +180,10 @@ Merge ``left-sidebar`` and ``right-sidebar`` regions together, the resulting
 region limits the number of blocks it can holds to three (3):
 
 .. code:: php
-
-    echo $this->region('left-sidebar')
-        ->append($this->region('right-sidebar'))
-        ->blockLimit(3);
+    <?php
+        echo $this->region('left-sidebar')
+            ->append($this->region('right-sidebar'))
+            ->blockLimit(3);
 
 As you may have noticed, we always use region’s machine-name when referring to a
 particular region; ``left-sidebar`` (human name: Left Sidebar)

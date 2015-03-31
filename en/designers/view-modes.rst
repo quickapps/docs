@@ -66,8 +66,7 @@ Once you have registered some view modes in your system, you can now tell the sy
 to switch from one view mode to another as follow:
 
 .. code:: php
-
-    ViewModeRegistry::uses('machine-name');
+  <?php ViewModeRegistry::uses('machine-name'); ?>
 
 As view modes are frequently switched at controller side (before content is
 rendered), in order to make this process easier QuickAppsCMS provides a few
@@ -75,12 +74,13 @@ controller methods for handling with view modes. For instance, in any controller
 action:
 
 .. code:: php
-
-    public function myAction()
-    {
-        // action logic
-        $this->viewMode('machine-name');
-    }
+    <?php
+        // ...
+        public function myAction()
+        {
+            // action logic
+            $this->viewMode('machine-name');
+        }
 
 For more information check ``QuickApps\View\ViewModeAwareTrait`` API.
 
