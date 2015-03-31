@@ -5,5 +5,5 @@ Designers
     :maxdepth: 1
 
     designers/themes
-    designers/rendering-contents
+    designers/rendering-nodes
     designers/view-modes

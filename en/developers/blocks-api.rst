@@ -311,7 +311,7 @@ given block as HTML, we’ll add an event handler method this our ``BlogHook`` c
 
 .. code:: php
 
-    <!-- Forum/Template/Element/block_latest_articles_display.ctp -->
+    <!-- Blog/Template/Element/block_latest_articles_display.ctp -->
 
     <h2>Latest Articles</h2>
     <ul>

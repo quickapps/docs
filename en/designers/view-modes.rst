@@ -35,12 +35,13 @@ soon as possible.
 
 .. code:: php
 
-    // MyPlugin/config/bootstrap.php
-    use QuickApps\View\ViewModeRegistry;
+    <?php
+        // MyPlugin/config/bootstrap.php
+        use QuickApps\View\ViewModeRegistry;
 
-    ViewModeRegistry::add('machine-name', 'My View Mode', 'Description');
+        ViewModeRegistry::add('machine-name', 'My View Mode', 'Description');
 
-Check ``ViewModeRegistry``` class API for more details.
+Please check ``ViewModeRegistry`` class API for more details.
 
 Translations
 ------------
@@ -53,10 +54,14 @@ your view-modes is on ``routes.php`` file:
 
 .. code:: php
 
-    // MyPlugin/config/routes.php
-    use QuickApps\View\ViewModeRegistry;
+    <?php
+        // MyPlugin/config/routes.php
+        use QuickApps\View\ViewModeRegistry;
 
-    ViewModeRegistry::add('machine-name', __d('my_plugin', 'My View Mode'), __d('my_plugin', 'Description'));
+        ViewModeRegistry::add('machine-name',
+            __d('my_plugin', 'My View Mode'),
+            __d('my_plugin', 'Description')
+        );
 
 
 Switch View Modes
@@ -67,22 +72,27 @@ to switch from one view mode to another as follow:
 
 .. code:: php
 
-    ViewModeRegistry::uses('machine-name');
+    <?php ViewModeRegistry::uses('machine-name'); ?>
 
 As view modes are frequently switched at controller side (before content is
 rendered), in order to make this process easier QuickAppsCMS provides a few
-controller methods for handling with view modes. For instance, in any controller
+controller methods for working with view modes. For instance, in any controller
 action:
 
 .. code:: php
 
-    public function myAction()
-    {
-        // action logic
-        $this->viewMode('machine-name');
-    }
+    <?php
+        // some controller
+        public function myAction()
+        {
+            // action logic
+            $this->viewMode('machine-name');
+        }
 
 For more information check ``QuickApps\View\ViewModeAwareTrait`` API.
+
+**NOTE**: QuickAppsCMS automatically sets the proper view-mode depending on the
+content being rendered.
 
 .. meta::
     :title lang=en: View Modes

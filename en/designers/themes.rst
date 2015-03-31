@@ -105,24 +105,27 @@ Here’s an example of what a default layout might look like:
     <!DOCTYPE html>
     <html lang="en">
         <head>
-            <title><?= h($title) ?></title>
+            <title><?php echo h($title) ?></title>
             <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
             <!-- Include external files and scripts
             here (See HTML helper for more info.) -->
+
             <?php echo $this->fetch('meta'); ?>
             <?php echo $this->fetch('css'); ?>
             <?php echo $this->fetch('script'); ?>
         </head>
 
         <body>
-            <!-- If you'd like some sort of menu to show
-            up on all of your views, include it here -->
+            <!-- If you'd like some sort of menu to
+            show up on all of your views, include it
+            here (See Menu helper for more details.) -->
             <div id="header">
                 <div id="menu">...</div>
             </div>
 
             <!-- Here’s where I want my views to be displayed -->
-            <?= $this->fetch('content') ?>
+            <?php echo $this->fetch('content') ?>
 
             <!-- Add a footer to each displayed page -->
             <div id="footer">...</div>
@@ -134,15 +137,19 @@ views using the built-in HTML helper. Useful for including JavaScript and CSS
 files from views. The ``content`` block contains the contents of the rendered
 view.
 
-Although ``default.ctp`` layout should be enough for most cases, QuickAppsCMS
-may use different layouts depending on the situation, for example when rendering
-the user’s login form ``login.ctp`` **will be used if exists**, here is a list
-of layouts your theme might define:
+Although ``default.ctp`` layout should be enough for most cases, QuickAppsCMS may
+use different layouts depending on the situation, for example when rendering the
+user’s login form the ``login.ctp`` layout **will be used if exists**, here is a
+list of layouts your theme might define:
 
--  ``default.ctp``: This is the default layout, if none of the listed below exists this layout will be used by default.
--  ``login.ctp``: Used when rendering user’s login screen.
--  ``ajax.ctp``: Used when rendering AJAX responses
--  ``error.ctp``: When an error is reached; 404, 500, etc
+-  default.ctp: This is the default layout, if none of the listed below exists
+   this layout will be used by default.
+
+-  login.ctp: Used when rendering user’s login screen.
+
+-  ajax.ctp: Used when rendering AJAX responses.
+
+-  error.ctp: When an error is reached; 404, 500, etc.
 
 Layout’s Header
 ---------------
@@ -167,8 +174,8 @@ Regions
 =======
 
 Regions are areas of your layout aimed to contain blocks, regions may contain an
-unlimited number of blocks (by default). Theme authors can define and implement
-any number of regions for content to be rendered into.
+unlimited number of blocks (although it can be limited). Theme authors can define
+and implement any number of regions for content to be rendered into.
 
 For rendering region’s blocks in your layout you must use the ``View::region()``
 method as follow:
@@ -185,9 +192,10 @@ region limits the number of blocks it can holds to three (3):
 
 .. code:: php
 
-    echo $this->region('left-sidebar')
-        ->append($this->region('right-sidebar'))
-        ->blockLimit(3);
+    <?php
+        echo $this->region('left-sidebar')
+            ->append($this->region('right-sidebar'))
+            ->blockLimit(3);
 
 As you may have noticed, we always use region’s machine-name when referring to a
 particular region; ``left-sidebar`` (human name: Left Sidebar)
@@ -197,4 +205,4 @@ documentation.
 
 .. meta::
     :title lang=en: Themes
-    :keywords lang=en: block,blocks,regions,layout,theme,header,region helper,regionhelper
+    :keywords lang=en: block,blocks,regions,layout,theme,header,region
