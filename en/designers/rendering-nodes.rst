@@ -2,7 +2,7 @@ Rendering Nodes
 ###############
 
 A QuickAppsCMS site is composed by multiple contents, these contents are handled by
-the ``Node`` plugin, in combination with the ```Field`` plugin which provides the
+the ``Node`` plugin, in combination with the ``Field`` plugin which provides the
 ability to define new "Content Types".
 
 All content on a QuickAppsCMS website is stored and treated as a "Node" Entity
