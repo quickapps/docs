@@ -448,7 +448,7 @@ elements following this pattern:
 
     PluginName/src/Template/Element/Help/help_<language-code>.ctp
 
-Where ```<language-code>`` can be any active language code, check Locale plugin
+Where ``<language-code>`` can be any active language code, check Locale plugin
 documentation for more information.
 
 For instance, if you want to provide help information in French and English you
