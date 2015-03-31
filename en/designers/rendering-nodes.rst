@@ -41,6 +41,7 @@ Renders the given node based on ``node-type`` and ``view-mode``. Follows the
 pattern:
 
 ::
+
     render_node_[node-type]_[view-mode].ctp
 
 Examples:
@@ -64,6 +65,7 @@ Similar as before, but based on ``node-type`` and any view-mode. Follows the
 pattern:
 
 ::
+
     render_node_[node-type].ctp
 
 Examples:
@@ -84,6 +86,7 @@ Similar as before, but based ``view-mode`` and any ``node-type``. Follows the
 pattern:
 
 ::
+
     render_node_[view-mode].ctp
 
 Examples:
