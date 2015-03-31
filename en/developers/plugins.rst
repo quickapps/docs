@@ -26,20 +26,23 @@ Basic structure of plugins:
     |- Blog/
        |- config/
        |  |- bootstrap.php
-       |     |- routes.php
+       |  |- routes.php
        |- src/
        |  |- Controller/
        |  |- Event/
        |  |- Model/
        |  |- Template/
+       |     |- Element/
+       |        |- Help/
+       |- tests/
        |- webroot/
        |- composer.json
 
-Plugin’s structure is the same defined by CakePHP, the only main
-difference is that QuickAppsCMS’s plugins MUST define a ``composer.json`` file,
-this file is used by `composer <https://getcomposer.org/>`__ to identify your
-package, but it’s also used by QuickAppsCMS to get information about your plugins
-such as version number, name, description, etc.
+Plugin’s structure is the same defined by CakePHP, the only main difference is that
+QuickAppsCMS’s plugins MUST define a ``composer.json`` file, this file is used by
+`composer <https://getcomposer.org/>`__ to identify your package, but it’s also used
+by QuickAppsCMS to get information about your plugins such as version number, name,
+description, etc.
 
 The "composer.json" file
 ------------------------
@@ -50,30 +53,30 @@ is the same `required by composer <https://getcomposer.org/doc/04-schema.md>`__,
 but with some additional requirements specifically for QuickAppsCMS.
 These special requirements are described below:
 
--  key ``name`` must be present. A follow the pattern
-   ``author-name/package-name``
--  key ``type`` must be present and be **quickapps-plugin** or
-   **cakephp/cakephp** (even if it’s a theme).
--  key ``name`` must be present.
--  key ``extra.regions`` must be present if it’s a theme (its ``name``
-   ends with ``-theme``, e.g. ``quickapps/blue-sky-theme``)
+-  key "name" must be present. A follow the pattern ``author-name/package-name``
 
-**NOTES:**
+-  key "type" must be present and be **quickapps-plugin** or **cakephp/cakephp**
+   (even if it’s a theme).
 
--  Plugins may behave as themes if their name ends with ``-theme``.
--  Plugin’s names are inflected from the ``name`` key, they
-   are camelized, for example for ``author-name/super-name``, plugin name
-   is ``SuperName``.
+-  key "name" must be present.
+
+-  key "extra.regions" must be present if it’s a theme (its "name" ends with the
+   "theme" word, e.g. "quickapps/blue-sky-theme")
+
+NOTES
+    -  Plugins may behave as themes if their name ends with ``-theme``.
+    -  Plugin names are inflected from the ``name`` key, they
+       are camelized, for example for ``author-name/super-name``, plugin name
+       is ``SuperName``.
 
 Dependencies
 ------------
 
-You can indicate your plugin depends on another plugin, to do so, you
-must use the ``require`` key in your "composer.json". QuickAppsCMS’s
-dependencies resolver system works pretty `similar to
-composer’s <https://getcomposer.org/doc/01-basic-usage.md#package-versions>`__.
-For example you may indicate your plugin requires certain version of
-QuickAppsCMS:
+You can indicate your plugin depends on another plugin, to do so, you must use the
+``require`` key in your "composer.json". QuickAppsCMS’s dependencies resolver system
+works pretty `similar to composer’s <https://getcomposer.org/doc/01-basic-usage.md
+#package-versions>`__. For example you may indicate your plugin requires certain
+version of QuickAppsCMS:
 
 .. code:: json
 
@@ -88,19 +91,21 @@ QuickAppsCMS:
 
 There are a few special packages names, such as:
 
-- **quickapps/cms**: Required version of QuickAppsCMS
+- **quickapps/cms**: Required version of QuickAppsCMS.
+
 - **cakephp/cakephp**: Required version of CakePHP (commonly used by cakephp's
-  community plugins)
-- **php**: Required version of PHP
+  community plugins).
+
+- **php**: Required version of PHP.
 
 Install & Uninstall Process
 ===========================
 
-The following describes some of the tasks automatically performed by
-QuickAppsCMS during the (un)installation process, as well as some tasks
-that plugins should consider during these processes. In both cases a
-series of events are automatically triggered which plugins may responds
-to in order to change the (un)installation process.
+The following describes some of the tasks automatically performed by QuickAppsCMS
+during the (un)installation process, as well as some tasks that plugins should
+consider during these processes. In both cases a series of events are automatically
+triggered which plugins may responds to in order to change the (un)installation
+process.
 
 Installation
 ------------
@@ -127,15 +132,15 @@ What plugins may do
 Events triggered
 ~~~~~~~~~~~~~~~~
 
--  ``Plugin.<PluginName>.beforeInstall``: Before plugins is registered
-   on DB and before plugin’s directory is moved to "/plugins"
--  ``Plugin.<PluginName>.afterInstall``: After plugins was registered in
-   DB and after plugin’s directory was moved to "/plugins"
+-  Plugin.<PluginName>.beforeInstall: Before plugins is registered on DB and
+   before plugin’s directory is moved to "/plugins"
 
-Where ``<PluginName>`` is the inflected name of your plugin, for
-example, if in your "composer.json" your package name is
-``author-name/super-plugin-name`` then plugin’s inflected name is
-``SuperPluginName``.
+-  Plugin.<PluginName>.afterInstall: After plugins was registered in DB and after
+   plugin’s directory was moved to "/plugins"
+
+Where ``<PluginName>`` is the inflected name of your plugin, for example, if in your
+"composer.json" your package name is ``author-name/super-plugin-name`` then plugin’s
+inflected name is ``SuperPluginName``.
 
 Uninstallation
 --------------
@@ -150,31 +155,32 @@ What QuickAppsCMS does
 -  Unregister plugin from the ``plugins`` table.
 -  Regenerate related caches.
 
+
 What plugins should do
 ~~~~~~~~~~~~~~~~~~~~~~
 
-The following tasks should be performed by the plugins during the
-uninstallation process. The best place to perform these tasks is on
-``afterUninstall`` or ``beforeUninstall`` callbacks.
+The following tasks should be performed by the plugins during the uninstallation
+process. The best place to perform these tasks is on ``afterUninstall`` or
+``beforeUninstall`` callbacks.
 
 -  Remove all related Database tables.
 -  Remove all defined options from the ``options`` table.
 
-In general, your plugin should remove anything that is not automatically
-removed by QuickAppsCMS.
+In general, your plugin should remove anything that is not automatically removed by
+QuickAppsCMS.
 
 Events triggered
 ~~~~~~~~~~~~~~~~
 
--  ``Plugin.<PluginName>.beforeUninstall``: Before plugins is removed
-   from DB and before plugin’s directory is deleted from "/plugins".
--  ``Plugin.<PluginName>.afterUninstall``: After plugins was removed
-   from DB and after plugin’s directory was deleted from "/plugins"
+-  Plugin.<PluginName>.beforeUninstall: Before plugins is removed from DB and before
+   plugin’s directory is deleted from "/plugins".
 
-Where ``<PluginName>`` is the inflected name of your plugin, for
-example, if in your "composer.json" your package name is
-``author-name/super-plugin-name`` then plugin’s inflected name is
-``SuperPluginName``.
+-  Plugin.<PluginName>.afterUninstall: After plugins was removed from DB and after
+   plugin’s directory was deleted from "/plugins"
+
+Where ``<PluginName>`` is the inflected name of your plugin, for example, if in your
+"composer.json" your package name is ``author-name/super-plugin-name`` then plugin’s
+inflected name is ``SuperPluginName``.
 
 
 Plugin Options
@@ -232,7 +238,6 @@ plugin's name. For instance, instead of ``generic_name`` you could use
 error if a collision is found and stopping the installation process.
 
 
-
 Enabling & Disabling Process
 ============================
 
@@ -258,9 +263,10 @@ When plugins are enabled or disabled the following events are triggered:
 The names of these events should be descriptive enough to let you know
 what they do.
 
-**IMPORTANT:** Plugin’s assets are not accessible when plugins are
-disabled, which means anything within the ``/webroot`` directory of your
-plugin will not be accessible via URL.
+IMPORTANT
+    Plugin’s assets are not accessible when plugins are disabled, which means
+    anything within the ``/webroot`` directory of your plugin will not be accessible
+    via URL.
 
 Update Process
 ==============
@@ -269,39 +275,36 @@ Plugins can also be updated to newer versions, the update & install
 process are both very similar as they perform similar actions during
 their process.
 
-Plugins can be updated using a ZIP package only if the current version
-(version currently installed) is older than the version in the ZIP
-package.
+Plugins can be updated using a ZIP package only if the current version (version
+currently installed) is older than the version in the ZIP package.
 
 During this process two events are triggered:
 
--  ``Plugin.<PluginName>.beforeUpdate``: Before plugins’s old directory
-   is removed from "/plugins"
--  ``Plugin.<PluginName>.afterUpdate``: Before plugins’s old directory
-   was removed from "/plugins" and after placing new directory in its
-   place.
+-  Plugin.<PluginName>.beforeUpdate: Before plugins’s old directory is removed from
+   "/plugins"
 
-The update process basically replaces one directory (older) by another
-(latest). Plugins should take care of migration tasks if needed using the
-events described above.
+-  Plugin.<PluginName>.afterUpdate: Before plugins’s old directory was removed from
+   "/plugins" and after placing new directory in its place.
+
+The update process basically replaces one directory (older) by another (latest).
+Plugins should take care of migration tasks if needed using the events described
+above.
 
 Configurable Settings
 =====================
 
-Plugins are allowed to define a series of customizable parameters, this
-parameters can be tweaked on the administration section by users with
-proper permissions.
+Plugins are allowed to define a series of customizable parameters, this parameters
+can be tweaked on the administration section by users with proper permissions.
 
-For example, a "Blog" plugin could allow users to change plugin’s behavior
-by providing a series of form inputs where users may indicate certain
-values that will alter plugin’s functionalities, for example "show
-publish date" which would display article’s "publish date" when an
-article is being rendered.
+For example, a "Blog" plugin could allow users to change plugin’s behavior by
+providing a series of form inputs where users may indicate certain values that will
+alter plugin’s functionalities, for example "show publish date" which would display
+article’s "publish date" when an article is being rendered.
 
 Any plugin can provide this form inputs by placing them into
-``/src/Tempalte/Element/settings.ctp``, here is where you should render
-all form elements that users will be able to teak. For our "Blog"
-example, this file could look as follow:
+``/src/Tempalte/Element/settings.ctp``, here is where you should render all form
+elements that users will be able to teak. For our "Blog" example, this file could
+look as follow:
 
 .. code:: php
 
@@ -312,110 +315,148 @@ example, this file could look as follow:
         ]);
     ?>
 
-As you can see, you must simply create all the form inputs you want to
-provide to users, you must omit ``Form::create()`` & ``Form::end()`` as
-they are automatically created by QuickAppsCMS.
+As you can see, you must simply create all the form inputs you want to provide to
+users, you must omit ``Form::create()`` & ``Form::end()`` as they are automatically
+created by QuickAppsCMS.
 
 Reading settings values
 -----------------------
 
-Once you have provided certain teakable values, you may need to read
-those values in order to change your plugin’s behavior, in our "Blog"
-example we want to know whether the "publish date" should be rendered or
-not. To read these values you should use the ``QuickApps\Core\Plugin``
-class as follow:
+Once you have provided certain teakable values, you may need to read those values in
+order to change your plugin’s behavior, in our "Blog" example we want to know
+whether the "publish date" should be rendered or not. To read these values you
+should use the ``QuickApps\Core\Plugin`` class as follow:
 
 .. code:: php
 
-    Plugin::get('Blog')->settings['show_publish_date'];
+    <?php Plugin::get('Blog')->settings['show_publish_date']; ?>
 
-**IMPORTANT:** In some cases you will encounter that no values has been
-set for a setting key, for example if user has not indicated any
-value for your settings yet. This can be solved using the feature
-described below.
+IMPORTANT
+    In some cases you will encounter that no values has been set for a setting key,
+    for example if user has not indicated any value for your settings yet. This can
+    be solved using the feature described below.
 
 Default Setting Values
 ----------------------
 
-You can provide default values for each of your settings keys using the
-event below:
+You can provide default values for each of your settings keys using the event below:
 
 ::
 
     Plugin.<PluginName>.settingsDefaults
 
-This event is automatically triggered every time you try to read a
-setting value, your must implement this event handler in any of your
-plugin’s :doc:`Event Listener <events-system>` classes and it must return an
-associative array for setting keys and their values, a full example:
+This event is automatically triggered every time you try to read a setting value,
+your must implement this event handler in any of your plugin’s :doc:`Event Listener
+<events-system>` classes and it must return an associative array for setting keys
+and their values, a full example:
 
 .. code:: php
 
-    // Blog/src/Event/BlogHook.php
-    namespace Blog\Event;
+    <?php
+        // Blog/src/Event/BlogHook.php
+        namespace Blog\Event;
 
-    use Cake\Event\Event;
-    use Cake\Event\EventListener;
+        use Cake\Event\Event;
+        use Cake\Event\EventListener;
 
-    class BlogHook implements EventListener {
+        class BlogHook implements EventListener
+        {
+            public function implementedEvents()
+            {
+                return [
+                    'Plugin.Blog.settingsDefaults' => 'settingsDefaults',
+                ];
+            }
 
-        public function implementedEvents() {
-            return [
-                'Plugin.Blog.settingsDefaults' => 'settingsDefaults',
-            ];
+            public function settingsDefaults(Event $event)
+            {
+                return [
+                    'show_publish_date' => 1,
+                ];
+            }
+
         }
 
-        public function settingsDefaults(Event $event) {
-            return [
-                'show_publish_date' => 1,
-            ];
-        }
-
-    }
-
-In the example above, if user has not indicated whether to show "publish
-date" or not the default value will be ``1`` which we'll consider as
-"YES, show publish date".
+In the example above, if user has not indicated whether to show "publish date" or
+not the default value will be ``1`` which we'll consider as "YES, show publish
+date".
 
 Validating Settings
 -------------------
 
-Usually you would need to restrict what user’s types in your settings
-form inputs, so for example you may need an users to type in only
-integer values for certain setting parameter. To validate these inputs
-you must use the ``Plugin.<PluginName>.settingsValidate`` event which is
-automatically triggered before plugin information is persisted into DB.
-Event listeners methods should expect two arguments: an entity as first
-arguments representing all settings values, and an instance of validator
-object being used, you should alter this object as needed to add your
-own validation rules. For example:
+Usually you would need to restrict what user’s types in your settings form inputs,
+so for example you may need an users to type in only integer values for certain
+setting parameter. To validate these inputs you must use the
+``Plugin.<PluginName>.settingsValidate`` event which is automatically triggered
+before plugin information is persisted into DB. Event listeners methods should
+expect two arguments: an entity as first arguments representing all settings values,
+and an instance of validator object being used, you should alter this object as
+needed to add your own validation rules. For example:
 
 .. code:: php
 
-    // Blog/src/Event/BlogHook.php
-    namespace Blog\Event;
+    <?php
+        // Blog/src/Event/BlogHook.php
+        namespace Blog\Event;
 
-    use Cake\Event\Event;
-    use Cake\Event\EventListener;
+        use Cake\Event\Event;
+        use Cake\Event\EventListener;
 
-    class BlogHook implements EventListener {
+        class BlogHook implements EventListener
+        {
+            public function implementedEvents()
+            {
+                return [
+                    'Plugin.Blog.settingsValidate' => 'settingsValidate',
+                ];
+            }
 
-        public function implementedEvents() {
-            return [
-                'Plugin.Blog.settingsValidate' => 'settingsValidate',
-            ];
+            public function settingsValidate(Event $event, $settingsEntity, $validator)
+            {
+                $validator
+                    ->validatePresence('show_publish_date')
+                    ->notEmpty('show_publish_date', 'This field is required!')
+                    ->add('another_settings_input_name', [
+                        // ... rules & messages
+                    ]);
+            }
+
         }
 
-        public function settingsValidate(Event $event, $settingsEntity, $validator) {
-            $validator
-                ->validatePresence('show_publish_date')
-                ->notEmpty('show_publish_date', 'This field is required!')
-                ->add('another_settings_input_name', [
-                    // ... rules & messages
-                ]);
-        }
 
-    }
+Documenting your Plugin
+=======================
+
+Optionally you can provide help documentation, so users can access it and read it
+trough the "Help" panel in the administration area (/admin/system/help).
+
+To do this you must simply create a view-element containing all information you want
+to provide about your plugin. This view-element should be placed in the following
+directory of your plugin:
+
+::
+
+    PluginName/src/Template/Element/Help/help.ctp
+
+Documentation in multiple languages
+-----------------------------------
+
+You can provide documentation in different languages simply by creating view-
+elements following this pattern:
+
+::
+
+    PluginName/src/Template/Element/Help/help_<language-code>.ctp
+
+Where ```<language-code>`` can be any active language code, check Locale plugin
+documentation for more information.
+
+For instance, if you want to provide help information in French and English you
+should create the following view-elements:
+
+- PluginName/src/Template/Element/Help/help_en_US.ctp
+- PluginName/src/Template/Element/Help/help_fr_FR.ctp
+
 
 Recommended Reading
 ===================
