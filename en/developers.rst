@@ -7,6 +7,7 @@ Developers
     developers/events-system
     developers/hooktags
     developers/plugins
+    developers/blocks-api
     developers/field-api
     developers/search-api
     developers/core-libraries
