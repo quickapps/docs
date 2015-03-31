@@ -24,8 +24,8 @@ manually inserting new records to this table.
 A Block entity objects holds the following properties:
 
 - title (string): Custom title for the block.
-- delta (string): Unique ID for block within a handler.
 - handler (string): The plugin from which the block originates.
+- delta (string): Unique ID for block within a handler.
 - status (bool): Block enabled status.
 - visibility (string): Indicates how to show blocks on pages, possible values are:
     - except: Show on all pages except listed pages
@@ -34,11 +34,11 @@ A Block entity objects holds the following properties:
 - pages (string): List of paths to be used by "visibility" property
 - settings (array): Extra information used by the block. Commonly used by Widget Blocks.
 
-Each block has a ``handler`` property which must identify the plugin that created
-that Block (by default all blocks created using backend's administration page
-defines ``Block`` has their handler). This handler name is used to generate all the
-events names that could be triggered during block's life cycle, blocks event names
-follows the pattern:
+Each block has a ``handler`` property which identifies the plugin that created that
+Block (by default all blocks created using backend's administration page defines
+``Block`` has their handler). This handler name is used to generate all the events
+names that could be triggered during block's life cycle, blocks event names follows
+the pattern:
 
 .. code::
 
