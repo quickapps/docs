@@ -28,9 +28,11 @@ A Block entity objects holds the following properties:
 - delta (string): Unique ID for block within a handler.
 - status (bool): Block enabled status.
 - visibility (string): Indicates how to show blocks on pages, possible values are:
-    - except: Show on all pages except listed pages
-    - only: Show only on listed pages
-    - php: Use custom PHP code to determine visibility
+
+  - except: Show on all pages except listed pages
+  - only: Show only on listed pages
+  - php: Use custom PHP code to determine visibility
+
 - pages (string): List of paths to be used by "visibility" property
 - settings (array): Extra information used by the block. Commonly used by Widget Blocks.
 
@@ -156,8 +158,9 @@ instance:
 
         TableRegistry::get('Block.Block')->save($newBlock);
 
-**NOTE**: This step is usually performed on plugin installation process. Check the
-Plugin API for more details on this process.
+NOTE
+    This step is usually performed on plugin installation process. Check the
+    Plugin API for more details on this process.
 
 
 Controlling Block Life Cycle
@@ -218,7 +221,7 @@ and return all the form inputs we want to provide to users:
     <?php
         // Blog/Template/Element/block_latest_articles_settings.ctp
         echo $this->Form->input('articles_limit', [
-            'label' => 'How may articles to show?',
+            'label' => 'How many articles to show?',
             'type' => 'select',
             'options' => [
                 '3' => 'Latest 3 articles',
@@ -251,7 +254,7 @@ any view. A block object can be rendered at any time within a view by using the 
         echo $this->render($block);
 
 Although this is possible, blocks are usually rendered as part of theme regions as
-described in the :doc:`designers <designers/themes>` guide:
+described in the :doc:`designers </designers/themes>` guide:
 
 .. code:: php
 

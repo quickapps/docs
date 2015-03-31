@@ -17,23 +17,24 @@ Architecture
 
 QuickAppsCMS’s events system is composed of three primary elements:
 
--  ``Event Listener``: An event listener class implementing the EventListener interface.
--  ``Event Handler``: A method within your listener class which handles a single event.
--  ``Event``: An event object that represents the event itself. e.g. ``FormHelper.input``.
+-  Event Listener: An event listener class implementing the EventListenerInterface interface.
+-  Event Handler: A method within your listener class which handles a single event.
+-  Event: An event object that represents the event itself. e.g. ``FormHelper.input``.
 
-All ``Event Listeners`` classes must implement the ``\Cake\Event\EventListener``
-interface and provide the ``implementedEvents()`` method. This method must
-return an associative array with all Event names the class will handle. For
-example:
+All Event Listeners classes must implement the
+``\Cake\Event\EventListenerInterface`` interface and provide the
+``implementedEvents()`` method. This method must return an associative array with
+all Event names the class will handle. For example:
 
 .. code:: php
 
-    public function implementedEvents() {
-        return [
-            'User.beforeLogin' => 'userBeforeLogin',
-            'User.afterLogin' => 'userAfterLogin',
-        ];
-    }
+    <?php
+        public function implementedEvents() {
+            return [
+                'User.beforeLogin' => 'userBeforeLogin',
+                'User.afterLogin' => 'userAfterLogin',
+            ];
+        }
 
 Where ``userBeforeLogin`` and ``userAfterLogin`` are methods defined in the
 Event Listener class.
@@ -41,12 +42,13 @@ Event Listener class.
 Registering Listeners
 =====================
 
-By default in CakePHP you must create an instance of your Event Listener class
+By default in `CakePHP <http://book.cakephp.org/3.0/en/core-libraries/events.html
+#registering-listeners>`_ you must create an instance of your Event Listener class
 and then attach it to the `EventManager <http://book.cakephp.org/3.0/en/core-
 libraries/events.html#global-event-manager>`__, in order to make this easier
-QuickAppsCMS’s will automatically load all event listeners classes within
-plugin’s "Event" directory. That is, if you want your "Blog" plugin’s listener
-classes to be automatically loaded you must place these classes as follow:
+QuickAppsCMS’s will automatically load and register all event listeners classes
+within plugin’s "Event" directory. That is, if you want your "Blog" plugin’s
+listener classes to be automatically loaded you must place these classes as follow:
 
 ::
 
@@ -54,18 +56,18 @@ classes to be automatically loaded you must place these classes as follow:
        |- src/
           |- Controller/
           |- Event/
-             |- Listener1Hook.php
-             |- Listener2Hook.php
-             |- Listener3Hook.php
+             |- MyListener.php
+             |- AnotherListener.php
+             |- BlogListener.php
 
-All three classes (Listener1Hook, Listener2Hook and Listener3Hook) will be
-automatically loaded and registered on the ``EventManager``. In order to keep
-the things dry, we add the ``Hook`` suffix to each class name.
+All three classes (MyListener, AnotherListener and BlogListener) will be
+automatically loaded and registered on the EventManager.
 
-Dispatching Events
-==================
 
-Once your listeners classes were automatically loaded and attached, you can now
+Triggering Events
+=================
+
+Once your listeners classes were automatically loaded and registered, you can now
 start triggering events and see how your listeners respond.
 
 You can trigger events within any class you wish just by using
@@ -74,23 +76,25 @@ triggering events.
 
 By default, this trait is attached to ``QuickApps\Controller\Controller``, to
 ``QuickApps\View\View`` and to ``QuickApps\View\Helper`` classes. Means you can
-use this trigger events within any controller, any view template or within any
-helper.
+trigger events within any controller, any view template or within any helper.
 
 For example, in our "Blog" plugin example, we could have an
 ``ArticlesController.php`` that may looks as follow:
 
 .. code:: php
 
-    namespace Blog\Controller;
+    <?php
+        namespace Blog\Controller;
 
-    use QuickApps\Controller\Controller;
+        use QuickApps\Controller\Controller;
 
-    class ArticlesController extends Controller {
-        public function viewPost($id) {
-            $this->trigger('event_name', $id);
+        class ArticlesController extends Controller
+        {
+            public function viewPost($id)
+            {
+                $this->trigger('event_name', $id);
+            }
         }
-    }
 
 The ``QuickApps\Event\HookAwareTrait`` trait provides the methods: ``trigger()``,
 ``triggered()`` and ``alter()`` which are described below.
@@ -189,52 +193,63 @@ context:
 If no context is given ``$this`` will be used by default.
 
 
-"Hello World!" Example:
-=======================
+Tutorial: Creating Event Listeners
+==================================
+
+In this tutorial we'll be creating an event listener class, triggering some
+events, and see the difference between trigger() and alter() methods.
+
+Consider the following event listener class:
 
 .. code:: php
 
-    // Blog/src/event/MyEventListener.php
-    namespace Blog\Event;
+    <?php
+        // Blog/src/event/MyEventListener.php
+        namespace Blog\Event;
 
-    use Cake\Event\EventListener;
+        use Cake\Event\EventListenerInterface;
 
-    class MyEventListener implements EventListener {
-        public function implementedEvents() {
-            return [
-                'Alter.Hello' => 'alterWorld',
-                'Hello' => 'world',
-            ];
+        class MyEventListener implements EventListenerInterface
+        {
+            public function implementedEvents()
+            {
+                return [
+                    'Alter.Hello' => 'alterWorld',
+                    'Hello' => 'world',
+                ];
+            }
+
+            public function alterWorld(Event $event, &$byReference)
+            {
+                // Remember the "&" for referencing
+                $byReference .= ' World!';
+            }
+
+            public function world(Event $event, $byValue)
+            {
+                return $byValue . ' world!';
+            }
         }
 
-        public function alterWorld(Event $event, &$byReference) {
-            // Remember the "&" for referencing
-            $byReference .= ' World!';
-        }
-
-        public function world(Event $event, $byValue) {
-            return $byValue . ' world!';
-        }
-    }
-
+Once listener class is created, you can start triggering events and see how your
+handlers responds to. Wherever you are able to use trigger() and alter():
 
 .. code:: php
 
-    // Wherever you are able to use trigger() and alter():
+    <?php
+        $hello = 'Hello';
+        $this->alter('Hello', $hello);
 
-    $hello = 'Hello';
-    $this->alter('Hello', $hello);
-
-    echo $hello; // out: "Hello World!"
-    echo $this->trigger('Hello', $hello); // out: "Hello World! world!"
-    echo $this->trigger('Hello', 'hellooo'); // out: "hellooo world!"
+        echo $hello; // out: "Hello World!"
+        echo $this->trigger('Hello', $hello); // out: "Hello World! world!"
+        echo $this->trigger('Hello', 'hellooo'); // out: "hellooo world!"
 
 
 Recommended Reading
 ===================
 
-As QuickAppsCMS’s events system is built on top of CakePHP’s events system we
-highly recommend you to take a look at this part of CakePHP’s book:
+As QuickAppsCMS’s events system is built on top of CakePHP’s events system we highly
+recommend you to take a look at this part of CakePHP’s book:
 
 `CakePHP’s Events
 System <http://book.cakephp.org/3.0/en/core-libraries/events.html>`__

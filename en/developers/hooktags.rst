@@ -122,8 +122,8 @@ Now you will get:
 ``Hooktag.`` word, which means that ``{language ...}`` will trigger the
 ``Hooktag.language`` event.
 
-Example, creating a Hooktag
-===========================
+Tutorial: Creating a Hooktag
+============================
 
 Lets create a hooktag for displaying HTML content-boxes. We want our
 hooktag to be as follow:

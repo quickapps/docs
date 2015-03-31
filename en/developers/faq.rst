@@ -31,9 +31,9 @@ User tokens are random strings used by QuickAppsCMS to provide password recovery
 mechanisms, so users can recover their login credentials and then login into the
 system again.
 
-For security reasons these tokens are valid for a period of 24 hours since their are
-created, this value can be changed by defining the **USER_TOKEN_EXPIRATION** PHP
-constant in your site's **bootstrap.php** file. For instance:
+For security reasons these tokens are valid for a period of 24 hours since created,
+this value can be changed by defining the **USER_TOKEN_EXPIRATION** PHP constant in
+your site's **bootstrap.php** file. For instance:
 
 .. code:: php
 
@@ -55,12 +55,12 @@ which works only on PHP v5.4.19 or higher.
 Is there a way to send e-mails using my own SMTP server ?
 =========================================================
 
-By default all e-mail messages that are sent by QuickAppsCMS (such as user’s
-welcome message, user's password recovery instructions and so on) are sent using
-PHP’s `mail() <http://php.net//manual/en/function.mail.php>`__ function.
-Although this should be enough for most cases, you can tell QuickAppsCMS to send
-those messages using your own SMTP server, to do so, you must edit your site’s
-settings file ``/config/settings.php`` as follow:
+By default all e-mail messages that are sent by QuickAppsCMS (such as user’s welcome
+message, user's password recovery instructions, and so on) are sent using PHP’s
+`mail() <http://php.net//manual/en/function.mail.php>`__ function. Although this
+should be enough for most cases, you can tell QuickAppsCMS to send those messages
+using your own SMTP server, to do so, you must edit your site’s settings file
+``/config/settings.php`` as follow:
 
 .. code:: php
 

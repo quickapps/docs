@@ -6,4 +6,5 @@ Getting Started
 
     getting-started/what-is-quickappscms
     getting-started/installation
+    getting-started/tutorials
     getting-started/help
