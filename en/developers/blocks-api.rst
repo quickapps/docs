@@ -54,10 +54,16 @@ block being handled. For example, a "Forum" plugin has registered two Widget Blo
 in the system:
 
 - Block 1:
+   - title: Connected Users
+   - delta: "connected_users"
+   - handler: "Forum"
 
 and
 
 - Block 2
+   - title: Latest Threads
+   - delta: "latest_threads"
+   - handler: "Forum"
 
 When rendering either "Connected Users" or "Latest Threads" block the same event
 name will be triggered: ``Block.Forum.display``, event handler method should use the
