@@ -41,6 +41,7 @@ events names that could be triggered during block's life cycle, blocks event nam
 follows the pattern:
 
 .. code::
+
     Block.<handler>.<event-name>
 
 In this way plugins are able to "handle" an unlimited amount blocks. For instance
@@ -71,6 +72,7 @@ name will be triggered: ``Block.Forum.display``, event handler method should use
 for instance:
 
 .. code:: php
+
     <?php
         // Forum/Event/ForumHook.php
         namespace Forum\Event;
@@ -139,6 +141,7 @@ registering a new block is just as easy as creating a new entity in this table, 
 instance:
 
 .. code:: php
+
     <?php
         use Cake\ORM\TableRegistry;
 
@@ -183,6 +186,7 @@ displayed in the block when it is rendered. To do so, we must simply catch the e
 and return all the form inputs we want to provide to users:
 
 .. code:: php
+
     <?php
         // Blog/Event/BlogHook.php
         namespace Blog\Event;
@@ -210,6 +214,7 @@ and return all the form inputs we want to provide to users:
         }
 
 .. code:: php
+
     <?php
         // Blog/Template/Element/block_latest_articles_settings.ctp
         echo $this->Form->input('articles_limit', [
@@ -233,6 +238,7 @@ any view. A block object can be rendered at any time within a view by using the 
 ``View::render()`` method, for instance:
 
 .. code:: php
+
     <?php
         // some_view.ctp
         use Cake\ORM\TableRegistry;
@@ -248,6 +254,7 @@ Although this is possible, blocks are usually rendered as part of theme regions 
 described in the :doc:`designers <designers/themes>` guide:
 
 .. code:: php
+
     <?php
         // renders all blocks within this region (and current theme)
         echo $this->region('some-region-name');
@@ -259,6 +266,7 @@ rendering a block as described before. You must catch this event and render the
 given block as HTML, we’ll add an event handler method this our ``BlogHook`` class:
 
 .. code:: php
+
     <?php
         // Blog/Event/BlogHook.php
         namespace Blog\Event;
@@ -302,6 +310,7 @@ given block as HTML, we’ll add an event handler method this our ``BlogHook`` c
         }
 
 .. code:: php
+
     <!-- Forum/Template/Element/block_latest_articles_display.ctp -->
 
     <h2>Latest Articles</h2>
