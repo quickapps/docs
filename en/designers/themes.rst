@@ -230,7 +230,7 @@ Color and Font inputs
 ---------------------
 
 In addition to standard form inputs such as text boxes, check boxes, etc;
-QuickAppsCMS two handy form inputs as described below.
+QuickAppsCMS provides two handy form inputs as described below.
 
 Color Picker
 ~~~~~~~~~~~~
@@ -239,9 +239,9 @@ Color Picker
   :alt: Color picker widget example
   :align: center
 
-Provides a simple HEX color picker. Useful when you want to allow users to change
-some colors of your theme (background color, font color, etc). To provide this form
-input you should do as follow:
+Provides a simple HEX color picker. Useful when you want allow users to change some
+colors of your theme (background color, font color, etc). To provide this form input
+you should do as follow:
 
 .. code:: php
 
