@@ -30,6 +30,7 @@ Or using the ``quickapps()`` global function:
 
     quickapps('<option>');
 
+
 normalizePath(string $path, string $ds = DIRECTORY_SEPARATOR)
 --------------------------------------------------------------
 
@@ -55,6 +56,7 @@ second argument:
 
 By defaults uses DIRECTORY_SEPARATOR as symbol.
 
+
 quickapps(string $key = null)
 -----------------------------
 
@@ -64,6 +66,7 @@ For example, ``quickapps('variables');`` maps to
 ``Configure::read('QuickApps.variables');``. If this function is used
 with no arguments, ``quickapps()``, the entire snapshot will be
 returned.
+
 
 option(string $name, mixed $default = false)
 --------------------------------------------
@@ -80,10 +83,38 @@ this function will return ``false``.
 
     option('site_slogan');
 
+
+plugin(string $plugin = null)
+-----------------------------
+
+Shortcut for "Plugin::get()"
+
+**Example:**
+
+.. code:: php
+
+    $specialSetting = plugin('MyPlugin')->settings['special_setting'];
+
+
+theme(string $name = null)
+--------------------------
+
+Gets the given (or in use) theme as a package object.
+
+.. code:: php
+
+    // current theme
+    $bgColor = theme()->settings['background_color'];
+
+    // specific theme
+    $bgColor = theme('BlueTheme')->settings['background_color'];
+
+
 listeners()
 -----------
 
 Returns a list of all registered event listeners in the system.
+
 
 packageSplit(string $name, bool $camelize)
 ------------------------
@@ -117,6 +148,7 @@ values for $direction are ``up`` or ``down``.
     array_move(['a', 'b', 'c'], 1, 'up');
     // returns: ['a', 'c', 'b']
 
+
 php_eval(string $code, array $args = [])
 -----------------------------------------
 
@@ -138,11 +170,13 @@ call.
     echo php_eval('<?php return "Hello {$world}!"; ?>', ['world' => 'WORLD']);
     // output: Hello WORLD
 
+
 get_this_class_methods(string $class)
 ----------------------------------------
 
 Return only the methods for the given object. It will strip out
 inherited methods.
+
 
 str_replace_once(string $search, string $replace, string $subject)
 --------------------------------------------------------------------
@@ -156,6 +190,7 @@ Replace the first occurrence only.
     echo str_replace_once('A', 'a', 'AAABBBCCC');
     // out: aAABBBCCC
 
+
 str_replace_last(string $search, string $replace, string $subject)
 --------------------------------------------------------------------
 
@@ -167,6 +202,7 @@ Replace the last occurrence only.
 
     echo str_replace_once('A', 'a', 'AAABBBCCC');
     // out: AAaBBBCCC
+
 
 str_starts_with(string $haystack, string $needle)
 ---------------------------------------------------
@@ -180,6 +216,7 @@ Check if $haystack string starts with $needle string.
     str_starts_with('lorem ipsum', 'lo'); // true
     str_starts_with('lorem ipsum', 'ipsum'); // false
 
+
 str_ends_with(string $haystack, string $needle)
 -------------------------------------------------
 
@@ -192,8 +229,9 @@ Check if $haystack string ends with $needle string.
     str_ends_with('lorem ipsum', 'm'); // true
     str_ends_with('dolorem sit amet', 'at'); // false
 
+
 language(string $key = null)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------
 
 Retrieves information for current language.
 
@@ -237,6 +275,7 @@ Accepted keys are:
 .. code:: php
 
     <?php echo $this->Html->image('Locale.flags/' . language('icon')); ?>
+
 
 user()
 ------
