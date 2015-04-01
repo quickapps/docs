@@ -16,10 +16,11 @@ be placed on the page, and control the visibility of blocks on each page.
 Blocks Anatomy
 ==============
 
-Block objects are simple ORM Entities within the "blocks" table. Each time a Custom
-Block is created in the blocks administration area a new entity is added to this
-table. Plugins may create Widget Blocks during their installation process by
-manually inserting new records to this table.
+Block objects are simple Entities objects within the "blocks" table
+(Block\Model\Entity\Block). Each time a Custom Block is created in the blocks
+administration area a new entity is added to this table. Plugins may create Widget
+Blocks during their installation process by manually inserting new records to this
+table.
 
 A Block entity objects holds the following properties:
 
@@ -46,10 +47,10 @@ the pattern:
 
     Block.<handler>.<event-name>
 
-In this way plugins are able to "handle" an unlimited amount blocks. For instance
-when rendering a block the ``Block.<handler>.display`` event is automatically
-triggered and the Plugin which defined that block should catch the event and render
-the given block.
+In this way plugins are able to register and "handle" an unlimited amount blocks.
+For instance when rendering a block the ``Block.<handler>.display`` event is
+automatically triggered and the Plugin which defined that block should catch the
+event and render the given block.
 
 As the same event names are triggered for different blocks within the same
 "handler", you should use block's ``delta`` property for distinguish between each
@@ -138,7 +139,7 @@ creating this block, please check the Plugins documentation for further informat
 For this example, we’ll consider **Blog** as our plugin, and we’ll be creating a
 block which should display the latest X articles created in our Blog plugin.
 
-A block is just an Entity object within the "blocks" (Block.Block) table,
+A block is just an Entity object within the "blocks" (Block.Blocks) table,
 registering a new block is just as easy as creating a new entity in this table, for
 instance:
 
@@ -147,7 +148,7 @@ instance:
     <?php
         use Cake\ORM\TableRegistry;
 
-        $newBlock = TableRegistry::get('Block.Block')->newEntity([
+        $newBlock = TableRegistry::get('Block.Blocks')->newEntity([
             'title' => 'Latest Articles',
             'handler' => 'Blog',
             'delta' => 'latest_articles',
@@ -156,7 +157,7 @@ instance:
             ]
         ]);
 
-        TableRegistry::get('Block.Block')->save($newBlock);
+        TableRegistry::get('Block.Blocks')->save($newBlock);
 
 NOTE
     This step is usually performed on plugin installation process. Check the
@@ -166,8 +167,8 @@ NOTE
 Controlling Block Life Cycle
 ----------------------------
 
-Once our block is registered on "blocks" it will appear in your site's Blocks
-Management page (/admin/block/manage); it will be placed under the "Unused or
+Once our block is registered on the "blocks" table it will appear in your site's
+Blocks Management page (/admin/block/manage); it will be placed under the "Unused or
 Unassigned Blocks" tab so users can assign it to some theme's region.
 
 The most important phases (events) whereby a Block can pass through are ``display``
@@ -181,12 +182,12 @@ Block Settings
 
 Blocks settings are handled by the ``Block.<handler>.settings`` event, this event is
 aimed to provide additional form input elements that users can tweak in the Block's
-editing page. You must simply catch this event and return all inputs elements you
-want to provide to users.
+editing page. You must simply catch this event and return all the form inputs
+elements you want to provide to users.
 
 In our example, we want to allow users to indicate how many articles should be
-displayed in the block when it is rendered. To do so, we must simply catch the event
-and return all the form inputs we want to provide to users:
+displayed in the block when it gets rendered. To do so, we must simply catch the
+event and return all the form inputs we want to provide to users:
 
 .. code:: php
 
@@ -231,13 +232,16 @@ and return all the form inputs we want to provide to users:
             ]
         ]);
 
+NOTE
+    In other to keep things dry we placed all HTML code in separated view-element.
+
 
 Block Rendering
 ~~~~~~~~~~~~~~~
 
 Now the final and most important step is the block rendering process, this is the
 part when a block object is "converted" into HTML code to be presented to users in
-any view. A block object can be rendered at any time within a view by using the the
+some view. A block object can be rendered at any time within a view by using the the
 ``View::render()`` method, for instance:
 
 .. code:: php
@@ -246,11 +250,14 @@ any view. A block object can be rendered at any time within a view by using the 
         // some_view.ctp
         use Cake\ORM\TableRegistry;
 
-        $block = TableRegistry::get('Block.Block')
+        // fetch block object from DB
+        $block = TableRegistry::get('Block.Blocks')
             ->find()
             ->where(['handler' => 'Blog', 'delta' => 'latest_articles'])
             ->limit(1)
             ->first();
+
+        // render the block
         echo $this->render($block);
 
 Although this is possible, blocks are usually rendered as part of theme regions as
