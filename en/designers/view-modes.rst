@@ -85,7 +85,6 @@ action:
         // some controller
         public function myAction()
         {
-            // action logic
             $this->viewMode('machine-name');
         }
 
