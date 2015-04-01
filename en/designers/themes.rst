@@ -235,6 +235,10 @@ QuickAppsCMS two handy form inputs as described below.
 Color Picker
 ~~~~~~~~~~~~
 
+.. image:: ../../themes/quickapps/static/color-picker.png
+  :alt: Color picker widget example
+  :align: center
+
 Provides a simple HEX color picker. Useful when you want to allow users to change
 some colors of your theme (background color, font color, etc). To provide this form
 input you should do as follow:
@@ -250,6 +254,10 @@ input you should do as follow:
 
 Font Panel
 ~~~~~~~~~~
+
+.. image:: ../../themes/quickapps/static/font-panel.png
+  :alt: Font panel widget example
+  :align: center
 
 Provides a simple panel for configuring CSS font styles (font family, size, etc). To
 provide this form input you should do as follow:
