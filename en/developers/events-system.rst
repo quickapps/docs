@@ -238,9 +238,9 @@ handlers responds to. Wherever you are able to use trigger() and alter():
 
     <?php
         $hello = 'Hello';
-        $this->alter('Hello', $hello);
 
-        echo $hello; // out: "Hello World!"
+        echo $hello; // out: "Hello"
+        $this->alter('Hello', $hello); // out: "Hello World!"
         echo $this->trigger('Hello', $hello); // out: "Hello World! world!"
         echo $this->trigger('Hello', 'hellooo'); // out: "hellooo world!"
 
