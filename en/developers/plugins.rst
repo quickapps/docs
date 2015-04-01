@@ -301,7 +301,7 @@ providing a series of form inputs where users may indicate certain values that w
 alter plugin’s functionalities, for example "show publish date" which would display
 article’s "publish date" when an article is being rendered.
 
-Any plugin can provide this form inputs by placing them into
+Plugins can provide these form inputs by placing them into
 ``/src/Tempalte/Element/settings.ctp``, here is where you should render all form
 elements that users will be able to teak. For our "Blog" example, this file could
 look as follow:
@@ -313,7 +313,6 @@ look as follow:
             'type' => 'checkbox',
             'label' => 'Show publish date',
         ]);
-    ?>
 
 As you can see, you must simply create all the form inputs you want to provide to
 users, you must omit ``Form::create()`` & ``Form::end()`` as they are automatically
@@ -456,6 +455,9 @@ should create the following view-elements:
 
 - PluginName/src/Template/Element/Help/help_en_US.ctp
 - PluginName/src/Template/Element/Help/help_fr_FR.ctp
+
+If no translated documentation is found for certain language then ``help.ctp`` will
+be used by default.
 
 
 Recommended Reading

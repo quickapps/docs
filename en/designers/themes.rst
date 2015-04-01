@@ -203,6 +203,88 @@ particular region; ``left-sidebar`` (human name: Left Sidebar)
 For more information please check ``QuickApps\View\View::region()``
 documentation.
 
+
+Theme Settings
+==============
+
+Themes are allowed to define a series of customizable parameters, this parameters
+can be tweaked on the administration section by users with proper permissions.
+
+For example, a "BlueTheme" theme could allow users to change site’s background color
+by providing a series of form inputs where users may pick the desired color.
+
+Themes can provide these form inputs by placing them into
+``/src/Tempalte/Element/settings.ctp``, here is where you should render all form
+elements that users will be able to teak. For our "BlueTheme" example, this file
+could look as follow:
+
+.. code:: php
+
+    <?php
+        echo $this->Form->input('logo', [
+            'type' => 'checkbox',
+            'label' => 'Display Logo',
+        ]);
+
+Color and Font inputs
+---------------------
+
+In addition to standard form inputs such as text boxes, check boxes, etc;
+QuickAppsCMS two handy form inputs as described below.
+
+Color Picker
+~~~~~~~~~~~~
+
+Provides a simple HEX color picker. Useful when you want to allow users to change
+some colors of your theme (background color, font color, etc). To provide this form
+input you should do as follow:
+
+.. code:: php
+
+    <?php
+        echo $this->Form->input('background_color', [
+            'type' => 'color_picker',
+            'label' => 'Background Color',
+        ]);
+
+
+Font Panel
+~~~~~~~~~~
+
+Provides a simple panel for configuring CSS font styles (font family, size, etc). To
+provide this form input you should do as follow:
+
+.. code:: php
+
+    <?php
+        echo $this->Form->input('body_font', [
+            'type' => 'font_panel',
+            'label' => 'Font Style',
+        ]);
+
+
+Reading theme settings
+----------------------
+
+Once you have provided certain configurable values, you may need to read those
+values in order to change your theme’s aspect, in our "BlueTheme" example we want to
+know which the "background color" should be used when rendering each page. To read
+these values you should use the ``theme()`` function as follow:
+
+.. code:: php
+
+    <style>
+        body {
+           background-color: #<?php echo theme()->settings['background_color']; ?>;
+       }
+    </style>
+
+IMPORTANT
+    In some cases you will encounter that no values has been set for a setting key,
+    for example if user has not indicated any value for your settings yet. This can
+    be solved using the "Default Setting Values" feature described the
+    :doc:`plugins </developers/plugins>` documentation.
+
 .. meta::
     :title lang=en: Themes
     :keywords lang=en: block,blocks,regions,layout,theme,header,region
