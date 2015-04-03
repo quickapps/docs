@@ -274,7 +274,7 @@ Below, a list of available events fields handler should implement:
 NOTE
     In order to make reading more comfortable the ``Field.<FieldHandler>.Entity.``
     prefix has been trimmed from each event name listed below. For example,
-    ``display`` is actually ``Field.Field.<FieldHandler>.Entity.info``
+    ``display`` is actually ``Field.<FieldHandler>.Entity.info``
 
 
 **Instance events:**
