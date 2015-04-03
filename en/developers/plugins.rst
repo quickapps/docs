@@ -23,20 +23,24 @@ Basic structure of plugins:
 
 ::
 
-    |- Blog/
-       |- config/
-       |  |- bootstrap.php
-       |  |- routes.php
-       |- src/
-       |  |- Controller/
-       |  |- Event/
-       |  |- Model/
-       |  |- Template/
-       |     |- Element/
-       |        |- Help/
-       |- tests/
-       |- webroot/
-       |- composer.json
+    Blog/
+    ├── config/
+    │   ├── bootstrap.php
+    │   └── routes.php
+    ├── src/
+    │   ├── Controller/
+    │   ├── Event/
+    │   ├── Model/
+    │   └── Template/
+    │       └── Element/
+    │           └── Help/
+    │               └── help.ctp
+    ├── tests/
+    ├── webroot/
+    │   ├── css/
+    │   ├── img/
+    │   └── js/
+    └── composer.json
 
 Plugin’s structure is the same defined by CakePHP, the only main difference is that
 QuickAppsCMS’s plugins MUST define a ``composer.json`` file, this file is used by

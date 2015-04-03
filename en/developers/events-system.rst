@@ -52,13 +52,13 @@ listener classes to be automatically loaded you must place these classes as foll
 
 ::
 
-    |- Blog/
-       |- src/
-          |- Controller/
-          |- Event/
-             |- MyListener.php
-             |- AnotherListener.php
-             |- BlogListener.php
+    Blog/
+    └── src/
+        ├── Controller/
+        └── Event/
+            ├── MyListener.php
+            ├── AnotherListener.php
+            └── BlogListener.php
 
 All three classes (MyListener, AnotherListener and BlogListener) will be
 automatically loaded and registered on the EventManager.

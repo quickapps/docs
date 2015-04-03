@@ -114,7 +114,8 @@ they do, however you can check the API documentation for further detail.
 
 - Block.<handler>.display: When block is being rendered in some View ("__toString()" equivalent)
 - Block.<handler>.settings: For rendering Widget Block settings inputs
-- Block.<handler>.validate: Used to validate Widget Block setting values
+- Block.<handler>.settingsValidate: Used to validate Widget Block setting values
+- Block.<handler>.settingsDefaults: Used to provide default values for Widget Block setting
 - Block.<handler>.beforeSave: Before block entity is persisted in DB
 - Block.<handler>.afterSave: After block entity was persisted in DB
 - Block.<handler>.beforeDelete: Before block entity is removed from the system
