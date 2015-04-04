@@ -45,14 +45,14 @@ records into each entity under the ``_fields`` property.
             [name] => user-age,
             [label] => User Age,
             [value] => 22,
-            [raw] => null,
+            [extra] => null,
             [metadata] => [ ... ]
         ],
         [1] => [
             [name] => user-phone,
             [label] => User Phone,
             [value] => null, // no data stored
-            [raw] => null, // no data stored
+            [extra] => null, // no data stored
             [metadata] => [ ... ]
         ],
         ...
@@ -68,10 +68,10 @@ to every entity. Each field (each element under the ``_field`` key) is an object
 (Field Entity), and it have a number of properties such as ``label``, ``value``,
 etc. All properties are described below:
 
--  name: Machine-name (a.k.a slug).Schema equivalent: column name.
+-  name: Machine-name (a.k.a slug). Schema equivalent: column name.
 -  label: Human readable name of this field e.g.: ``User Last name``.
 -  value: Value for this [field, entity] tuple. (Schema equivalent: cell value)
--  extra: Raw value.
+-  extra: Extended value information.
 -  metadata: Metadata (an Entity Object).
 
    -  field_value_id: ID of the value stored in ``field_values`` table.
@@ -148,26 +148,68 @@ slug), you should use this "machine-name" prefixed with ``:``, for example:
 In this example the ``Users`` table has a custom field attached (first-name), and we
 are looking for all the users whose ``first-name`` starts with ``John``.
 
-Value vs Raw
+You can use any conjunction operator valid for your Field's data type (see "Field
+Data Types" section).
+
+
+Field Data Types
+================
+
+Field must store information using basic data types such as (int, decimal, etc),
+field information will be stored in a cells specific to that data type. Supported
+data types are:
+
+- datetime: For storage of date or datetime values.
+- decimal: For storage of floating values.
+- int: For storage of integer values.
+- text: For storage of long strings.
+- varchar: For storage of strings maximum to 255 chars length.
+
+In some cases Field Handlers may store complex information or structures not
+supported by the basic types listed above, for instance collections of values,
+objects, etc. In those cases you can use the ``extra`` property as described in
+section below.
+
+
+Indicating field's date type
+----------------------------
+
+When creating Field Handlers (see "Field Handlers" section below) you must indicate
+which type of data your field will handle (listed above), to do this you must simply
+catch the ``Field.<handler>.Instance.info`` event and return an array indicating
+basic information about the field itself, including its type among other
+information:
+
+.. code::php
+
+    public function instanceInformation(Event $event)
+    {
+        return [
+            'type' => 'datetime',
+            // .. other options
+        ];
+    }
+
+
+Value vs Extra
 ==============
 
 In the "Entity Example" above you might notice that each field attached to entities
-has two properties that looks pretty similar, ``value`` and ``raw``, as both are
+has two properties that looks pretty similar, ``value`` and ``extra``, as both are
 intended to store information. Here we explain the "why" of this.
 
-Field Handlers may store complex information or structures. For example,
-``AlbumField`` handler may store a list of photos for each entity. In those cases
-you should use the ``raw`` property to store your array list of photos, while
-``value`` property should always store a Human-Readable representation of your
-field’s value.
+Example: Using the "extra" property
+-----------------------------------
 
-In the ``AlbumField`` example described above, we could store an array list of file
-names and titles for a given entity under the ``raw`` property. And we could save
-photo’s titles as space-separated values under ``value`` property:
+For example, an ``AlbumField`` handler may store a list of photos for each entity.
+In those cases you should use the ``extra`` property to store your array list of
+photos. We could store an array list of file names and titles for a given entity
+under the ``extra`` property, and we could save photo’s titles as space-separated
+values under ``value`` property:
 
 .. code:: php
 
-    // raw:
+    // extra:
     [photos] => [
         ['title' => 'OMG!', 'file' => 'omg.jpg'],
         ['title' => 'Look at this, lol', 'file' => 'cats-fighting.gif'],
@@ -178,27 +220,21 @@ photo’s titles as space-separated values under ``value`` property:
     "OMG! Look at this lol Fuuuu"
 
 In our example when rendering an entity with ``AlbumField`` attached to it,
-``AlbumField`` should use ``raw`` information to create a representation of itself,
-while ``value`` information would acts like some kind of ``words index`` when using
-``Searching over custom fields`` feature described above.
+``AlbumField`` should use ``extra`` information to create a representation of
+itself, while ``value`` information would acts like some kind of ``words index``
+when using ``Searching over custom fields`` feature described above.
 
-**Important:**
+IMPORTANT
+  -  FieldableBehavior automatically serializes & unserializes the ``extra``
+     property for you, so you should always treat ``extra`` as an array or object.
 
--  FieldableBehavior automatically serializes & unserializes the ``raw`` property
-   for you, so you should always treat ``raw`` as an array.
-
--  ``Search over custom fields`` feature described above uses the ``value`` property
-   when looking for matches. So in this way your entities can be found when using
-   Field’s machine-name in WHERE clauses.
-
--  Using ``raw`` is not mandatory, for instance your Field Handler could use an
-   additional table schema to store entities information and leave ``raw`` as NULL.
-   In that case, your Field Handler must take care of joining entities with that
-   external table.
+  -  ``Search over custom fields`` feature described above uses the ``value``
+     property when looking for matches. So in this way your entities can be found
+     when using Field’s machine-name in WHERE clauses.
 
 SUMMARIZING
-    ``value`` is intended to store ``plain text`` information suitable for searches,
-    while ``raw`` is intended to store sets of complex information.
+    ``value`` is intended to store basic typed information suitable for searches,
+    while ``extra`` CAB be used to store sets of complex information.
 
 
 Enable/Disable Field Attachment
@@ -349,21 +385,52 @@ should override with your own logic:
         // ...
     }
 
-Check this class’s documentation for deeper information.
+**Check this class’s documentation for deeper information.**
 
 
-Preparing Field Inputs
-----------------------
+Field Information
+-----------------
+
+Field can indicate some configuration parameters by implementing the
+``Field.<handler>.Instance.info`` event. QuickAppsCMS may asks for information about
+each registered Field in the system, you must simply catch this event and return an
+array as ``option`` => ```value``. Valid options are:
+
+- type (string): The type of value this field will handle (defaults to
+  ``varchar``). Valid types are:
+
+  - datetime
+  - decimal
+  - int
+  - text
+  - varchar
+
+- name (string): The name of the handler this field will respond to. e.g.
+  ``TextField`` for handling the storage of plain text information. Defaults to the
+  name of the class **excluding** name space.
+
+- description (string): Brief description about the field itself. Defaults to the
+  name of the class **excluding** name space.
+
+- hidden (string): True indicates that users cannot configure this field trough the
+  administration section (Field UI). Defaults to ``false`` (users can configure).
+
+- maxInstances (int): Maximum number instances of this field a table can have. Set
+  to **zero (0) to indicates no limits**. Defaults to 0.
+
+
+Edit Mode
+---------
 
 Your Field Handler should somehow render some form elements (inputs, selects,
-textareas, etc) when rendering Table’s Entities in ``edit mode``. For this we have
-the ``Field.<FieldHandler>.Entity.edit`` event, which should return a HTML code
-containing all the form elements for [entity, field_instance] tuple.
+textareas, etc) when rendering Table’s Entities in ``edit mode`. For this we have
+the ``Field.<FieldHandler>.Entity.edit`` event, which should return HTML code
+containing all the form elements for the field attached to certain entity.
 
-For example, lets suppose we have a ``TextField`` attached to the ``Users`` Table
-for storing their ``favorite-food``, and now we are editing some specific ``User``
-Entity (i.e.: User.id = 4), so in the editing form page we should see some inputs
-for change some values like ``username`` or ``password``, and also we should see a
+For example, lets suppose we have a ``TextField`` attached to ``Users`` Table for
+storing their ``favorite-food``, and now we are editing some specific ``User``
+Entity (i.e.: User.id = 4). In the editing form page we should see some inputs for
+change some values like ``username`` or ``password``, and also we should see a
 ``favorite-food`` input where Users shall type in their favorite food. Well, your
 TextField Handler should print something like this:
 
@@ -417,19 +484,21 @@ The above may produce a $_POST array like below:
     ...
     :other_field => ...,
 
-**Remember**, you should always rely on ``View::elements()`` for rendering HTML
-code, instead printing HTML code directly from PHP you should place your HTML
-code into a view element and render it using ``View`` class. All events related
-to rendering tasks (such as "edit", "display", etc) have their subject set to
-the view instance being used, this means you could do as follow:
 
-.. code:: php
+REMEMBER
+    You should always rely on ``View::elements()`` for rendering HTML
+    code, instead printing HTML code directly from PHP you should place your HTML
+    code into a view element and render it using ``View`` class. All events related
+    to rendering tasks (such as "edit", "display", etc) have their subject set to
+    the view instance being used, this means you could do as follow:
 
-    public function editTextField(Event $event, $field)
-    {
-        $view = $event->subject();
-        return $view->element('text_field_edit', ['field' => $field]);
-    }
+    .. code:: php
+
+        public function editTextField(Event $event, $field)
+        {
+            $view = $event->subject();
+            return $view->element('text_field_edit', ['field' => $field]);
+        }
 
 Creating an Edit Form
 ---------------------
@@ -462,17 +531,18 @@ usually you'll end creating some loop structure and render all of them at once:
         <?php echo $this->Form->input($field); ?>
     <?php endforeach; ?>
 
-As you may see, ``Form::input()`` **automagically fires** the
+The``Form::input()`` method **automagically fires** the
 ``Field.<FieldHandler>.Entity.edit`` event asking to the corresponding Field Handler
 for its HTML form elements. Passing the Field object to ``Form::input()`` is not
 mandatory, you can manually generate your input elements:
 
 .. code:: html
 
-    <input name=":<?= $field->name; ?>" value="<?= $field->value; ?>" />
+    <input name=":<?php echo $field->name; ?>" value="<?php echo $field->value; ?>" />
 
-The ``$user`` variable used in these examples assumes you used ``Controller::set()``
-method in your controller.
+NOTE
+    The ``$user`` variable used in these examples assumes you used
+    ``Controller::set()`` method in your controller.
 
 A more complete example:
 
@@ -491,11 +561,14 @@ A more complete example:
         <?php echo $this->Form->hidden('id'); ?>
         <?php echo $this->Form->input('username'); ?>
         <?php echo $this->Form->input('password'); ?>
+
         <!-- Custom Fields -->
         <?php foreach ($user->_fields as $field): ?>
+            <!-- This triggers "Field.{$field->metadata->handler}.Entity.edit" -->
             <?php echo $this->Form->input($field); ?>
         <?php endforeach; ?>
         <!-- /Custom Fields -->
+
         <?php echo $this->Form->submit('Save User'); ?>
     <?php echo $this->Form->end(); ?>
 
@@ -547,7 +620,8 @@ Requirements
 -  You must define ``$_manageTable`` property in your controller.
 -  Your Controller must be a backend-controller (under ``Controller\Admin`` namespace).
 
-An exception will be raised if any of the requirements described above has not accomplished.
+An exception will be raised if any of the requirements described above has not
+accomplished.
 
 .. meta::
     :title lang=en: Field API

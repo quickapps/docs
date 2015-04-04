@@ -29,7 +29,8 @@ all Event names the class will handle. For example:
 .. code:: php
 
     <?php
-        public function implementedEvents() {
+        public function implementedEvents()
+        {
             return [
                 'User.beforeLogin' => 'userBeforeLogin',
                 'User.afterLogin' => 'userAfterLogin',
@@ -117,7 +118,8 @@ instance:
 
 .. code:: php
 
-    public function implementedEvents() {
+    public function implementedEvents()
+    {
         return ['GetTime' => 'handlerForGetTime'];
     }
 
@@ -176,7 +178,8 @@ Your ``Event Listener`` must implement the event name ``Alter.Time``:
 
 .. code:: php
 
-    public function implementedEvents() {
+    public function implementedEvents()
+    {
         return ['Alter.Time' => 'handlerForAlterTime'];
     }
 
@@ -239,8 +242,8 @@ handlers responds to. Wherever you are able to use trigger() and alter():
     <?php
         $hello = 'Hello';
 
-        echo $hello; // out: "Hello"
-        $this->alter('Hello', $hello); // out: "Hello World!"
+        $this->alter('Hello', $hello);
+        echo $hello // out: "Hello World!"
         echo $this->trigger('Hello', $hello); // out: "Hello World! world!"
         echo $this->trigger('Hello', 'hellooo'); // out: "hellooo world!"
 
