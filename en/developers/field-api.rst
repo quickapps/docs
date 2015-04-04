@@ -166,12 +166,12 @@ data types are:
 - varchar: For storage of strings maximum to 255 chars length.
 
 In some cases Field Handlers may store complex information or structures not
-supported by the basic types listed above, for instance collections of values,
-objects, etc. In those cases you can use the ``extra`` property as described in
-section below.
+supported by the basic types listed above and out of the scope of relational
+databases, for instance collections of values, objects, etc. In those cases you can
+use the ``extra`` property as described in section below.
 
 
-Indicating field's date type
+Indicating field's data type
 ----------------------------
 
 When creating Field Handlers (see "Field Handlers" section below) you must indicate
@@ -396,8 +396,8 @@ Field can indicate some configuration parameters by implementing the
 each registered Field in the system, you must simply catch this event and return an
 array as ``option`` => ```value``. Valid options are:
 
-- type (string): The type of value this field will handle (defaults to
-  ``varchar``). Valid types are:
+- type (string): The type of value this field will handle (defaults to ``varchar``).
+  Valid types are (see "Field Data Types" for more information):
 
   - datetime
   - decimal
