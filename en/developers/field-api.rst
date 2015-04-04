@@ -156,8 +156,8 @@ Field Data Types
 ================
 
 Field must store information using basic data types such as (int, decimal, etc),
-field information will be stored in a cells specific to that data type. Supported
-data types are:
+field information will be stored in table cells specific to that data type.
+Supported data types are:
 
 - datetime: For storage of date or datetime values.
 - decimal: For storage of floating values.
