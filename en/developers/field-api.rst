@@ -256,10 +256,10 @@ Field Handlers
 ==============
 
 Field Handler are :doc:`event listener <events-system>` classes which must take care
-of storing, organizing and retrieving information for each entity’s field. All this
-is archived using QuickAppsCMS’s
-:doc:`events system <events-system>`. Filed handlers belongs always to a plugin,
-which must define them as event listeners classes under its "Events" directory. For
+of storing, organizing and retrieving information for each entity’s field. Field
+handlers are always defined by some plugin, they cannot exists by their own, which
+plugins must define them as event listeners classes under its "Events" directory. In
+this way they will be automatically loaded and attached to the EventMnager. For
 instance:
 
 ::
@@ -284,7 +284,7 @@ groups or "events subspaces":
    "instance being detached from table", "new instance attached to table", etc.
 
 Where ``<FieldHandler>`` is an arbitrary name of your choice, it must be unique
-across the entire system. e.g. `TextField`, `ImageField`, `AlgumField`, etc. This
+across the entire system. e.g. `TextField`, `ImageField`, `AlbumField`, etc. This
 name must be provided as described in "Field Information" section.
 
 TIP
@@ -342,11 +342,10 @@ NOTE
 Creating Field Handlers
 -----------------------
 
-As we mention early, Field Handler are simply Event Listeners classes which should
+As we mention early, Field Handler are just Event Listeners classes which should
 respond to the enormous list of event names described above. In order to make this
-task easier you can simply create a new Event Listener class and extend
-``Field\BaseHandler`` class, so instead of implementing the EvenListener interface
-you should simply extend this class.
+task easier you can simply extend the ``Field\BaseHandler`` class instead of
+implementing the EvenListener interface.
 
 For instance, we could create a ``Date`` Field Handler, aimed to provide a date
 picker for every entity this field is attached to. You must create a new Event
@@ -380,8 +379,9 @@ should override with your own logic:
             return 'HTML representation of $field';
         }
 
-        public function entityBeforeSave(Event $event, $entity, $field, $options)
+        public function entityBeforeSave(Event $event, $field, $options)
         {
+            $field->set('value', $options['_post']);
             return true;
         }
 
