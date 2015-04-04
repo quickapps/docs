@@ -180,7 +180,7 @@ catch the ``Field.<handler>.Instance.info`` event and return an array indicating
 basic information about the field itself, including its type among other
 information:
 
-.. code::php
+.. code:: php
 
     public function instanceInformation(Event $event)
     {
