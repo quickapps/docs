@@ -10,6 +10,7 @@ Developers
     developers/blocks-api
     developers/field-api
     developers/search-api
+    developers/notifications-api
     developers/core-libraries
     developers/versioning-policy
     developers/faq
