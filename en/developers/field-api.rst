@@ -421,6 +421,9 @@ and return an array as ``option`` => ``value``. Valid options are:
 - maxInstances (int): Maximum number instances of this field a table can have. Set
   to **zero (0) to indicates no limits**. Defaults to 0.
 
+- searchable (bool): Whether this field can be searched using the `Searching Over
+  Custom Fields` feature described above or not. Defaults to `true` (search enable).
+
 
 Edit Mode
 ---------
