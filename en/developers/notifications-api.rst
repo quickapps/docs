@@ -70,7 +70,7 @@ extending this class and overwrite the ``send()`` method as described below:
         }
     }
 
-Similar to controllers, uou can load and use any Model within your message class
+Similar to controllers, you can load and use any Model within your message class
 methods:
 
 
