@@ -168,7 +168,7 @@ data types are:
 In some cases Field Handlers may store complex information or structures not
 supported by the basic types listed above and out of the scope of relational
 databases, for instance collections of values, objects, etc. In those cases you can
-use the ``extra`` property as described in section below.
+use the ``extra`` property as described in sections below.
 
 
 Indicating field's data type
@@ -195,9 +195,9 @@ See "Field Information" to see a list of all supported options.
 Value vs Extra
 ==============
 
-In the "Entity Example" above you might notice that each field attached to entities
-has two properties that looks pretty similar, ``value`` and ``extra``, as both are
-intended to store information. Here we explain the "why" of this.
+You might notice that each field attached to entities has two properties that looks
+pretty similar, ``value`` and ``extra``, as both are intended to store information.
+Here we explain the "why" of this.
 
 Example: Using the "extra" property
 -----------------------------------
@@ -227,7 +227,8 @@ when using ``Searching over custom fields`` feature described above.
 
 IMPORTANT
   -  FieldableBehavior automatically serializes & unserializes the ``extra``
-     property for you, so you should always treat ``extra`` as an array or object.
+     property for you, so you should always treat ``extra`` as an array or object
+     (or any serializable structure).
 
   -  ``Search over custom fields`` feature described above uses the ``value``
      property when looking for matches. So in this way your entities can be found
@@ -235,7 +236,7 @@ IMPORTANT
 
 SUMMARIZING
     ``value`` is intended to store basic typed information suitable for searches,
-    while ``extra`` CAB be used to store sets of complex information.
+    while ``extra`` CAN be used to store sets of complex information.
 
 
 Enable/Disable Field Attachment
@@ -283,7 +284,8 @@ groups or "events subspaces":
    "instance being detached from table", "new instance attached to table", etc.
 
 Where ``<FieldHandler>`` is an arbitrary name of your choice, it must be unique
-across the entire system. e.g. `TextField`, `ImageField`, `AlgumField`, etc
+across the entire system. e.g. `TextField`, `ImageField`, `AlgumField`, etc. This
+name must be provided as described in "Field Information" section.
 
 TIP
     A good practice is to use the name of your event listener class as "handler
@@ -392,10 +394,10 @@ should override with your own logic:
 Field Information
 -----------------
 
-Field can indicate some configuration parameters by implementing the
+Fields are allowed to indicate some configuration parameters by implementing the
 ``Field.<handler>.Instance.info`` event. QuickAppsCMS may asks for information about
-each registered Field in the system, you must simply catch this event and return an
-array as ``option`` => ```value``. Valid options are:
+each registered Field in the system when needed, you must simply catch this event
+and return an array as ``option`` => ``value``. Valid options are:
 
 - type (string): The type of value this field will handle (defaults to ``varchar``).
   Valid types are (see "Field Data Types" for more information):
