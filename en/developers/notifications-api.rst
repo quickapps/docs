@@ -23,7 +23,7 @@ QuickAppsCMS comes with a few built-in messages:
 - canceled
 - passwordRequest
 
-You can use send messages of these types by invoking as class methods:
+You can send messages of these types by invoking as they were class methods:
 "NotificationManager::welcome()", "NotificationManager::activated()", etc.
 
 
