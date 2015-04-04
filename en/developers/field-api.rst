@@ -190,6 +190,7 @@ information:
         ];
     }
 
+See "Field Information" to see a list of all supported options.
 
 Value vs Extra
 ==============
