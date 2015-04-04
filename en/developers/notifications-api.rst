@@ -132,6 +132,8 @@ If you need to provide customized variables you must overwrite the
         {
             // parse built-in variables
             $text = parent::_parseVariables($text);
+
+            // parse custom variables and return resulting text
             return str_replace([
                 '{{user:age}}',
                 '{{user:favorite-food}}',
