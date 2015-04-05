@@ -8,6 +8,7 @@ Developers
     developers/hooktags
     developers/plugins
     developers/blocks-api
+    developers/eav-api
     developers/field-api
     developers/search-api
     developers/notifications-api

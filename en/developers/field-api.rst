@@ -14,8 +14,7 @@ and presented to final users.
 
 Any Table (Nodes, Users, etc.) can use Field API to make itself ``fieldable`` and
 thus allow columns to be attached to it. To do this, the Field API defines two
-primary data structures, ``FieldInstance`` and ``FieldValue``, which will be
-described in next sections:
+primary data structures, ``FieldInstance`` and ``FieldValue``:
 
 -  FieldInstance: is a Field attached to a single Table. (Schema equivalent: column)
 
