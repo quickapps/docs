@@ -1,22 +1,27 @@
 Field API
 #########
 
-The Fields API allows additional fields to be attached to Tables. Any Table (Nodes,
-Users, etc.) can use Field API to make itself ``fieldable`` and thus allow fields to
-be attached to it.
+NOTE
+    Field API is built on top of EAV API, so please consider reading :doc:`EAV API
+    documentation <eav-api>` before continue.
 
-The Field API defines two primary data structures, ``FieldInstance`` and
-``FieldValue``:
+Field API is built on top of EAV API. They both work pretty similar as they both
+allows to attach additional information to tables. However, the main difference
+between this two APIs is that Field API allows you to create more complex data
+structures; it was designed to control every aspect of the information being
+managed, from how the information is stored in in DB to how information is rendered
+and presented to final users.
+
+Any Table (Nodes, Users, etc.) can use Field API to make itself ``fieldable`` and
+thus allow columns to be attached to it. To do this, the Field API defines two
+primary data structures, ``FieldInstance`` and ``FieldValue``, which will be
+described in next sections:
 
 -  FieldInstance: is a Field attached to a single Table. (Schema equivalent: column)
 
 -  FieldValue: is the stored data for a particular [FieldInstance, Entity] tuple of
    your Table. (Schema equivalent: cell value)
 
-**In other words:** Field API allows you to add **additional columns** to your table
-schema without actually alter the physical schema of your tables. Which is known as
-`EAV model
-<http://en.wikipedia.org/wiki/Entity%E2%80%93attribute%E2%80%93value_model>`__
 
 Making a table "fieldable"
 ==========================
@@ -27,8 +32,8 @@ Simply by attaching the ``FieldableBehavior`` to any table will make it fieldabl
 
     $this->addBehavior('Field.Fieldable');
 
-This behavior modifies each query of your table in order to merge custom fields
-records into each entity under the ``_fields`` property.
+This behavior modifies each entity fetched from DB and merges custom fields records
+into each entity's ``_fields`` property.
 
 **Entity Example:**
 
@@ -74,31 +79,33 @@ etc. All properties are described below:
 -  extra: Extended value information.
 -  metadata: Metadata (an Entity Object).
 
-   -  field_value_id: ID of the value stored in ``field_values`` table.
-   -  field_instance_id: ID of field instance (``field_instances`` table) attached
-      to the table.
-   -  entity_id: ID of the Entity this field is attached to.
+   -  value_id: ID of the value stored in ``eav_values`` table.
+   -  instance_id: ID of field instance (``field_instances`` table) attached to the
+      table.
+   -  instance_name: Same as "name" key.
    -  table_alias: Name of the table this field is attached to. e.g: ``users``.
-   -  description: Something about this field: e.g.: "Type in your name".
+   -  bundle: Bundle name within "table_alias" to which this field belongs to.
+   -  handler: Name of the Field Handler.
+   -  entity_id: ID of the Entity (User, Article, etc) this field is attached to.
+   -  type: value's data type (datetime, decimal, int, text or varchar)
    -  required: true or false.
+   -  description: Something about this field: e.g.: "Type in your name".
    -  settings: Any extra information array handled by this particular field.
    -  view_modes: Information about how this field should be rendered on each View
       Mode. Information is stored as ``view-mode-name`` => ``rendering-
       information``.
-   -  handler: Name of the Field Handler.
    -  entity: Entity reference to which field is attached to.
    -  errors: Array of validation error messages, only on edit mode.
 
-**Notes:**
+NOTES
+    -  The ``metadata`` key on every field is actually an entity object. So you
+       should access its properties as ``$field->metadata->get('settings')``.
 
--  The ``metadata`` key on every field is actually an entity object. So you should
-   access its properties as ``$field->metadata->get('settings')``.
-
--  The ``_field`` key which holds all the fields is actually an instance of
-   ``Field/Utility/FieldCollection``, which behaves as an array (so you can iterate
-   over it). It adds some utility methods for handling fields, for instance, it
-   allows you to access an specific field by its corresponding numeric index or by
-   its machine-name.
+    -  The ``_field`` key which holds all the fields is actually an instance of
+       ``Field/Utility/FieldCollection``, which behaves as an array (so you can
+       iterate over it). It adds some utility methods for handling fields, for
+       instance, it allows you to access an specific field by its corresponding
+       numeric index or by its machine-name.
 
 Accessing Field Properties
 ==========================
@@ -134,15 +141,14 @@ The above example and the one below are equivalents:
 Searching Over Custom Fields
 ============================
 
-Fieldable Behavior allows you to perform WHERE clauses using any of the fields
-attached to your table. Every attached field has a "machine-name" (a.k.a. field
-slug), you should use this "machine-name" prefixed with ``:``, for example:
+Same as in EAV API, you to perform WHERE clauses using any of the fields attached to
+your table. Every attached field has a "machine-name" (a.k.a. field slug):
 
 .. code:: php
 
     TableRegistry::get('Users')
         ->find()
-        ->where(['Users.:first-name LIKE' => 'John%'])
+        ->where(['Users.first-name LIKE' => 'John%'])
         ->all();
 
 In this example the ``Users`` table has a custom field attached (first-name), and we
@@ -302,9 +308,8 @@ Below, a list of available events fields handler should implement:
 
 -  display: When an entity is being rendered.
 -  edit: When an entity is being rendered in ``edit`` mode. (backend usually).
+-  validate: Triggered when validating each Field.
 -  beforeFind: Before an entity is retrieved from DB.
--  beforeValidate: Before entity is validated as part of save operation.
--  afterValidate: After entity is validated as part of save operation.
 -  beforeSave: Before entity is saved.
 -  afterSave: After entity was saved.
 -  beforeDelete: Before entity is deleted.
@@ -421,8 +426,36 @@ and return an array as ``option`` => ``value``. Valid options are:
 - maxInstances (int): Maximum number instances of this field a table can have. Set
   to **zero (0) to indicates no limits**. Defaults to 0.
 
-- searchable (bool): Whether this field can be searched using the `Searching Over
-  Custom Fields` feature described above or not. Defaults to `true` (search enable).
+- searchable (bool): Whether this field can be used in SQL's WHERE clauses.
+
+
+**EXAMPLE:**
+
+.. code:: php
+
+    Blog\Event;
+
+    use Cake\Event\Event;
+    use Field\BaseHandler;
+
+    class BlogDateField extends BaseHandler
+    {
+
+        /**
+         * {@inheritDoc}
+         */
+        public function instanceInfo(Event $event)
+        {
+            return [
+                'type' => 'datetime',
+                'name' => 'BlogDate',
+                'description' => 'Provides date picker to blogs.',
+                'hidden' => false,
+                'maxInstances' => 0,
+                'searchable' => true,
+            ];
+        }
+    }
 
 
 Edit Mode
@@ -442,38 +475,28 @@ TextField Handler should print something like this:
 
 .. code:: html
 
-    // note the `:` prefix
-    <input name=":favorite-food" value="<current_value_from_entity>" />
+    <input name="favorite-food" value="<current_value>" />
 
 To accomplish this, your Field Handler should properly catch the
 ``Field.<FieldHandler>.Entity.edit`` event, example:
 
 .. code:: php
 
-    public function entityEdit(Event $event, $field)
+    public function entityEdit(Event $event, Field $field)
     {
-      return '<input name=":' . $field->name . '" value="' . $field->value . '" />";
+      return '<input name="' . $field->name . '" value="' . $field->value . '" />";
     }
 
 As usual, the second argument ``$field`` contains all the information you will need
-to properly render your form inputs.
-
-You must tell to QuickAppsCMS that the fields you are sending in your POST action
-are actually virtual fields. To do so, all your input’s ``name`` attributes **must
-be prefixed** with ``:`` followed by its machine name (a.k.a. ``slug``):
+to properly render your form inputs. You may also create complex data structures
+like so:
 
 .. code:: html
 
-    <input name=":<machine-name>" ... />
-
-You may also create complex data structures like so:
-
-.. code:: html
-
-    <input name=":album.name" value="<current_value>" />
-    <input name=":album.photo.0" value="<current_value>" />
-    <input name=":album.photo.1" value="<current_value>" />
-    <input name=":album.photo.2" value="<current_value>" />
+    <input name="album.name" value="<current_value>" />
+    <input name="album.photo.0" value="<current_value>" />
+    <input name="album.photo.1" value="<current_value>" />
+    <input name="album.photo.2" value="<current_value>" />
 
 The above may produce a $_POST array like below:
 
@@ -520,7 +543,7 @@ usually you would do something like so:
 
 When rendering virtual fields you can pass the whole Field Object to
 ``FormHelper::input()`` method. So instead of passing the input name as first
-argument (as above) you can do as follow:
+argument (as above example) you can do as follow:
 
 .. code:: php
 
@@ -544,7 +567,7 @@ mandatory, you can manually generate your input elements:
 
 .. code:: html
 
-    <input name=":<?php echo $field->name; ?>" value="<?php echo $field->value; ?>" />
+    <input name="<?php echo $field->name; ?>" value="<?php echo $field->value; ?>" />
 
 NOTE
     The ``$user`` variable used in these examples assumes you used
@@ -594,8 +617,9 @@ fields by attaching a series of actions over a ``clean`` controller.
 **Usage:**
 
 Beside adding ``use FieldUIControllerTrait;`` to your controller you MUST also
-indicate the name of the Table being managed using the ``$_manageTable`` property.
-For example:
+indicate the name of the table being managed using the ``$_manageTable`` property,
+you must set this property to any valid table alias within your system (dot notation
+is also allowed). For example:
 
 .. code:: php
 
@@ -607,12 +631,12 @@ For example:
     class MyCleanController extends MyPluginAppController
     {
         use FieldUIControllerTrait;
-        protected $_manageTable = 'user_photos';
+        protected $_manageTable = 'User.UserPhotos';
     }
 
 In the example above, ``MyCleanController`` will be used to manage all fields
-attached to the ``user_photos`` table. You can now access your controller as usual
-and you will see Field API UI in action.
+attached to the ``User.UserPhotos`` table. You can now access your controller as
+usual and you will see Field API UI in action.
 
 IMPORTANT
     In order to avoid trait collision you MUST always ``extend`` Field UI using
