@@ -170,7 +170,7 @@ Controlling Block Life Cycle
 
 Once our block is registered on the "blocks" table it will appear in your site's
 Blocks Management page (/admin/block/manage); it will be placed under the "Unused or
-Unassigned Blocks" tab so users can assign it to some theme's region.
+Unassigned Blocks" tab so users can assign it to theme regions.
 
 The most important phases (events) whereby a Block can pass through are ``display``
 (Block.<handler>.display) and ``settings`` (Block.<handler>.settings). The first
@@ -235,6 +235,9 @@ event and return all the form inputs we want to provide to users:
 
 NOTE
     In other to keep things dry we placed all HTML code in separated view-element.
+    As always in QuickAppsCMS, those event related to view-rendering tasks have have
+    set their subject to the View instance being used in current request:
+    ``$event->subject()``
 
 
 Block Rendering
@@ -274,7 +277,7 @@ described in the :doc:`designers </designers/themes>` guide:
 Whatever the method is used to render the block, this process is completed using the
 ``Block.<handler>.display`` event, this event is automatically triggered when
 rendering a block as described before. You must catch this event and render the
-given block as HTML, we’ll add an event handler method this our ``BlogHook`` class:
+given block as HTML, we’ll add an event handler method to our ``BlogHook`` class:
 
 .. code:: php
 
@@ -319,6 +322,10 @@ given block as HTML, we’ll add an event handler method this our ``BlogHook`` c
                 }
             }
         }
+
+REMEMBER
+    As the same event is triggered for rendering different blocks within a Handler,
+    you must check ``$block->delta`` in order to know which block is being rendered.
 
 .. code:: php
 
