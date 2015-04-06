@@ -69,7 +69,7 @@ support the following keys:
   ``datetime``, ``integer`` (or "int"), ``decimal`` or ("dec"), `text` and
   ``varchar`` (or "string"). Defaults to **varchar**
 
-- bundle (string): Indicates the attribute belongs a that bundle name within the
+- bundle (string): Indicates the attribute belongs to a bundle name within the
   table, check the "Bundles" section for further information. Defaults to **null**
   (no bundle).
 
@@ -104,7 +104,7 @@ they were conventional table columns, for example in any controller:
     ]
 
 You can use your EAV attributes as usual; you can apply validation rules, use them
-in your **WHERE** clauses, etc:
+in your **WHERE** clauses, create form inputs, save entities, etc:
 
 .. code:: php
 
@@ -132,7 +132,7 @@ have different attributes depending to which bundle they belongs to:
     $this->addColumn('page-body', ['type' => 'text', 'bundle' => 'page']);
 
 We have defined two different columns for two different bundles, ``article`` and
-``plain``, now we can find Page entities of certain type by using the special option
+``page``, now we can find Page entities of certain type by using the special option
 ``bundle`` in your "find()" method:
 
 .. code:: php
