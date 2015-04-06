@@ -16,7 +16,7 @@ commonly used pieces of logic.
 
     Stores some bootstrap-handy information into a persistent file.
 
-    Information is stored in ``SITE/tmp/snapshot.php`` file, it contains
+    Information is stored in ``TMP/snapshot.php`` file, it contains
     useful information such as installed languages, content types slugs,
     etc. You can read this information using ``Configure::read()`` as follow::
 
@@ -255,7 +255,7 @@ constants. Most of the following constants refer to paths in your application.
 .. php:const:: CORE_LOCALE
 
     Language in which QuickAppsCMS’s core was written. This value is commonly used
-    as fallback language and should NEVER be changed! alto. Defaults to ``en_US``
+    as fallback language and should NEVER be changed!. Defaults to ``en_US``
 
 
 .. meta::
