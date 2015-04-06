@@ -55,8 +55,7 @@ Defining Attributes
 -------------------
 
 Once EAV behavior is attached to your table, you can now start defining virtual
-columns using the method ``addColumn()``, **you should do this just once**,
-otherwise you will end adding new columns every time the script is executed:
+columns using the method ``addColumn()``:
 
 .. code:: php
 
@@ -78,6 +77,11 @@ support the following keys:
 
 - extra (array): Any additional information given as an array or serialiable
   element. Defaults to NULL.
+
+.. warning::
+
+    You should do this just once otherwise you will end adding new columns every
+    time the script is executed
 
 
 Fetching Entities

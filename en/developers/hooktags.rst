@@ -79,7 +79,7 @@ user. Attribute names are always converted to lowercase before they are passed i
 the handler function. Values are untouched. {some_hooktag Foo="bAr"} produces $atts
 = array('foo' => 'bAr').
 
-.. note::
+.. warning::
 
     Don't use camelCase or UPPER-CASE for your $atts attribute names.
 
@@ -118,7 +118,7 @@ Now you will get:
 
     Current language code is:
 
-.. note::
+.. warning::
 
     As we mention before, Events names are prefixed with ``Hooktag.`` word, which
     means that ``{language ...}`` will trigger the ``Hooktag.language`` event.
@@ -166,8 +166,8 @@ As first step we must create a hooktag listener class, which would listen for
         }
     }
 
-Now we must define the event handler method which should receive
-hooktag’s information and convert it into HTML:
+Now we must define the event handler method which should receive hooktag’s
+information and convert it into HTML:
 
 .. code:: php
 

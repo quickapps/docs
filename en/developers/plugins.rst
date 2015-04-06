@@ -267,9 +267,9 @@ When plugins are enabled or disabled the following events are triggered:
 
 The names of these events should be descriptive enough to let you know what they do.
 
-.. note::
+.. warning::
 
-    Plugin’s assets are not accessible when plugins are disabled, which means
+    Plugin’s **assets are not accessible** when plugins are disabled, which means
     anything within the ``/webroot`` directory of your plugin will not be accessible
     via URL.
 
@@ -319,8 +319,8 @@ look as follow:
         ]);
 
 As you can see, you must simply create all the form inputs you want to provide to
-users, you must omit ``Form::create()`` & ``Form::end()`` as they are automatically
-created by QuickAppsCMS.
+users, **you must omit** ``Form::create()`` & ``Form::end()`` as they are
+automatically created by QuickAppsCMS.
 
 Reading settings values
 -----------------------
@@ -343,7 +343,8 @@ should use the ``QuickApps\Core\Plugin`` class as follow:
 Default Setting Values
 ----------------------
 
-You can provide default values for each of your settings keys using the event below:
+You can provide default values for each of your settings keys by implementing the
+event:
 
 ::
 
@@ -393,9 +394,10 @@ so for example you may need an users to type in only integer values for certain
 setting parameter. To validate these inputs you must use the
 ``Plugin.<PluginName>.settingsValidate`` event which is automatically triggered
 before plugin information is persisted into DB. Event listeners methods should
-expect two arguments: an entity as first arguments representing all settings values,
-and an instance of validator object being used, you should alter this object as
-needed to add your own validation rules. For example:
+expect two arguments: an array as first arguments representing all settings values
+to be validated, and an instance of validator object that will be used to validate
+that those values, you should alter the provided validator object as needed to add
+your own validation rules. For example:
 
 .. code:: php
 
