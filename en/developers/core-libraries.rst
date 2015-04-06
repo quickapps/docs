@@ -1,295 +1,262 @@
 Core Libraries
 ##############
 
-QuikcAppsCMS features a number of global convenience functions that may
-come in handy. Most of this functions are used by QuickAppsCMS's core
-classes, but many others make working with arrays or strings a little
-easier.
+QuikcAppsCMS features a number of global convenience functions that may come in
+handy. Most of this functions are used by QuickAppsCMS's core classes, but many
+others make working with arrays or strings a little easier.
 
 Global Constants and Functions
 ==============================
 
-snapshot()
-----------
+Here are QuickAppsCMS’s globally available functions. Most of them are just
+convenience wrappers for other core plugin functionalities, or shortcuts for
+commonly used pieces of logic.
 
-Stores some bootstrap-handy information into a persistent file.
+.. php:function:: snapshot()
 
-Information is stored in ``SITE/tmp/snapshot.php`` file, it contains
-useful information such as installed languages, content types slugs,
-etc.
+    Stores some bootstrap-handy information into a persistent file.
 
-You can read this information using ``Configure::read()`` as follow:
+    Information is stored in ``SITE/tmp/snapshot.php`` file, it contains
+    useful information such as installed languages, content types slugs,
+    etc. You can read this information using ``Configure::read()`` as follow::
 
-.. code:: php
+        Configure::read('QuickApps.<option>');
 
-    Configure::read('QuickApps.<option>');
+    Or using the ``quickapps()`` global function::
 
-Or using the ``quickapps()`` global function:
+        quickapps('<option>');
 
-.. code:: php
 
-    quickapps('<option>');
+.. php:function:: normalizePath(string $path, string $ds = DIRECTORY_SEPARATOR)
 
+    Normalizes the given file system path, makes sure that all DIRECTORY_SEPARATOR
+    are the same, so you won't get a mix of "/" and "\\" in your paths::
 
-normalizePath(string $path, string $ds = DIRECTORY_SEPARATOR)
---------------------------------------------------------------
+        normalizePath('/some/path\to/some\\thing\about.zip');
+        // output: /some/path/to/some/thing/about.zip
 
-Normalizes the given file system path, makes sure that all
-DIRECTORY_SEPARATOR are the same, so you won't get a mix of "/" and "\\"
-in your paths.
+    You can indicate which "directory separator" symbol to use using the second
+    argument::
 
-**Example:**
+        normalizePath('/some/path\to//some\thing\about.zip', '\\');
+        // output:
+        \some\path\to\some\thing\about.zip
 
-.. code:: php
+    By defaults uses DIRECTORY_SEPARATOR as symbol.
 
-    normalizePath('/some/path\to/some\\thing\about.zip');
-    // output: /some/path/to/some/thing/about.zip
 
-You can indicate which "directory separator" symbol to use using the
-second argument:
+.. php:function:: quickapps(string $key = null)
 
-.. code:: php
+    Shortcut for reading QuickApps’s snapshot configuration.
 
-    normalizePath('/some/path\to//some\thing\about.zip', '\\');
-    // output:
-    \some\path\to\some\thing\about.zip
+    For example, ``quickapps('variables');`` maps to
+    ``Configure::read('QuickApps.variables');``. If this function is used with no
+    arguments, ``quickapps()``, the entire snapshot will be returned.
 
-By defaults uses DIRECTORY_SEPARATOR as symbol.
 
+.. php:function:: option(string $name, mixed $default = false)
 
-quickapps(string $key = null)
------------------------------
+    Shortcut for getting an option value from "options" DB table.
 
-Shortcut for reading QuickApps’s snapshot configuration.
+    The second arguments, $default, is used as default value to return if no value
+    is found. If not value is found and not default values was given this function
+    will return ``false``::
 
-For example, ``quickapps('variables');`` maps to
-``Configure::read('QuickApps.variables');``. If this function is used
-with no arguments, ``quickapps()``, the entire snapshot will be
-returned.
+        option('site_slogan');
 
 
-option(string $name, mixed $default = false)
---------------------------------------------
+.. php:function:: plugin(string $plugin = null)
 
-Shortcut for getting an option value from "options" DB table.
+    Shortcut for "Plugin::get()"::
 
-The second arguments, $default, is used as default value to return if no
-value is found. If not value is found and not default values was given
-this function will return ``false``.
+        $specialSetting = plugin('MyPlugin')->settings['special_setting'];
 
-**Example:**
 
-.. code:: php
+.. php:function:: theme(string $name = null)
 
-    option('site_slogan');
+    Gets the given (or in use) theme as a package object::
 
+        // current theme
+        $bgColor = theme()->settings['background_color'];
 
-plugin(string $plugin = null)
------------------------------
+        // specific theme
+        $bgColor = theme('BlueTheme')->settings['background_color'];
 
-Shortcut for "Plugin::get()"
 
-**Example:**
+.. php:function:: listeners()
 
-.. code:: php
+    Returns a list of all registered event listeners in the system.
 
-    $specialSetting = plugin('MyPlugin')->settings['special_setting'];
 
+.. php:function:: packageSplit(string $name, bool $camelize)
 
-theme(string $name = null)
---------------------------
+    Splits a composer package syntax into its vendor and package name. Commonly used
+    like `list($vendor, $package) = packageSplit($name);`. Example::
 
-Gets the given (or in use) theme as a package object.
+        list($vsendor, $package) = packageSplit('some-vendor/this-package', true);
+        echo "{$vendor} : {$package}";
+        // prints: SomeVendor : ThisPackage
 
-.. code:: php
 
-    // current theme
-    $bgColor = theme()->settings['background_color'];
+.. php:function:: array_move(array $list, integer $index, string $direction)
 
-    // specific theme
-    $bgColor = theme('BlueTheme')->settings['background_color'];
+    Moves up or down the given element by index from a list array of elements.
 
+    If item could not be moved, the original list will be returned. Valid values for
+    $direction are ``up`` or ``down``::
 
-listeners()
------------
+        array_move(['a', 'b', 'c'], 1, 'up');
+        // returns: ['a', 'c', 'b']
 
-Returns a list of all registered event listeners in the system.
 
+.. php:function:: php_eval(string $code, array $args = [])
 
-packageSplit(string $name, bool $camelize)
-------------------------
+    Evaluate a string of PHP code.
 
-Splits a composer package syntax into its vendor and package name.
+    This is a wrapper around PHP’s eval(). It uses output buffering to capture both
+    returned and printed text. Unlike eval(), we require code to be surrounded by
+    tags; in other words, we evaluate the code as if it were a stand-alone PHP file.
 
-Commonly used like `list($vendor, $package) = packageSplit($name);`
+    Using this wrapper also ensures that the PHP code which is evaluated can not
+    overwrite any variables in the calling code, unlike a regular eval() call::
 
-**Example:**
+        echo php_eval('<?php return "Hello {$world}!"; ?>', ['world' => 'WORLD']);
+        // output: Hello WORLD
 
-.. code:: php
 
-    list($vsendor, $package) = packageSplit('some-vendor/this-package', true);
-    echo "{$vendor} : {$package}";
-    // prints: SomeVendor : ThisPackage
+.. php:function:: get_this_class_methods(string $class)
 
+    Return only the methods for the given object. It will strip out inherited
+    methods.
 
-array_move(array $list, integer $index, string $direction)
------------------------------------------------------------
 
-Moves up or down the given element by index from a list array of
-elements.
+.. php:function:: str_replace_once(string $search, string $replace, string $subject)
 
-If item could not be moved, the original list will be returned. Valid
-values for $direction are ``up`` or ``down``.
+    Replace the first occurrence only::
 
-**Example:**
+        echo str_replace_once('A', 'a', 'AAABBBCCC');
+        // out: aAABBBCCC
 
-.. code:: php
 
-    array_move(['a', 'b', 'c'], 1, 'up');
-    // returns: ['a', 'c', 'b']
+.. php:function:: str_replace_last(string $search, string $replace, string $subject)
 
+    Replace the last occurrence only::
 
-php_eval(string $code, array $args = [])
------------------------------------------
+        echo str_replace_once('A', 'a', 'AAABBBCCC');
+        // out: AAaBBBCCC
 
-Evaluate a string of PHP code.
 
-This is a wrapper around PHP’s eval(). It uses output buffering to
-capture both returned and printed text. Unlike eval(), we require code
-to be surrounded by tags; in other words, we evaluate the code as if it
-were a stand-alone PHP file.
+.. php:function:: str_starts_with(string $haystack, string $needle)
 
-Using this wrapper also ensures that the PHP code which is evaluated can
-not overwrite any variables in the calling code, unlike a regular eval()
-call.
+    Check if $haystack string starts with $needle string::
 
-**Usage:**
+        str_starts_with('lorem ipsum', 'lo'); // true
+        str_starts_with('lorem ipsum', 'ipsum'); // false
 
-.. code:: php
 
-    echo php_eval('<?php return "Hello {$world}!"; ?>', ['world' => 'WORLD']);
-    // output: Hello WORLD
+.. php:function:: str_ends_with(string $haystack, string $needle)
 
+    Check if $haystack string ends with $needle string::
 
-get_this_class_methods(string $class)
-----------------------------------------
+        str_ends_with('lorem ipsum', 'm'); // true
+        str_ends_with('dolorem sit amet', 'at'); // false
 
-Return only the methods for the given object. It will strip out
-inherited methods.
 
+.. php:function:: language(string $key = null)
 
-str_replace_once(string $search, string $replace, string $subject)
---------------------------------------------------------------------
+    Retrieves information for current language.
 
-Replace the first occurrence only.
+    Useful when you need to read current language’s code, direction, etc. It will
+    return all the information if no ``$key`` is given::
 
-**Example:**
+        language('code');
+        // may return: en-us
 
-.. code:: php
+        language();
+        // may return:
+        [
+            'name' => 'English',
+            'code' => 'en-us',
+            'iso' => 'en',
+            'country' => 'US',
+            'direction' => 'ltr',
+            'icon' => 'us.gif',
+        ]
 
-    echo str_replace_once('A', 'a', 'AAABBBCCC');
-    // out: aAABBBCCC
+    Accepted keys are:
 
+    -  ``name``: Language’s name, e.g. ``English``, ``Spanish``, etc.
 
-str_replace_last(string $search, string $replace, string $subject)
---------------------------------------------------------------------
+    -  ``code``: Localized language's code, e.g. ``en-us``, ``es``, etc.
 
-Replace the last occurrence only.
+    -  ``iso``: Language’s ISO 639-1 code, e.g. ``en``, ``es``, ``fr``, etc.
 
-**Example:**
+    -  ``country``: Language’s country code, e.g. ``US``, ``ES``, ``FR``, etc.
 
-.. code:: php
+    -  ``direction``: Language writing direction, possible values are "ltr" or
+       "rtl".
 
-    echo str_replace_once('A', 'a', 'AAABBBCCC');
-    // out: AAaBBBCCC
+    -  ``icon``: Flag icon (it may be empty) e.g. ``es.gif``, ``en.gif``, icons
+       files are located in Locale plugin’s ``/webroot/img/flags/`` directory, to
+       render an icon using HtmlHelper you should do as follow:
 
 
-str_starts_with(string $haystack, string $needle)
----------------------------------------------------
+.. php:function:: user()
 
-Check if $haystack string starts with $needle string.
+    Retrieves current user’s information (logged in or not) as an entity object::
 
-**Example:**
+        $user = user();
+        echo user()->name;
+        // prints "Anonymous" if not logged in
 
-.. code:: php
 
-    str_starts_with('lorem ipsum', 'lo'); // true
-    str_starts_with('lorem ipsum', 'ipsum'); // false
+Core Definition Constants
+=========================
 
+In addition to `CakePHP’s constants <http://book.cakephp.org/3.0/en/core-libraries
+/global-constants-and-functions.html>`_, QuickAppsCMS’s provides some commonly used
+constants. Most of the following constants refer to paths in your application.
 
-str_ends_with(string $haystack, string $needle)
--------------------------------------------------
+.. php:const:: VENDOR_INCLUDE_PATH
 
-Check if $haystack string ends with $needle string.
+    Absolute path to composer's "vendor" directory where quickapps & cakephp can be
+    found. Includes trailing slash.
 
-**Example:**
+.. php:const:: SITE_ROOT
 
-.. code:: php
+    Path to site’s root directory, where "webroot" directory can be found. No
+    trailing slash.
 
-    str_ends_with('lorem ipsum', 'm'); // true
-    str_ends_with('dolorem sit amet', 'at'); // false
+.. php:const:: QUICKAPPS_CORE
 
+    Path to QuickAppsCMS’s core directory, where "src" directory can be found.
+    Includes trailing slash.
 
-language(string $key = null)
-----------------------------
+.. php:const:: USER_TOKEN_EXPIRATION
 
-Retrieves information for current language.
+    Time in seconds for how long user’s token are valid. Defaults to ``DAY`` (24
+    hours).
 
-Useful when you need to read current language’s code, direction, etc. It
-will return all the information if no ``$key`` is given.
+.. php:const:: ROLE_ID_ADMINISTRATOR
 
-**Usage:**
+    ID for "administrator" role, must match the ID stored in DB. You should never
+    change this value on production site.
 
-.. code:: php
+.. php:const:: ROLE_ID_AUTHENTICATED
 
-    language('code');
-    // may return: en-us
+    ID for "authenticated" role, must match the ID stored in DB. You should never
+    change this value on production site.
 
-.. code:: php
+.. php:const:: ROLE_ID_ANONYMOUS
 
-    language();
-    // may return:
-    [
-        'name' => 'English',
-        'code' => 'en-us',
-        'iso' => 'en',
-        'country' => 'US',
-        'direction' => 'ltr',
-        'icon' => 'us.gif',
-    ]
+    ID for "anonymous" role, must match the ID stored in DB. You should never
+    change this value on production site.
 
-Accepted keys are:
+.. php:const:: CORE_LOCALE
 
--  ``name``: Language’s name, e.g. ``English``, ``Spanish``, etc.
--  ``code``: Localized language's code, e.g. ``en-us``, ``es``, etc.
--  ``iso``: Language’s ISO 639-1 code, e.g. ``en``, ``es``, ``fr``, etc.
--  ``country``: Language’s country code, e.g. ``US``, ``ES``, ``FR``,
-   etc.
--  ``direction``: Language writing direction, possible values are "ltr"
-   or "rtl".
--  ``icon``: Flag icon (it may be empty) e.g. ``es.gif``, ``en.gif``,
-   icons files are located in Locale plugin’s ``/webroot/img/flags/``
-   directory, to render an icon using HtmlHelper you should do as
-   follow:
+    Language in which QuickAppsCMS’s core was written. This value is commonly used
+    as fallback language and should NEVER be changed! alto. Defaults to ``en_US``
 
-.. code:: php
-
-    <?php echo $this->Html->image('Locale.flags/' . language('icon')); ?>
-
-
-user()
-------
-
-Retrieves current user’s information (logged in or not) as an entity
-object.
-
-**Usage:**
-
-.. code:: php
-
-    $user = user();
-    echo user()->name;
-    // prints "Anonymous" if not logged in
 
 .. meta::
     :title lang=en: Core Libraries

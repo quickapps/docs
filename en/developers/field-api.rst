@@ -1,11 +1,8 @@
 Field API
 #########
 
-NOTE
-    Field API is built on top of EAV API, so please consider reading :doc:`EAV API
-    documentation <eav-api>` before continue.
 
-Field API is built on top of EAV API. They both work pretty similar as they both
+Field API is built on top of :doc:`EAV API <eav-api>`. They both work pretty similar as they both
 allows to attach additional information to tables. However, the main difference
 between this two APIs is that Field API allows you to create more complex data
 structures; it was designed to control every aspect of the information being
@@ -17,9 +14,13 @@ thus allow columns to be attached to it. To do this, the Field API defines two
 primary data structures, ``FieldInstance`` and ``FieldValue``:
 
 -  FieldInstance: is a Field attached to a single Table. (Schema equivalent: column)
-
 -  FieldValue: is the stored data for a particular [FieldInstance, Entity] tuple of
    your Table. (Schema equivalent: cell value)
+
+.. note::
+
+    Field API is built on top of EAV API, so please consider reading :doc:`EAV API
+    documentation <eav-api>` before continue.
 
 
 Making a table "fieldable"
@@ -96,7 +97,8 @@ etc. All properties are described below:
    -  entity: Entity reference to which field is attached to.
    -  errors: Array of validation error messages, only on edit mode.
 
-NOTES
+.. note::
+
     -  The ``metadata`` key on every field is actually an entity object. So you
        should access its properties as ``$field->metadata->get('settings')``.
 
@@ -314,7 +316,8 @@ Below, a list of available events fields handler should implement:
 -  beforeDelete: Before entity is deleted.
 -  afterDelete: After entity was deleted.
 
-NOTE
+.. note::
+
     In order to make reading more comfortable the ``Field.<FieldHandler>.Entity.``
     prefix has been trimmed from each event name listed below. For example,
     ``display`` is actually ``Field.<FieldHandler>.Entity.display``
@@ -338,7 +341,8 @@ NOTE
 -  beforeDetach: Before field is detached from Tables.
 -  afterDetach: After field is detached from Tables.
 
-NOTE
+.. note::
+
     In order to make reading more comfortable the ``Field.<FieldHandler>.Instance.``
     prefix has been trimmed from each event name listed below. For example, ``info``
     is actually ``Field.<FieldHandler>.Instance.info``
@@ -392,7 +396,9 @@ should override with your own logic:
         // ...
     }
 
-**Check this class’s documentation for deeper information.**
+.. note::
+
+    Check this class’s documentation for deeper information.
 
 
 Field Information
@@ -513,14 +519,13 @@ The above may produce a $_POST array like below:
     :other_field => ...,
 
 
-REMEMBER
+.. note::
+
     You should always rely on ``View::elements()`` for rendering HTML
     code, instead printing HTML code directly from PHP you should place your HTML
     code into a view element and render it using ``View`` class. All events related
     to rendering tasks (such as "edit", "display", etc) have their subject set to
-    the view instance being used, this means you could do as follow:
-
-    .. code:: php
+    the view instance being used, this means you could do as follow::
 
         public function editTextField(Event $event, $field)
         {
@@ -568,7 +573,8 @@ mandatory, you can manually generate your input elements:
 
     <input name="<?php echo $field->name; ?>" value="<?php echo $field->value; ?>" />
 
-NOTE
+.. note::
+
     The ``$user`` variable used in these examples assumes you used
     ``Controller::set()`` method in your controller.
 
@@ -637,7 +643,8 @@ In the example above, ``MyCleanController`` will be used to manage all fields
 attached to the ``User.UserPhotos`` table. You can now access your controller as
 usual and you will see Field API UI in action.
 
-IMPORTANT
+.. note::
+
     In order to avoid trait collision you MUST always ``extend`` Field UI using
     this trait over a ``clean`` controller. That is, an empty controller class with
     no methods (actions) defined.

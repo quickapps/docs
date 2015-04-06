@@ -1,13 +1,13 @@
 Notifications API
 #################
 
-The Notification API allows you to send emails to users. QuickAppsCMS may
-automatically sends messages, for example, welcoming message, password recovery
-instructions, etc.
+The Notification API provides a simple mechanism for sending emails to registered
+users. QuickAppsCMS may automatically sends messages, for example, welcoming message
+when new user is registered, or password recovery instructions when user request for
+this, etc.
 
 These email messages are sent using the ``User\Notification\NotificationManager``
-class, this class provides a simple mechanism for sending emails to users, its basic
-usage is described as follow:
+class, and its basic usage is described below:
 
 .. code:: php
 
@@ -23,21 +23,21 @@ QuickAppsCMS comes with a few built-in messages:
 - canceled
 - passwordRequest
 
-You can send messages of these types by invoking as they were class methods:
+You can send messages of these types by invoking them as they were class methods:
 "NotificationManager::welcome()", "NotificationManager::activated()", etc.
 
 
 Registering new messages
 ------------------------
 
-More messages can be registered (or overwritten) to this class using the
+More messages can be registered (or overwritten) within this class using the
 `addMessage()` method as follows:
 
 .. code:: php
 
     NotificationManager::addMessage('bye', 'ClassName\Extending\BaseMessage');
 
-After registered you can start sending messages of `bye` type as below:
+After registered, you can start sending messages of `bye` type as below:
 
 .. code:: php
 
@@ -49,7 +49,7 @@ Creating Message Types
 
 Messages types are handled by classes extending the base class
 ``User\Notification\Message\BaseMessage``. You can create your own messages by
-extending this class and overwrite the ``send()`` method as described below:
+extending this class and overwrite the ``send()`` method:
 
 .. code:: php
 
@@ -118,7 +118,7 @@ Notification API comes with some built-in variables:
 - {{site:login-url}}
 
 For example, the subject "Hello {{user:name}}!" will be converted to "Hello John!"
-when message is sent to John user.
+when message is send to John user.
 
 If you need to provide customized variables you must overwrite the
 ``_parseVariables()`` method as follow:
@@ -143,5 +143,7 @@ If you need to provide customized variables you must overwrite the
             ]);
         }
 
-Check ``User\Notification\Message\BaseMessage`` class documentation for more
-details.
+.. note::
+
+    Check ``User\Notification\Message\BaseMessage`` class documentation for more
+    details.

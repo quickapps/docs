@@ -1,24 +1,26 @@
 Hooktags
 ########
 
-A ``Hooktag`` is a QuickApps-specific code that lets you do nifty things
-with very little effort. Hooktags can for example print current language
-code/name or call specifics plugin/themes functions. For instance, the
-following hooktag (in any content) would show current language’s code:
+A ``Hooktag`` is a QuickApps-specific code that lets you do nifty things with very
+little effort. Hooktags can for example print current language code/name or call
+specifics plugin/themes functions. For instance, the following hooktag (in any
+content) would show current language’s code:
 
 .. code:: html
 
     {locale code /}
 
-Note: If you are a Wordpress user you will find that ``hooktags`` are
-Wordpress’s ``shorcodes`` equivalent.
+.. note::
+
+    If you are a Wordpress user you will find that ``hooktags`` are Wordpress’s
+    ``shorcodes`` equivalent.
 
 Defining Hooktags
 =================
 
-At core level a hooktag is just an event name prefixed with the ``Hooktag.``
-word, your event listeners classes must indicate which hooktags it will
-handle using the ``implementedEvents()`` method. For example:
+At core level a hooktag is just an event name prefixed with the ``Hooktag.`` word,
+your event listeners classes must indicate which hooktags it will handle using the
+``implementedEvents()`` method. For example:
 
 .. code:: php
 
@@ -36,15 +38,15 @@ handle using the ``implementedEvents()`` method. For example:
 
     //...
 
-Where ``redBox`` and ``blueBox`` are methods defined within the event
-listener class, these methods must expect four arguments:
+Where ``redBox`` and ``blueBox`` are methods defined within the event listener
+class, these methods must expect four arguments:
 
 -  **$event** (first argument): the event object that was triggered
 -  **$atts** (second argument): an associative array of attributes
--  **$content** (third argument): the enclosed content (if the hooktag
-   is used in its enclosing form)
--  **$code** (fourth argument): the hooktag name (only when it matches
-   the callback name)
+-  **$content** (third argument): the enclosed content (if the hooktag is used in
+   its enclosing form)
+-  **$code** (fourth argument): the hooktag name (only when it matches the callback
+   name)
 
 For example:
 
@@ -54,34 +56,32 @@ For example:
         // logic here, and return HTML
     }
 
-These methods are responsible of converting a hooktag (that looks as
-``{locale code /}``) into their HTML equivalent.
+These methods are responsible of converting a hooktag (that looks as ``{locale code
+/}``) into their HTML equivalent.
 
----
+.. note::
 
-**TIP:**
+    A good practice is to have all your hooktags events defined in independent
+    classes, you could also add the `Hooktag` prefix to your class name keep things
+    event more clean::
 
-A good practice is to have all your hooktags events defined in independent
-classes, you could also add the `Hooktag` prefix to your class name keep
-things event more clean:
-
-::
-
-    |- Blog/
-       |- src/
-          |- Event/
-             |- ArticlesHooktag.php
-             |- CommentsHooktag.php
+        Blog/
+        └── src/
+            └── Event/
+                ├── ArticlesHooktag.php
+                └── CommentsHooktag.php
 
 Attributes
 ----------
 
-The **$atts** array may include any arbitrary attributes that are
-specified by the user. Attribute names are always converted to lowercase
-before they are passed into the handler function. Values are untouched.
-{some_hooktag Foo="bAr"} produces $atts = array('foo' => 'bAr').
+The **$atts** array may include any arbitrary attributes that are specified by the
+user. Attribute names are always converted to lowercase before they are passed into
+the handler function. Values are untouched. {some_hooktag Foo="bAr"} produces $atts
+= array('foo' => 'bAr').
 
-**TIP: Don't use camelCase or UPPER-CASE for your $atts attribute names**
+.. note::
+
+    Don't use camelCase or UPPER-CASE for your $atts attribute names.
 
 Parsing Hooktags
 ================
@@ -92,8 +92,8 @@ any class, by defaults this trait is attached to ``QuickApps\View\View``
 which means **you can use hooktag functionalities in any template**.
 HookAwareTrait simply adds two methods: ``hooktags()`` and ``stripHooktags()``.
 
-Basically, ``hooktags()`` receives a string as only arguments and look
-for hooktags in the given text, for example, in any template you could:
+Basically, ``hooktags()`` receives a string as only arguments and look for hooktags
+in the given text, for example, in any template you could:
 
 .. code:: php
 
@@ -118,15 +118,16 @@ Now you will get:
 
     Current language code is:
 
-**Important:** As we mention before, Events names are prefixed with
-``Hooktag.`` word, which means that ``{language ...}`` will trigger the
-``Hooktag.language`` event.
+.. note::
+
+    As we mention before, Events names are prefixed with ``Hooktag.`` word, which
+    means that ``{language ...}`` will trigger the ``Hooktag.language`` event.
 
 Tutorial: Creating a Hooktag
 ============================
 
-Lets create a hooktag for displaying HTML content-boxes. We want our
-hooktag to be as follow:
+Lets create a hooktag for displaying HTML content-boxes. We want our hooktag to be
+as follow:
 
 -  Its name will be ``content_box``.
 -  Will use the ``enclosed`` form ({tag} ... {/tag}), for holding the box’s content.
@@ -145,8 +146,8 @@ To its HTML representation:
         Lorem ipsum dolor
     </div>
 
-As first step we must create a hooktag listener class, which would
-listen for ``content_box``:
+As first step we must create a hooktag listener class, which would listen for
+``content_box``:
 
 .. code:: php
 

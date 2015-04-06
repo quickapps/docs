@@ -10,8 +10,8 @@ object (Node\Model\Entity\Node). A Node represents any piece of individual conte
 such as a page, an article, forum topic, etc.
 
 Each content (node object) has an unique ID called "slug" (a.k.a "machine-name"), it
-also stores a node-type ID. These IDs are used to generate an URL to that piece
-of content, these URLs follows the pattern:
+also stores a node-type ID. These IDs are used to generate an URL to that piece of
+content, these URLs follows the pattern:
 
 ::
 
@@ -100,7 +100,8 @@ Examples:
     render_node_full.ctp
 
 
-NOTE
+.. note::
+
     To avoid collisions between ``view-mode`` names and ``node-type`` names, you
     should alway use unique and descriptive names as possible when defining new
     content types. By default, Node plugin defines the following view-modes:

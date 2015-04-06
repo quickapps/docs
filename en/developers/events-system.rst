@@ -8,18 +8,21 @@ so on etc. As an example, "User" plugin may trigger an event "user logged in",
 the rest of the plugins in the system may respond to this "signal" and act in
 consequence.
 
-NOTE: As QuickAppsCMS’s events system is built on top of CakePHP’s events system
-we recommend you to read their `documentation <http://book.cakephp.org/3.0/en
-/core-libraries/events.html>`__.
+.. note::
+
+    As QuickAppsCMS’s events system is built on top of CakePHP’s events system we
+    recommend you to read their `documentation <http://book.cakephp.org/3.0/en
+    /core-libraries/events.html>`__.
 
 Architecture
 ============
 
 QuickAppsCMS’s events system is composed of three primary elements:
 
--  Event Listener: An event listener class implementing the EventListenerInterface interface.
+-  Event Listener: An event listener class implementing the EventListenerInterface
+   interface.
 -  Event Handler: A method within your listener class which handles a single event.
--  Event: An event object that represents the event itself. e.g. ``FormHelper.input``.
+-  Event: An event object that represents the event itself. e.g. ``my_event``.
 
 All Event Listeners classes must implement the
 ``\Cake\Event\EventListenerInterface`` interface and provide the
@@ -133,74 +136,58 @@ context:
 
 If no context is given ``$this`` will be used by default.
 
-triggered(string $eventName = null)
------------------------------------
+.. php:function:: triggered(string $eventName = null)
 
-Retrieves the number of times an event was triggered, or the complete list
-of events that were triggered. For example:
+    Retrieves the number of times an event was triggered, or the complete list
+    of events that were triggered. For example::
 
-.. code:: php
+        $this->triggered('event_name');
+        // may returns: 10
 
-    $this->triggered('event_name');
-    // may returns: 10
+    If used with no arguments the full list of event and counters will be
+    returned::
 
-If used with no arguments the full list of event and counters will be
-returned:
+        $this->triggered();
+        // may produce:
+        [
+            'event_name' => 10,
+            'another_event_name' => 5,
+            ...
+            'User.loggin' => 1,
+            'Block.Menu.beforeSave' => 1,
+        ]
 
-.. code:: php
+.. php:function:: alter(mixed $eventName[, mixed $arg0, ..., mixed $arg14])
 
-    $this->triggered();
-    // may produce:
-    [
-        'event_name' => 10,
-        'another_event_name' => 5,
-        ...
-        'User.loggin' => 1,
-        'Block.Menu.beforeSave' => 1,
-    ]
+    Similar to ``trigger()`` but aimed to alter the given arguments. You can pass up
+    to 15 arguments by reference. The main difference with ``trigger()`` is that
+    ``alert()`` **will prefix event names** with the ``Alter.`` word, so invoking
+    "alter_this" will actually triggers the event name "Alter.alter_this"::
 
-alter(mixed $eventName[, mixed $arg0, ..., mixed $arg14])
----------------------------------------------------------
+        $this->alter('Time', $arg_0, $arg_0, ..., $arg_1);
 
-Similar to ``trigger()`` but aimed to alter the given arguments. You can
-pass up to 15 arguments by reference. The main difference with
-``trigger()`` is that ``alert()`` **will prefix event names** with the
-``Alter.`` word, so invoking "alter_this" will actually triggers the
-event name "Alter.alter_this"
+    Your ``Event Listener`` must implement the event name ``Alter.Time``::
 
-**Usage:**
+        public function implementedEvents()
+        {
+            return ['Alter.Time' => 'handlerForAlterTime'];
+        }
 
-.. code:: php
+    (Note the ``Alter.`` prefix).
 
-    $this->alter('Time', $arg_0, $arg_0, ..., $arg_1);
+    You can provide a context to use by passing an array as first arguments where
+    the first element is the event name and the second one is the context::
 
-Your ``Event Listener`` must implement the event name ``Alter.Time``:
+        $this->alter(['Time', new ContextObject()], $arg0, $arg1, ...);
 
-.. code:: php
-
-    public function implementedEvents()
-    {
-        return ['Alter.Time' => 'handlerForAlterTime'];
-    }
-
-(Note the ``Alter.`` prefix).
-
-You can provide a context to use by passing an array as first arguments
-where the first element is the event name and the second one is the
-context:
-
-.. code:: php
-
-    $this->alter(['Time', new ContextObject()], $arg0, $arg1, ...);
-
-If no context is given ``$this`` will be used by default.
+    If no context is given ``$this`` will be used by default.
 
 
 Tutorial: Creating Event Listeners
 ==================================
 
-In this tutorial we'll be creating an event listener class, triggering some
-events, and see the difference between trigger() and alter() methods.
+In this tutorial we'll be creating an event listener class, triggering some events,
+and see the difference between trigger() and alter() methods.
 
 Consider the following event listener class:
 

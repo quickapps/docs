@@ -160,7 +160,8 @@ instance:
 
         TableRegistry::get('Block.Blocks')->save($newBlock);
 
-NOTE
+.. note::
+
     This step is usually performed on plugin installation process. Check the
     Plugin API for more details on this process.
 
@@ -233,7 +234,8 @@ event and return all the form inputs we want to provide to users:
             ]
         ]);
 
-NOTE
+.. note::
+
     In other to keep things dry we placed all HTML code in separated view-element.
     As always in QuickAppsCMS, those event related to view-rendering tasks have have
     set their subject to the View instance being used in current request:
@@ -323,7 +325,8 @@ given block as HTML, we’ll add an event handler method to our ``BlogHook`` cla
             }
         }
 
-REMEMBER
+.. note::
+
     As the same event is triggered for rendering different blocks within a Handler,
     you must check ``$block->delta`` in order to know which block is being rendered.
 

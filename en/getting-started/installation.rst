@@ -1,8 +1,7 @@
 Installation
 ############
 
-Before continue make sure you your server meets the following
-requirements.
+Before continue make sure you your server meets the following requirements.
 
 Requirements
 ============
@@ -26,10 +25,9 @@ Requirements
 Installing QuickAppsCMS
 =======================
 
-You must install QuickAppsCMS using `composer <http://getcomposer.org>`__.
-QuickApps CMS is designed to run as a stand alone application, so you must use
-the `website skeleton <https://github.com/QuickAppsCMS/website>`__ as starting
-point.
+You must install QuickAppsCMS using `composer <http://getcomposer.org>`__. QuickApps
+CMS is designed to run as a stand alone application, so you must use the `website
+skeleton <https://github.com/QuickAppsCMS/website>`__ as starting point.
 
 Installing the web skeleton is fast and easy:
 
@@ -40,13 +38,14 @@ If Composer is installed globally, run:
 
     composer create-project -s dev quickapps/website [website_name]
 
-After composer is done visit http://your-domain.com/ to start QuickAppsCMS’s
-web installer and follow the instructions.
+After composer is done visit http://your-domain.com/ to start QuickAppsCMS’s web
+installer and follow the instructions.
 
 Getting Help
 ============
 
-If you're stuck, there are a number of places you can :doc:`get help </getting-started/help>`.
+If you're stuck, there are a number of places you can :doc:`get help </getting-
+started/help>`.
 
 .. meta::
     :title lang=en: Installation

@@ -4,17 +4,16 @@ Plugins
 What are Plugins ?
 ==================
 
-QuickAppsCMS is designed to be modular. Instead of always having every
-possible tool or feature in every site’s code, you can just have those
-you're actually going to use. QuickAppsCMS’s core —what you get when you
-install it— is like a very basic box of Lego™: a platform and some basic
-bricks (plugins) to get you started. You can do a lot with just those
-basics, but usually you'll want more.
+QuickAppsCMS is designed to be modular. Instead of always having every possible tool
+or feature in every site’s code, you can just have those you're actually going to
+use. QuickAppsCMS’s core —what you get when you install it— is like a very basic box
+of Lego™: a platform and some basic bricks (plugins) to get you started. You can do
+a lot with just those basics, but usually you'll want more.
 
-That’s where contributed plugins come in. Contributed plugins are
-packages of code that extend or enhance QuickAppsCMS’s core to add
-additional (or alternate) functionality and features. These plugins have
-been "contributed" back to the QuickAppsCMS community by their authors.
+That’s where contributed plugins come in. Contributed plugins are packages of code
+that extend or enhance QuickAppsCMS’s core to add additional (or alternate)
+functionality and features. These plugins have been "contributed" back to the
+QuickAppsCMS community by their authors.
 
 Plugins Anatomy
 ===============
@@ -48,14 +47,15 @@ QuickAppsCMS’s plugins MUST define a ``composer.json`` file, this file is used
 by QuickAppsCMS to get information about your plugins such as version number, name,
 description, etc.
 
+
 The "composer.json" file
 ------------------------
 
-Each plugin has a "composer.json" file which contains information about
-itself, such as name, description, version, etc. The schema of this file
-is the same `required by composer <https://getcomposer.org/doc/04-schema.md>`__,
-but with some additional requirements specifically for QuickAppsCMS.
-These special requirements are described below:
+Each plugin has a "composer.json" file which contains information about itself, such
+as name, description, version, etc. The schema of this file is the same `required by
+composer <https://getcomposer.org/doc/04-schema.md>`__, but with some additional
+requirements specifically for QuickAppsCMS. These special requirements are described
+below:
 
 -  key "name" must be present. A follow the pattern ``author-name/package-name``
 
@@ -67,11 +67,11 @@ These special requirements are described below:
 -  key "extra.regions" must be present if it’s a theme (its "name" ends with the
    "theme" word, e.g. "quickapps/blue-sky-theme")
 
-NOTES
+.. note::
+
     -  Plugins may behave as themes if their name ends with ``-theme``.
-    -  Plugin names are inflected from the ``name`` key, they
-       are camelized, for example for ``author-name/super-name``, plugin name
-       is ``SuperName``.
+    -  Plugin names are inflected from the ``name`` key, they are camelized, for
+       example for ``author-name/super-name``, plugin name is ``SuperName``.
 
 Dependencies
 ------------
@@ -136,8 +136,8 @@ What plugins may do
 Events triggered
 ~~~~~~~~~~~~~~~~
 
--  Plugin.<PluginName>.beforeInstall: Before plugins is registered on DB and
-   before plugin’s directory is moved to "/plugins"
+-  Plugin.<PluginName>.beforeInstall: Before plugins is registered on DB and before
+   plugin’s directory is moved to "/plugins"
 
 -  Plugin.<PluginName>.afterInstall: After plugins was registered in DB and after
    plugin’s directory was moved to "/plugins"
@@ -152,8 +152,8 @@ Uninstallation
 What QuickAppsCMS does
 ~~~~~~~~~~~~~~~~~~~~~~
 
--  Remove all related `ACOs and
-   AROs <http://book.cakephp.org/2.0/en/core-libraries/components/access-control-lists.html#understanding-how-acl-works>`__
+-  Remove all related `ACOs and AROs <http://book.cakephp.org/2.0/en/core-
+   libraries/components/access-control-lists.html#understanding-how-acl-works>`__
 -  Remove all menus created by the plugin during installation.
 -  Remove all Blocks defined by the plugin during installation.
 -  Unregister plugin from the ``plugins`` table.
@@ -196,8 +196,8 @@ pairs. This values can be read anywhere using the global function
 
 Plugins can declare this pairs on their "composer.json". When a new plugins is
 installed QuickAppsCMS moves this pairs from plugin's "composer.json" file to the
-repository mentioned before. And removes these pairs when plugin is uninstalled
-from the system.
+repository mentioned before. And removes these pairs when plugin is uninstalled from
+the system.
 
 Declaring options
 ~~~~~~~~~~~~~~~~~
@@ -231,31 +231,32 @@ function as follows:
 
 The ``autoload`` and ``value`` option are optional and their default values are
 ``false`` and ``NULL`` respectively. The `autoload` flag indicates QuickAppsCMS to
-load this value on bootstrap, if set to false (do not autoload) value will be fetched
-on-demand, that is, when ``option()`` function is used.
+load this value on bootstrap, if set to false (do not autoload) value will be
+fetched on-demand, that is, when ``option()`` function is used.
 
 
-**IMPORTANT:** You should always try to keep option names unique as possible. In
-order to avoid collisions is always a good practice to prefix plugin's options with
-plugin's name. For instance, instead of ``generic_name`` you could use
-``MyPlugin.generic_name``. During plugin installation QuickAppsCMS will raise an
-error if a collision is found and stopping the installation process.
+.. note::
+
+    You should always try to keep option names unique as possible. In order to avoid
+    collisions is always a good practice to prefix plugin's options with plugin's
+    name. For instance, instead of ``generic_name`` you could use
+    ``MyPlugin.generic_name``. During plugin installation QuickAppsCMS will raise an
+    error if a collision is found and stopping the installation process.
 
 
 Enabling & Disabling Process
 ============================
 
-Plugins can be installed and uninstalled from your system, but they can
-also be enabled or disabled. Disabled plugins have not interaction with
-the system, which means all their Event Listeners classes will not
-respond to any event, as their
+Plugins can be installed and uninstalled from your system, but they can also be
+enabled or disabled. Disabled plugins have not interaction with the system, which
+means all their Event Listeners classes will not respond to any event, as their
 `routes <http://book.cakephp.org/3.0/en/development/routing.html#plugin-routing>`__
 as well.
 
-Plugins can be disabled only if they are not required by any other
-plugins, that is, for instance if plugin ``A`` needs some
-functionalities provided by plugin ``B`` then you are not able to
-disable plugin ``B`` as plugin ``A`` would stop working properly.
+Plugins can be disabled only if they are not required by any other plugins, that is,
+for instance if plugin ``A`` needs some functionalities provided by plugin ``B``
+then you are not able to disable plugin ``B`` as plugin ``A`` would stop working
+properly.
 
 When plugins are enabled or disabled the following events are triggered:
 
@@ -264,10 +265,10 @@ When plugins are enabled or disabled the following events are triggered:
 -  ``Plugin.<PluginName>.beforeDisable``
 -  ``Plugin.<PluginName>.afterDisable``
 
-The names of these events should be descriptive enough to let you know
-what they do.
+The names of these events should be descriptive enough to let you know what they do.
 
-IMPORTANT
+.. note::
+
     Plugin’s assets are not accessible when plugins are disabled, which means
     anything within the ``/webroot`` directory of your plugin will not be accessible
     via URL.
@@ -275,9 +276,8 @@ IMPORTANT
 Update Process
 ==============
 
-Plugins can also be updated to newer versions, the update & install
-process are both very similar as they perform similar actions during
-their process.
+Plugins can also be updated to newer versions, the update & install process are both
+very similar as they perform similar actions during their process.
 
 Plugins can be updated using a ZIP package only if the current version (version
 currently installed) is older than the version in the ZIP package.
@@ -334,7 +334,8 @@ should use the ``QuickApps\Core\Plugin`` class as follow:
 
     <?php Plugin::get('Blog')->settings['show_publish_date']; ?>
 
-IMPORTANT
+.. note::
+
     In some cases you will encounter that no values has been set for a setting key,
     for example if user has not indicated any value for your settings yet. This can
     be solved using the feature described below.
@@ -460,8 +461,11 @@ should create the following view-elements:
 - PluginName/src/Template/Element/Help/help_en_US.ctp
 - PluginName/src/Template/Element/Help/help_fr_FR.ctp
 
-If no translated documentation is found for certain language then ``help.ctp`` will
-be used by default.
+
+.. note::
+
+    If no translated documentation is found for certain language then ``help.ctp``
+    will be used by default.
 
 
 Recommended Reading

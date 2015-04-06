@@ -55,7 +55,8 @@ Defining Attributes
 -------------------
 
 Once EAV behavior is attached to your table, you can now start defining virtual
-columns using the method ``addColumn()``:
+columns using the method ``addColumn()``, **you should do this just once**,
+otherwise you will end adding new columns every time the script is executed:
 
 .. code:: php
 
@@ -83,8 +84,9 @@ Fetching Entities
 -----------------
 
 After behavior is attached to your table and some virtual columns are defined, you
-will see that every Entity within that table will have additional attributes as they
-were conventional table columns, for example in any controller:
+can start fetching entities from your table as usual, using "Table::find()" or
+similar; every Entity fetched entity in this way will have additional attributes as
+they were conventional table columns, for example in any controller:
 
 .. code:: php
 
@@ -111,8 +113,10 @@ in your **WHERE** clauses, etc:
         ->where(['Users.user_age >' => 18])
         ->all();
 
-EAV API has some limitation, for instance you cannot use virtual attributes in ORDER
-BY clauses, GROUP, HAVING or any aggregation function.
+.. note::
+
+    EAV API has some limitation, for instance you cannot use virtual attributes in
+    ORDER BY clauses, GROUP BY, HAVING or any aggregation function.
 
 
 Bundles
@@ -146,7 +150,7 @@ We have defined two different columns for two different bundles, ``article`` and
         ->first();
 
     debug($firstArticle);
-
+    // out:
     [
         // ...
         'properties' => [
@@ -155,8 +159,9 @@ We have defined two different columns for two different bundles, ``article`` and
         ]
     ]
 
-    debug($firstPage);
 
+    debug($firstPage);
+    // out:
     [
         // ...
         'properties' => [
