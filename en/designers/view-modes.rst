@@ -94,12 +94,11 @@ action:
             $this->viewMode('machine-name');
         }
 
-For more information check ``QuickApps\View\ViewModeAwareTrait`` API.
-
 .. note::
 
-    QuickAppsCMS automatically sets the proper view-mode depending on the content
-    being rendered.
+    - For more information check ``QuickApps\View\ViewModeAwareTrait`` API.
+    - QuickAppsCMS automatically sets the proper view-mode depending on the content
+      being rendered.
 
 .. meta::
     :title lang=en: View Modes
