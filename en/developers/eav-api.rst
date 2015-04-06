@@ -47,24 +47,22 @@ To use the EAV API you must attach the ``Eav.EavBehavior`` to the table you wish
     {
         public function initialize(Table $table)
         {
-            $this->addBehavior('Eav.Eav', [
-                'attributes' => [
-                    'user_age' => [
-                        'type' => 'integer',
-                        'searchable' => true,
-                    ],
-                    'user_phone' => [
-                        'type' => 'string',
-                        'searchable' => false,
-                    ],
-                ]
-            ]);
+            $this->addBehavior('Eav.Eav');
         }
     }
 
-The key ``attributes`` holds a list of all attributes you wish to attach to your
-table, this list is index by attribute names and each element holds configuration
-options for each attribute, valid options are:
+Defining Attributes
+-------------------
+
+Once EAV behavior is attached to your table, you can now start defining virtual
+columns using the method ``addColumn()``:
+
+.. code:: php
+
+    $this->addColumn('my-column-name', $options);
+
+The first argument is the name of the column your are defining, and second argument
+support the following keys:
 
 - type (string): Type of data for that attribute, supported values are:
   ``datetime``, ``integer`` (or "int"), ``decimal`` or ("dec"), `text` and
@@ -77,9 +75,16 @@ options for each attribute, valid options are:
 - searchable (bool): Whether this attribute can be used in SQL's "WHERE" clauses.
   Defaults to **true**
 
-After behavior is attached to your table you will see that every Entity within that
-table will have additional attributes as they were conventional table columns, for
-example in any controller:
+- extra (array): Any additional information given as an array or serialiable
+  element. Defaults to NULL.
+
+
+Fetching Entities
+-----------------
+
+After behavior is attached to your table and some virtual columns are defined, you
+will see that every Entity within that table will have additional attributes as they
+were conventional table columns, for example in any controller:
 
 .. code:: php
 
@@ -91,8 +96,8 @@ example in any controller:
         'properties' => [
             'id' => 1, // real table column
             'name' => 'John', // real table column
-            'user_age' => 15 // EAV attribute
-            'user_phone' => '+34 256 896 200' // EAV attribute
+            'user-age' => 15 // EAV attribute
+            'user-phone' => '+34 256 896 200' // EAV attribute
         ]
     ]
 
@@ -119,40 +124,24 @@ have different attributes depending to which bundle they belongs to:
 
 .. code:: php
 
-    use Cake\ORM\Table;
+    $this->addColumn('article-body', ['type' => 'text', 'bundle' => 'article']);
+    $this->addColumn('page-body', ['type' => 'text', 'bundle' => 'page']);
 
-    class PagesTable extends Table
-    {
-        public function initialize(Table $table)
-        {
-            $this->addBehavior('Eav.Eav', [
-                'attributes' => [
-                    'article_intro' => [
-                        'type' => 'string',
-                        'bundle' => 'article',
-                    ],
-                    'article_body' => [
-                        'type' => 'text',
-                        'bundle' => 'article',
-                    ],
-                    'plain_body' => [
-                        'type' => 'text',
-                        'bundle' => 'plain',
-                    ],
-                ]
-            ]);
-        }
-    }
-
-So we have defined two bundles ``article`` and ```plain``, now we can find Page
-entities of certain type by using the special option ``bundle`` in our find()
-method:
+We have defined two different columns for two different bundles, ``article`` and
+``plain``, now we can find Page entities of certain type by using the special option
+``bundle`` in your "find()" method:
 
 .. code:: php
 
     $firstArticle = $this->Pages
         ->find('all', ['bundle' => 'article'])
-        ->where(['article_intro LIKE' => 'Lorem ipsum%'])
+        ->where(['article-body LIKE' => 'Lorem ipsum%'])
+        ->limit(1)
+        ->first();
+
+    $firstPage = $this->Pages
+        ->find('all', ['bundle' => 'page'])
+        ->where(['page-body LIKE' => '%massa quis enim%'])
         ->limit(1)
         ->first();
 
@@ -162,7 +151,16 @@ method:
         // ...
         'properties' => [
             'id' => 1,
-            'article_intro' => 'Lorem ipsum dolor sit amet',
-            'article_body' => 'Nulla consequat massa quis enim. Donec pede ...',
+            'article-body' => 'Lorem ipsum dolor sit amet ...',
+        ]
+    ]
+
+    debug($firstPage);
+
+    [
+        // ...
+        'properties' => [
+            'id' => 5,
+            'page-body' => 'Nulla consequat massa quis enim. Donec pede.',
         ]
     ]
