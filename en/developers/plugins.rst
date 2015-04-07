@@ -32,8 +32,9 @@ Basic structure of plugins:
     │   ├── Model/
     │   └── Template/
     │       └── Element/
-    │           └── Help/
-    │               └── help.ctp
+    │           ├── Help/
+    │           │   └── help.ctp
+    │           └── settings.ctp
     ├── tests/
     ├── webroot/
     │   ├── css/
