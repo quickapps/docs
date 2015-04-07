@@ -126,19 +126,19 @@ Now you will get:
 Tutorial: Creating a Hooktag
 ============================
 
-Lets create a hooktag for displaying HTML content-boxes. We want our hooktag to be
-as follow:
+In this tutorial we'll be creating a hooktag for displaying HTML content-boxes of
+different colors. We want our hooktag to be as follow:
 
 -  Its name will be ``content_box``.
 -  Will use the ``enclosed`` form ({tag} ... {/tag}), for holding the box’s content.
 -  Will accept a ``color`` parameter for specify the color of the box to render.
 -  Will be handled by the ``Blog`` plugin.
 
-Basically our hooktag must convert the code below:
+So our hooktag definition would looks as follow:
 
     {content_box color=green}Lorem ipsum dolor{/content_box}
 
-To its HTML representation:
+Which should be converted to HTML like so:
 
 .. code:: html
 
@@ -146,8 +146,11 @@ To its HTML representation:
         Lorem ipsum dolor
     </div>
 
-As first step we must create a hooktag listener class, which would listen for
-``content_box``:
+Defining the listener class
+---------------------------
+
+As first step we must create a hooktag listener class, which would listen for the
+``Hooktag.content_box`` event:
 
 .. code:: php
 
@@ -166,6 +169,9 @@ As first step we must create a hooktag listener class, which would listen for
         }
     }
 
+Creating the event handler method
+---------------------------------
+
 Now we must define the event handler method which should receive hooktag’s
 information and convert it into HTML:
 
@@ -179,7 +185,18 @@ information and convert it into HTML:
         return $return;
     }
 
-**Usage**
+.. note::
+
+    The event's subject is the View instance being used in current request, so a
+    good practice is to rely on view-elements when rendering HTML, for instance::
+
+        return $event
+            ->subject()
+            ->element('hooktag_content_box', compact('attrs', 'content', 'code'));
+
+
+Using the hooktag
+-----------------
 
 Now you should be able to use the ``content_box`` hooktag as part of any content as
 follow:
