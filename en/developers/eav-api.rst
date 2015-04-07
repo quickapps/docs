@@ -14,29 +14,34 @@ EAV API
 Introduction
 ------------
 
-You will typically use an EAV container when you have an entity (a record in ORM
-terms) that has a number of related attributes as it's children. But for every
-record, these attibutes can be different. This makes it impossible to define these
-attributes as column in the entity's table, because there would be too many, most of
-them will not have data, and you can't deal with dynamic attributes at all (because
-columns need to be pre-defined).
+.. image:: ../../themes/quickapps/static/eav-example.png
+  :alt: Typical implementation of EAV may have just three tables.
+  :align: left
+  :width: 60%
 
-To solve this issue 'relational' style, you would create a child table, and relate
-that to the 'entity' table using a One-to-Many relation, where every attribute would
-become a record in the child table. Downside of this approach however is that to be
-able to get a specific attribute value, you'll have to loop over all related
-records, compare the value of the attribute column with the attribute you look for,
-and if a match is found, get the contents of the value column.
+You will typically use an EAV pattern when you have Entities with a variable number
+of attributes, and these attributes can be of different types. This makes it
+impossible to define these attributes as column in the entity's table, because there
+would be too many, most of them will not have data, and you can't deal with dynamic
+attributes at all because columns need to be pre-defined in relational databases.
 
-The EAV API uses this same implementation, but allows you to merge the attributes
-with the entity, so the attributes become properties of the entity record, thus
-emulating the variable number of columns that is required for an EAV implementation.
+To solve this situation in a relational fashion you would create a child table, and
+relate that to the 'entity' table using a One-to-Many relation, where every
+attribute would become a record in the child table ("eav_attributes" in the image).
+Downside of this approach however is that to be able to get a specific attribute
+value, you'll have to loop over all related records, compare the value of the
+attribute column with the attribute you look for, and if a match is found, get the
+contents of the value column.
+
+QuickAppsCms's EAV API uses this same implementation, but allows you to merge these
+virtual attributes with the entity, so the attributes become properties of the
+entity object.
 
 
 Usage
 -----
 
-To use the EAV API you must attach the ``Eav.EavBehavior`` to the table you wish to
+To use the EAV API you must attach the ``Eav.Eav`` to the table you wish to
 "extend", for example:
 
 .. code:: php
