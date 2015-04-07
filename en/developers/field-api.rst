@@ -2,10 +2,10 @@ Field API
 #########
 
 
-Field API is built on top of :doc:`EAV API <eav-api>`. They both work pretty similar as they both
-allows to attach additional information to tables. However, the main difference
-between this two APIs is that Field API allows you to create more complex data
-structures; it was designed to control every aspect of the information being
+Field API is built on top of :doc:`EAV API <eav-api>`. They both work pretty similar
+as they both allows to attach additional information to tables. However, the main
+difference between this two APIs is that Field API allows you to create more complex
+data structures; it was designed to control every aspect of the information being
 managed, from how the information is stored in in DB to how information is rendered
 and presented to final users.
 

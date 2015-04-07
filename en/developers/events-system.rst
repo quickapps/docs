@@ -104,37 +104,28 @@ The ``QuickApps\Event\HookAwareTrait`` trait provides the methods: ``trigger()``
 ``triggered()`` and ``alter()`` which are described below.
 
 
-trigger(mixed $eventName[, mixed $arg0, ..., mixed $argN, ...])
----------------------------------------------------------------
+.. php:function:: trigger(mixed $eventName[, mixed $arg0, ..., mixed $argN, ...])
 
-Triggers the given event name. You can pass an unlimited number of
-arguments to your event handler method.
+    Triggers the given event name. You can pass an unlimited number of arguments to
+    your event handler method::
 
-**Usage:**
+        $this->trigger('GetTime', $arg_0, $arg_0, ..., $arg_1);
 
-.. code:: php
+    Your ``Event Listener`` must implement the ``GetTime`` event name, for
+    instance::
 
-    $this->trigger('GetTime', $arg_0, $arg_0, ..., $arg_1);
+        public function implementedEvents()
+        {
+            return ['GetTime' => 'handlerForGetTime'];
+        }
 
-Your ``Event Listener`` must implement the ``GetTime`` event name, for
-instance:
+    You can provide a context to use by passing an array as first arguments where
+    the first element is the event name and the second one is the context::
 
-.. code:: php
+        $this->trigger(['GetTime', new ContextObject()], $arg_0, $arg_0, ..., $arg_1);
 
-    public function implementedEvents()
-    {
-        return ['GetTime' => 'handlerForGetTime'];
-    }
+    If no context is given ``$this`` will be used by default.
 
-You can provide a context to use by passing an array as first arguments
-where the first element is the event name and the second one is the
-context:
-
-.. code:: php
-
-    $this->trigger(['GetTime', new ContextObject()], $arg_0, $arg_0, ..., $arg_1);
-
-If no context is given ``$this`` will be used by default.
 
 .. php:function:: triggered(string $eventName = null)
 

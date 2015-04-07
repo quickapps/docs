@@ -41,7 +41,7 @@ entity object.
 Usage
 -----
 
-To use the EAV API you must attach the ``Eav.Eav`` to the table you wish to
+To use the EAV API you must attach the ``Eav.Eav`` behavior to the table you wish to
 "extend", for example:
 
 .. code:: php
@@ -64,7 +64,20 @@ columns using the method ``addColumn()``:
 
 .. code:: php
 
-    $this->addColumn('my-column-name', $options);
+.. code:: php
+
+    use Cake\ORM\Table;
+
+    class UsersTable extends Table
+    {
+        public function initialize(Table $table)
+        {
+            $this->addBehavior('Eav.Eav');
+
+            $this->addColumn('user-age', ['type' => 'integer']);
+            $this->addColumn('user-address', ['type' => 'string']);
+        }
+    }
 
 The first argument is the name of the column your are defining, and second argument
 support the following keys:
@@ -94,8 +107,8 @@ Fetching Entities
 
 After behavior is attached to your table and some virtual columns are defined, you
 can start fetching entities from your table as usual, using "Table::find()" or
-similar; every Entity fetched entity in this way will have additional attributes as
-they were conventional table columns, for example in any controller:
+similar; every Entity fetched in this way will have additional attributes as they
+were conventional table columns. For example in any controller:
 
 .. code:: php
 

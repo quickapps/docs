@@ -12,6 +12,7 @@ Developers
     developers/field-api
     developers/search-api
     developers/notifications-api
+    developers/constants-functions
     developers/core-libraries
     developers/versioning-policy
     developers/faq
