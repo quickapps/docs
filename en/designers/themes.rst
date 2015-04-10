@@ -193,7 +193,7 @@ region limits the number of blocks it can holds to three (3):
 
     <?php
         echo $this->region('left-sidebar')
-            ->append($this->region('right-sidebar'))
+            ->merge($this->region('right-sidebar'))
             ->blockLimit(3);
 
 As you may have noticed, we always use region’s machine-name when referring to a

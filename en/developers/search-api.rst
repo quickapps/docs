@@ -162,9 +162,9 @@ e.g.:
 
 ::
 
-    // operator name is: "author"
-    // operator arguments are: ">2014-03-01"
-    date:>2014-03-01
+    // operator name is: "created"
+    // operator arguments are: "2013..2016"
+    created:2013..2016
 
 .. note::
 

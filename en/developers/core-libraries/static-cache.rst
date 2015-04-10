@@ -5,8 +5,8 @@ Static Cache
 
 .. php:trait:: StaticCacheTrait
 
-Provides simple cache functionality. Allows classes to optimize their methods by
-providing a simple `cache()` static method for reading and writing values.
+Provides simple cache functionality that allows classes to optimize their methods by
+providing a simple `cache()` static method used for reading and writing information.
 
 
 Usage

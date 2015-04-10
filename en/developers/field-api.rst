@@ -6,14 +6,14 @@ Field API is built on top of :doc:`EAV API <eav-api>`. They both work pretty sim
 as they both allows to attach additional information to tables. However, the main
 difference between this two APIs is that Field API allows you to create more complex
 data structures; it was designed to control every aspect of the information being
-managed, from how the information is stored in in DB to how information is rendered
-and presented to final users.
+managed, from how the information is stored in in DB to how it is rendered and
+presented to final users.
 
-Any Table (Nodes, Users, etc.) can use Field API to make itself ``fieldable`` and
-thus allow columns to be attached to it. To do this, the Field API defines two
-primary data structures, ``FieldInstance`` and ``FieldValue``:
+Any table (Nodes, Users, etc.) can use Field API to make itself ``fieldable`` and
+thus allow additional columns to be attached to it. To do this, the Field API
+defines two primary data structures, ``FieldInstance`` and ``FieldValue``:
 
--  FieldInstance: is a Field attached to a single Table. (Schema equivalent: column)
+-  FieldInstance: is a "Field" attached to a single Table. (Schema equivalent: column)
 -  FieldValue: is the stored data for a particular [FieldInstance, Entity] tuple of
    your Table. (Schema equivalent: cell value)
 
