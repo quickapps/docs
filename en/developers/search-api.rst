@@ -152,13 +152,12 @@ equivalent:
     $criteria = '"this phrase" OR -"not this one" AND this';
     $query = $this->Users->search($criteria);
 
-Creating Operators
-~~~~~~~~~~~~~~~~~~
+Search Operators
+----------------
 
 An ``Operator`` is a search-criteria command which allows you to perform very
-specific filter conditions over your queries. An operator **has two parts**, a
-``name`` and its ``arguments``, both parts must be separated using the ``:`` symbol
-e.g.:
+specific SQL filter conditions. An operator is composed of **two parts**, a ``name``
+and its ``arguments``, both parts must be separated using the ``:`` symbol e.g.:
 
 ::
 
@@ -173,12 +172,12 @@ e.g.:
 
 You can define custom operators for your table by using the ``addSearchOperator()``
 method. For example, you might need create a custom operator ``author`` which would
-allow you to search a ``Node`` entity by its author name``. A search-criteria using
-this operator may looks as follow:
+allow you to search an ``Article`` entity by its author name. A search-criteria
+using this operator may looks as follow:
 
 ::
 
-    // get all nodes containing `this phrase` and created by `JohnLocke`
+    // get all articles containing `this phrase` and created by `JohnLocke`
     "this phrase" author:JohnLocke
 
 You can define in your table an operator method and register it into this behavior
@@ -221,6 +220,134 @@ You can also define operator as a callable function:
             });
         }
     }
+
+
+Built-in Operator
+~~~~~~~~~~~~~~~~~
+
+QuickAppsCMS comes with a few of these operator that should cover most common use
+cases
+
+Date Operator
+^^^^^^^^^^^^^
+
+Allows to filter by date-based column types, for example, ``created``, ``modified``,
+etc. Date ranges are fully supported as follow: ``created:2014..2015``.
+
+To use this operator you should indicate the column you wish to scope as follow:
+
+.. code:: php
+
+    $this->addSearchOperator('created', 'Search.Date', ['field' => 'created_on']);
+
+Once operator is attached you should be able to filter using the ``created``
+operator in you search criteria:, for example:
+
+.. code:: php
+
+    $criteria = "created:2015..2016";
+    $this->Articles->search($criteria);
+
+Generic Operator
+^^^^^^^^^^^^^^^^
+
+Provides generic scoping for any column type. Usage:
+
+.. code:: php
+
+    $this->addSearchOperator('name', 'Search.Date', ['field' => 'name']);
+
+Supported options:
+
+-   conjunction: Indicates which conjunction type should be used when scoping the
+    column. Defaults to `auto`, accepted values are:
+
+    - LIKE: Useful when matching string values, accepts wildcard ``*`` for matching
+      "any" sequence of chars and ``!`` for matching any single char. e.g.
+      ``author:c*`` or ``author:ca!``, mixing: ``author:c!r*``.
+
+    - IN: Useful when operators accepts a list of possible values. e.g.
+      ``author:chris,carter,lisa``.
+
+    - =: Used for strict matching.
+
+    - <>: Used for strict matching.
+
+    - auto: Auto detects, it will use ``IN`` if comma symbol is found in the given
+      value, ``LIKE`` will be used otherwise. e.g. For ``author:chris,peter`` the
+      "IN" conjunction will be used, and for ``author:chris`` the "LIKE" conjunction
+      will be used instead.
+
+Limit Operator
+^^^^^^^^^^^^^^
+
+Allows to limit the number of results. Usage:
+
+.. code:: php
+
+    $this->addSearchOperator('num_articles', 'Search.Limit');
+
+Once operator is attached you should be able to filter using the ``num_articles``
+operator in you search criteria:, for example:
+
+.. code:: php
+
+    $criteria = "num_articles:6";
+    $this->Articles->search($criteria);
+
+
+Order Operator
+^^^^^^^^^^^^^^
+
+Allows to order results by given columns. When attaching this operator you must
+indicate which columns are allowed to be ordered by, for example:
+
+.. code:: php
+
+    $this->addSearchOperator('order_articles_by', 'Search.Order', [
+        'fields' => ['title', 'created_on']
+    ]);
+
+In this example, results can be sorted only by "title" and "created_on" columns.
+Once operator is attached you should be able to filter using the
+``order_articles_by`` operator in you search criteria and indicating the column and
+the ordering direction ("asc" or "desc"), if no direction is given "asc" will be
+used by default, for example:
+
+.. code:: php
+
+    $criteria = "order_articles_by:title,asc";
+    $this->Articles->search($criteria);
+
+Ordering by multiple columns is supported, in these cases each order command must be
+separated using the ``;`` symbol:
+
+.. code:: php
+
+    $criteria = "order_articles_by:title;created_on,desc";
+    $this->Articles->search($criteria);
+
+Range Operator
+^^^^^^^^^^^^^^
+
+Allows to scope results matching a given range constraint, in order words, SQL's
+``BETWEEN`` equivalent. Usage:
+
+.. code:: php
+
+    $this->addSearchOperator('comments_count', 'Search.Range', [
+        'field' => 'num_comments'
+    ]);
+
+Once operator is attached you should be able to filter using the ``comments_count``
+operator in you search criteria:, for example:
+
+.. code:: php
+
+    $criteria = "comments_count:6..10";
+    $this->Articles->search($criteria);
+
+This example should return only articles with 6 to 10 comments.
 
 
 Creating Reusable Operators

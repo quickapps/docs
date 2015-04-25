@@ -45,7 +45,7 @@ the pattern:
 
 .. code::
 
-    Block.<handler>.<event-name>
+    Block.<handler>.<eventName>
 
 In this way plugins are able to register and "handle" an unlimited amount blocks.
 For instance when rendering a block the ``Block.<handler>.display`` event is
@@ -112,14 +112,22 @@ system, several events are triggered during all different states whereby a Block
 might pass through. Event names should be descriptive enough to let you know what
 they do, however you can check the API documentation for further detail.
 
-- Block.<handler>.display: When block is being rendered in some View ("__toString()" equivalent)
-- Block.<handler>.settings: For rendering Widget Block settings inputs
-- Block.<handler>.settingsValidate: Used to validate Widget Block setting values
-- Block.<handler>.settingsDefaults: Used to provide default values for Widget Block setting
-- Block.<handler>.beforeSave: Before block entity is persisted in DB
-- Block.<handler>.afterSave: After block entity was persisted in DB
-- Block.<handler>.beforeDelete: Before block entity is removed from the system
-- Block.<handler>.afterDelete: Before block entity was removed from the system
+- Block.<handler>.display[CamelizedDelta]: When block is being rendered in some View ("__toString()" equivalent)
+- Block.<handler>.settings[CamelizedDelta]: For rendering Widget Block settings inputs
+- Block.<handler>.settingsValidate[CamelizedDelta]: Used to validate Widget Block setting values
+- Block.<handler>.settingsDefaults[CamelizedDelta]: Used to provide default values for Widget Block setting
+- Block.<handler>.beforeSave[CamelizedDelta]: Before block entity is persisted in DB
+- Block.<handler>.afterSave[CamelizedDelta]: After block entity was persisted in DB
+- Block.<handler>.beforeDelete[CamelizedDelta]: Before block entity is removed from the system
+- Block.<handler>.afterDelete[CamelizedDelta]: Before block entity was removed from the system
+
+.. note::
+
+    The ``[CamelizedDelta]`` suffix is optional, and represents the CamelizedName of
+    block's delta property. For example, ``Block.Forum.displayLatestThreads`` for a
+    block which delta equals ``latest_threads``. This events names have higher
+    priority than those without this suffix and will be triggered if they exists;
+    the unsuffixed event name will be triggered otherwise.
 
 
 Tutorial: Creating a Block
@@ -236,9 +244,9 @@ event and return all the form inputs we want to provide to users:
 
 .. note::
 
-    In other to keep things dry we placed all HTML code in separated view-element.
-    As always in QuickAppsCMS, those event related to view-rendering tasks have have
-    set their subject to the View instance being used in current request:
+    In other to keep things dry we placed all HTML code in separated view-elements.
+    As always in QuickAppsCMS, those events related to view-rendering tasks have set
+    their subject to the View instance being used in current request:
     ``$event->subject()``
 
 
@@ -274,7 +282,6 @@ described in the :doc:`designers </designers/themes>` guide:
     <?php
         // renders all blocks within this region (and current theme)
         echo $this->region('some-region-name');
-
 
 Whatever the method is used to render the block, this process is completed using the
 ``Block.<handler>.display`` event, this event is automatically triggered when
@@ -325,10 +332,7 @@ given block as HTML, we’ll add an event handler method to our ``BlogHook`` cla
             }
         }
 
-.. note::
-
-    As the same event is triggered for rendering different blocks within a Handler,
-    you must check ``$block->delta`` in order to know which block is being rendered.
+Now, the final step is to create a view-template for actually "render" our block:
 
 .. code:: php
 
@@ -340,3 +344,53 @@ given block as HTML, we’ll add an event handler method to our ``BlogHook`` cla
         <li><?php $article->get('title'); ?></li>
         <?php endforeach; ?>
     </ul>
+
+Handling Specific Blocks
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+As you can notice we have to constantly check block's delta in order to determinate
+which blocks is actually being handled every time an event is caught. In order to
+keep things dry you can create separated handlers for specific and particular
+blocks, and so keep your code legible and dry. To do this you must simply suffix
+event names with the CanemlizedName of your block's delta, for example,
+``Block.Blog.displayLatestArticles`` instead of just "Block.Blog.display". The next
+example and the one described above are equivalent:
+
+.. code:: php
+    <?php
+        // Blog/Event/BlogHook.php
+        namespace Blog\Event;
+
+        use Block\Model\Entity\Block;
+        use Cake\Event\Event;
+        use Cake\Event\EventListenerInterface;
+        use Cake\ORM\TableRegistry;
+
+        class BlogHook implements EventListenerInterface
+        {
+            public function implementedEvents()
+            {
+                return [
+                    'Block.Blog.displayLatestArticles' => 'displayLatestArticles',
+                    'Block.Blog.settingsLatestArticles' => 'settingsLatestArticles',
+                ];
+            }
+
+            public function displayLatestArticles(Event $event, Block $block, $options = [])
+            {
+                $view = $event->subject();
+                // find the latest created articles and pass them to view-element
+                $articles = TableRegistry::get('Articles.Articles')
+                    ->find()
+                    ->limit($block->settings['articles_limit'])
+                    ->order(['Articles.created' => 'DESC'])
+                    ->all();
+                return $view->element('Articles.block_latest_articles_display', compact('block', 'options', 'articles'));
+            }
+
+            public function settingsLatestArticles(Event $event, Block $block)
+            {
+                $view = $event->subject();
+                return $view->element('Blog.block_latest_articles_settings', compact('block'));
+            }
+        }

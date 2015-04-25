@@ -263,11 +263,11 @@ Field Handlers
 ==============
 
 Field Handler are :doc:`event listener <events-system>` classes which must take care
-of storing, organizing and retrieving information for each entity’s field. Field
-handlers are always defined by some plugin, they cannot exists by their own, which
-plugins must define them as event listeners classes under its "Events" directory. In
-this way they will be automatically loaded and attached to the EventMnager. For
-instance:
+of storing, organizing and retrieving information for each entity’s virtual-columns
+(fields). Field handlers are always defined by some plugin, they cannot exists by
+their own, which plugins must define them as event listeners classes under its
+"Events" directory. In this way they will be automatically loaded and attached to
+the EventMnager. For instance:
 
 ::
 
