@@ -507,25 +507,22 @@ The above may produce a $_POST array like below:
 
 .. code:: php
 
-    :album => [
-        name => Album Name,
-        photo => [
-            0 => url_image1.jpg,
-            1 => url_image2.jpg,
-            2 => url_image3.jpg
+    'album' => [
+        'name' => 'Album Name',
+        'photo' => [
+            0 => 'url_image1.jpg',
+            1 => 'url_image2.jpg',
+            2 => 'url_image3.jpg',
         ]
     ],
-    ...
-    :other_field => ...,
-
 
 .. note::
 
-    You should always rely on ``View::elements()`` for rendering HTML
-    code, instead printing HTML code directly from PHP you should place your HTML
-    code into a view element and render it using ``View`` class. All events related
-    to rendering tasks (such as "edit", "display", etc) have their subject set to
-    the view instance being used, this means you could do as follow::
+    You should always rely on ``View::element()`` when rendering HTML code. Instead
+    printing HTML code directly from PHP you should place your HTML code into a view
+    element and render it using ``View::element()`` method. All events related to
+    rendering tasks (such as "edit", "display", etc) have their subject set to the
+    view instance being used, this means you could do as follow::
 
         public function editTextField(Event $event, $field)
         {
@@ -613,7 +610,7 @@ Field API UI
 Now you know how Field API works you might need an easy way to attach, and manage
 fields for your tables. Field plugin provides an UI (user-interface) for handling
 all this tasks, Field API UI is packaged as a trait:
-``Field\Controller\FieldUIControllerTrait``, you must simply attach this trait to an
+**Field\Controller\FieldUIControllerTrait**, you must simply attach this trait to an
 empty controller and you are ready to go.
 
 With this trait, Field plugin provides an user friendly UI for manage entity’s
