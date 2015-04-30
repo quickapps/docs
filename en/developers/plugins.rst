@@ -67,10 +67,10 @@ below:
    - key ``extra.human_name`` (optional): Human readable name. e.g. "My super RSS
      reader". If not provided it will be inflected from package name.
 
--  key ``name`` must be present.
+-  key ``type`` must be present. See more at `composer website <https://getcomposer.org/doc/04-schema.md#type>`__.
 
--  key ``extra.regions`` must be present if it’s a theme (its "name" ends with the
-   "theme" word, e.g. "quickapps/blue-sky-theme")
+-  key ``extra.regions`` must be present **only if it’s a theme** (that is, its
+   "name" key ends with the "theme" word, e.g. "quickapps/blue-sky-theme")
 
 .. note::
 
