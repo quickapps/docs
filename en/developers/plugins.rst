@@ -67,9 +67,6 @@ below:
    - key ``extra.human_name`` (optional): Human readable name. e.g. "My super RSS
      reader". If not provided it will be inflected from package name.
 
--  key ``type`` must be present and be **quickapps-plugin** or **cakephp/cakephp**
-   (even if it’s a theme).
-
 -  key ``name`` must be present.
 
 -  key ``extra.regions`` must be present if it’s a theme (its "name" ends with the
