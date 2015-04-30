@@ -34,7 +34,7 @@ That means that your theme folder structure is the same :doc:`used by plugins
 between plugins and themes:
 
 1. Themes must define some particular keys in the "composer.json" schema
-2. Themes must be named using the ``Theme`` suffix.
+2. Themes must be named using the ``Theme`` suffix. e.g. "BlueTheme"
 
 The "composer.json" File
 ------------------------
@@ -44,27 +44,29 @@ theme itself, such as name, available regions, author, etc.
 
 In order to distinguish between plugins and themes, themes must suffix their names
 with the ``Theme`` word, so for example if you have a "Blog" plugin, changing its
-name to "BlogTheme" will be automatically considered as a Theme.
+name to "BlogTheme" will be automatically considered as a Theme by QuickAppsCMS.
 
-Theme’s names is inflected from the ``name`` key from composer.json schema.
+Theme’s names is inflected from the ``name`` key from composer.json schema. For
+instance, for the package name ``my-vendor-name/blue-theme`` the inflected name will
+be ``BlueTheme``.
 
 Also they must define the ``extra.regions`` key, a list of all regions your theme
 implements. Regions are defined as an associative array ``machine-name`` => ``human
 name``, machine-name is used internally when referring to a region, and human name
 is the name users will see in the administration panel when assigning blocks to a
-region.
+particular region.
 
 And optionally, they may define the ``extra.admin`` key indicating whether your
-theme is a Backend theme or not. Defaults to "false" if not given.
+theme is a Backend theme or not. Defaults to "false" if not provided.
 
-Here a full working example:
+A full working example:
 
 .. code:: json
 
     {
         "name": "quickapps-themes/basic-theme",
         "description": "QuickApps CMS theme skeleton.",
-        "type": "quickapps-plugin",
+        "type": "cakephp-plugin",
         "require": {
             "quickapps/cms": "2.0.*-dev"
         },
@@ -97,7 +99,7 @@ default layout when the page is rendered.
 
 Other layout files should be placed in ``/src/Template/Layout``. When you create a
 layout, you need to tell QuickAppsCMS where to place the output of your views. To do
-so, make sure your layout includes a place for ``$this->fetch('content')`` Here’s an
+so, make sure your layout includes a place for **$this->fetch('content')** Here’s an
 example of what a default layout might look like:
 
 .. code:: html

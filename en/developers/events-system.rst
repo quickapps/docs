@@ -100,8 +100,8 @@ For example, in our "Blog" plugin example, we could have an
             }
         }
 
-The ``QuickApps\Event\HookAwareTrait`` trait provides the methods: ``trigger()``,
-``triggered()`` and ``alter()`` which are described below.
+The ``QuickApps\Event\HookAwareTrait`` trait provides the methods: ``trigger()`` and
+``triggered()`` which are described below.
 
 
 .. php:function:: trigger(mixed $eventName[, mixed $arg0, ..., mixed $argN, ...])
@@ -148,37 +148,12 @@ The ``QuickApps\Event\HookAwareTrait`` trait provides the methods: ``trigger()``
             'Block.Menu.beforeSave' => 1,
         ]
 
-.. php:function:: alter(mixed $eventName[, mixed $arg0, ..., mixed $arg14])
-
-    Similar to ``trigger()`` but aimed to alter the given arguments. You can pass up
-    to 15 arguments by reference. The main difference with ``trigger()`` is that
-    ``alert()`` **will prefix event names** with the ``Alter.`` word, so invoking
-    "alter_this" will actually triggers the event name "Alter.alter_this"::
-
-        $this->alter('Time', $arg_0, $arg_0, ..., $arg_1);
-
-    Your ``Event Listener`` must implement the event name ``Alter.Time``::
-
-        public function implementedEvents()
-        {
-            return ['Alter.Time' => 'handlerForAlterTime'];
-        }
-
-    (Note the ``Alter.`` prefix).
-
-    You can provide a context to use by passing an array as first arguments where
-    the first element is the event name and the second one is the context::
-
-        $this->alter(['Time', new ContextObject()], $arg0, $arg1, ...);
-
-    If no context is given ``$this`` will be used by default.
-
 
 Tutorial: Creating Event Listeners
 ==================================
 
 In this tutorial we'll be creating an event listener class, triggering some events,
-and see the difference between trigger() and alter() methods.
+and see how to use the trigger() method.
 
 Consider the following event listener class:
 
@@ -195,15 +170,8 @@ Consider the following event listener class:
             public function implementedEvents()
             {
                 return [
-                    'Alter.Hello' => 'alterWorld',
                     'Hello' => 'world',
                 ];
-            }
-
-            public function alterWorld(Event $event, &$byReference)
-            {
-                // Remember the "&" for referencing
-                $byReference .= ' World!';
             }
 
             public function world(Event $event, $byValue)
@@ -212,17 +180,16 @@ Consider the following event listener class:
             }
         }
 
-Once listener class is created, you can start triggering events and see how your
-handlers responds to. Wherever you are able to use trigger() and alter():
+Once listener class is created and (automatically) attached, you can start
+triggering events and see how your handlers responds to. Wherever you are able to
+use trigger() method you could:
 
 .. code:: php
 
     <?php
         $hello = 'Hello';
 
-        $this->alter('Hello', $hello);
-        echo $hello // out: "Hello World!"
-        echo $this->trigger('Hello', $hello); // out: "Hello World! world!"
+        echo $this->trigger('Hello', $hello); // out: "Hello world!"
         echo $this->trigger('Hello', 'hellooo'); // out: "hellooo world!"
 
 
@@ -237,4 +204,4 @@ System <http://book.cakephp.org/3.0/en/core-libraries/events.html>`__
 
 .. meta::
     :title lang=en: Events System
-    :keywords lang=en: events,events system,event,trigger,hook,alter,hooktag,listeners,listener,event listener
+    :keywords lang=en: events,events system,event,trigger,hook,hooktag,listeners,listener,event listener
