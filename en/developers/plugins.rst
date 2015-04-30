@@ -58,7 +58,14 @@ composer <https://getcomposer.org/doc/04-schema.md>`__, but with some additional
 requirements specifically for QuickAppsCMS. These special requirements are described
 below:
 
--  key "name" must be present. A follow the pattern ``author-name/package-name``
+-  key "name" must be present. A follow the pattern ``author-name/package-name``.
+   This key will be used to infer a human-readable name which will be presented to
+   users in the administrative section of your web, for example, for package name
+   "john-locke/rss-feed-reader" the inflected name  will be "Rss Feed Reader".
+   However, you can define a customized human-readable name using the:
+
+   - key "extra.human_name" (optional): Human readable name. e.g. "My super RSS
+     reader". If not provided it will be inflected from package name.
 
 -  key "type" must be present and be **quickapps-plugin** or **cakephp/cakephp**
    (even if it’s a theme).
