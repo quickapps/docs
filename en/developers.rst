@@ -5,7 +5,7 @@ Developers
     :maxdepth: 1
 
     developers/events-system
-    developers/hooktags
+    developers/shortcode-api
     developers/plugins
     developers/blocks-api
     developers/eav-api
