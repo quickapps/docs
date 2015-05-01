@@ -19,10 +19,10 @@ any content) would show current language’s code:
 Defining Shortcodes
 ===================
 
-At core level a shortcode are implemented on top of Event System, so basically: a
-shortcode way to trigger events using pseudo-code. To create shortcode you must
-simply create an event listener class and indicate which shortcodes it will handle
-using the ``implementedEvents()`` method. For example:
+Shortcodes are implemented on top of Event System, so basically: a shortcode is a
+way to trigger events using pseudo-code. To create shortcode you must simply create
+an event listener class and indicate which shortcodes it will handle using the
+``implementedEvents()`` method. For example:
 
 .. code:: php
 
@@ -54,7 +54,7 @@ For example:
 
 .. code:: php
 
-    public function redBox(\Cake\Event\Event $event, $atts, $content, $code) {
+    public function redBox(Event $event, $atts, $content, $code) {
         // logic here, and return HTML
     }
 

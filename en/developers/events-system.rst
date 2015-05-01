@@ -19,10 +19,13 @@ Architecture
 
 QuickAppsCMS’s events system is composed of three primary elements:
 
--  Event Listener: An event listener class implementing the EventListenerInterface
+-  **Event Listener**: An event listener class implementing the EventListenerInterface
    interface.
--  Event Handler: A method within your listener class which handles a single event.
--  Event: An event object that represents the event itself. e.g. ``my_event``.
+
+-  **Event Handler**: A method within your listener class which handles a single
+   event.
+
+-  **Event**: An event object that represents the event itself. e.g. ``my_event``.
 
 All Event Listeners classes must implement the
 ``\Cake\Event\EventListenerInterface`` interface and provide the
@@ -75,7 +78,7 @@ Once your listeners classes were automatically loaded and registered, you can no
 start triggering events and see how your listeners respond.
 
 You can trigger events within any class you wish just by using
-``QuickApps\Core\HookAwareTrait``, this trait will add a few handy methods for
+``QuickApps\Core\EventDispatcherTrait``, this trait will add a few handy methods for
 triggering events.
 
 By default, this trait is attached to ``QuickApps\Controller\Controller``, to
@@ -100,8 +103,8 @@ For example, in our "Blog" plugin example, we could have an
             }
         }
 
-The ``QuickApps\Event\HookAwareTrait`` trait provides the methods: ``trigger()`` and
-``triggered()`` which are described below.
+The ``QuickApps\Event\EventDispatcherTrait`` trait provides the methods:
+``trigger()`` and ``triggered()`` which are described below.
 
 
 .. php:function:: trigger(mixed $eventName[, mixed $arg0, ..., mixed $argN, ...])
@@ -204,4 +207,4 @@ System <http://book.cakephp.org/3.0/en/core-libraries/events.html>`__
 
 .. meta::
     :title lang=en: Events System
-    :keywords lang=en: events,events system,event,trigger,hook,hooktag,listeners,listener,event listener
+    :keywords lang=en: events,events system,event,trigger,event,listeners,listener,event listener
