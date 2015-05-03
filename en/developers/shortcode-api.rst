@@ -8,8 +8,8 @@ resorting to a custom syntax (e.g. `BBCode <http://es.wikipedia.org/wiki/BBCode>
 
 A ``Shortcode`` is a QuickApps-specific pseudo-code that lets you do nifty things
 with very little effort. Shortcodes can for example print current language code/name
-or call specifics plugin/themes functions. For instance, the following shortcode (in
-any content) would show current language’s code:
+or call specifics plugin/themes functions. For instance, the following shortcode can
+be used anywhere to print current language’s code:
 
 .. code:: html
 
@@ -20,9 +20,10 @@ Defining Shortcodes
 ===================
 
 Shortcodes are implemented on top of Event System, so basically: a shortcode is a
-way to trigger events using pseudo-code. To create shortcode you must simply create
-an event listener class **suffixed with the Shortcode** word and indicate which
-shortcodes it will handle using the ``implementedEvents()`` method. For example:
+way to trigger events using pseudo-code. To create a shortcode you must simply
+create an event listener class **suffixed with the Shortcode** word and indicate
+which shortcodes it will handle using the ``implementedEvents()`` method. For
+example:
 
 .. code:: php
 
@@ -44,7 +45,7 @@ shortcodes it will handle using the ``implementedEvents()`` method. For example:
 Where ``redBox`` and ``blueBox`` are methods defined within the event listener
 class, these methods must expect four arguments:
 
--  **$event** (first argument): the event object that was triggered
+-  **$event** (first argument): the event object that was triggered by the parser
 -  **$atts** (second argument): an associative array of attributes
 -  **$content** (third argument): the enclosed content (if the shortcode is used in
    its enclosing form)
@@ -61,17 +62,6 @@ For example:
 
 These methods are responsible of converting a shortcode (that looks as ``{locale
 code /}``) into their HTML equivalent.
-
-.. note::
-
-    A good practice is to have all your shortcodes events defined in independent
-    classes. Remember to add the `Shortcode` suffix to your class name as well::
-
-        Blog/
-        └── src/
-            └── Event/
-                ├── ArticlesShortcode.php
-                └── CommentsShortcode.php
 
 Attributes
 ----------
@@ -90,8 +80,8 @@ Parsing Shortcodes
 
 Once you have defined your shortcodes is time to start converting a shortcode into
 HTML. By default **QuickAppsCMS parses shortcodes on every piece of content that is
-sent to users**, This means you don't require to do anything special to convert
-parse shortcodes.
+sent to users**, This means you don't require to do anything special for parsing
+shortcodes.
 
 However, you can use the ``QuickApps\Shortcode\ShortcodeTrait`` trait in any class,
 to add shortcodes parsing functionalities. By defaults this trait is attached to
@@ -137,12 +127,12 @@ the parser.
 Basic
 -----
 
-The most simple way to escape a shortcode is by simply surrounding it with ``{`` and
-``}`` symbols. For example:
+The most simple way to escape a shortcode is by surrounding it with ``{`` and ``}``
+symbols. For example:
 
 .. code:: html
 
-    Please use the <code>{{locale /}} shortcode for printing language code.
+    Please use the <code>{{locale /}}</code> shortcode for printing language code.
 
 After parser is applied the following will be presented to the user:
 
@@ -151,13 +141,13 @@ After parser is applied the following will be presented to the user:
     Please use the <code>{locale /}</code> shortcode for printing language code.
 
 
-And in the case of shortcodes using Enclosed form you must proceed the same:
+And in the case of shortcodes using Enclosed form you must do the same:
 
 .. code:: html
 
     This is an {{enclose_form_shortcode attr=value}with an enclosed content{/enclose_form_shortcode}}
 
-Which result on:
+Which result in:
 
 .. code:: html
 
@@ -169,7 +159,7 @@ Block Escaping
 
 Some times you would need to escape entire portions of HTML code mixed with
 shortcodes. You can escape chunks of code by surrounding it with ``{no_shortcode}``
-and ``{no_shortcode}`` (which ironically is a shortcode itself). For example:
+and ``{/no_shortcode}``, which ironically is a shortcode itself. For example:
 
 .. code:: html
 
@@ -180,7 +170,7 @@ and ``{no_shortcode}`` (which ironically is a shortcode itself). For example:
         <li>{box_red /}</li>
         <li>{box_green /}</li>
     </ul>
-    {no_shortcode}
+    {/no_shortcode}
 
 The code above will produce the following code after processed by the Shortcode
 Parser:
