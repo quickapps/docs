@@ -21,11 +21,12 @@ Defining Shortcodes
 
 Shortcodes are implemented on top of Event System, so basically: a shortcode is a
 way to trigger events using pseudo-code. To create shortcode you must simply create
-an event listener class and indicate which shortcodes it will handle using the
-``implementedEvents()`` method. For example:
+an event listener class **suffixed with the Shortcode** word and indicate which
+shortcodes it will handle using the ``implementedEvents()`` method. For example:
 
 .. code:: php
 
+    // Blog\Event\BoxesShortcode.php
     namespace MyPlugin\Event;
 
     //...
@@ -64,8 +65,7 @@ code /}``) into their HTML equivalent.
 .. note::
 
     A good practice is to have all your shortcodes events defined in independent
-    classes, you could also add the `Shortcode` suffix to your class name keep
-    things event more clean::
+    classes. Remember to add the `Shortcode` suffix to your class name as well::
 
         Blog/
         └── src/
@@ -89,36 +89,111 @@ Parsing Shortcodes
 ==================
 
 Once you have defined your shortcodes is time to start converting a shortcode into
-HTML. To do so, you can use the ``QuickApps\Shortcode\ShortcodeTrait`` trait in
-any class, by defaults this trait is attached to ``QuickApps\View\View``
-which means **you can use shortcode functionalities in any template**.
-HookAwareTrait simply adds two methods: ``shortcodes()`` and ``stripShortcodes()``.
+HTML. By default **QuickAppsCMS parses shortcodes on every piece of content that is
+sent to users**, This means you don't require to do anything special to convert
+parse shortcodes.
+
+However, you can use the ``QuickApps\Shortcode\ShortcodeTrait`` trait in any class,
+to add shortcodes parsing functionalities. By defaults this trait is attached to
+``QuickApps\View\View``, which means **you can use shortcode functionalities within
+any template** using the methods ``shortcodes()`` & ``stripShortcodes()`` it
+provides.
 
 Basically, ``shortcodes()`` receives a string as only arguments and look for
 shortcodes in the given text, for example, in any template you could:
 
 .. code:: php
 
-    echo $this->shortcodes("Current language code is: {language code /}");
+    echo $this->shortcodes("Current language code is: <b>{language code /}</b>");
 
 Depending on the current language you are navigating you will get:
 
 .. code:: html
 
-    Current language code is: en-us
+    Current language code is: <b>en-us</b>
 
 The second method, ``stripShortcodes()``, simply removes all shortcodes from
 the given text:
 
 .. code:: php
 
-    echo $this->stripShortcodes("Current language code is: [language code /]");
+    echo $this->stripShortcodes("Current language code is: <b>{language code /}</b>");
 
 Now you will get:
 
 .. code:: html
 
-    Current language code is:
+    Current language code is: <b></b>
+
+
+Escaping Shortcodes
+===================
+
+Some times you would need to scape shortcodes so they are not processed by the
+Shortcode parser. Here we'll explain how to escape shortcodes so they are ignored by
+the parser.
+
+
+Basic
+-----
+
+The most simple way to escape a shortcode is by simply surrounding it with ``{`` and
+``}`` symbols. For example:
+
+.. code:: html
+
+    Please use the <code>{{locale /}} shortcode for printing language code.
+
+After parser is applied the following will be presented to the user:
+
+.. code:: html
+
+    Please use the <code>{locale /}</code> shortcode for printing language code.
+
+
+And in the case of shortcodes using Enclosed form you must proceed the same:
+
+.. code:: html
+
+    This is an {{enclose_form_shortcode attr=value}with an enclosed content{/enclose_form_shortcode}}
+
+Which result on:
+
+.. code:: html
+
+    This is an {enclose_form_shortcode attr=value}with an enclosed content{/enclose_form_shortcode}
+
+
+Block Escaping
+--------------
+
+Some times you would need to escape entire portions of HTML code mixed with
+shortcodes. You can escape chunks of code by surrounding it with ``{no_shortcode}``
+and ``{no_shortcode}`` (which ironically is a shortcode itself). For example:
+
+.. code:: html
+
+    {no_shortcode}
+    <h2>Allowed shortcodes are</h2>
+    <ul>
+        <li>{box_blue /}</li>
+        <li>{box_red /}</li>
+        <li>{box_green /}</li>
+    </ul>
+    {no_shortcode}
+
+The code above will produce the following code after processed by the Shortcode
+Parser:
+
+.. code:: html
+
+    <h2>Allowed shortcodes are</h2>
+    <ul>
+        <li>{box_blue /}</li>
+        <li>{box_red /}</li>
+        <li>{box_green /}</li>
+    </ul>
+
 
 Tutorial: Creating a Shortcode
 ==============================
@@ -127,7 +202,7 @@ In this tutorial we'll be creating a shortcode for displaying HTML content-boxes
 different colors. We want our shortcode to be as follow:
 
 -  Its name will be ``content_box``.
--  Will use the ``enclosed`` form ({tag} ... {/tag}), for holding the box’s content.
+-  Will use the ``enclosed`` form ({tag} (...box content...) {/tag}), for holding the box’s content.
 -  Will accept a ``color`` parameter for specify the color of the box to render.
 -  Will be handled by the ``Blog`` plugin.
 
@@ -195,8 +270,8 @@ information and convert it into HTML:
 Using the shortcode
 -------------------
 
-Now you should be able to use the ``content_box`` shortcode as part of any content as
-follow:
+Now you should be able to use the ``content_box`` shortcode as part of any content
+as follow:
 
     {content_box color=green}Lorem ipsum dolor{/content_box}
 

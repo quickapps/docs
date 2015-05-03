@@ -183,11 +183,18 @@ Indicating field's data type
 
 When creating Field Handlers (see "Field Handlers" section below) you must indicate
 which type of data your field will handle (listed above), to do this you must simply
-catch the ``Field.<handler>.Instance.info`` event and return an array indicating
+catch the ``<handler>.Instance.info`` event and return an array indicating
 basic information about the field itself, including its type among other
-information:
+information. For example, for TextField handler:
 
 .. code:: php
+
+    public function implementedEvents()
+    {
+        return [
+            'TextField.Instance.info' => 'instanceInformation',
+        ];
+    }
 
     public function instanceInformation(Event $event)
     {
@@ -262,12 +269,14 @@ it again.
 Field Handlers
 ==============
 
-Field Handler are :doc:`event listener <events-system>` classes which must take care
-of storing, organizing and retrieving information for each entity’s virtual-columns
-(fields). Field handlers are always defined by some plugin, they cannot exists by
-their own, which plugins must define them as event listeners classes under its
-"Events" directory. In this way they will be automatically loaded and attached to
-the EventMnager. For instance:
+Field Handler are :doc:`event listener <events-system>` classes suffixed with the
+**Field** word, and they are responsible of storing, organizing and retrieving
+information for each entity’s virtual-columns (fields).
+
+Field handlers are always defined by some plugin, which means they cannot exists by
+their own. Plugins must define them as event listeners classes under their "Events"
+directory. In this way they will be automatically loaded and attached to the
+EventManager. For instance:
 
 ::
 
@@ -275,31 +284,35 @@ the EventMnager. For instance:
     └── src/
         ├── Controller/
         └── Event/
-            ├── MyFieldHandler1.php
-            ├── MyFieldHandler2.php
-            └── MyFieldHandler3.php
+            ├── MyFieldHandler1Field.php
+            ├── MyFieldHandler2Field.php
+            └── MyFieldHandler3Field.php
+
+.. note::
+
+    Please note the "Field" suffix on each class name.
 
 Similar to :doc:`event listeners <events-system>` and :doc:`hooktags <hooktags>`,
 Field Handlers classes must define all the event names it will handle using the
 ``implementedEvents()`` method, Field API has organized these event names in two
 groups or "events subspaces":
 
--  Field.<FieldHandler>.Entity: For handling entities events such as "entity save",
+-  <handler>.Entity: For handling entities events such as "entity save",
    "entity delete", etc.
 
--  Field.<FieldHandler>.Instance: Related to Field Instances events, such as
+-  <handler>.Instance: Related to Field Instances events, such as
    "instance being detached from table", "new instance attached to table", etc.
 
-Where ``<FieldHandler>`` is an arbitrary name of your choice, it must be unique
-across the entire system. e.g. `TextField`, `ImageField`, `AlbumField`, etc. This
-name must be provided as described in "Field Information" section.
+Where ``<handler>`` is an arbitrary name of your choice, it must be unique across
+the entire system. e.g. `TextField`, `ImageField`, `AlbumField`, etc. This name must
+be provided as described in "Field Information" section.
 
 TIP
-    A good practice is to use the name of your event listener class as "handler
-    name", for example for the class ``plugins/Blog/Event/ImageAttachment.php`` your
-    field handler would be "ImageAttachment", in order to make sure this name is
-    unique across the entire system you could use plugin’s name as prefix:
-    ``BlogImageAttachment``
+    A good practice is to use the name of your event listener class (except
+    suffixed) as "handler" name. For example for the class
+    ``plugins/Blog/Event/ImageAttachmentField.php`` your field handler would be
+    "ImageAttachment", also in order to make sure this name is unique across the
+    entire system you could use plugin’s name as prefix: ``BlogImageAttachment``
 
 ---
 
@@ -307,45 +320,37 @@ Below, a list of available events fields handler should implement:
 
 **Entity events:**
 
--  display: When an entity is being rendered.
--  edit: When an entity is being rendered in ``edit`` mode. (backend usually).
--  validate: Triggered when validating each Field.
--  beforeFind: Before an entity is retrieved from DB.
--  beforeSave: Before entity is saved.
--  afterSave: After entity was saved.
--  beforeDelete: Before entity is deleted.
--  afterDelete: After entity was deleted.
-
-.. note::
-
-    In order to make reading more comfortable the ``Field.<FieldHandler>.Entity.``
-    prefix has been trimmed from each event name listed below. For example,
-    ``display`` is actually ``Field.<FieldHandler>.Entity.display``
-
+-  <handler>.Entity.display: When an entity is being rendered.
+-  <handler>.Entity.edit: When an entity is being rendered in ``edit`` mode.
+   (backend usually).
+-  <handler>.Entity.validate: Triggered when validating each Field.
+-  <handler>.Entity.beforeFind: Before an entity is retrieved from DB.
+-  <handler>.Entity.beforeSave: Before entity is saved.
+-  <handler>.Entity.afterSave: After entity was saved.
+-  <handler>.Entity.beforeDelete: Before entity is deleted.
+-  <handler>.Entity.afterDelete: After entity was deleted.
 
 **Instance events:**
 
--  info: When QuickAppsCMS asks for information about each registered Field.
--  settingsForm: Additional settings for this field, should define the way the
-   values will be stored in the database.
--  settingsDefaults: Default values for field settings form’s inputs.
--  settingsValidate: Before instance’s settings are changed, here you can apply your
-   own validation rules.
--  viewModeForm: Additional view mode settings, should define the way the values
-   will be rendered for a particular view mode.
--  viewModeDefaults: Default values for view mode settings form’s inputs.
--  viewModeValidate: Before view-mode’s settings are changed, here you can apply
-   your own validation rules.
--  beforeAttach: Before field is attached to Tables.
--  afterAttach: After field is attached to Tables.
--  beforeDetach: Before field is detached from Tables.
--  afterDetach: After field is detached from Tables.
+-  <handler>.Instance.info: When QuickAppsCMS asks for information about each
+   registered Field.
+-  <handler>.Instance.settingsForm: Additional settings for this field, should
+   define the way the values will be stored in the database.
+-  <handler>.Instance.settingsDefaults: Default values for field settings form’s
+   inputs.
+-  <handler>.Instance.settingsValidate: Before instance’s settings are changed, here
+   you can apply your own validation rules.
+-  <handler>.Instance.viewModeForm: Additional view mode settings, should define the
+   way the values will be rendered for a particular view mode.
+-  <handler>.Instance.viewModeDefaults: Default values for view mode settings form’s
+   inputs.
+-  <handler>.Instance.viewModeValidate: Before view-mode’s settings are changed,
+   here you can apply your own validation rules.
+-  <handler>.Instance.beforeAttach: Before field is attached to Tables.
+-  <handler>.Instance.afterAttach: After field is attached to Tables.
+-  <handler>.Instance.beforeDetach: Before field is detached from Tables.
+-  <handler>.Instance.afterDetach: After field is detached from Tables.
 
-.. note::
-
-    In order to make reading more comfortable the ``Field.<FieldHandler>.Instance.``
-    prefix has been trimmed from each event name listed below. For example, ``info``
-    is actually ``Field.<FieldHandler>.Instance.info``
 
 Creating Field Handlers
 -----------------------
@@ -405,9 +410,9 @@ Field Information
 -----------------
 
 Fields are allowed to indicate some configuration parameters by implementing the
-``Field.<handler>.Instance.info`` event. QuickAppsCMS may asks for information about
-each registered Field in the system when needed, you must simply catch this event
-and return an array as ``option`` => ``value``. Valid options are:
+``<handler>.Instance.info`` event. QuickAppsCMS may asks for information about each
+registered Field in the system when needed, you must simply catch this event and
+return an array as ``option`` => ``value``. Valid options are:
 
 - type (string): The type of value this field will handle (defaults to ``varchar``).
   Valid types are (see "Field Data Types" for more information):
@@ -468,8 +473,8 @@ Edit Mode
 
 Your Field Handler should somehow render some form elements (inputs, selects,
 textareas, etc) when rendering Table’s Entities in ``edit mode`. For this we have
-the ``Field.<FieldHandler>.Entity.edit`` event, which should return HTML code
-containing all the form elements for the field attached to certain entity.
+the ``<handler>.Entity.edit`` event, which should return HTML code containing all
+the form elements for the field attached to certain entity.
 
 For example, lets suppose we have a ``TextField`` attached to ``Users`` Table for
 storing their ``favorite-food``, and now we are editing some specific ``User``
@@ -483,7 +488,7 @@ TextField Handler should print something like this:
     <input name="favorite-food" value="<current_value>" />
 
 To accomplish this, your Field Handler should properly catch the
-``Field.<FieldHandler>.Entity.edit`` event, example:
+``<handler>.Entity.edit`` event, example:
 
 .. code:: php
 
@@ -562,7 +567,7 @@ usually you'll end creating some loop structure and render all of them at once:
     <?php endforeach; ?>
 
 The``Form::input()`` method **automagically fires** the
-``Field.<FieldHandler>.Entity.edit`` event asking to the corresponding Field Handler
+``<handler>.Entity.edit`` event asking to the corresponding Field Handler
 for its HTML form elements. Passing the Field object to ``Form::input()`` is not
 mandatory, you can manually generate your input elements:
 
@@ -595,7 +600,7 @@ A more complete example:
 
         <!-- Custom Fields -->
         <?php foreach ($user->_fields as $field): ?>
-            <!-- This triggers "Field.{$field->metadata->handler}.Entity.edit" -->
+            <!-- This triggers "{$field->metadata->handler}.Entity.edit" -->
             <?php echo $this->Form->input($field); ?>
         <?php endforeach; ?>
         <!-- /Custom Fields -->
