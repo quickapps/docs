@@ -6,7 +6,7 @@ Field API is built on top of :doc:`EAV API <eav-api>`. They both work pretty sim
 as they both allows to attach additional information to tables. However, the main
 difference between this two APIs is that Field API allows you to create more complex
 data structures; it was designed to control every aspect of the information being
-managed, from how the information is stored in in DB to how it is rendered and
+managed, from how the information is stored in DB to how it is rendered and
 presented to final users.
 
 Any table (Nodes, Users, etc.) can use Field API to make itself ``fieldable`` and

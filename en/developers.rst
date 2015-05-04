@@ -5,6 +5,7 @@ Developers
     :maxdepth: 1
 
     developers/events-system
+    developers/aspects
     developers/shortcode-api
     developers/plugins
     developers/blocks-api
