@@ -7,7 +7,7 @@ Welcome
   :width: 150px
 
 Welcome to the official QuickAppsCMS documentation. This manual assumes that
-you have a general understanding of PHP, object-oriented programming (OOP) 
+you have a general understanding of PHP, object-oriented programming (OOP)
 and `CakePHP 3 framework <http://cakephp.org/>`__ .
 
 The QuickBook is an openly developed and community editable documentation

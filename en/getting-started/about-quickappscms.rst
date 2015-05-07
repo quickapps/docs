@@ -1,20 +1,31 @@
 What is QuickAppsCMS
 ####################
 
-QuickAppsCMS is a free open source CMS released under GPL license and inspired by
-most of the popular CMS. Powered by CakePHP v3 MVC framework makes this CMS the
-perfect development platform. A robust application fully expandable and capable of
-manage virtually any website, easy for both developers and users to work with.
+QuickAppsCMS is a free open source Content Management System released under GPL
+license and inspired by most of the popular CMS. It's quick to setup, quick to
+configure and extend. QuickAppsCMS is built using modern Open Source libraries and
+techniques; its core is powered by CakePHP MVC framework.
+
+Basically, there are three groups of users we’ve created QuickAppsCMS for:
+
+- End users: that want to focus mostly on creating and editing contents.
+
+- Designers: that want to create custom markups and change the look & feel of the
+  CMS.
+
+- Developers: who need a system that’s easy to set up and configure, that’s easy to
+  manage and maintain, but is also flexible and versatile.
 
 Features
 --------
 
-- **Content types:** Create your own type of contents. (default: ``Basic Page`` and ``Article``).
+- **Content types:** Create and define your own type of contents. (default: ``Basic
+  Page`` and ``Article``).
 - **Field API**: EAV system which allows you to define any type of content
 - **MVC**: Clean MVC conventions thanks to CakePHP
 - **Fully Modular**
 - **Taxonomy:** Categorize your content
-- **Multilingual:** Publish contents in multiple languages.
+- **Multilingual:** Publish contents in multiple languages out of the box.
 - **Comments:** With akismet and captcha support.
 - **User management:** Role-based permission system
 - **Blocks & regions**
@@ -24,9 +35,9 @@ Features
 - **Robust API:** Fully documented.
 - **SEO friendly**
 - **Twitter Bootstrap**: Built with Twitter Bootstrap in mind
-- **RSS feeds:** Powered by a nice built-in search engine system
+- **RSS feeds:** Powered by a great built-in search engine system
 - **Powerful events system**
-- **Hooktags:** Similar to Wordpress "shortcodes".
+- **Shortcodes**
 - **Free** ...and much more!
 
 License
@@ -44,5 +55,5 @@ PARTICULAR PURPOSE. See the `GNU General Public License
 <http://www.gnu.org/licenses/>`__ for more details.
 
 .. meta::
-    :title lang=en: What is QuickAppsCMS
+    :title lang=en: About QuickAppsCMS
     :keywords lang=en: quickapps,cms,about,features,license,gpl,gnu

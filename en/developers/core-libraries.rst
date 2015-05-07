@@ -10,6 +10,6 @@ others just provides commonly used features such as "SluggableBehavior".
 
     core-libraries/plugin
     core-libraries/static-cache
-    core-libraries/hooktags
+    core-libraries/shortcodes
     core-libraries/behaviors
     core-libraries/helpers

@@ -64,7 +64,7 @@ below:
    "john-locke/rss-feed-reader" the inflected name  will be "Rss Feed Reader".
    However, you can define a customized human-readable name using the:
 
-   - key ``extra.human_name`` (optional): Human readable name. e.g. "My super RSS
+   - key ``extra.human-name`` (optional): Human readable name. e.g. "My super RSS
      reader". If not provided it will be inflected from package name.
 
 -  key ``type`` must be present. See more at `composer website <https://getcomposer.org/doc/04-schema.md#type>`__.
