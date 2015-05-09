@@ -8,7 +8,7 @@ blocks:
 -  Custom Blocks: Those created using the administer blocks area.
 -  Widget Blocks: Those generated on-the-fly (or created) by third-party plugins
 
-Block may appear on a page depending on both the theme or administrative block
+Blocks may appear on a page depending on both the theme or administrative block
 settings. Block settings are controlled from the block administration screen, from
 this screen, it is possible to control whether each block is enabled where it will
 be placed on the page, and control the visibility of blocks on each page.
@@ -16,7 +16,7 @@ be placed on the page, and control the visibility of blocks on each page.
 Blocks Anatomy
 ==============
 
-Block objects are simple Entities objects within the "blocks" table
+Blocks are internally threated as Entity objects within of the "blocks" table
 (Block\Model\Entity\Block). Each time a Custom Block is created in the blocks
 administration area a new entity is added to this table. Plugins may create Widget
 Blocks during their installation process by manually inserting new records to this
@@ -25,9 +25,12 @@ table.
 A Block entity objects holds the following properties:
 
 - title (string): Custom title for the block.
-- handler (string): The plugin from which the block originates.
-- delta (string): Unique ID for block within a handler.
+
+- handler (string): The fully-qualified name of the class responsible of controlling
+  block's life cycle.
+
 - status (bool): Block enabled status.
+
 - visibility (string): Indicates how to show blocks on pages, possible values are:
 
   - except: Show on all pages except listed pages
@@ -37,120 +40,70 @@ A Block entity objects holds the following properties:
 - pages (string): List of paths to be used by "visibility" property
 - settings (array): Extra information used by the block. Commonly used by Widget Blocks.
 
-Each block has a ``handler`` property which identifies the plugin that created that
-Block (by default all blocks created using backend's administration page defines
-``Block`` has their handler). This handler name is used to generate all the events
-names that could be triggered during block's life cycle, blocks event names follows
-the pattern:
-
-.. code::
-
-    Block.<handler>.<eventName>
-
-In this way plugins are able to register and "handle" an unlimited amount blocks.
-For instance when rendering a block the ``Block.<handler>.display`` event is
-automatically triggered and the Plugin which defined that block should catch the
-event and render the given block.
-
-As the same event names are triggered for different blocks within the same
-"handler", you should use block's ``delta`` property for distinguish between each
-block being handled. For example, a "Forum" plugin has registered two Widget Blocks
-in the system:
-
-- Block 1:
-   - title: Connected Users
-   - delta: "connected_users"
-   - handler: "Forum"
-
-and
-
-- Block 2
-   - title: Latest Threads
-   - delta: "latest_threads"
-   - handler: "Forum"
-
-When rendering either "Connected Users" or "Latest Threads" block the same event
-name will be triggered: ``Block.Forum.display``, event handler method should use the
-``delta`` property of the given block to property distinguish between both blocks,
-for instance:
-
-.. code:: php
-
-    <?php
-        // Forum/Event/ForumHook.php
-        namespace Forum\Event;
-
-        use Block\Model\Entity\Block;
-        use Cake\Event\Event;
-        use Cake\Event\EventListenerInterface;
-
-        class ForumHook implements EventListenerInterface
-        {
-            public function implementedEvents()
-            {
-                return [
-                    'Block.Forum.display' => 'displayForumBlock',
-                ];
-            }
-
-            public function displayForumBlock(Event $event, Block $block)
-            {
-                $view = $event->subject();
-                if ($block->delta == 'connected_users') {
-                    // Rendering logic for "Connected Users" block
-                } elseif ($block->delta == 'latest_threads') {
-                    // Rendering logic for "Latest Threads" block
-                }
-            }
-        }
+Each block has a ``handler`` property which identifies the name of class that will
+handle that Block (by default all blocks created using backend's administration page
+defines ``Block\Wiget\CustomBlockWidget`` has their handler). This handler name will
+be used to control the entire block life cycle.
 
 Blocks Life Cycle
 =================
 
-Like everything in QuickAppsCMS, block's life cycle is controlled by the events
-system, several events are triggered during all different states whereby a Block
-might pass through. Event names should be descriptive enough to let you know what
-they do, however you can check the API documentation for further detail.
+Block's life cycle is controlled by callback methods invoked automatically by
+QuickAppsCMS when required. All blocks have an associated "handler" class which
+defines such callbacks, and in turn these class all extends from ``Block\Widget``.
+This class defines a series of methods that are used to control block's life cycle;
+each handler class should extend ``Block\Widget`` and override its methods to
+provided any logic required by the block.
 
-- Block.<handler>.display[CamelizedDelta]: When block is being rendered in some View ("__toString()" equivalent)
-- Block.<handler>.settings[CamelizedDelta]: For rendering Widget Block settings inputs
-- Block.<handler>.settingsValidate[CamelizedDelta]: Used to validate Widget Block setting values
-- Block.<handler>.settingsDefaults[CamelizedDelta]: Used to provide default values for Widget Block setting
-- Block.<handler>.beforeSave[CamelizedDelta]: Before block entity is persisted in DB
-- Block.<handler>.afterSave[CamelizedDelta]: After block entity was persisted in DB
-- Block.<handler>.beforeDelete[CamelizedDelta]: Before block entity is removed from the system
-- Block.<handler>.afterDelete[CamelizedDelta]: Before block entity was removed from the system
+Below a list of all method defined by ``Block\Widget`` and a brief description about
+what are they intended for, you can check the API documentation for further detail.
 
-.. note::
+- render: This method should return the rendered widget to be presented to end-users.
 
-    The ``[CamelizedDelta]`` suffix is optional, and represents the CamelizedName of
-    block's delta property. For example, ``Block.Forum.displayLatestThreads`` for a
-    block which delta equals ``latest_threads``. This events names have higher
-    priority than those without this suffix and will be triggered if they exists;
-    the unsuffixed event name will be triggered otherwise.
+- settings: This method should return all the Form input elements that user will be
+  able to tweak in the widget configuration page at Backend.
+
+- validateSettings: This method should alter the provided Validator object and add
+  custom validation rules, these rules will be applied when saving the values
+  provided by all the Form input elements rendered by the "settings()" method.
+
+- defaultSettings: This method should return an associative array hold default
+  values for the Form input elements provided by the "settings()" method.
+
+- beforeSave: This callback is invoked before widget information is persisted in DB.
+  Returning FALSE will halt the save operation. Anything else will be ignored.
+
+- afterSave: This callback is invoked after widget information was persisted in DB.
+
+- beforeDelete: This callback is invoked before widget is removed from DB. Returning
+  FALSE will halt the delete operation. Anything else will be ignored.
+
+- afterDelete: This callback is invoked after widget was removed from DB.
 
 
-Tutorial: Creating a Block
-==========================
+Tutorial: Creating a Widget Block
+=================================
 
 This tutorial will walk you through the creation of a simple Widget Block (Latest
-Articles). To start with, we’ll creating our block entity, and using the tools the
-Blocks API provides to get our block working properly.
+Articles). To start with, we’ll creating our block entity object, and using the
+tools the Blocks API provides to get our block working properly.
 
 
-Registering Block Information
------------------------------
+Registering Widget Information
+------------------------------
 
-First you must notice that blocks are always defined by plugins; a block cannot
+First you must notice that widgets are always defined by plugins; a widget cannot
 exists by its own. So the very first step is to create a plugin for which we’ll be
-creating this block, please check the Plugins documentation for further information.
+creating this widget, please check the Plugins documentation for further
+information.
 
 For this example, we’ll consider **Blog** as our plugin, and we’ll be creating a
-block which should display the latest X articles created in our Blog plugin.
+widget which should display the latest X articles created in our Blog plugin, where
+X is a configurable integer value that users can tweak in the administration area.
 
-A block is just an Entity object within the "blocks" (Block.Blocks) table,
-registering a new block is just as easy as creating a new entity in this table, for
-instance:
+As mention before, a widget is just an Entity object within the "blocks" table
+(Block.Blocks), registering a new widget is just as easy as creating a new entity in
+this table, for instance:
 
 .. code:: php
 
@@ -159,7 +112,7 @@ instance:
 
         $newBlock = TableRegistry::get('Block.Blocks')->newEntity([
             'title' => 'Latest Articles',
-            'handler' => 'Blog',
+            'handler' => 'Blog\Widget\LatestPostsWidget',
             'delta' => 'latest_articles',
             'settings' => [
                 'articles_limit' => 5, // show latest 5 threads created
@@ -168,69 +121,61 @@ instance:
 
         TableRegistry::get('Block.Blocks')->save($newBlock);
 
+As you can see we have defined **Blog\Widget\LatestPostsWidget** has our block's
+handler class, the next step is to create this class and bring our widget to life.
+
 .. note::
 
     This step is usually performed on plugin installation process. Check the
     Plugin API for more details on this process.
 
 
-Controlling Block Life Cycle
-----------------------------
+Controlling Widget Life Cycle
+-----------------------------
 
-Once our block is registered on the "blocks" table it will appear in your site's
+Once our widget is registered on the "blocks" table it will appear in your site's
 Blocks Management page (/admin/block/manage); it will be placed under the "Unused or
 Unassigned Blocks" tab so users can assign it to theme regions.
 
-The most important phases (events) whereby a Block can pass through are ``display``
-(Block.<handler>.display) and ``settings`` (Block.<handler>.settings). The first
-aimed to render the block as HTML, the second aimed to provide configurable form
-elements (textboxes, selectboxes, etc) that can be tweaked by users in the block
-editing page. Both will be described below.
+The most important callbacks whereby a Widget can pass through are ``render()`` and
+``settings()``. The first aimed to render the widget as HTML, the second aimed to
+provide configurable form elements (textboxes, selectboxes, etc) that can be tweaked
+by users in the widget editing page. Both will be described below.
 
-Block Settings
-~~~~~~~~~~~~~~
+Widget Settings
+~~~~~~~~~~~~~~~
 
-Blocks settings are handled by the ``Block.<handler>.settings`` event, this event is
-aimed to provide additional form input elements that users can tweak in the Block's
-editing page. You must simply catch this event and return all the form inputs
-elements you want to provide to users.
+Widget settings are handled by the ``settings()`` method, this method is aimed to
+provide additional form input elements that users can tweak in the Widget's editing
+page. You must simply implement this method and return all the form inputs elements
+you want to provide to users. This method receives the block entity object from DB
+as first argument, and an instance of View class as second.
 
 In our example, we want to allow users to indicate how many articles should be
-displayed in the block when it gets rendered. To do so, we must simply catch the
-event and return all the form inputs we want to provide to users:
+displayed in the widget when it gets rendered. To do so, we must simply implements
+the method and return all the form inputs we want to provide to users:
 
 .. code:: php
 
-    <?php
-        // Blog/Event/BlogHook.php
-        namespace Blog\Event;
+    // Blog/Widget/LatestPostsWidget.php
+    namespace Blog\Widget;
 
-        use Block\Model\Entity\Block;
-        use Cake\Event\Event;
-        use Cake\Event\EventListenerInterface;
+    use Block\Model\Entity\Block;
+    use Block\Widget;
+    use QuickApps\View\View;
 
-        class BlogHook implements EventListenerInterface
+    class LatestPostsWidget extends Widget
+    {
+        public function settings(Block $block, View $view)
         {
-            public function implementedEvents()
-            {
-                return [
-                    'Block.Blog.settings' => 'blockSettings',
-                ];
-            }
-
-            public function blockSettings(Event $event, Block $block)
-            {
-                $view = $event->subject();
-                if ($block->delta == 'latest_articles') {
-                    return $view->element('Blog.block_latest_articles_settings', compact('block'));
-                }
-            }
+            return $view->element('Blog.latest_articles_widget_settings', compact('block'));
         }
+    }
 
 .. code:: php
 
     <?php
-        // Blog/Template/Element/block_latest_articles_settings.ctp
+        // Blog/Template/Element/latest_articles_widget_settings.ctp
         echo $this->Form->input('articles_limit', [
             'label' => 'How many articles to show?',
             'type' => 'select',
@@ -245,98 +190,73 @@ event and return all the form inputs we want to provide to users:
 .. note::
 
     In other to keep things dry we placed all HTML code in separated view-elements.
-    As always in QuickAppsCMS, those events related to view-rendering tasks have set
-    their subject to the View instance being used in current request:
-    ``$event->subject()``
 
 
-Block Rendering
-~~~~~~~~~~~~~~~
+Widget Rendering
+~~~~~~~~~~~~~~~~
 
-Now the final and most important step is the block rendering process, this is the
-part when a block object is "converted" into HTML code to be presented to users in
-some view. A block object can be rendered at any time within a view by using the the
-``View::render()`` method, for instance:
+Now the final and most important step is the widget rendering process, this is the
+part when a block entity object is "converted" into HTML code to be presented to
+users as part of some view template. A block object can be rendered at any time
+within a view template by using the the ``View::render()`` method, for instance:
 
 .. code:: php
 
-    <?php
-        // some_view.ctp
-        use Cake\ORM\TableRegistry;
+    // some_view.ctp
+    use Cake\ORM\TableRegistry;
 
-        // fetch block object from DB
-        $block = TableRegistry::get('Block.Blocks')
-            ->find()
-            ->where(['handler' => 'Blog', 'delta' => 'latest_articles'])
-            ->limit(1)
-            ->first();
+    // fetch block object from DB
+    $block = TableRegistry::get('Block.Blocks')->get($id);
 
-        // render the block
-        echo $this->render($block);
+    // render the block
+    echo $this->render($block);
 
 Although this is possible, blocks are usually rendered as part of theme regions as
 described in the :doc:`designers </designers/themes>` guide:
 
 .. code:: php
 
-    <?php
-        // renders all blocks within this region (and current theme)
-        echo $this->region('some-region-name');
+    // renders all blocks within this region (and current theme)
+    echo $this->region('some-region-name');
 
 Whatever the method is used to render the block, this process is completed using the
-``Block.<handler>.display`` event, this event is automatically triggered when
-rendering a block as described before. You must catch this event and render the
-given block as HTML, we’ll add an event handler method to our ``BlogHook`` class:
+``render()`` method of the handler class, this method is automatically invoked when
+rendering a widget as described before. You must implement this method and render
+the given widget as HTML:
 
 .. code:: php
 
-    <?php
-        // Blog/Event/BlogHook.php
-        namespace Blog\Event;
+    // Blog/Widget/LatestPostsWidget.php
+    namespace Blog\Widget;
 
-        use Block\Model\Entity\Block;
-        use Cake\Event\Event;
-        use Cake\Event\EventListenerInterface;
-        use Cake\ORM\TableRegistry;
+    use Block\Model\Entity\Block;
+    use Block\Widget;
+    use QuickApps\View\View;
 
-        class BlogHook implements EventListenerInterface
+    class LatestPostsWidget extends Widget
+    {
+        public function render(Block $block, View $view)
         {
-            public function implementedEvents()
-            {
-                return [
-                    'Block.Blog.display' => 'blockDisplay',
-                    'Block.Blog.settings' => 'blockSettings',
-                ];
-            }
-
-            public function blockDisplay(Event $event, Block $block, $options = [])
-            {
-                $view = $event->subject();
-                if ($block->delta == 'latest_articles') {
-                    // find the latest created articles and pass them to view-element
-                    $articles = TableRegistry::get('Articles.Articles')
-                        ->find()
-                        ->limit($block->settings['articles_limit'])
-                        ->order(['Articles.created' => 'DESC'])
-                        ->all();
-                    return $view->element('Articles.block_latest_articles_display', compact('block', 'options', 'articles'));
-                }
-            }
-
-            public function blockSettings(Event $event, Block $block)
-            {
-                $view = $event->subject();
-                if ($block->delta == 'latest_articles') {
-                    return $view->element('Blog.block_latest_articles_settings', compact('block'));
-                }
-            }
+            // find the latest created articles and pass them to view-element
+            $articles = TableRegistry::get('Blog.Articles')
+                ->find()
+                ->limit($block->settings['articles_limit'])
+                ->order(['Articles.created' => 'DESC'])
+                ->all();
+            return $view->element('Blog.latest_articles_widget_render', compact('block', 'options', 'articles'));
         }
 
-Now, the final step is to create a view-template for actually "render" our block:
+        public function settings(Block $block, View $view)
+        {
+            return $view->element('Blog.latest_articles_widget_settings', compact('block'));
+        }
+    }
+
+Now, the final step is to create a view-template for actually rendering our block:
 
 .. code:: php
 
-    <!-- Blog/Template/Element/block_latest_articles_display.ctp -->
+    <!-- Blog/Template/Element/latest_articles_widget_render.ctp -->
 
     <h2>Latest Articles</h2>
     <ul>
@@ -344,53 +264,3 @@ Now, the final step is to create a view-template for actually "render" our block
         <li><?php $article->get('title'); ?></li>
         <?php endforeach; ?>
     </ul>
-
-Handling Specific Blocks
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-As you can notice we have to constantly check block's delta in order to determinate
-which blocks is actually being handled every time an event is caught. In order to
-keep things dry you can create separated handlers for specific and particular
-blocks, and so keep your code legible and dry. To do this you must simply suffix
-event names with the CanemlizedName of your block's delta, for example,
-``Block.Blog.displayLatestArticles`` instead of just "Block.Blog.display". The next
-example and the one described above are equivalent:
-
-.. code:: php
-    <?php
-        // Blog/Event/BlogHook.php
-        namespace Blog\Event;
-
-        use Block\Model\Entity\Block;
-        use Cake\Event\Event;
-        use Cake\Event\EventListenerInterface;
-        use Cake\ORM\TableRegistry;
-
-        class BlogHook implements EventListenerInterface
-        {
-            public function implementedEvents()
-            {
-                return [
-                    'Block.Blog.displayLatestArticles' => 'displayLatestArticles',
-                    'Block.Blog.settingsLatestArticles' => 'settingsLatestArticles',
-                ];
-            }
-
-            public function displayLatestArticles(Event $event, Block $block, $options = [])
-            {
-                $view = $event->subject();
-                // find the latest created articles and pass them to view-element
-                $articles = TableRegistry::get('Articles.Articles')
-                    ->find()
-                    ->limit($block->settings['articles_limit'])
-                    ->order(['Articles.created' => 'DESC'])
-                    ->all();
-                return $view->element('Articles.block_latest_articles_display', compact('block', 'options', 'articles'));
-            }
-
-            public function settingsLatestArticles(Event $event, Block $block)
-            {
-                $view = $event->subject();
-                return $view->element('Blog.block_latest_articles_settings', compact('block'));
-            }
-        }

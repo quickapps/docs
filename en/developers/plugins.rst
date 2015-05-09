@@ -312,7 +312,7 @@ article’s "publish date" when an article is being rendered.
 
 Plugins can provide these form inputs by placing them into
 ``/src/Tempalte/Element/settings.ctp``, here is where you should render all form
-elements that users will be able to teak. For our "Blog" example, this file could
+elements that users will be able to tweak. For our "Blog" example, this file could
 look as follow:
 
 .. code:: php
@@ -330,14 +330,14 @@ automatically created by QuickAppsCMS.
 Reading settings values
 -----------------------
 
-Once you have provided certain teakable values, you may need to read those values in
-order to change your plugin’s behavior, in our "Blog" example we want to know
+Once you have provided certain tweakable values, you may need to read those values
+in order to change your plugin’s behavior, in our "Blog" example we want to know
 whether the "publish date" should be rendered or not. To read these values you
 should use the ``QuickApps\Core\Plugin`` class as follow:
 
 .. code:: php
 
-    <?php Plugin::get('Blog')->settings['show_publish_date']; ?>
+    <?php plugin('Blog')->settings['show_publish_date']; ?>
 
 .. note::
 
@@ -479,7 +479,7 @@ Recommended Reading
 ===================
 
 -  :doc:`Events System <events-system>`
--  :doc:`Hooktags <hooktags>`
+-  :doc:`Shortcodes <shortcode-api>`
 -  `CakePHP’s
    Validation <http://book.cakephp.org/3.0/en/core-libraries/validation.html>`__
 

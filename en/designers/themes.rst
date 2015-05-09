@@ -104,6 +104,7 @@ example of what a default layout might look like:
 
 .. code:: html
 
+    <!-- /MyTheme/src/Template/Layout/default.ctp
     <!DOCTYPE html>
     <html lang="en">
         <head>
@@ -138,19 +139,23 @@ The ``script``, ``css`` and ``meta`` blocks contain any content defined in the v
 using the built-in HTML helper. Useful for including JavaScript and CSS files from
 views. The ``content`` block contains the contents of the rendered view.
 
+
+Predefined Layouts
+------------------
+
 Although ``default.ctp`` layout should be enough for most cases, QuickAppsCMS may
 use different layouts depending on the situation, for example when rendering the
 user’s login form the ``login.ctp`` layout **will be used if exists**, here is a
 list of layouts your theme might define:
 
--  default.ctp: This is the default layout, if none of the listed below exists
+-  **default.ctp**: This is the default layout, if none of the listed below exists
    this layout will be used by default.
 
--  login.ctp: Used when rendering user’s login screen.
+-  **login.ctp**: Used when rendering user’s login screen.
 
--  ajax.ctp: Used when rendering AJAX responses.
+-  **ajax.ctp**: Used when rendering AJAX responses.
 
--  error.ctp: When an error is reached; 404, 500, etc.
+-  **error.ctp**: When an error is reached; 404, 500, etc.
 
 Layout’s Header
 ---------------
@@ -174,6 +179,11 @@ your needs. For more information please check ``QuickApps\View\View::head()``
 Regions
 =======
 
+.. image:: ../../themes/quickapps/static/layout-regions.png
+  :alt: Color picker widget example
+  :align: left
+  :width: 480
+
 Regions are areas of your layout aimed to contain blocks, regions may contain an
 unlimited number of blocks (although it can be limited). Theme authors can define
 and implement any number of regions for content to be rendered into.
@@ -186,10 +196,9 @@ method as follow:
     <?php echo $this->region('right-sidebar'); ?>
 
 You can do nifty things such as combine two or more regions, limit the number of
-blocks a region can hold, etc. For example:
-
-Merge ``left-sidebar`` and ``right-sidebar`` regions together, the resulting
-region limits the number of blocks it can holds to three (3):
+blocks a region can hold, etc. For example, we'll merge ``left-sidebar`` and
+``right-sidebar`` regions together; the resulting region limits the number of blocks
+it can holds to three (3):
 
 .. code:: php
 
@@ -223,11 +232,16 @@ could look as follow:
 
 .. code:: php
 
-    <?php
-        echo $this->Form->input('logo', [
-            'type' => 'checkbox',
-            'label' => 'Display Logo',
-        ]);
+    // /MyTheme/src/Template/Element/settings.ctp
+    echo $this->Form->input('logo', [
+        'type' => 'checkbox',
+        'label' => 'Display Logo',
+    ]);
+
+    echo $this->Form->input('slogan', [
+        'type' => 'checkbox',
+        'label' => 'Display Slogan',
+    ]);
 
 Color and Font inputs
 ---------------------
