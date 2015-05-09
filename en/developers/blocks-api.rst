@@ -58,31 +58,33 @@ provided any logic required by the block.
 Below a list of all method defined by ``Block\Widget`` and a brief description about
 what are they intended for, you can check the API documentation for further detail.
 
-- render: This method should return the rendered widget to be presented to end-users.
+- **render**: This method should return the rendered widget to be presented to end-
+  users.
 
-- settings: This method should return all the Form input elements that user will be
-  able to tweak in the widget configuration page at Backend.
+- **settings**: This method should return all the Form input elements that user will
+  be able to tweak in the widget configuration page at Backend.
 
-- validateSettings: This method should alter the provided Validator object and add
-  custom validation rules, these rules will be applied when saving the values
+- **validateSettings**: This method should alter the provided Validator object and
+  add custom validation rules, these rules will be applied when saving the values
   provided by all the Form input elements rendered by the "settings()" method.
 
-- defaultSettings: This method should return an associative array hold default
+- **defaultSettings**: This method should return an associative array hold default
   values for the Form input elements provided by the "settings()" method.
 
-- beforeSave: This callback is invoked before widget information is persisted in DB.
-  Returning FALSE will halt the save operation. Anything else will be ignored.
+- **beforeSave**: This callback is invoked before widget information is persisted in
+  DB. Returning FALSE will halt the save operation. Anything else will be ignored.
 
-- afterSave: This callback is invoked after widget information was persisted in DB.
+- **afterSave**: This callback is invoked after widget information was persisted in
+  DB.
 
-- beforeDelete: This callback is invoked before widget is removed from DB. Returning
-  FALSE will halt the delete operation. Anything else will be ignored.
+- **beforeDelete**: This callback is invoked before widget is removed from DB.
+  Returning FALSE will halt the delete operation. Anything else will be ignored.
 
-- afterDelete: This callback is invoked after widget was removed from DB.
+- **afterDelete**: This callback is invoked after widget was removed from DB.
 
 
-Tutorial: Creating a Widget Block
-=================================
+Tutorial: Creating a Widget
+===========================
 
 This tutorial will walk you through the creation of a simple Widget Block (Latest
 Articles). To start with, we’ll creating our block entity object, and using the
