@@ -53,7 +53,7 @@ QuickAppsCMS when required. All blocks have an associated "handler" class which
 defines such callbacks, and in turn these class all extends from ``Block\Widget``.
 This class defines a series of methods that are used to control block's life cycle;
 each handler class should extend ``Block\Widget`` and override its methods to
-provided any logic required by the block.
+provided any logic required by the block/widget.
 
 Below a list of all method defined by ``Block\Widget`` and a brief description about
 what are they intended for, you can check the API documentation for further detail.
