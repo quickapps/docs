@@ -105,25 +105,52 @@ X is a configurable integer value that users can tweak in the administration are
 
 As mention before, a widget is just an Entity object within the "blocks" table
 (Block.Blocks), registering a new widget is just as easy as creating a new entity in
-this table, for instance:
+this table, below we'll describe two ways of registering blocks:
+
+You can manually insert a new record into the "blocks" table as follow:
 
 .. code:: php
 
-    <?php
-        use Cake\ORM\TableRegistry;
+    use Cake\ORM\TableRegistry;
 
-        $newBlock = TableRegistry::get('Block.Blocks')->newEntity([
-            'title' => 'Latest Articles',
-            'handler' => 'Blog\Widget\LatestPostsWidget',
-            'delta' => 'latest_articles',
-            'settings' => [
-                'articles_limit' => 5, // show latest 5 threads created
-            ]
-        ]);
+    $newWidget = TableRegistry::get('Block.Blocks')->newEntity([
+        'title' => 'Latest Articles',
+        'handler' => 'Blog\Widget\LatestPostsWidget',
+        'delta' => 'latest_articles',
+        'settings' => [
+            'articles_limit' => 5, // show latest 5 threads created
+        ]
+    ]);
+    $success = TableRegistry::get('Block.Blocks')->save($newBlock);
 
-        TableRegistry::get('Block.Blocks')->save($newBlock);
+    if ($success) {
+        // widget registered
+    } else {
+        $errors = $newWidget->errors();
+    }
 
-As you can see we have defined **Blog\Widget\LatestPostsWidget** has our block's
+Or you can use the global function ``registerWidget()``, you can set the second
+argument to TRUE for returning an array of errors. If not provided (or set to false)
+a boolean response will be returned:
+
+.. code:: php
+
+    $errors = registerWidget([
+        'title' => 'Latest Articles',
+        'handler' => 'Blog\Widget\LatestPostsWidget',
+        'delta' => 'latest_articles',
+        'settings' => [
+            'articles_limit' => 5, // show latest 5 threads created
+        ]
+    ], true);
+
+    if (empty($errors)) {
+        // widget registered
+    } else {
+        // something went wrong, print $errors
+    }
+
+As you can see we have defined **Blog\\Widget\\LatestPostsWidget** has our block's
 handler class, the next step is to create this class and bring our widget to life.
 
 .. note::
@@ -200,7 +227,8 @@ Widget Rendering
 Now the final and most important step is the widget rendering process, this is the
 part when a block entity object is "converted" into HTML code to be presented to
 users as part of some view template. A block object can be rendered at any time
-within a view template by using the the ``View::render()`` method, for instance:
+within a view template by using the the ``View::render()`` method or the
+``render()`` method provided by the block object itself, for instance:
 
 .. code:: php
 
@@ -213,6 +241,9 @@ within a view template by using the the ``View::render()`` method, for instance:
     // render the block
     echo $this->render($block);
 
+    // or just using Block::render()
+    echo $block->render();
+
 Although this is possible, blocks are usually rendered as part of theme regions as
 described in the :doc:`designers </designers/themes>` guide:
 
@@ -222,9 +253,9 @@ described in the :doc:`designers </designers/themes>` guide:
     echo $this->region('some-region-name');
 
 Whatever the method is used to render the block, this process is completed using the
-``render()`` method of the handler class, this method is automatically invoked when
-rendering a widget as described before. You must implement this method and render
-the given widget as HTML:
+``render()`` method of the handler class defined on each block, this method is
+automatically invoked when rendering a widget as described before. You must
+implement this method and render the given widget as HTML:
 
 .. code:: php
 

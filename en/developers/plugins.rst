@@ -27,14 +27,17 @@ Basic structure of plugins:
     │   ├── bootstrap.php
     │   └── routes.php
     ├── src/
+    │   ├── Aspect/
     │   ├── Controller/
     │   ├── Event/
+    │   ├── Field/
     │   ├── Model/
-    │   └── Template/
-    │       └── Element/
-    │           ├── Help/
-    │           │   └── help.ctp
-    │           └── settings.ctp
+    │   ├── Template/
+    │   │   └── Element/
+    │   │       ├── Help/
+    │   │       │   └── help.ctp
+    │   │       └── settings.ctp
+    │   └── Widget/
     ├── tests/
     ├── webroot/
     │   ├── css/

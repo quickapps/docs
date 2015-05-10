@@ -142,7 +142,7 @@ The above example and the one below are equivalents:
 Searching Over Custom Fields
 ============================
 
-Same as in EAV API, you to perform WHERE clauses using any of the fields attached to
+Same as in EAV API, you can create WHERE clauses using any of the fields attached to
 your table. Every attached field has a "machine-name" (a.k.a. field slug):
 
 .. code:: php
@@ -183,25 +183,23 @@ Indicating field's data type
 
 When creating Field Handlers (see "Field Handlers" section below) you must indicate
 which type of data your field will handle (listed above), to do this you must simply
-catch the ``<handler>.Instance.info`` event and return an array indicating
-basic information about the field itself, including its type among other
-information. For example, for TextField handler:
+implement the ``info()`` method and return an array indicating basic information
+about the field itself, including its type among other information. For example, for
+TextField handler:
 
 .. code:: php
 
-    public function implementedEvents()
-    {
-        return [
-            'TextField.Instance.info' => 'instanceInformation',
-        ];
-    }
+    use Field\Handler;
 
-    public function instanceInformation(Event $event)
+    class TextField extend Handler
     {
-        return [
-            'type' => 'datetime',
-            // .. other options
-        ];
+        public function info()
+        {
+            return [
+                'type' => 'datetime',
+                // .. other options
+            ];
+        }
     }
 
 See "Field Information" to see a list of all supported options.
@@ -269,150 +267,72 @@ it again.
 Field Handlers
 ==============
 
-Field Handler are :doc:`event listener <events-system>` classes suffixed with the
-**Field** word, and they are responsible of storing, organizing and retrieving
-information for each entity’s virtual-columns (fields).
+Field Handler are simple classes extending from ``Field\Handler``; they are
+responsible of storing, organizing, rendering and retrieving information for each
+entity’s virtual-columns (fields).
 
 Field handlers are always defined by some plugin, which means they cannot exists by
-their own. Plugins must define them as event listeners classes under their "Events"
-directory. In this way they will be automatically loaded and attached to the
-EventManager. For instance:
+their own. Plugins are allowed to define an unlimited number of Field Handler
+classes by placing them under the "Field/" directory. For instance:
 
 ::
 
     Blog/
     └── src/
         ├── Controller/
-        └── Event/
-            ├── MyFieldHandler1Field.php
-            ├── MyFieldHandler2Field.php
-            └── MyFieldHandler3Field.php
+        └── Field/
+            ├── MyFieldHandler1.php
+            ├── MyFieldHandler2.php
+            └── MyFieldHandler3.php
 
-.. note::
+Field Handlers classes must extend ``Field\Handler`` and override its methods
+according to its needs. The ``Field\Handler`` provides a number of predefined method
+which names should be descriptive enough to let you what they do. Below a list of
+all this methods:
 
-    Please note the "Field" suffix on each class name.
-
-Similar to :doc:`event listeners <events-system>` and :doc:`hooktags <hooktags>`,
-Field Handlers classes must define all the event names it will handle using the
-``implementedEvents()`` method, Field API has organized these event names in two
-groups or "events subspaces":
-
--  <handler>.Entity: For handling entities events such as "entity save",
-   "entity delete", etc.
-
--  <handler>.Instance: Related to Field Instances events, such as
-   "instance being detached from table", "new instance attached to table", etc.
-
-Where ``<handler>`` is an arbitrary name of your choice, it must be unique across
-the entire system. e.g. `TextField`, `ImageField`, `AlbumField`, etc. This name must
-be provided as described in "Field Information" section.
-
-TIP
-    A good practice is to use the name of your event listener class (except
-    suffixed) as "handler" name. For example for the class
-    ``plugins/Blog/Event/ImageAttachmentField.php`` your field handler would be
-    "ImageAttachment", also in order to make sure this name is unique across the
-    entire system you could use plugin’s name as prefix: ``BlogImageAttachment``
-
----
-
-Below, a list of available events fields handler should implement:
-
-**Entity events:**
-
--  <handler>.Entity.display: When an entity is being rendered.
--  <handler>.Entity.edit: When an entity is being rendered in ``edit`` mode.
-   (backend usually).
--  <handler>.Entity.validate: Triggered when validating each Field.
--  <handler>.Entity.beforeFind: Before an entity is retrieved from DB.
--  <handler>.Entity.beforeSave: Before entity is saved.
--  <handler>.Entity.afterSave: After entity was saved.
--  <handler>.Entity.beforeDelete: Before entity is deleted.
--  <handler>.Entity.afterDelete: After entity was deleted.
-
-**Instance events:**
-
--  <handler>.Instance.info: When QuickAppsCMS asks for information about each
-   registered Field.
--  <handler>.Instance.settingsForm: Additional settings for this field, should
-   define the way the values will be stored in the database.
--  <handler>.Instance.settingsDefaults: Default values for field settings form’s
-   inputs.
--  <handler>.Instance.settingsValidate: Before instance’s settings are changed, here
-   you can apply your own validation rules.
--  <handler>.Instance.viewModeForm: Additional view mode settings, should define the
-   way the values will be rendered for a particular view mode.
--  <handler>.Instance.viewModeDefaults: Default values for view mode settings form’s
-   inputs.
--  <handler>.Instance.viewModeValidate: Before view-mode’s settings are changed,
-   here you can apply your own validation rules.
--  <handler>.Instance.beforeAttach: Before field is attached to Tables.
--  <handler>.Instance.afterAttach: After field is attached to Tables.
--  <handler>.Instance.beforeDetach: Before field is detached from Tables.
--  <handler>.Instance.afterDetach: After field is detached from Tables.
 
 
 Creating Field Handlers
 -----------------------
 
-As we mention early, Field Handler are just Event Listeners classes which should
-respond to the enormous list of event names described above. In order to make this
-task easier you can simply extend the ``Field\BaseHandler`` class instead of
-implementing the EvenListener interface.
+As we mention early, Field Handler are just classes extending the ``Field\Handler``
+class. To create a new Field Handler you must simply create a new class extending
+``Field\Handler`` and place it under the "Field/" directory of the plugin defining
+such Field.
 
-For instance, we could create a ``Date`` Field Handler, aimed to provide a date
-picker for every entity this field is attached to. You must create a new Event
-Listener class under the ``Event`` directory of the plugin defining this field.
-
-.. code:: php
-
-    // MyPlugin/src/Event/DateField.php
-    namespace MyPlugin\Event;
-    use Field\BaseHandler;
-
-    class DateField extends BaseHandler
-    {
-        // logic
-    }
-
-``BaseHandler`` class is a simple base class which automatically registers all the
-events names a Field could handle (as listed above), it has empty methods which you
-should override with your own logic:
+In this example we'll be creating a ``Date`` Field Handler aimed to provide a date
+picker for every entity this field is attached to. To start with, we'll create the
+following class:
 
 .. code:: php
 
-    namespace MyPlugin;
-    use Field\BaseHandler;
+    // Blog/src/Field/DatePicker.php
+    namespace Blog\Field;
 
-    class DateField extends BaseHandler
+
+    use Field\Handler;
+    use Field\Model\Entity\Field;
+    use Field\Model\Entity\FieldInstance;
+
+    class DatePicker extends Handler
     {
-
-        public function entityDisplay(Event $event, $field, $options = [])
-        {
-            return 'HTML representation of $field';
-        }
-
-        public function entityBeforeSave(Event $event, $field, $options)
-        {
-            $field->set('value', $options['_post']);
-            return true;
-        }
-
-        // ...
     }
+
+Once created we must start overriding predefined methods provided by
+``Field\Handler`` according to our needs.
 
 .. note::
 
-    Check this class’s documentation for deeper information.
+    Check ``Field\Handler`` API documentation for deeper information.
 
 
 Field Information
 -----------------
 
 Fields are allowed to indicate some configuration parameters by implementing the
-``<handler>.Instance.info`` event. QuickAppsCMS may asks for information about each
-registered Field in the system when needed, you must simply catch this event and
-return an array as ``option`` => ``value``. Valid options are:
+``info()`` method. QuickAppsCMS may asks for such information when required; you
+must simply implement the ``info()`` method and return an array as ``option`` =>
+``value``. Valid options are:
 
 - type (string): The type of value this field will handle (defaults to ``varchar``).
   Valid types are (see "Field Data Types" for more information):
@@ -443,18 +363,20 @@ return an array as ``option`` => ``value``. Valid options are:
 
 .. code:: php
 
-    Blog\Event;
+    // Blog/src/Field/DatePicker.php
+    namespace Blog\Field;
 
-    use Cake\Event\Event;
-    use Field\BaseHandler;
+    use Field\Handler;
+    use Field\Model\Entity\Field;
+    use Field\Model\Entity\FieldInstance;
 
-    class BlogDateField extends BaseHandler
+    class DatePicker extends Handler
     {
 
         /**
          * {@inheritDoc}
          */
-        public function instanceInfo(Event $event)
+        public function info()
         {
             return [
                 'type' => 'datetime',
@@ -473,31 +395,32 @@ Edit Mode
 
 Your Field Handler should somehow render some form elements (inputs, selects,
 textareas, etc) when rendering Table’s Entities in ``edit mode`. For this we have
-the ``<handler>.Entity.edit`` event, which should return HTML code containing all
-the form elements for the field attached to certain entity.
+the ``edit()`` method, which should return HTML code containing all the form
+elements for the field attached to certain entity.
 
 For example, lets suppose we have a ``TextField`` attached to ``Users`` Table for
-storing their ``favorite-food``, and now we are editing some specific ``User``
-Entity (i.e.: User.id = 4). In the editing form page we should see some inputs for
-change some values like ``username`` or ``password``, and also we should see a
-``favorite-food`` input where Users shall type in their favorite food. Well, your
-TextField Handler should print something like this:
+storing their ``favorite-food``. When editing some specific ``User`` Entity (i.e.
+User.id = 4) we should see some form inputs for change values like ``username`` or
+``password``, but also we should be able to change the value of our virtual column
+``favorite-food``, that is Field Handler must provide an input element where users
+shall type in their favorite food. To do this, our TextField Handler should print
+something like this:
 
 .. code:: html
 
     <input name="favorite-food" value="<current_value>" />
 
-To accomplish this, your Field Handler should properly catch the
-``<handler>.Entity.edit`` event, example:
+To accomplish this task, our Field Handler must properly implement the ``edit()``
+method, example:
 
 .. code:: php
 
-    public function entityEdit(Event $event, Field $field)
+    public function edit(Field $field, View $view)
     {
-      return '<input name="' . $field->name . '" value="' . $field->value . '" />";
+        return '<input name="' . $field->name . '" value="' . $field->value . '" />";
     }
 
-As usual, the second argument ``$field`` contains all the information you will need
+As usual, the first argument ``$field`` contains all the information you will need
 to properly render your form inputs. You may also create complex data structures
 like so:
 
@@ -525,14 +448,12 @@ The above may produce a $_POST array like below:
 
     You should always rely on ``View::element()`` when rendering HTML code. Instead
     printing HTML code directly from PHP you should place your HTML code into a view
-    element and render it using ``View::element()`` method. All events related to
-    rendering tasks (such as "edit", "display", etc) have their subject set to the
-    view instance being used, this means you could do as follow::
+    element and render it using ``View::element()`` method using the second argument
+    **$view**, which is the View instance being used at that time. For example::
 
-        public function editTextField(Event $event, $field)
+        public function edit(Field $field, View $view)
         {
-            $view = $event->subject();
-            return $view->element('text_field_edit', ['field' => $field]);
+            return $view->element('Blog.text_field_edit', ['field' => $field]);
         }
 
 Creating an Edit Form
@@ -566,10 +487,10 @@ usually you'll end creating some loop structure and render all of them at once:
         <?php echo $this->Form->input($field); ?>
     <?php endforeach; ?>
 
-The``Form::input()`` method **automagically fires** the
-``<handler>.Entity.edit`` event asking to the corresponding Field Handler
-for its HTML form elements. Passing the Field object to ``Form::input()`` is not
-mandatory, you can manually generate your input elements:
+The``Form::input()`` method **automagically invokes** the ``edit()`` method of the
+corresponding Field Handler asking for its HTML form elements. Passing the Field
+object to ``Form::input()`` is not mandatory, you can manually generate your input
+elements:
 
 .. code:: html
 
