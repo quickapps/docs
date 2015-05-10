@@ -6,7 +6,13 @@ theme and re-used throughout your site. In QuickAppsCMS there are two type of
 blocks:
 
 -  Custom Blocks: Those created using the administer blocks area.
--  Widget Blocks: Those generated on-the-fly (or created) by third-party plugins
+-  Widget Blocks: Those generated on-the-fly (or created) by third-party plugins.
+
+The main difference between a custom block and a widget is that widgets can provide
+configurable settings aimed to change the behavior of the widget itself. A good
+example of a widget block can be a RSS reader which can limit the number of articles
+to be displayed. However, you must be aware that custom blocks are internally
+handled as Widget as well: ``CustomBlockWidget``
 
 Blocks may appear on a page depending on both the theme or administrative block
 settings. Block settings are controlled from the block administration screen, from
@@ -16,8 +22,8 @@ be placed on the page, and control the visibility of blocks on each page.
 Blocks Anatomy
 ==============
 
-Blocks are internally threated as Entity objects within of the "blocks" table
-(Block\Model\Entity\Block). Each time a Custom Block is created in the blocks
+Blocks are internally threated as entity objects within the "blocks" table
+(``Block\Model\Entity\Block``). Each time a Custom Block is created in the blocks
 administration area a new entity is added to this table. Plugins may create Widget
 Blocks during their installation process by manually inserting new records to this
 table.
@@ -26,8 +32,8 @@ A Block entity objects holds the following properties:
 
 - title (string): Custom title for the block.
 
-- handler (string): The fully-qualified name of the class responsible of controlling
-  block's life cycle.
+- handler (string): The fully-qualified name of the class (Widget Handler)
+  responsible of controlling block's lifecycle.
 
 - status (bool): Block enabled status.
 
@@ -37,23 +43,25 @@ A Block entity objects holds the following properties:
   - only: Show only on listed pages
   - php: Use custom PHP code to determine visibility
 
-- pages (string): List of paths to be used by "visibility" property
-- settings (array): Extra information used by the block. Commonly used by Widget Blocks.
+- pages (string): List of paths to be used by "visibility" property.
+
+- settings (array): Extra information used by the block. Commonly used by Widget
+  Blocks.
 
 Each block has a ``handler`` property which identifies the name of class that will
 handle that Block (by default all blocks created using backend's administration page
 defines ``Block\Wiget\CustomBlockWidget`` has their handler). This handler name will
-be used to control the entire block life cycle.
+be used to control the entire block lifecycle.
 
-Blocks Life Cycle
-=================
+Blocks Lifecycle
+================
 
-Block's life cycle is controlled by callback methods invoked automatically by
+Block's lifecycle is controlled by callback methods invoked automatically by
 QuickAppsCMS when required. All blocks have an associated "handler" class which
-defines such callbacks, and in turn these class all extends from ``Block\Widget``.
-This class defines a series of methods that are used to control block's life cycle;
-each handler class should extend ``Block\Widget`` and override its methods to
-provided any logic required by the block/widget.
+defines such callbacks, and in turn these class all extends from ``Block\Widget``
+base class. This class defines a series of predefined methods that are used to
+control block's lifecycle and which should be overridden to provided any logic
+required by the block/widget itself.
 
 Below a list of all method defined by ``Block\Widget`` and a brief description about
 what are they intended for, you can check the API documentation for further detail.
@@ -87,23 +95,22 @@ Tutorial: Creating a Widget
 ===========================
 
 This tutorial will walk you through the creation of a simple Widget Block (Latest
-Articles). To start with, we’ll creating our block entity object, and using the
+Articles). To start with, we’ll be registering our block entity object and using the
 tools the Blocks API provides to get our block working properly.
-
 
 Registering Widget Information
 ------------------------------
 
 First you must notice that widgets are always defined by plugins; a widget cannot
 exists by its own. So the very first step is to create a plugin for which we’ll be
-creating this widget, please check the Plugins documentation for further
-information.
+creating this widget, please check the :doc:`Plugins documentation <plugins>` for
+further information.
 
-For this example, we’ll consider **Blog** as our plugin, and we’ll be creating a
+For this example, we’ll consider **Blog** as our plugin and we’ll be creating a
 widget which should display the latest X articles created in our Blog plugin, where
 X is a configurable integer value that users can tweak in the administration area.
 
-As mention before, a widget is just an Entity object within the "blocks" table
+As mentioned before, a widget is just an Entity object within the "blocks" table
 (Block.Blocks), registering a new widget is just as easy as creating a new entity in
 this table, below we'll describe two ways of registering blocks:
 
@@ -159,8 +166,8 @@ handler class, the next step is to create this class and bring our widget to lif
     Plugin API for more details on this process.
 
 
-Controlling Widget Life Cycle
------------------------------
+Controlling Widget Lifecycle
+----------------------------
 
 Once our widget is registered on the "blocks" table it will appear in your site's
 Blocks Management page (/admin/block/manage); it will be placed under the "Unused or
