@@ -64,31 +64,73 @@ control block's lifecycle and which should be overridden to provided any logic
 required by the block/widget itself.
 
 Below a list of all method defined by ``Block\Widget`` and a brief description about
-what are they intended for, you can check the API documentation for further detail.
+what are they intended for, you can check the API documentation for further details.
 
-- **render**: This method should return the rendered widget to be presented to end-
-  users.
+.. php:namespace:: Block
 
-- **settings**: This method should return all the Form input elements that user will
-  be able to tweak in the widget configuration page at Backend.
+.. php:class:: Widget
 
-- **validateSettings**: This method should alter the provided Validator object and
-  add custom validation rules, these rules will be applied when saving the values
-  provided by all the Form input elements rendered by the "settings()" method.
+render
+------
 
-- **defaultSettings**: This method should return an associative array hold default
-  values for the Form input elements provided by the "settings()" method.
+.. php:method:: render(Block $block, View $view)
 
-- **beforeSave**: This callback is invoked before widget information is persisted in
-  DB. Returning FALSE will halt the save operation. Anything else will be ignored.
+This method should return the rendered widget to be presented to end-
 
-- **afterSave**: This callback is invoked after widget information was persisted in
-  DB.
+settings
+--------
 
-- **beforeDelete**: This callback is invoked before widget is removed from DB.
-  Returning FALSE will halt the delete operation. Anything else will be ignored.
+.. php:method:: settings(Block $block, View $view)
 
-- **afterDelete**: This callback is invoked after widget was removed from DB.
+This method should return all the Form input elements that user will be able to
+tweak in the widget configuration page at Backend.
+
+validateSettings
+----------------
+
+.. php:method:: settings(Block $block, array $settings, Validator $validator)
+
+This method should alter the provided Validator object and add custom validation
+rules, these rules will be applied when saving the values provided by all the Form
+input elements rendered by the "settings()" method.
+
+defaultSettings
+---------------
+
+.. php:method:: defaultSettings(Block $block)
+
+This method should return an associative array hold default values for the Form
+input elements provided by the "settings()" method.
+
+beforeSave
+----------
+
+.. php:method:: beforeSave(Block $block)
+
+This callback is invoked before widget information is persisted in DB. Returning
+FALSE will halt the save operation. Anything else will be ignored.
+
+afterSave
+---------
+
+.. php:method:: afterSave(Block $block)
+
+This callback is invoked after widget information was persisted in DB.
+
+beforeDelete
+------------
+
+.. php:method:: beforeDelete(Block $block)
+
+This callback is invoked before widget is removed from DB. Returning FALSE will halt
+the delete operation. Anything else will be ignored.
+
+afterDelete
+-----------
+
+.. php:method:: afterDelete(Block $block)
+
+This callback is invoked after widget was removed from DB.
 
 
 Tutorial: Creating a Widget

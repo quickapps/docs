@@ -1,10 +1,6 @@
 Field Handler Objects
 #####################
 
-.. php:namespace:: Field
-
-.. php:class:: Handler
-
 Field Handlers objects are simple classes extending the ``Field\Handler`` base
 class; they are responsible of storing, organizing, retrieving and rendering
 information for each entity’s virtual-columns (fields).
@@ -30,6 +26,10 @@ Field Handler Lifecycle Callbacks
 Field Handlers classes must extend ``Field\Handler`` and override its methods
 according to its needs. The ``Field\Handler`` provides a number of predefined
 methods which are responsible of controlling Field lifecycle:
+
+.. php:namespace:: Field
+
+.. php:class:: Handler
 
 info
 ----
