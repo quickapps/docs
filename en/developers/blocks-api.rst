@@ -276,8 +276,7 @@ Widget Rendering
 Now the final and most important step is the widget rendering process, this is the
 part when a block entity object is "converted" into HTML code to be presented to
 users as part of some view template. A block object can be rendered at any time
-within a view template by using the the ``View::render()`` method or the
-``render()`` method provided by the block object itself, for instance:
+within a view template by using the the ``View::render()`` method, for instance:
 
 .. code:: php
 
@@ -289,9 +288,6 @@ within a view template by using the the ``View::render()`` method or the
 
     // render the block
     echo $this->render($block);
-
-    // or just using Block::render()
-    echo $block->render();
 
 Although this is possible, blocks are usually rendered as part of theme regions as
 described in the :doc:`designers </designers/themes>` guide:
