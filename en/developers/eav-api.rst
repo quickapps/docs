@@ -84,13 +84,22 @@ name but ``user_age`` or ``User-Age`` are not.
 And second argument is used to define column's metadata and supports the following
 keys:
 
-- type (string): Type of data for that attribute, supported values are:
+- type (string): Type of data for that attribute, note that using any other type not
+  listed here will throw an exception. Supported values are:
 
-  - **datetime** or ``time``, ``date``
-  - **integer** or ``int``, ``bool``, ``boolean``
+  - **biginteger**
+  - **binary**
+  - **date**
+  - **float**
+  - **decimal**
+  - **integer**
+  - **time**
+  - **datetime**
+  - **timestamp**
+  - **uuid**
+  - **string**
   - **text**
-  - **varchar** or ``string``, ``char``
-  - **decimal** or ``dec``, ``float``
+  - **boolean**
 
 - bundle (string): Indicates the attribute belongs to a bundle name within the
   table, check the "Bundles" section for further information. Defaults to **null**
