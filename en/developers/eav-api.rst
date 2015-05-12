@@ -87,8 +87,12 @@ And second argument is used to define column's metadata and supports the followi
 keys:
 
 - type (string): Type of data for that attribute, supported values are:
-  ``datetime``, ``integer`` (or "int"), ``decimal`` or ("dec"), `text` and
-  ``varchar`` (or "string"). Defaults to **varchar**
+
+  - **datetime** or ``time``, ``date``
+  - **integer** or ``int``, ``bool``, ``boolean``
+  - **text**
+  - **varchar** or ``string``, ``char``
+  - **decimal** or ``dec``, ``float``
 
 - bundle (string): Indicates the attribute belongs to a bundle name within the
   table, check the "Bundles" section for further information. Defaults to **null**
