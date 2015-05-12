@@ -60,9 +60,8 @@ Defining Attributes
 -------------------
 
 Once EAV behavior is attached to your table, you can now start defining virtual
-columns using the method ``addColumn()``:
-
-.. code:: php
+columns using the method ``addColumn()``, this method will **update column
+information if already exists**:
 
 .. code:: php
 
@@ -73,9 +72,8 @@ columns using the method ``addColumn()``:
         public function initialize(Table $table)
         {
             $this->addBehavior('Eav.Eav');
-
             $this->addColumn('user-age', ['type' => 'integer']);
-            $this->addColumn('user-address', ['type' => 'string']);
+            $this->addColumn('user-address', ['type' => 'string', 'bundle' => 'admin']);
         }
     }
 
@@ -106,8 +104,36 @@ keys:
 
 .. warning::
 
-    You should do this just once otherwise you will end adding new columns every
-    time the script is executed.
+    You should do this just once otherwise you will end unnecessary updating columns
+    every time the script is executed.
+
+
+Dropping Virtual Columns
+------------------------
+
+You can also drop existing virtual columns previously defined using ``addColumn()``,
+to do this you can use the ``dropColumn()`` method:
+
+.. code:: php
+
+    use Cake\ORM\Table;
+
+    class UsersTable extends Table
+    {
+        public function initialize(Table $table)
+        {
+            $this->addBehavior('Eav.Eav');
+            $this->dropColumn('user-age');
+            $this->dropColumn('user-address', 'admin');
+        }
+    }
+
+The second argument indicates that the bundle where the column can be found.
+
+.. warning::
+
+    This method will **remove any stored information** associated to the column
+    being dropped, so use with extreme caution.
 
 
 Fetching Entities
