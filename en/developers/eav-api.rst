@@ -79,8 +79,12 @@ columns using the method ``addColumn()``:
         }
     }
 
-The first argument is the name of the column your are defining, and second argument
-support the following keys:
+The first argument is the name of the column your are defining, you **must use lower
+case letters, numbers or "-" symbol**. For instance, ``user-age`` is a valid column
+name but ``user_age`` or ``User-Age`` are not.
+
+And second argument is used to define column's metadata and supports the following
+keys:
 
 - type (string): Type of data for that attribute, supported values are:
   ``datetime``, ``integer`` (or "int"), ``decimal`` or ("dec"), `text` and
@@ -99,7 +103,7 @@ support the following keys:
 .. warning::
 
     You should do this just once otherwise you will end adding new columns every
-    time the script is executed
+    time the script is executed.
 
 
 Fetching Entities
@@ -132,7 +136,7 @@ in your **WHERE** clauses, create form inputs, save entities, etc:
 
     $adults = $this->Users
         ->find()
-        ->where(['Users.user_age >' => 18])
+        ->where(['Users.user-age >' => 18])
         ->all();
 
 .. note::

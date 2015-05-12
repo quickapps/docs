@@ -7,5 +7,5 @@ Getting Started
     getting-started/about-quickappscms
     getting-started/requirements
     getting-started/installation
-    getting-started/tutorials
+    getting-started/updating
     getting-started/help
