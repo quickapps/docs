@@ -128,7 +128,8 @@ to do this you can use the ``dropColumn()`` method:
         }
     }
 
-The second argument indicates that the bundle where the column can be found.
+Optionally the second argument can be used to indicate the bundle where the column
+can be found.
 
 .. warning::
 
