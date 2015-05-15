@@ -33,7 +33,7 @@ value, you'll have to loop over all related records, compare the value of the
 attribute column with the attribute you look for, and if a match is found, get the
 contents of the value column.
 
-QuickAppsCms's EAV API uses this same implementation, but allows you to merge these
+QuickAppsCMS's EAV API uses this same implementation, but allows you to merge these
 virtual attributes with the entity, so the attributes become properties of the
 entity object.
 
