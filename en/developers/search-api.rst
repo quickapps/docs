@@ -188,14 +188,16 @@ follow:
     // get all nodes containing `this phrase` and created by `JohnLocke`
     "this phrase" author:JohnLocke
 
-You must define in your Table an operator method and register it into
+You can define in your Table an operator method and register it into
 this behavior under the ``author`` name, a full working example may look
 as follow:
 
 .. code:: php
 
-    class Nodes extends Table {
-        public function initialize(array $config) {
+    class Nodes extends Table
+    {
+        public function initialize(array $config)
+        {
             // attach the behavior
             $this->addBehavior('Search.Searchable');
 
@@ -203,7 +205,8 @@ as follow:
             $this->addSearchOperator('author', 'operatorAuthor');
         }
 
-        public function operatorAuthor($query, $value, $negate, $orAnd) {
+        public function operatorAuthor($query, $value, $negate, $orAnd)
+        {
             // $query:
             //     The query object to alter
             // $value:
@@ -216,8 +219,59 @@ as follow:
             //     will set $orAnd to `or`. But, `AND author:JohnLocke` will set $orAnd to `and`.
             //     By default is set to FALSE. This allows you to use
             //     Query::andWhere() and Query::orWhere() methods.
+
+            // scope query and return.
+            return $query;
         }
     }
+
+You can also define operator as a callable function:
+
+.. code:: php
+
+    class Nodes extends Table
+    {
+        public function initialize(array $config)
+        {
+            $this->addBehavior('Search.Searchable');
+
+            $this->addSearchOperator('author', function($query, $value, $negate, $orAnd) {
+                // scope query and return.
+                return $query;
+            });
+        }
+    }
+
+Creating Reusable Operators
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If your application has operators that are commonly reused, it is helpful to
+package those operators into re-usable classes:
+
+.. code:: php
+
+    // in MyPlugin/Model/Search/CustomOperator.php
+    namespace MyPlugin\Model\Search;
+
+    use Search\Operator;
+
+    class CustomOperator extends Operator
+    {
+        public function scope($query, $value, $negate, $orAnd)
+        {
+            // scope $query
+            return $query;
+        }
+    }
+
+    // In any table class:
+
+    // Add the custom operator, 
+    $this->addSearchOperator('operator_name', 'MyPlugin.Custom', ['opt1' => 'val1', ...]);
+
+    // OR passing a constructed operator
+    use MyPlugin\Model\Search\CustomOperator;
+    $this->addSearchOperator('operator_name', new CustomOperator($this, ['opt1' => 'val1', ...]));
 
 
 Fallback Operators
