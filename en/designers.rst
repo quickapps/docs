@@ -4,6 +4,6 @@ Designers
 .. toctree::
     :maxdepth: 1
 
-    designers/themes
-    designers/rendering-contents
     designers/view-modes
+    designers/rendering-content
+    designers/themes

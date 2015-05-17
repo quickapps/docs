@@ -2,7 +2,7 @@ Contents
 ########
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 1
 
    index
    getting-started
@@ -13,7 +13,7 @@ Contents
 
 Indices and tables
 ==================
- 
+
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
