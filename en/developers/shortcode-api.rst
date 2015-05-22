@@ -83,9 +83,9 @@ HTML. By default **QuickAppsCMS parses shortcodes on every piece of content that
 sent to users**, This means you don't require to do anything special for parsing
 shortcodes.
 
-However, you can use the ``QuickApps\Shortcode\ShortcodeTrait`` trait in any class,
+However, you can use the ``CMS\Shortcode\ShortcodeTrait`` trait in any class,
 to add shortcodes parsing functionalities. By defaults this trait is attached to
-``QuickApps\View\View``, which means **you can use shortcode functionalities within
+``CMS\View\View``, which means **you can use shortcode functionalities within
 any template** using the methods ``shortcodes()`` & ``stripShortcodes()`` it
 provides.
 

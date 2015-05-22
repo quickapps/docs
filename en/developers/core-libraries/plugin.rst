@@ -1,7 +1,7 @@
 Plugin Class
 ############
 
-.. php:namespace:: QuickApps\Core
+.. php:namespace:: CMS\Core
 
 .. php:class:: Plugin
 
@@ -15,9 +15,9 @@ Basic Usage
 
 This method is used to retrieve information about any installed plugin in the
 system, plugin is represented as Package object
-(``QuickApps\\Core\\Package\\PluginPackage``), this object contains all the
-information related to that plugin, if invoked with no arguments it will returns all
-installed plugins as a collection::
+(``CMS\\Core\\Package\\PluginPackage``), this object contains all the information
+related to that plugin, if invoked with no arguments it will returns all installed
+plugins as a collection::
 
     $debugKit = Plugin::get('DebugKit');
     echo $debugKit->package;

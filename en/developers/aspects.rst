@@ -85,7 +85,7 @@ Creating Aspects
 Aspect is the key element of AOP philosophym, and AOP API just uses simple PHP
 classes for declaring aspects.
 
-All Aspects classes must extends from ``QuickApps\Aspect\Aspect``, and like almost
+All Aspects classes must extends from ``CMS\Aspect\Aspect``, and like almost
 everything in QuickAppsCMS, Aspect classes cannot exists by their own, instead they
 must be created as part of some plugin.
 
@@ -104,10 +104,10 @@ login, logout, registration and so on:
 
     namespace MyPluginIntercetorDemo\Aspect;
 
+    use CMS\Aspect\Aspect;
     use Go\Aop\Intercept\MethodInvocation;
     use Go\Lang\Annotation\After;
     use Go\Lang\Annotation\Around;
-    use QuickApps\Aspect\Aspect;
 
     /**
      * User aspect
@@ -164,11 +164,11 @@ to change its behavior. You can get and set any property using the methods
 ``getProperty()`` and ``setProperty()`` respectively, this methods can get and set
 properties even if they are protected or private:
 
-.. php:function:: QuickApps\Aspect\Aspect::getProperty(object $object, string $property)
+.. php:function:: CMS\Aspect\Aspect::getProperty(object $object, string $property)
 
     Get property value from the given object, regardless its visibility.
 
-.. php:function:: QuickApps\Aspect\Aspect::setProperty(object $object, string $property, mixed $value)
+.. php:function:: CMS\Aspect\Aspect::setProperty(object $object, string $property, mixed $value)
 
     Sets property value of the given object, regardless its visibility.
 
@@ -177,10 +177,10 @@ In this example we'll intercept a method invocation and alter its arguments:
 .. code:: php
 
     /**
-     * This method will be called BEFORE "GatewayController::login()".
+     * This method will be called BEFORE "HtmlHelper::link()".
      *
      * @param MethodInvocation $invocation Invocation
-     * @Around("execution(public QuickApps\View\Helper\HtmlHelper->link(*))")
+     * @Around("execution(public Cake\View\Helper\HtmlHelper->link(*))")
      */
     public function beforeLogin(MethodInvocation $invocation)
     {

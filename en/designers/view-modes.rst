@@ -35,15 +35,15 @@ the fly and define their owns.
 Registering View Modes
 ======================
 
-Plugins may define new view modes, using the ``QuickApps\View\ViewModeRegistry``
-class. A good place to define new view modes is in your plugin's "bootstrap.php"
-file, so other plugins will be aware of this as soon as possible.
+Plugins may define new view modes, using the ``CMS\View\ViewModeRegistry`` class. A
+good place to define new view modes is in your plugin's "bootstrap.php" file, so
+other plugins will be aware of this as soon as possible.
 
 .. code:: php
 
     <?php
         // MyPlugin/config/bootstrap.php
-        use QuickApps\View\ViewModeRegistry;
+        use CMS\View\ViewModeRegistry;
 
         ViewModeRegistry::add('machine-name', 'My View Mode', 'Description');
 
@@ -62,7 +62,7 @@ define your view-modes is on ``routes.php`` file:
 
     <?php
         // MyPlugin/config/routes.php
-        use QuickApps\View\ViewModeRegistry;
+        use CMS\View\ViewModeRegistry;
 
         ViewModeRegistry::add('machine-name',
             __d('my_plugin', 'My View Mode'),
@@ -96,7 +96,7 @@ action:
 
 .. note::
 
-    - For more information check ``QuickApps\View\ViewModeAwareTrait`` API.
+    - For more information check ``CMS\View\ViewModeAwareTrait`` API.
     - QuickAppsCMS automatically sets the proper view-mode depending on the content
       being rendered.
 

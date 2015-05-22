@@ -173,7 +173,7 @@ layouts:
     </head>
 
 The ``head()`` methods accepts a series of options which you may tweak depending on
-your needs. For more information please check ``QuickApps\View\View::head()``
+your needs. For more information please check ``CMS\View\View::head()``
 
 
 Regions
@@ -212,7 +212,7 @@ particular region; ``left-sidebar`` (human name: Left Sidebar).
 
 .. note::
 
-    For more information please check ``QuickApps\View\View::region()``
+    For more information please check ``CMS\View\View::region()``
     documentation.
 
 

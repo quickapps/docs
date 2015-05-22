@@ -10,8 +10,8 @@ Provided Helpers
 By default the following helpers are included in every QuickAppsCMS installation,
 they behave just as described in CakePHP documentation:
 
-- FormHelper: QuickApps\\View\\Helper\\FormHelper
-- HtmlHelper: QuickApps\\View\\Helper\\HtmlHelper
+- FormHelper: CMS\\View\\Helper\\FormHelper
+- HtmlHelper: CMS\\View\\Helper\\HtmlHelper
 
 These helpers are automatically attached to your view templates, for example to use
 FormHelper you must proceed as usual: ``$this->Form->input(...)``.

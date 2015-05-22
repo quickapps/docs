@@ -1,7 +1,7 @@
 Hooktags
 ########
 
-.. php:namespace:: QuickApps\Shortcode
+.. php:namespace:: CMS\Shortcode
 
 .. php:trait:: ShortcodeTrait
 
@@ -21,7 +21,7 @@ using the ``shortcodes()`` method:
 
     // Some class
 
-    use QuickApps\Shortcode\ShortcodeTrait;
+    use CMS\Shortcode\ShortcodeTrait;
 
     // ...
 

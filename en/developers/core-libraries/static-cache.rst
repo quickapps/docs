@@ -1,7 +1,7 @@
 Static Cache
 ############
 
-.. php:namespace:: QuickApps\Core
+.. php:namespace:: CMS\Core
 
 .. php:trait:: StaticCacheTrait
 

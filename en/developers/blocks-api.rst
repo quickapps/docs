@@ -240,7 +240,7 @@ the method and return all the form inputs we want to provide to users:
 
     use Block\Model\Entity\Block;
     use Block\Widget;
-    use QuickApps\View\View;
+    use CMS\View\View;
 
     class LatestPostsWidget extends Widget
     {
@@ -309,7 +309,7 @@ implement this method and render the given widget as HTML:
 
     use Block\Model\Entity\Block;
     use Block\Widget;
-    use QuickApps\View\View;
+    use CMS\View\View;
 
     class LatestPostsWidget extends Widget
     {

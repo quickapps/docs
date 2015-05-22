@@ -450,7 +450,7 @@ criteria below, lets suppose ``date`` operator **was not defined** early:
 
 ::
 
-    "this phrase" author:JohnLocke date:[2013-06-06..2014-06-06]
+    "this phrase" author:"John Locke" date:2013-06-06..2014-06-06
 
 The ``SearchableBehavior.operatorDate`` event will be fired. A plugin may respond to
 this call by implementing this event:

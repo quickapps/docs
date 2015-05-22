@@ -336,7 +336,7 @@ Reading settings values
 Once you have provided certain tweakable values, you may need to read those values
 in order to change your plugin’s behavior, in our "Blog" example we want to know
 whether the "publish date" should be rendered or not. To read these values you
-should use the ``QuickApps\Core\Plugin`` class as follow:
+should use the ``CMS\Core\Plugin`` class as follow:
 
 .. code:: php
 

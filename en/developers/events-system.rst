@@ -78,12 +78,12 @@ Once your listeners classes were automatically loaded and registered, you can no
 start triggering events and see how your listeners respond.
 
 You can trigger events within any class you wish just by using
-``QuickApps\Core\EventDispatcherTrait``, this trait will add a few handy methods for
+``CMS\Core\EventDispatcherTrait``, this trait will add a few handy methods for
 triggering events.
 
-By default, this trait is attached to ``QuickApps\Controller\Controller``, to
-``QuickApps\View\View`` and to ``QuickApps\View\Helper`` classes. Means you can
-trigger events within any controller, any view template or within any helper.
+By default, this trait is attached to ``CMS\Controller\Controller``, to
+``CMS\View\View`` and to ``CMS\View\Helper`` classes. Means you can trigger events
+within any controller, any view template or within any helper.
 
 For example, in our "Blog" plugin example, we could have an
 ``ArticlesController.php`` that may looks as follow:
@@ -93,7 +93,7 @@ For example, in our "Blog" plugin example, we could have an
     <?php
         namespace Blog\Controller;
 
-        use QuickApps\Controller\Controller;
+        use CMS\Controller\Controller;
 
         class ArticlesController extends Controller
         {
@@ -103,8 +103,8 @@ For example, in our "Blog" plugin example, we could have an
             }
         }
 
-The ``QuickApps\Event\EventDispatcherTrait`` trait provides the methods:
-``trigger()`` and ``triggered()`` which are described below.
+The ``CMS\Event\EventDispatcherTrait`` trait provides the methods: ``trigger()`` and
+``triggered()`` which are described below.
 
 
 .. php:function:: trigger(mixed $eventName[, mixed $arg0, ..., mixed $argN, ...])
