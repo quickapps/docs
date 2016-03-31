@@ -78,8 +78,8 @@ information if already exists**:
     }
 
 The first argument is the name of the column your are defining, you **must use lower
-case letters, numbers or "-" symbol**. For instance, ``user-age`` is a valid column
-name but ``user_age`` or ``User-Age`` are not.
+case letters, numbers or hyphen (-) or underscore (_) symbols**. For instance,
+``user-age`` is a valid column name but ``user_age`` or ``User-Age`` are not.
 
 And second argument is used to define column's metadata and supports the following
 keys:
@@ -157,7 +157,8 @@ were conventional table columns. For example in any controller:
 .. code:: php
 
     $user = $this->Users->get(1);
-    debug($user)
+    debug($user);
+    // Produces:
 
     [
         // ...
@@ -182,7 +183,8 @@ in your **WHERE** clauses, create form inputs, save entities, etc:
 .. note::
 
     EAV API has some limitation, for instance you cannot use virtual attributes in
-    ORDER BY clauses, GROUP BY, HAVING or any aggregation function.
+    ORDER BY clauses, GROUP BY, HAVING or any aggregation function. As well as
+    virtual columns cannot be used as foreign keys when associating two tables.
 
 
 Bundles

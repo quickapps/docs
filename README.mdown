@@ -23,7 +23,7 @@ For installing `phpdomain`:
     easy_install sphinxcontrib-phpdomain
 
 
-*python's easy_install command requires setuptools package to be installed.*
+**python's easy_install command requires setuptools package to be installed.**
 
 
 Building PDF Book
@@ -39,4 +39,4 @@ Building PDF Book
 Contributing
 ------------
 
-To contribute simply fork the repository at https://github.com/QuickAppsCMS/docs
+To contribute simply fork the repository at https://github.com/quickapps/docs
