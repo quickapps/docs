@@ -86,8 +86,7 @@ interface and follow the instructions as described the previous section.
 Getting Help
 ============
 
-If you're stuck, there are a number of places you can :doc:`get help </getting-
-started/help>`.
+If you're stuck, there are a number of places you can :doc:`get help </getting-started/help>`.
 
 .. meta::
     :title lang=en: Installation

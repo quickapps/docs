@@ -180,23 +180,13 @@ using this operator may looks as follow:
     // get all articles containing `this phrase` and created by `JohnLocke`
     "this phrase" author:JohnLocke
 
-<<<<<<< HEAD
 You can define in your Table an operator method and register it into
 this behavior under the ``author`` name, a full working example may look
 as follow:
 
 .. code:: php
 
-    class Nodes extends Table
-    {
-=======
-You can define in your table an operator method and register it into this behavior
-under the `author` name, a full working example may look as follow:
-
-.. code:: php
-
     class MyTable extends Table {
->>>>>>> origin/2.x
         public function initialize(array $config)
         {
             // attach the behavior
@@ -206,30 +196,12 @@ under the `author` name, a full working example may look as follow:
             $this->addSearchOperator('author', 'operatorAuthor');
         }
 
-<<<<<<< HEAD
-        public function operatorAuthor($query, $value, $negate, $orAnd)
-        {
-            // $query:
-            //     The query object to alter
-            // $value:
-            //     The value after `author:`. e.g.: `JohnLocke`
-            // $negate:
-            //     TRUE if user has negated this command. e.g.: `-author:JohnLocke`.
-            //     FALSE otherwise.
-            // $orAnd:
-            //     or|and|false Indicates the type of condition. e.g.: `OR author:JohnLocke`
-            //     will set $orAnd to `or`. But, `AND author:JohnLocke` will set $orAnd to `and`.
-            //     By default is set to FALSE. This allows you to use
-            //     Query::andWhere() and Query::orWhere() methods.
-
-            // scope query and return.
-=======
         public function operatorAuthor(Query $query, Token $token)
         {
             // $query: The query object to alter
             // $token: Token representing the operator to apply.
             // Scope query using $token information and return.
->>>>>>> origin/2.x
+
             return $query;
         }
     }
@@ -238,35 +210,18 @@ You can also define operator as a callable function:
 
 .. code:: php
 
-<<<<<<< HEAD
-    class Nodes extends Table
-=======
     class MyTable extends Table
->>>>>>> origin/2.x
     {
         public function initialize(array $config)
         {
             $this->addBehavior('Search.Searchable');
-
-<<<<<<< HEAD
-            $this->addSearchOperator('author', function($query, $value, $negate, $orAnd) {
-                // scope query and return.
-=======
             $this->addSearchOperator('author', function(Query $query, Token $token) {
                 // Scope query and return.
->>>>>>> origin/2.x
+
                 return $query;
             });
         }
     }
-
-<<<<<<< HEAD
-Creating Reusable Operators
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-If your application has operators that are commonly reused, it is helpful to
-package those operators into re-usable classes:
-=======
 
 Built-in Operator
 ~~~~~~~~~~~~~~~~~
@@ -401,7 +356,6 @@ Creating Reusable Operators
 
 If your application has operators that are commonly reused, it is helpful to package
 those operators into re-usable classes:
->>>>>>> origin/2.x
 
 .. code:: php
 
@@ -412,26 +366,16 @@ those operators into re-usable classes:
 
     class CustomOperator extends Operator
     {
-<<<<<<< HEAD
-        public function scope($query, $value, $negate, $orAnd)
-        {
-            // scope $query
-=======
-        public function scope($query, $token)
+        public function scope($query, Token $token)
         {
             // Scope $query
->>>>>>> origin/2.x
             return $query;
         }
     }
 
     // In any table class:
 
-<<<<<<< HEAD
-    // Add the custom operator, 
-=======
-    // Add the custom operator,
->>>>>>> origin/2.x
+    // Add the custom operator
     $this->addSearchOperator('operator_name', 'MyPlugin.Custom', ['opt1' => 'val1', ...]);
 
     // OR passing a constructed operator

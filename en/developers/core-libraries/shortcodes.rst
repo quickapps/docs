@@ -75,7 +75,7 @@ code:
 As you can see ``{my_shortcode}`` and ``{another_shortcode}`` are ignored and are
 automatically escaped.
 
-.. node::
+.. note::
 
     QuickAppsCMS comes with a few built-in shortcodes, check System plugin
     documentation for more details.
