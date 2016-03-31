@@ -1,10 +1,10 @@
 Notifications API
 #################
 
-The Notification API provides a simple mechanism for sending emails to registered
-users. QuickAppsCMS may automatically sends messages, for example, welcoming message
-when new user is registered, or password recovery instructions when user request for
-this, etc.
+The Notification API provides a simple mechanism for ``sending emails`` to
+registered users. QuickAppsCMS may automatically sends messages, for example,
+welcoming message when new user is registered, or password recovery instructions
+when user request for this, etc.
 
 These email messages are sent using the ``User\Notification\NotificationManager``
 class, and its basic usage is described below:
