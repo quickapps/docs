@@ -10,9 +10,7 @@ EAV API
 
     -- Wikipedia
 
-
-Introduction
-------------
+----
 
 .. image:: ../../themes/quickapps/static/eav-example.png
   :alt: Typical implementation of EAV may have just three tables.
