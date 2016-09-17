@@ -185,15 +185,20 @@ Consider the following event listener class:
 
 Once listener class is created and (automatically) attached, you can start
 triggering events and see how your handlers responds to. Wherever you are able to
-use trigger() method you could:
+use trigger() method you could do as follow:
 
 .. code:: php
 
     <?php
         $hello = 'Hello';
 
-        echo $this->trigger('Hello', $hello); // out: "Hello world!"
-        echo $this->trigger('Hello', 'hellooo'); // out: "hellooo world!"
+        echo $this->trigger('Hello', $hello)->result; // out: "Hello world!"
+        echo $this->trigger('Hello', 'hellooo')->result; // out: "hellooo world!"
+
+
+The ``trigger()`` method returns the event object that was created and passed to
+listeners, so you should use ``->result`` to retrieve whatever listeners has
+returned.
 
 
 Recommended Reading
@@ -202,8 +207,9 @@ Recommended Reading
 As QuickAppsCMS’s events system is built on top of CakePHP’s events system we highly
 recommend you to take a look at this part of CakePHP’s book:
 
-`CakePHP’s Events
-System <http://book.cakephp.org/3.0/en/core-libraries/events.html>`__
+`CakePHP’s Events System <http://book.cakephp.org/3.0/en/core-libraries/events.html>`__
+
+`Getting Event Results <http://book.cakephp.org/3.0/en/core-libraries/events.html#getting-event-results>`__
 
 .. meta::
     :title lang=en: Events System
