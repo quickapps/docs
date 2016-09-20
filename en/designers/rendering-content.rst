@@ -49,6 +49,25 @@ You can define ``specialized-renders`` when each content is being rendered accor
 to your needs as described below. You must simply create these template elements
 within the ``/src/Template/Element`` directory of your :doc:`theme <themes>`.
 
+Render content based on content's slug
+--------------------------------------
+
+::
+
+    [other-render]_[content-slug].ctp
+
+
+Where `[other-render]` is any of the ones described below, for instance when
+rendering an article which slug is `hello-world` the following templates will be
+used if exists (in this exact order of priority):
+
+- ``render_content_[content-type]_[view-mode]_[hello-world].ctp``
+- ``render_content_[content-type]_[hello-world].ctp``
+- ``render_content_[view-mode]_[hello-world].ctp``
+- ``render_content_[hello-world].ctp``
+
+If none of these exists, then it will try to use one of renders described below.
+
 
 Render content based on content-type and view-mode
 --------------------------------------------------
