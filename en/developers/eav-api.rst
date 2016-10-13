@@ -46,6 +46,7 @@ Table Of Contents
     eav-api/dropping-virtual-columns
     eav-api/fetching-entities
     eav-api/bundles
+    eav-api/cache
 
 .. meta::
     :title lang=en: Field API

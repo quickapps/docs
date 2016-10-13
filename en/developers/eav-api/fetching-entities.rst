@@ -9,8 +9,7 @@ were conventional table columns. For example in any controller:
 .. code:: php
 
     $user = $this->Users->get(1);
-    debug($user);
-    // Produces:
+    debug($user)
 
     [
         // ...
@@ -35,5 +34,4 @@ in your **WHERE** clauses, create form inputs, save entities, etc:
 .. note::
 
     EAV API has some limitation, for instance you cannot use virtual attributes in
-    ORDER BY clauses, GROUP BY, HAVING or any aggregation function. As well as
-    virtual columns cannot be used as foreign keys when associating two tables.
+    ORDER BY clauses, GROUP BY, HAVING or any aggregation function.

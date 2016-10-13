@@ -94,7 +94,7 @@ version of QuickAppsCMS:
 
     {
         "require": {
-            "quickapps/cms": "2.*",
+            "quickapps-plugins/cms": "2.*",
             "cakephp/cakephp": "3.0.1",
             "php": "5.4.*",
             "some-author/some-plugin-required": "*"
@@ -103,7 +103,8 @@ version of QuickAppsCMS:
 
 There are a few special packages names, such as:
 
-- **quickapps/cms**: Required version of QuickAppsCMS.
+- **quickapps-plugins/cms**: QuickAppsCMS's core package, you should reference this
+  package if your plugin works only under certain version of QuickappsCMS.
 
 - **cakephp/cakephp**: Required version of CakePHP (commonly used by cakephp's
   community plugins).
@@ -279,7 +280,7 @@ The names of these events should be descriptive enough to let you know what they
 
     Plugin’s **assets are not accessible** when plugins are disabled, which means
     anything within the ``/webroot`` directory of your plugin will not be accessible
-    via URL.
+    via URL when disabled.
 
 Update Process
 ==============
@@ -299,8 +300,8 @@ During this process two events are triggered:
    "/plugins" and after placing new directory in its place.
 
 The update process basically replaces one directory (older) by another (latest).
-Plugins should take care of migration tasks if needed using the events described
-above.
+**Plugins should take care of migration tasks if needed using the events described
+above.**
 
 Configurable Settings
 =====================
@@ -475,7 +476,7 @@ should create the following view-elements:
 .. note::
 
     If no translated documentation is found for certain language then ``help.ctp``
-    will be used by default.
+    will be used by default if available.
 
 
 Recommended Reading

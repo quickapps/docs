@@ -36,7 +36,6 @@ We have defined two different columns for two different bundles, ``article`` and
         ]
     ]
 
-
     debug($firstPage);
     // Produces:
     [
