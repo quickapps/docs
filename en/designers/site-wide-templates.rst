@@ -30,20 +30,19 @@ structure look as follow:
       - Layout/
       - Plugin/
 
-Each subdirectory - ``Common``, ``Back`` and ``Front``- mimics the ``Template`` directory
-every theme comes with and they behave like some sort of high priority theme. The `Back`
-and `Front` represents backend and frontend themes respectively. Whereas ``Common`` is
-aimed to hold templates shared across both back and frontend themes, this is the
-subdirectory with the highest priority when looking for template files.
+Each subdirectory (Common, Back and Front) mimics the ``Template`` directory every theme
+comes with, and they behave like some sort of high priority theme. The Back and Front
+represents backend and frontend themes respectively. Whereas ``Common`` is aimed to hold
+templates shared across both back and frontend themes, this is the subdirectory with the
+highest priority when looking for template files.
 
-For instance, suppose you're using a third-party frontend theme which `404` error page
-does not fit your need. Instead of hacking this theme and modify the corresponding
-template you can override this template as follow:
+For instance, suppose you're using a third-party frontend theme which ``404`` error page
+does not fit your needs. Instead of hacking this theme and modify the corresponding
+template you can override it as follow:
 
 If the the original theme's template is located at
 **ROOT/themes/MyThirdPartyTheme/src/Template/Error/error400.ctp** then you can override it
-by creating a new template file at **ROOT/templates/Front/Error/error400.ctp**.
-
+by creating a new template file located at **ROOT/templates/Front/Error/error400.ctp**.
 
 If you want to override using the same template for both back and frontend then you must
 place your custom template at **ROOT/templates/Common/Error/error400.ctp**. Note that
