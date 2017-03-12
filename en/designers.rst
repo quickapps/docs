@@ -7,3 +7,4 @@ Designers
     designers/view-modes
     designers/rendering-content
     designers/themes
+    designers/site-wide-templates

@@ -28,11 +28,11 @@ World" (content-slug: "hello-world") should be accessible trough the following U
 Custom Content Extension
 ========================
 
-In QuickAppsCMS every content has its own URL that follows the pattern described
-before which ends by default with ".html". QuickAppsCMS allows you to change the
-default .html extension used when generating such URLs. To do this you must simply
-define the CONTENT_EXTENSION PHP constant in your site's bootstrap
-(/config/bootstrap.php). For example, changing extension from ".html" to "/":
+In QuickAppsCMS every content has its own URL that follows the pattern described above
+which ends by default with ".html". QuickAppsCMS allows you to change the default .html
+extension used when generating such URLs. To do this you must simply define the
+**CONTENT_EXTENSION** PHP constant in your site's bootstrap (/config/bootstrap.php). For
+example, changing extension from ".html" to "/":
 
 
 .. code:: php
@@ -45,9 +45,15 @@ Now every content's URL will look as: /article/my-first-article/
 Specialized Renders
 ===================
 
-You can define ``specialized-renders`` when each content is being rendered according
-to your needs as described below. You must simply create these template elements
-within the ``/src/Template/Element`` directory of your :doc:`theme <themes>`.
+A specialized-render is just a template file that can by used to change how a content
+should be rendered depending on current view-mode, content's type, content's slug or
+combinations of these. For instance you can define two different template files for
+Article content types, so rendering an Article in ``full`` and ``teaser`` view modes
+produces completely different arrange of visual elements.
+
+You can define ``specialized-renders`` for each content being rendered according to your
+needs as described below. You must simply create these template elements within the
+``/src/Template/Element`` directory of your :doc:`theme <themes>`.
 
 Render content based on content's slug
 --------------------------------------
