@@ -185,12 +185,6 @@ htmlhelp_basename = 'QuickAppsCMSBookdoc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
-# The paper size ('letter' or 'a4').
-#latex_paper_size = 'letter'
-
-# The font size ('10pt', '11pt' or '12pt').
-latex_font_size = '11pt'
-
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
@@ -219,7 +213,23 @@ latex_show_urls = 'footnote'
 # If false, no module index is generated.
 #latex_domain_indices = True
 
-preamb = ur'''
+latex_elements = {
+# The paper size ('letterpaper' or 'a4paper').
+'papersize': 'letterpaper',
+
+# The font size ('10pt', '11pt' or '12pt').
+'pointsize': '11pt',
+
+'fncychap': '\\usepackage[Sonny]{fncychap}',
+
+# Additional stuff for the LaTeX preamble.
+'preamble': r'''
+% Packages
+\usepackage[utf8]{inputenc}
+
+% Misc 
+\DeclareUnicodeCharacter{2010}{-}% support older LaTeX versions
+
 % Custom colors.
 \definecolor{ChapterColor}{RGB}{201,36,52}
 \definecolor{TitleColor}{RGB}{0,0,0}
@@ -239,11 +249,7 @@ preamb = ur'''
 % background and border for code examples.
 \definecolor{VerbatimColor}{RGB}{242,242,242}
 \definecolor{VerbatimBorderColor}{RGB}{230,230,230}
-'''
-
-latex_elements = {
-    'preamble': preamb,
-    'fncychap': '\\usepackage[Sonny]{fncychap}'
+''',
 }
 
 # -- Options for manual page output ---------------------------------------
@@ -330,9 +336,9 @@ epub_identifier = 'http://quickappscms.org'
 
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = [
-    'index.html',
-    'pdf-contents.html',
-    'contents.html'
+  'index.html',
+  'pdf-contents.html',
+  'contents.html'
 ]
 
 # The depth of the table of contents in toc.ncx.
