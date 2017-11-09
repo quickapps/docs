@@ -167,8 +167,9 @@ and its ``arguments``, both parts must be separated using the ``:`` symbol e.g.:
 
 .. note::
 
-    Operators names are treated as **lowercase_and_underscored**, so ``AuthorName``,
+    Operators names are treated as **lowercase**, so ``Author_Name``,
     ``AUTHOR_NAME`` or ``AuThoR_naMe`` are all treated as: ``author_name``.
+    However, ``AuthorName`` is not, as it will be treated as ``authorname``.
 
 You can define custom operators for your table by using the ``addSearchOperator()``
 method. For example, you might need create a custom operator ``author`` which would
