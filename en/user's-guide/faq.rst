@@ -8,6 +8,10 @@ QuickAppsCMS is free and doesn't cost a penny (it is distributed under
 the `GNU GENERAL PUBLIC LICENSE <http://www.gnu.org/copyleft/gpl.html>`__.
 We make profit just by using this application in our private projects.
 
+Upload fields not working
+=========================
+
+Make sure your browser isn't blocking Flash media.
 
 What about contributions ?
 ==========================
